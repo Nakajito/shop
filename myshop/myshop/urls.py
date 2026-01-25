@@ -7,10 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("cart/", include("cart.urls", namespace="cart")),
     path("orders", include("orders.urls", namespace="orders")),
-<<<<<<< HEAD
-=======
     path("payment/", include("payment.urls", namespace="payment")),
->>>>>>> 2101fdf (feat(payment): Add Stripe payment integration)
     path("", include("shop.urls", namespace="shop")),
 ]
 

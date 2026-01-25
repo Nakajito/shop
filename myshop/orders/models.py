@@ -1,9 +1,6 @@
 from django.db import models
 from shop.models import Product
-<<<<<<< HEAD
-=======
 from django.conf import settings
->>>>>>> 2101fdf (feat(payment): Add Stripe payment integration)
 
 
 class Order(models.Model):
@@ -16,10 +13,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-<<<<<<< HEAD
-=======
     stripe_id = models.CharField(max_length=250, blank=True)
->>>>>>> 2101fdf (feat(payment): Add Stripe payment integration)
 
     class Meta:
         ordering = ["-created"]
@@ -31,8 +25,6 @@ class Order(models.Model):
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
-<<<<<<< HEAD
-=======
     def get_stripe_url(self):
         if not self.stripe_id:
             # no payment associated
@@ -45,7 +37,6 @@ class Order(models.Model):
             path = "/"
         return f"https://dashboard.stripe.com{path}payments/{self.stripe_id}"
 
->>>>>>> 2101fdf (feat(payment): Add Stripe payment integration)
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
