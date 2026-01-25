@@ -1,0 +1,20 @@
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.13.1-management
+
+worker de celery:
+celery -A myshop worker -l info
+
+ejecutar flower:
+celery -A myshop flower
+
+# Flower con autenticacion
+celery -A myshop flower --basic-auth=user:pwd
+
+
+Successful payment
+4242 4242 4242 4242 
+
+Failed payment
+4000 0000 0000 0002 
+
+Requires 3D secure authentication 
+4000 0025 0000 3155 
