@@ -18,3 +18,7 @@ Failed payment
 
 Requires 3D secure authentication 
 4000 0025 0000 3155 
+
+
+./stripe login
+./stripe listen --forward-to 127.0.0.1:8000/payment/webhook/

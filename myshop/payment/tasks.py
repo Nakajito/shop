@@ -1,5 +1,4 @@
 from io import BytesIO
-
 import weasyprint
 from celery import shared_task
 from django.contrib.staticfiles import finders
@@ -18,7 +17,7 @@ def payment_completed(order_id):
     # create invoice e-mail
     subject = f"My Shop - Invoice no. {order.id}"
     message = "Please, find attached the invoice for your recent purchase."
-    email = EmailMessage(subject, message, "admin@myshop.com", [order.email])
+    email = EmailMessage(subject, message, "db212748@gmail.com", [order.email])
     # generate PDF
     html = render_to_string("orders/order/pdf.html", {"order": order})
     out = BytesIO()
