@@ -53,12 +53,12 @@ class OrderItemsInLine(admin.TabularInline):
 
 def order_detail(obj):
     url = reverse("orders:admin_order_detail", args=[obj.id])
-    return mark_safe(f'<a href="{url}" target="_blank">View</a>')
+    return mark_safe(f'<a href="{url}">View</a>')
 
 
 def order_pdf(obj):
     url = reverse("orders:admin_order_pdf", args=[obj.id])
-    return mark_safe(f"<a href='{url}'>PDF</a>")
+    return mark_safe(f"<a href='{url}' target='_blank'>PDF</a>")
 
 
 order_pdf.short_description = "Invoice"
