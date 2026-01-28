@@ -22,3 +22,5 @@ Requires 3D secure authentication
 
 ./stripe login
 ./stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
+
+docker run -it --rm --name redis -p 6379:6379 redis:7.2.4
