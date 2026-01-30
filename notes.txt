@@ -4,7 +4,7 @@ worker de celery:
 celery -A myshop worker -l info
 
 ejecutar flower:
-celery -A myshop flower
+
 
 # Flower con autenticacion
 celery -A myshop flower --basic-auth=user:pwd

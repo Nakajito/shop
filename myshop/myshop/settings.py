@@ -21,6 +21,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
+    "accounts.apps.AccountsConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -118,6 +119,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 CART_SESSION_ID = "cart"
 
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
@@ -141,3 +144,7 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 1
+
+
+# Custom User Model
+AUTH_USER_MODEL = "accounts.CustomUser"
