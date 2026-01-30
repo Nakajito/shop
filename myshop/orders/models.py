@@ -5,6 +5,7 @@ from django.db import models
 from shop.models import Product
 from coupons.models import Coupon
 from accounts.models import CustomUser
+from payment.models import PaymentMethod
 
 
 class Address(models.Model):
@@ -177,6 +178,15 @@ class Order(models.Model):
         default=0,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         help_text="Discount percentage (0-100) applied at the time of order.",
+    )
+
+    payment_method = models.ForeignKey(
+        PaymentMethod,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
+        help_text="Método de pago utilizado",
     )
 
     class Meta:

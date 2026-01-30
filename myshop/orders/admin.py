@@ -135,7 +135,8 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Customer", {"fields": ("first_name", "last_name", "email")}),
         ("Address", {"fields": ("shipping_address", "billing_address")}),
-        ("Payment", {"fields": ("paid", "stripe_id", "coupon", "discount")}),
+        ("Payment", {"fields": ("payment_method", "paid", "stripe_id")}),
+        ("Coupon and Discount", {"fields": ("coupon", "discount")}),
         ("Audit", {"fields": ("created", "updated"), "classes": ("collapse",)}),
     )
     list_filter = ["paid", "created", "updated"]
