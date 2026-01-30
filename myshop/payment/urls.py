@@ -1,7 +1,24 @@
 from django.urls import path
 from . import views, webhooks
 
+"""
+URL configuration for the 'payment' application.
+
+This module defines the URL patterns for handling the payment lifecycle.
+
+Namespace:
+    app_name = "payment"
+
+Available patterns:
+    - process: Initiates the payment workflow (creates Stripe session).
+    - completed: Displayed to the user after a successful payment.
+    - canceled: Displayed to the user if they cancel the payment.
+    - stripe-webhook: Endpoint for Stripe to send asynchronous event notifications
+      (e.g., checkout.session.completed).
+"""
+
 app_name = "payment"
+
 urlpatterns = [
     path("process/", views.payment_process, name="process"),
     path("completed/", views.payment_completed, name="completed"),
