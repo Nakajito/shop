@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from .models import Order, OrderItem
+from orders.models import Address
 
 
 def export_to_csv(modeladmin, request, queryset):
@@ -121,9 +122,8 @@ class OrderAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
         "email",
-        "address",
-        "postal_code",
-        "city",
+        "user",
+        "shipping_address",
         "paid",
         order_payment,
         "created",
@@ -131,6 +131,70 @@ class OrderAdmin(admin.ModelAdmin):
         order_detail,
         order_pdf,
     ]
+    readonly_fields = ("created", "updated")
+    fieldsets = (
+        ("Customer", {"fields": ("first_name", "last_name", "email")}),
+        ("Address", {"fields": ("shipping_address", "billing_address")}),
+        ("Payment", {"fields": ("paid", "stripe_id", "coupon", "discount")}),
+        ("Audit", {"fields": ("created", "updated"), "classes": ("collapse",)}),
+    )
     list_filter = ["paid", "created", "updated"]
     inlines = [OrderItemsInLine]
     actions = [export_to_csv]
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    """Admin to manage shipping addresses"""
+
+    list_display = (
+        "recipient_name",
+        "user",
+        "address_line1",
+        "city",
+        "state",
+        "is_default",
+        "created_at",
+    )
+    list_filter = ("country", "state", "is_default", "address_type", "created_at")
+    search_fields = (
+        "user__username",
+        "recipient_name",
+        "address_line1",
+        "city",
+        "postal_code",
+    )
+    readonly_fields = ("created_at", "updated_at", "get_full_address")
+
+    fieldsets = (
+        ("User", {"fields": ("user",)}),
+        ("Delivery Information", {"fields": ("recipient_name", "phone")}),
+        (
+            "Address",
+            {
+                "fields": (
+                    "address_line1",
+                    "address_line2",
+                    "city",
+                    "state",
+                    "postal_code",
+                    "country",
+                )
+            },
+        ),
+        ("Configuration", {"fields": ("address_type", "is_default")}),
+        (
+            "Full Address",
+            {"fields": ("get_full_address",), "classes": ("collapse",)},
+        ),
+        (
+            "Audit",
+            {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
+        ),
+    )
+
+    def get_full_address(self, obj):
+        """Display the full address in the admin panel"""
+        return obj.get_full_address()
+
+    get_full_address.short_description = "Full"
