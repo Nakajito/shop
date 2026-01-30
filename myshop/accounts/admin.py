@@ -4,10 +4,13 @@ from accounts.models import CustomUser, UserProfile
 
 
 class UserProfileInline(admin.StackedInline):
-    """Display UserProfile inline in the CustomUser admin
+    """
+    Defines the inline admin interface for the UserProfile model.
 
-    Args:
-        admin (_type_): _description_
+    This class configures how the UserProfile is displayed and edited within
+    the CustomUser admin page. It uses a StackedInline layout for vertical
+    field alignment and disables profile deletion to maintain one-to-one
+    integrity with the User model.
     """
 
     model = UserProfile
@@ -24,10 +27,12 @@ class UserProfileInline(admin.StackedInline):
 
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):
-    """Custom Admin for CustomUser
+    """
+    Admin interface configuration for the CustomUser model.
 
-    Args:
-        BaseUserAdmin (_type_): _description_
+    Extends the standard BaseUserAdmin to include application-specific fields
+    (phone, user_type) and the UserProfile inline. It customizes the list view,
+    filtering, search capabilities, and fieldsets for both editing and creating users.
     """
 
     inlines = (UserProfileInline,)
@@ -50,16 +55,19 @@ class CustomUserAdmin(BaseUserAdmin):
 
     # Fields in creation form
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
-        ("Aditional Information", {"fields": ("phone", "user_type")}),
+        ("Additional Information", {"fields": ("phone", "user_type")}),
     )
 
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    """Admin for UserProfile
+    """
+    Admin interface configuration for the UserProfile model.
 
-    Args:
-        admin (_type_): _description_
+    This class provides a standalone view of user profiles, allowing administrators
+    to filter by verification status and search for profiles via the associated
+    User's username or email. Timestamp fields are set to read-only to preserve
+    audit integrity.
     """
 
     list_display = (
