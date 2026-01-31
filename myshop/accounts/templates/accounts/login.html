@@ -1,0 +1,85 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Login - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">{{ page_title }}</h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Email or User -->
+                        <div class="mb-3">
+                            <label for="id_email_or_username" class="form-label">Email or user</label>
+                            {{ form.email_or_username }}
+                            {% if form.email_or_username.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.email_or_username.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Remind me -->
+                        <div class="mb-3 form-check">
+                            {{ form.remember_me }}
+                            <label class="form-check-label" for="id_remember_me">
+                                Remember me on this device
+                            </label>
+                        </div>
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Log in</button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Additional links -->
+                    <p class="text-center mb-2">
+                        Don't have an account? <a href="{% url 'accounts:register' %}">Create one here</a>
+                    </p>
+                    
+                    <p class="text-center mb-0">
+                        ¿Olvidaste tu contraseña? <a href="#">Reset it here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
