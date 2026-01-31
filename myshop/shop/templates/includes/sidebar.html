@@ -1,0 +1,19 @@
+<div class="col-md-3">
+    <div class="list-group mb-4">
+        <a href="{% url 'accounts:profile' %}" class="list-group-item list-group-item-action">
+            <i class="bi bi-person"></i> Mi Perfil
+        </a>
+        <a href="{% url 'orders:order_history' %}" class="list-group-item list-group-item-action active">
+            <i class="bi bi-bag"></i> Mis Compras
+        </a>
+        <a href="{% url 'orders:address_list' %}" class="list-group-item list-group-item-action">
+            <i class="bi bi-geo-alt"></i> Direcciones
+        </a>
+        {% comment %} <a href="{% url 'payment:payment_method_list' %}" class="list-group-item list-group-item-action"> {% endcomment %}
+            <i class="bi bi-credit-card"></i> Métodos de Pago
+        </a>
+        {% comment %} <a href="{% url 'support:ticket_list' %}" class="list-group-item list-group-item-action"> {% endcomment %}
+            <i class="bi bi-chat-left-text"></i> Soporte
+        </a>
+    </div>
+</div>

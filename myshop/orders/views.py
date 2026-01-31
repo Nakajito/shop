@@ -1,14 +1,18 @@
-import weasyprint
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.staticfiles import finders
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db import transaction
 from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+import weasyprint
 
 from cart.cart import Cart
-from .forms import OrderCreateForm
-from .models import Order, OrderItem
-from .tasks import order_created
+from orders.forms import OrderCreateForm, AddressForm
+from orders.models import Order, OrderItem, Address
+from orders.tasks import order_created
 
 
 def order_create(request):
@@ -127,3 +131,201 @@ def admin_order_pdf(request, order_id):
     )
 
     return response
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def address_list(request):
+    """
+    View to list all user addresses.
+    GET: Displays all addresses
+    """
+
+    addresses = request.user.addresses.all().order_by("-is_default", "-created_at")
+
+    context = {
+        "addresses": addresses,
+        "page_title": "My address",
+        "total_addresses": addresses.count(),
+    }
+
+    return render(request, "orders/addresses/list.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET", "POST"])
+def address_create(request):
+    """
+    View to create new address.
+    GET: Display form
+    POST: Save new address
+    """
+
+    if request.method == "POST":
+        form = AddressForm(request.POST)
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    address = form.save(commit=False)
+                    address.user = request.user
+                    address.save()
+
+                    messages.success(request, "Address successfully added.")
+
+                    # Redirect to the next page if coming from checkout
+                    next_url = request.GET.get("next")
+                    if next_url:
+                        return redirect(next_url)
+
+                    return redirect("orders:address_list")
+
+            except Exception as e:
+                messages.error(request, f"Error saving address: {str(e)}")
+
+    else:
+        form = AddressForm()
+
+    context = {
+        "form": form,
+        "page_title": "Add New Address",
+        "is_create": True,
+    }
+
+    return render(request, "orders/addresses/form.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET", "POST"])
+def address_edit(request, address_id):
+    """
+    View to edit existing address.
+    GET: Displays form with current data
+    POST: Saves changes
+    """
+
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=address)
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    form.save()
+                    messages.success(request, "Address successfully updated.")
+                    return redirect("orders:address_list")
+
+            except Exception as e:
+                messages.error(request, f"Error updating address: {str(e)}")
+
+    else:
+        form = AddressForm(instance=address)
+
+    context = {
+        "form": form,
+        "address": address,
+        "page_title": f"Edit Address - {address.recipient_name}",
+        "is_create": False,
+    }
+
+    return render(request, "orders/addresses/form.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET", "POST"])
+def address_delete(request, address_id):
+    """
+    View to delete address.
+    GET: Shows confirmation
+    POST: Deletes address
+    """
+
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+
+    if request.method == "POST":
+        try:
+            address_info = str(address)
+            address.delete()
+            messages.success(request, f'Address "{address_info}" Successfully deleted.')
+            return redirect("orders:address_list")
+
+        except Exception as e:
+            messages.error(request, f"Error deleting address: {str(e)}")
+
+    context = {
+        "address": address,
+        "page_title": "Delete Address",
+    }
+
+    return render(request, "orders/addresses/confirm_delete.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["POST"])
+def address_set_default(request, address_id):
+    """
+    View to set default address.
+    POST only for security.
+    """
+
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+
+    try:
+        address.is_default = True
+        address.save()
+
+        messages.success(request, "Address set as default.")
+
+    except Exception as e:
+        messages.error(request, f"Error: {str(e)}")
+
+    # Redirigir a origen o a lista de direcciones
+    next_url = request.GET.get("next")
+    return redirect(next_url if next_url else "orders:address_list")
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def order_history(request):
+    """
+    View to see the user's purchase history.
+    GET: Shows all the user's orders.
+    """
+
+    orders = request.user.orders.all().order_by("-created")
+
+    # Paginación opcional
+    from django.core.paginator import Paginator
+
+    paginator = Paginator(orders, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "orders": page_obj,
+        "page_title": "My Purchases",
+        "total_orders": orders.count(),
+    }
+
+    return render(request, "orders/order_history.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def order_detail(request, order_id):
+    """
+    View to see complete details of an order.
+    GET: Displays complete order information.
+    """
+
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    items = order.items.all()
+
+    context = {
+        "order": order,
+        "items": items,
+        "page_title": f"Order #{order.id}",
+    }
+
+    return render(request, "orders/order_detail.html", context)

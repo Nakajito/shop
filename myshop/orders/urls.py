@@ -20,6 +20,7 @@ Available patterns:
 app_name = "orders"
 
 urlpatterns = [
+    # orders
     path("create/", views.order_create, name="order_create"),
     path(
         "admin/order/<int:order_id>/",
@@ -28,5 +29,22 @@ urlpatterns = [
     ),
     path(
         "admin/order/<int:order_id>/pdf/", views.admin_order_pdf, name="admin_order_pdf"
+    ),
+    path("detail/<int:order_id>/", views.order_detail, name="order_detail"),
+    # Purchase history
+    path("history/", views.order_history, name="order_history"),
+    # Shipping addresses
+    path("addresses/", views.address_list, name="address_list"),
+    path("addresses/create/", views.address_create, name="address_create"),
+    path("addresses/<int:address_id>/edit/", views.address_edit, name="address_edit"),
+    path(
+        "addresses/<int:address_id>/delete/",
+        views.address_delete,
+        name="address_delete",
+    ),
+    path(
+        "addresses/<int:address_id>/set-default/",
+        views.address_set_default,
+        name="address_set_default",
     ),
 ]
