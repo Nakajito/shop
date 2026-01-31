@@ -4,6 +4,123 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from shop.models import Product
 from coupons.models import Coupon
+from accounts.models import CustomUser
+from payment.models import PaymentMethod
+
+
+class Address(models.Model):
+    """
+    Model representing a user's shipping or billing address.
+
+    This model handles multiple addresses per user, allowing one to be marked
+    as the default. It includes logic to automatically unset other default
+    addresses when a new one is selected.
+    """
+
+    COUNTRY_CHOICES = (("MX", "México"), ("US", "Estados Unidos"), ("ES", "España"))
+
+    STATE_CHOICES = (
+        ("CDMX", "Ciudad de México"),
+        ("MEX", "Estado de México"),
+        ("QRO", "Querétaro"),
+    )
+
+    ADDRESS_TYPE_CHOICES = (
+        ("home", "Home"),
+        ("office", "Office"),
+        ("other", "Other"),
+    )
+
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="addresses",
+        help_text="User who owns the address",
+    )
+
+    address_line1 = models.CharField(
+        max_length=255, help_text="Street, number, and apartment"
+    )
+
+    address_line2 = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Additional information (floor, reference, etc.)",
+    )
+
+    city = models.CharField(max_length=100, help_text="City")
+    state = models.CharField(max_length=50, choices=STATE_CHOICES, help_text="State")
+    postal_code = models.CharField(max_length=10, help_text="Zip Code")
+    country = models.CharField(
+        max_length=2, choices=COUNTRY_CHOICES, default="MX", help_text="Country"
+    )
+
+    phone = models.CharField(
+        max_length=10, help_text="Contact telephone number for shipping"
+    )
+
+    recipient_name = models.CharField(
+        max_length=200, help_text="Name of the person receiving the package"
+    )
+
+    is_default = models.BooleanField(
+        default=False, help_text="Is this the default address?"
+    )
+
+    address_type = models.CharField(
+        max_length=10,
+        choices=ADDRESS_TYPE_CHOICES,
+        default="home",
+        help_text="Address type",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Address"
+        verbose_name_plural = "Addresses"
+        # Ordered by default status first, then newest created
+        ordering = ["-is_default", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "-is_default"]),
+            models.Index(fields=["user", "created_at"]),
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.recipient_name} - {self.address_line1}, {self.city}, {self.country}"
+        )
+
+    def save(self, *args, **kwargs):
+        """
+        Save the address.
+        If this address is marked as default, ensure no other address for this user
+        is also marked as default.
+        """
+        if self.is_default:
+            Address.objects.filter(user=self.user, is_default=True).exclude(
+                pk=self.pk
+            ).update(is_default=False)
+
+        super().save(*args, **kwargs)
+
+    def get_full_address(self):
+        """
+        Return the formatted full address string.
+        """
+        parts = [self.address_line1]
+        if self.address_line2:
+            parts.append(self.address_line2)
+
+        # Combine City, State, Zip into one line
+        location_line = f"{self.city}, {self.state}, {self.postal_code}"
+        parts.append(location_line)
+
+        parts.append(self.get_country_display())
+
+        return ", ".join(parts)
 
 
 class Order(models.Model):
@@ -15,9 +132,34 @@ class Order(models.Model):
     OrderItems.
     """
 
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="orders",
+        help_text="User who made the purchase",
+    )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
+    shipping_address = models.ForeignKey(
+        Address,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders_shipper",
+        help_text="Shipping address",
+    )
+
+    billing_address = models.ForeignKey(
+        Address,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="ordes_billed",
+        help_text="Billing address (if different)",
+    )
     address = models.CharField(max_length=200)
     postal_code = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
@@ -36,6 +178,15 @@ class Order(models.Model):
         default=0,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         help_text="Discount percentage (0-100) applied at the time of order.",
+    )
+
+    payment_method = models.ForeignKey(
+        PaymentMethod,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
+        help_text="Método de pago utilizado",
     )
 
     class Meta:

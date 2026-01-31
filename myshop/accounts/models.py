@@ -40,6 +40,14 @@ class CustomUser(AbstractUser):
         help_text="User type: Regular or Wholesaler",
     )
 
+    stripe_customer_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        unique=True,
+        help_text="Customer ID in Stripe",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
