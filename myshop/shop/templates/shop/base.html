@@ -3,14 +3,79 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}My shop{% endblock %}</title>
+    <title>{% block title %}One Synk{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
   </head>
   <body>
     <div id="header">
-      <a href="/" class="logo">My shop</a>
+      <a href="/" class="logo">One Synk</a>
     </div>
+
+    
+
+
+
+
     <div id="subheader">
+
+      <div class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+            <!-- Authenticated user -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle"></i> 
+                    <span class="d-none d-md-inline">{{ user.first_name|default:user.username }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                        <i class="bi bi-person"></i> My Profile
+                    </a></li>
+                    <li><a class="dropdown-item" href="#">
+                    {% comment %} <li><a class="dropdown-item" href="{% url 'orders:order_history' %}"> {% endcomment %}
+                        <i class="bi bi-bag"></i> My Purchases
+                    </a></li>
+                    <li><a class="dropdown-item" href="#">
+                    {% comment %} <li><a class="dropdown-item" href="{% url 'orders:address_list' %}"> {% endcomment %}
+                        <i class="bi bi-geo-alt"></i> Address
+                    </a></li>
+                    <li><a class="dropdown-item" href="#">
+                    {% comment %} <li><a class="dropdown-item" href="{% url 'payment:payment_method_list' %}"> {% endcomment %}
+                        <i class="bi bi-credit-card"></i> Payment Methods
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form action="{% url 'accounts:logout' %}" method="post" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">
+                                <i class="bi bi-box-arrow-right"></i> Log out
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <!-- Not authenticated -->
+            <a class="nav-link" href="{% url 'accounts:login' %}">
+                <i class="bi bi-box-arrow-in-right"></i> Log in
+            </a>
+            <a class="nav-link" href="{% url 'accounts:register' %}">
+                <i class="bi bi-person-plus"></i> Register
+            </a>
+        {% endif %}
+        
+        <!-- Cart (always show) -->
+        <a class="nav-link" href="{% url 'cart:cart_detail' %}">
+            <i class="bi bi-cart3"></i> 
+            Shopping cart
+            {% if cart|length > 0 %}
+                <span class="badge bg-danger">{{ cart|length }}</span>
+            {% endif %}
+        </a>
+    </div>
+
+
+
+
       <div class="cart">
         {% with total_items=cart|length %}
           {% if total_items > 0 %}

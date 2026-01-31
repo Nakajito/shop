@@ -1,0 +1,160 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Create Account - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">{{ page_title }}</h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">User name</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted d-block mt-1">
+                                {{ form.username.help_text|safe }}
+                            </small>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Full name -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label">Name</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="id_last_name" class="form-label">Last name</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label">Phone (Optional)</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.phone.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- User type -->
+                        <div class="mb-3">
+                            <label class="form-label">User type</label>
+                            <div class="mt-2">
+                                {{ form.user_type }}
+                            </div>
+                            {% if form.user_type.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.user_type.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label">Password</label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted d-block mt-1">
+                                {{ form.password1.help_text|safe }}
+                            </small>
+                        </div>
+                        
+                        <!-- Comfirm password -->
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label">Comfirm password</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Terms -->
+                        <div class="mb-3 form-check">
+                            {{ form.terms_accepted }}
+                            <label class="form-check-label" for="id_terms_accepted">
+                                I accept the terms and conditions
+                            </label>
+                            {% if form.terms_accepted.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.terms_accepted.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Create account</button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="text-center mb-0">
+                        Do you already have an account? <a href="{% url 'accounts:login' %}">Log in here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
