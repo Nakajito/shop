@@ -6,6 +6,7 @@ from orders.models import Order
 from shop.models import Product
 from shop.recommender import Recommender
 from .tasks import payment_completed
+from orders.tasks import send_order_status_update_email
 
 
 @csrf_exempt
@@ -57,10 +58,19 @@ def stripe_webhook(request):
 
             # Mark order as paid
             order.paid = True
+            order.status = "confirmed"
 
             # Store the Stripe PaymentIntent ID (useful for refunds/audits)
             order.stripe_id = session.payment_intent
             order.save()
+
+            # Crear registro de auditoría
+            order.change_status(
+                "confirmed", changed_by=None, reason="Pay confirmed by Stripe"
+            )
+
+            # Enviar email de confirmación de pago
+            send_order_status_update_email.delay(order.id, "confirmed")
 
             # Update the recommendation engine with the items purchased together
             product_ids = order.items.values_list("product_id", flat=True)

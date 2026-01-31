@@ -1,11 +1,42 @@
 from decimal import Decimal
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from shop.models import Product
 from coupons.models import Coupon
 from accounts.models import CustomUser
 from payment.models import PaymentMethod
+
+COUNTRY_CHOICES = (("MX", "México"), ("US", "Estados Unidos"), ("ES", "España"))
+
+STATE_CHOICES = (
+    ("CDMX", "Ciudad de México"),
+    ("MEX", "Estado de México"),
+    ("QRO", "Querétaro"),
+)
+
+ADDRESS_TYPE_CHOICES = (
+    ("home", "Home"),
+    ("office", "Office"),
+    ("other", "Other"),
+)
+
+ORDER_STATUS_CHOICES = (
+    ("pending", "Pedido Pendiente"),
+    ("confirmed", "Pedido Confirmado"),
+    ("preparing", "Preparando Pedido"),
+    ("shipped", "Enviado"),
+    ("delivered", "Entregado"),
+    ("cancelled", "Cancelado"),
+)
+
+CARRIER_CHOICES = (
+    ("fedex", "FedEx"),
+    ("ups", "UPS"),
+    ("dhl", "DHL"),
+    ("other", "Otro"),
+)
 
 
 class Address(models.Model):
@@ -16,20 +47,6 @@ class Address(models.Model):
     as the default. It includes logic to automatically unset other default
     addresses when a new one is selected.
     """
-
-    COUNTRY_CHOICES = (("MX", "México"), ("US", "Estados Unidos"), ("ES", "España"))
-
-    STATE_CHOICES = (
-        ("CDMX", "Ciudad de México"),
-        ("MEX", "Estado de México"),
-        ("QRO", "Querétaro"),
-    )
-
-    ADDRESS_TYPE_CHOICES = (
-        ("home", "Home"),
-        ("office", "Office"),
-        ("other", "Other"),
-    )
 
     user = models.ForeignKey(
         CustomUser,
@@ -140,9 +157,13 @@ class Order(models.Model):
         related_name="orders",
         help_text="User who made the purchase",
     )
+
     first_name = models.CharField(max_length=50)
+
     last_name = models.CharField(max_length=50)
+
     email = models.EmailField()
+
     shipping_address = models.ForeignKey(
         Address,
         on_delete=models.SET_NULL,
@@ -160,12 +181,37 @@ class Order(models.Model):
         related_name="ordes_billed",
         help_text="Billing address (if different)",
     )
+
     address = models.CharField(max_length=200)
+
     postal_code = models.CharField(max_length=20)
+
     city = models.CharField(max_length=50)
+
     created = models.DateTimeField(auto_now_add=True)
+
     updated = models.DateTimeField(auto_now=True)
+
     paid = models.BooleanField(default=False)
+
+    status = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES,
+        default="pending",
+        help_text="Current order status",
+    )
+
+    estimated_delivery_date = models.DateField(
+        null=True, blank=True, help_text="Estimated delivery date"
+    )
+
+    notes = models.TextField(
+        blank=True, null=True, help_text="Internal notes on the order"
+    )
+
+    customer_notes = models.TextField(
+        blank=True, null=True, help_text="Customer notes when making the purchase"
+    )
 
     # Stores the Stripe PaymentIntent ID (e.g., pi_12345...)
     stripe_id = models.CharField(max_length=250, blank=True)
@@ -174,6 +220,7 @@ class Order(models.Model):
     coupon = models.ForeignKey(
         Coupon, related_name="orders", null=True, blank=True, on_delete=models.SET_NULL
     )
+
     discount = models.IntegerField(
         default=0,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
@@ -188,6 +235,48 @@ class Order(models.Model):
         related_name="orders",
         help_text="Método de pago utilizado",
     )
+
+    def get_timeline_steps(self):
+        """
+        Returns steps from the order timeline to display in templates.
+        Useful for displaying visual progress.
+        """
+        steps = [
+            {
+                "step": "Order Confirmed",
+                "status": "confirmed",
+                "completed": self.status
+                in ["confirmed", "preparing", "shipped", "delivered"],
+                "icon": "check-circle",
+            },
+            {
+                "step": "Preparing",
+                "status": "preparing",
+                "completed": self.status in ["preparing", "shipped", "delivered"],
+                "icon": "box",
+            },
+            {
+                "step": "Shipped",
+                "status": "shipped",
+                "completed": self.status in ["shipped", "delivered"],
+                "icon": "truck",
+            },
+            {
+                "step": "Delivered",
+                "status": "delivered",
+                "completed": self.status == "delivered",
+                "icon": "check-circle",
+            },
+        ]
+        return steps
+
+    def can_be_cancelled(self):
+        """Returns True if the order can be cancelled"""
+        return self.status in ["pending", "confirmed"]
+
+    def can_be_reordered(self):
+        """Returns True if the order can be reordered"""
+        return self.status in ["delivered", "cancelled"]
 
     class Meta:
         ordering = ["-created"]
@@ -249,6 +338,44 @@ class Order(models.Model):
             return total_cost * (self.discount / Decimal(100))
         return Decimal(0)
 
+    def change_status(self, new_status, changed_by=None, reason=None):
+        """
+        Changes the order status and creates an audit log.
+        """
+        if new_status not in dict(ORDER_STATUS_CHOICES):
+            raise ValidationError(f"Invalid status: {new_status}")
+
+        if self.status == new_status:
+            return None
+
+        old_status = self.status
+        self.status = new_status
+        self.save()
+
+        # Create audit log
+        status_update = OrderStatusUpdate.objects.create(
+            order=self,
+            old_status=old_status,
+            new_status=new_status,
+            changed_by=changed_by,
+            reason=reason,
+        )
+
+        return status_update
+
+    def get_status_display_with_badge(self):
+        """Returns the status with color for templates"""
+        colors = {
+            "pending": "warning",
+            "confirmed": "info",
+            "preparing": "info",
+            "shipped": "primary",
+            "delivered": "success",
+            "cancelled": "danger",
+        }
+        color = colors.get(self.status, "secondary")
+        return f'<span class="badge bg-{color}">{self.get_status_display()}</span>'
+
 
 class OrderItem(models.Model):
     """
@@ -276,3 +403,142 @@ class OrderItem(models.Model):
             Decimal: price * quantity
         """
         return self.price * self.quantity
+
+
+class OrderStatusUpdate(models.Model):
+    """Audit log of order status changes.
+    Each status change creates a record here.
+    Allows you to view the complete history of changes.
+
+    Args:
+        models (_type_): _description_
+    """
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="status_updated",
+        help_text="Order status changed",
+    )
+
+    old_status = models.CharField(
+        max_length=20, choices=ORDER_STATUS_CHOICES, help_text="Previous status"
+    )
+
+    new_status = models.CharField(
+        max_length=20, choices=ORDER_STATUS_CHOICES, help_text="New status"
+    )
+
+    changed_by = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="order_status_changed",
+        help_text="User who made the change",
+    )
+
+    reason = models.TextField(
+        blank=True, null=True, help_text="Reason for change of status"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Order Status Change"
+        verbose_name_plural = "Order Status Changes"
+        indexes = [models.Index(fields=["-order", "-created_at"])]
+
+    def __str__(self):
+        return f"Order {self.order.id}: {self.old_status} -> {self.new_status}"
+
+
+class OrderTracking(models.Model):
+    """Tracking and shipping information for an order.
+    Links mail/carrier data to the order.
+
+    Args:
+        models (_type_): _description_
+    """
+
+    order = models.OneToOneField(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="tracking",
+        help_text="Associated order",
+    )
+
+    tracking_number = models.CharField(
+        max_length=255, help_text="Tracking number (e.g., 1Z999AA10123456784)"
+    )
+
+    carrier = models.CharField(
+        max_length=20, choices=CARRIER_CHOICES, help_text="Parcel delivery company"
+    )
+
+    tracking_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Direct link to tracking (e.g., https://tracking.fedex.com/...)",
+    )
+
+    shipped_at = models.DateTimeField(
+        auto_now_add=True, help_text="Date/time when sent"
+    )
+
+    estimated_delivery_date = models.DateField(
+        blank=True, null=True, help_text="Estimated delivery date of the carrier"
+    )
+
+    actual_delivery_date = models.DateField(
+        blank=True, null=True, help_text="Date when it was actually delivered"
+    )
+
+    weight = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text="Package weight in kg",
+    )
+
+    dimensions = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Package dimensions (e.g., 30x20x10 cm)",
+    )
+
+    last_location = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Last known location of the package",
+    )
+
+    last_status_update = models.DateTimeField(
+        blank=True, null=True, help_text="Latest carrier update"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Order Tracking"
+        verbose_name_plural = "Order Tracking"
+
+    def __str__(self):
+        return f"Tracking {self.tracking_number} - {self.get_carrier_display()}"
+
+    def get_full_tracking_info(self):
+        """Returns formatted tracking information"""
+        info = f"Tracking number: {self.tracking_number}\n"
+        info += f"Parcel delivery: {self.get_carrier_display()}\n"
+        if self.tracking_url:
+            info += f"Tracking link: {self.tracking_url}\n"
+        if self.last_location:
+            info += f"Last location: {self.last_location}\n"
+        if self.estimated_delivery_date:
+            info += f"Estimated delivery: {self.estimated_delivery_date}\n"
+        return info
