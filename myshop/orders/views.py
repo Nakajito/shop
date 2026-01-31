@@ -63,6 +63,14 @@ def order_create(request):
             # launch asynchronous task
             order_created.delay(order.id)
 
+            # set order status to 'pending'
+            order.status = "pending"
+            order.change_status(
+                "pending",
+                changed_by=request.user if request.user.is_authenticated else None,
+                reason="Order created, pending payment",
+            )
+
             # set the order in the session for the payment step
             request.session["order_id"] = order.id
 

@@ -4,8 +4,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-from .models import Order, OrderItem
-from orders.models import Address
+from .models import Order, OrderItem, Address, OrderStatusUpdate, OrderTracking
 
 
 def export_to_csv(modeladmin, request, queryset):
@@ -125,6 +124,7 @@ class OrderAdmin(admin.ModelAdmin):
         "user",
         "shipping_address",
         "paid",
+        "status",
         order_payment,
         "created",
         "updated",
@@ -136,12 +136,22 @@ class OrderAdmin(admin.ModelAdmin):
         ("Customer", {"fields": ("first_name", "last_name", "email")}),
         ("Address", {"fields": ("shipping_address", "billing_address")}),
         ("Payment", {"fields": ("payment_method", "paid", "stripe_id")}),
-        ("Coupon and Discount", {"fields": ("coupon", "discount")}),
+        (
+            "Order",
+            {"fields": ("status", "estimated_delivery_date", "coupon", "discount")},
+        ),
+        ("Notes", {"fields": ("notes", "customer_notes")}),
         ("Audit", {"fields": ("created", "updated"), "classes": ("collapse",)}),
     )
-    list_filter = ["paid", "created", "updated"]
+    list_filter = ["paid", "created", "status"]
+    search_fields = ("id", "first_name", "last_name", "email")
     inlines = [OrderItemsInLine]
     actions = [export_to_csv]
+
+    def get_total(self, obj):
+        return f"${obj.get_total()}"
+
+    get_total.short_description = "Total"
 
 
 @admin.register(Address)
@@ -199,3 +209,106 @@ class AddressAdmin(admin.ModelAdmin):
         return obj.get_full_address()
 
     get_full_address.short_description = "Full"
+
+
+class OrderStatusUpdateInline(admin.TabularInline):
+    """Show inline status change history"""
+
+    model = OrderStatusUpdate
+    extra = 0
+    can_delete = False
+    readonly_fields = ("old_status", "new_status", "changed_by", "reason", "created_at")
+    fields = ("old_status", "new_status", "changed_by", "reason", "created_at")
+
+
+class OrderTrackingInline(admin.StackedInline):
+    """Display tracking information inline"""
+
+    model = OrderTracking
+    extra = 0
+    readonly_fields = ("shipped_at", "created_at", "updated_at")
+    fields = (
+        "tracking_number",
+        "carrier",
+        "tracking_url",
+        "shipped_at",
+        "estimated_delivery_date",
+        "actual_delivery_date",
+        "weight",
+        "dimensions",
+        "last_location",
+        "last_status_update",
+    )
+
+
+@admin.register(OrderStatusUpdate)
+class OrderStatusUpdateAdmin(admin.ModelAdmin):
+    """Admin to view status changes"""
+
+    list_display = ("order", "old_status", "new_status", "changed_by", "created_at")
+    list_filter = ("new_status", "created_at")
+    search_fields = ("order__id", "order__email")
+    readonly_fields = ("created_at",)
+
+    def has_add_permission(self, request):
+        """Do not allow manual changes to be added from the admin panel"""
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        """Do not allow changes to be deleted (audit)"""
+        return False
+
+
+@admin.register(OrderTracking)
+class OrderTrackingAdmin(admin.ModelAdmin):
+    """Admin to manage tracking information"""
+
+    list_display = (
+        "order",
+        "tracking_number",
+        "carrier",
+        "actual_delivery_date",
+        "last_status_update",
+    )
+    list_filter = ("carrier", "shipped_at", "actual_delivery_date")
+    search_fields = ("order__id", "tracking_number")
+    readonly_fields = (
+        "shipped_at",
+        "created_at",
+        "updated_at",
+        "get_full_tracking_info",
+    )
+
+    fieldsets = (
+        ("Order", {"fields": ("order",)}),
+        (
+            "Shipping Information",
+            {"fields": ("tracking_number", "carrier", "tracking_url")},
+        ),
+        (
+            "Dates",
+            {
+                "fields": (
+                    "shipped_at",
+                    "estimated_delivery_date",
+                    "actual_delivery_date",
+                )
+            },
+        ),
+        (
+            "Package Details",
+            {"fields": ("weight", "dimensions", "last_location", "last_status_update")},
+        ),
+        (
+            "Formatted Information",
+            {"fields": ("get_full_tracking_info",), "classes": ("collapse",)},
+        ),
+        ("Audit", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
+    )
+
+    def get_full_tracking_info(self, obj):
+        if obj.pk:
+            return obj.get_full_tracking_info()
+        return "Save first to view information"
+
+    get_full_tracking_info.short_description = "Complete Tracking Information"
