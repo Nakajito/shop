@@ -4,7 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <title>{% block title %}One Synk{% endblock %}</title>
+    
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    {% block extra_css %}
+    
+    {% endblock %}
+
   </head>
   <body>
     <div id="header">
@@ -25,7 +30,7 @@
                         <i class="bi bi-person"></i> My Profile
                     </a></li>
                     <li><a class="dropdown-item" href="#">
-                    {% comment %} <li><a class="dropdown-item" href="{% url 'orders:order_history' %}"> {% endcomment %}
+                    <li><a class="dropdown-item" href="{% url 'orders:order_history' %}">
                         <i class="bi bi-bag"></i> My Purchases
                     </a></li>
                     <li><a class="dropdown-item" href="{% url 'orders:address_list' %}">

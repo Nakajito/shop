@@ -3,9 +3,10 @@ from django.conf import settings
 from django.utils.translation import gettext as _
 from payment.models import PaymentMethod
 from accounts.models import CustomUser
+from decouple import config
 
 # Configure Stripe with your secret key
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = config("STRIPE_PUBLISHABLE_KEY")
 
 
 class StripeCustomerHandler:
@@ -30,7 +31,7 @@ class StripeCustomerHandler:
         try:
             # If the user already has a stripe_customer_id, return it.
             if hasattr(user, "stripe_customer_id") and user.stripe_customer_id:
-                return {"id": user.stripe_customer_user_id, "created": False}
+                return {"id": user.stripe_customer_id, "created": False}
 
             # Create a new customer in Stripe
             customer = stripe.Customer.create(
@@ -85,6 +86,7 @@ class StripePaymentMethodHandler:
 
             # Extract information from the card
             card = payment_method.card
+            has_payment_methods = PaymentMethod.objects.filter(user=user).exists()
 
             # Create PaymentMethod in our database
             db_payment_method = PaymentMethod.objects.create(
@@ -96,7 +98,7 @@ class StripePaymentMethodHandler:
                 or user.get_full_name(),
                 exp_month=card.exp_month,
                 exp_year=card.exp_year,
-                is_default=not user.payment_method.exists(),
+                is_default=not has_payment_methods,
             )
 
             return db_payment_method

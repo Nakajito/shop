@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.http import JsonResponse
+from decouple import config
 import stripe
 from payment.stripe_handler import StripePaymentMethodHandler
 import json
@@ -181,7 +182,8 @@ def payment_method_add(request):
         form = PaymentMethodForm()
 
     # Get Stripe public key for Stripe Elements
-    stripe_public_key = settings.STRIPE_PUBLISHABLE_KEY
+    # stripe_public_key = settings.STRIPE_PUBLISHABLE_KEY
+    stripe_public_key = config("STRIPE_PUBLISHABLE_KEY")
 
     context = {
         "form": form,
