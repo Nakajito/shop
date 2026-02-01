@@ -1,0 +1,180 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+    <link href="{% static "css/stripe.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">{{ page_title }}</h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="alert alert-info mb-4" role="alert">
+                        <i class="bi bi-shield-lock"></i>
+                        <strong>Safe and secure:</strong> Your card details are processed directly with Stripe.
+                        We never store card numbers on our servers.
+                    </div>
+                    
+                    <form id="payment-form" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <h5 class="mb-3">Card Information</h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_cardholder_name" class="form-label">Name of the Holder</label>
+                            {{ form.cardholder_name }}
+                            {% if form.cardholder_name.errors %}
+                                <div class="text-danger small mt-1">{{ form.cardholder_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Stripe Elements -->
+                        <div class="mb-3">
+                            <label for="card-element" class="form-label">Card number</label>
+                            <div id="card-element" class="form-control p-0"></div>
+                            <div id="card-errors" class="error mt-2"></div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="card-expiry" class="form-label">Expiration Date</label>
+                                <div id="card-expiry" class="form-control p-0"></div>
+                                <div id="expiry-errors" class="error mt-2"></div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="card-cvc" class="form-label">CVC</label>
+                                <div id="card-cvc" class="form-control p-0"></div>
+                                <div id="cvc-errors" class="error mt-2"></div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mb-3 mt-4">Configuration</h5>
+                        
+                        <div class="mb-3 form-check">
+                            {{ form.is_default }}
+                            <label class="form-check-label" for="id_is_default">
+                                Use as default payment method
+                            </label>
+                        </div>
+                        
+                        <!-- Campo oculto para payment_method_id -->
+                        <input type="hidden" id="payment-method-id" name="payment_method_id" value="">
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <div id="payment-errors" class="alert alert-danger d-none" role="alert"></div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" id="submit-button" class="btn btn-primary btn-lg">
+                                <i class="bi bi-plus-circle"></i> Add card
+                            </button>
+                        </div>
+                        
+                        <a href="{% url 'payment:payment_method_list' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stripe Script -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Initialize Stripe
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const elements = stripe.elements();
+
+    // Create individual elements
+    const cardElement = elements.create('cardNumber');
+    const expiryElement = elements.create('cardExpiry');
+    const cvcElement = elements.create('cardCvc');
+
+    // Show elements
+    cardElement.mount('#card-element');
+    expiryElement.mount('#card-expiry');
+    cvcElement.mount('#card-cvc');
+
+    // Error handling
+    function displayError(element, error) {
+        if (error) {
+            element.textContent = error.message;
+        } else {
+            element.textContent = '';
+        }
+    }
+
+    cardElement.addEventListener('change', (event) => {
+        displayError(document.getElementById('card-errors'), event.error);
+    });
+
+    expiryElement.addEventListener('change', (event) => {
+        displayError(document.getElementById('expiry-errors'), event.error);
+    });
+
+    cvcElement.addEventListener('change', (event) => {
+        displayError(document.getElementById('cvc-errors'), event.error);
+    });
+
+    // Form management
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Procesando...';
+
+        // Create Payment Method with Stripe
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: {
+                name: document.getElementById('id_cardholder_name').value,
+            },
+        });
+
+        if (error) {
+            displayError(document.getElementById('card-errors'), error);
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="bi bi-plus-circle"></i> Agregar Tarjeta';
+        } else {
+            // Save payment_method_id in hidden field
+            document.getElementById('payment-method-id').value = paymentMethod.id;
+            
+            // Send form
+            form.submit();
+        }
+    });
+
+
+
+</script>
+
+
+{% endblock %}

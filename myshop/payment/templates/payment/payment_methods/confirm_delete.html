@@ -1,0 +1,66 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">{{ page_title }}</h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>Attention!</strong> This action cannot be undone.
+                    </div>
+                    
+                    <p class="mb-3">
+                        Are you sure you want to delete the following payment method?
+                    </p>
+                    
+                    <div class="card bg-light mb-4">
+                        <div class="card-body">
+                            <h5>{{ payment_method.get_card_type_display }}</h5>
+                            <p class="mb-1">
+                                <strong>{{ payment_method.get_masked_card }}</strong>
+                            </p>
+                            <p class="mb-1">
+                                Card holder: {{ payment_method.card_holder_name }}
+                            </p>
+                            <p class="mb-0">
+                                Expires: {{ payment_method.get_expiration_display }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {% if payment_method.is_default %}
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Note:</strong> This is your default payment method.
+                            A new default method will be assigned automatically.
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="bi bi-trash"></i> Yes, delete
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <a href="{% url 'payment:payment_method_list' %}" class="btn btn-outline-secondary w-100 mt-2">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

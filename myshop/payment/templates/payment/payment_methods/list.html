@@ -1,0 +1,109 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}My Payment Methods - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Sidebar -->
+        {% include "includes/sidebar.html" %}
+        
+        <!-- Main content-->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>{{ page_title }}</h2>
+                <a href="{% url 'payment:payment_method_add' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Add card
+                </a>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% if payment_methods %}
+                <div class="row">
+                    {% for pm in payment_methods %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 {% if pm.is_default %}border-primary border-2{% endif %}">
+                                {% if pm.is_default %}
+                                    <div class="card-header bg-primary text-white py-2">
+                                        <small><i class="bi bi-check-circle"></i> Default Method</small>
+                                    </div>
+                                {% endif %}
+                                
+                                <div class="card-body">
+                                    <!-- Card icon by type -->
+                                    <div class="mb-3">
+                                        {% if pm.card_type == 'visa' %}
+                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #1a1f71;"></i>
+                                        {% elif pm.card_type == 'mastercard' %}
+                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #eb001b;"></i>
+                                        {% elif pm.card_type == 'amex' %}
+                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #006fcf;"></i>
+                                        {% else %}
+                                            <i class="bi bi-credit-card" style="font-size: 2rem;"></i>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <h5 class="card-title">{{ pm.get_card_type_display }}</h5>
+                                    
+                                    <p class="card-text">
+                                        <strong>{{ pm.get_masked_card }}</strong>
+                                    </p>
+                                    
+                                    <p class="card-text text-muted small mb-2">
+                                        Titular: {{ pm.card_holder_name }}
+                                    </p>
+                                    
+                                    <p class="card-text text-muted small mb-3">
+                                        Expira: {{ pm.get_expiration_display }}
+                                        {% if pm.is_expired %}
+                                            <br>
+                                            <span class="badge bg-danger">Expired</span>
+                                        {% endif %}
+                                    </p>
+                                    
+                                    <p class="text-muted small">
+                                        Added: {{ pm.created_at|date:"d/m/Y" }}
+                                    </p>
+                                </div>
+                                
+                                <div class="card-footer bg-light">
+                                    <div class="btn-group btn-group-sm w-100" role="group">
+                                        {% if not pm.is_default and not pm.is_expired %}
+                                            <form action="{% url 'payment:payment_method_set_default' pm.id %}" method="post" class="flex-fill">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-success w-100 btn-sm">
+                                                    <i class="bi bi-check"></i> By default
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        
+                                        <a href="{% url 'payment:payment_method_delete' pm.id %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-info-circle"></i>
+                    You have no cards registered..
+                    <a href="{% url 'payment:payment_method_add' %}" class="alert-link">Add one now</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

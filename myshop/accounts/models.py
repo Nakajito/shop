@@ -48,6 +48,13 @@ class CustomUser(AbstractUser):
         help_text="Customer ID in Stripe",
     )
 
+    payment_method = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="ID del método de pago por defecto en Stripe",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

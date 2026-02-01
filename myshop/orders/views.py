@@ -38,6 +38,14 @@ def order_create(request):
     """
     cart = Cart(request)
 
+    # If the user is authenticated, obtain their default payment method.
+    if request.user.is_authenticated:
+        default_payment_method = request.user.payment_methods.filter(
+            is_default=True, is_active=True
+        ).first()
+    else:
+        default_payment_method = None
+
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
         if form.is_valid():
@@ -87,7 +95,7 @@ def order_create(request):
     return render(
         request,
         "orders/order/create.html",
-        {"cart": cart, "form": form},
+        {"cart": cart, "form": form, "default_payment_method": default_payment_method},
     )
 
 
