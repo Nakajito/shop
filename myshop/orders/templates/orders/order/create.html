@@ -25,6 +25,19 @@
     </ul>
     <p>Total: ${{ cart.get_total_price_after_discount|floatformat:2 }}</p>
   </div>
+  {% if user.is_authenticated and user.payment_methods.all %}
+      <div class="mb-3">
+          <label for="payment_method" class="form-label">Método de Pago</label>
+          <select id="payment_method" name="payment_method" class="form-select">
+              {% for pm in user.payment_methods.all %}
+                  <option value="{{ pm.id }}" {% if pm.is_default %}selected{% endif %}>
+                      {{ pm.get_card_type_display }} ****{{ pm.last_four_digits }}
+                  </option>
+              {% endfor %}
+              <option value="">Agregar nueva tarjeta</option>
+          </select>
+      </div>
+  {% endif %}
   <form method="post" class="order-form">
     {{ form.as_p }}
     <p><input type="submit" value="Place order"></p>

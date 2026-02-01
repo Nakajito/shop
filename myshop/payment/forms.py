@@ -3,11 +3,11 @@ from payment.models import PaymentMethod
 
 
 class PaymentMethodForm(forms.Form):
-    """Form to add a payment card.
-    This form is sent directly to Stripe (we do not store sensitive data).
+    """Form to add a payment card using Stripe Elements.
 
-    In the view, we will use Stripe Elements to capture card data
-    securely, without our server seeing it.
+    IMPORTANT: Sensitive data (number, CVC) is captured in JavaScript
+    with Stripe Elements, NEVER on the server.
+    The server only receives payment_method_id from Stripe.
 
     Args:
         forms (_type_): _description_
@@ -23,6 +23,7 @@ class PaymentMethodForm(forms.Form):
                 "autocomplete": "cc-name",
             }
         ),
+        label="Name of the Holder",
     )
 
     is_default = forms.BooleanField(
@@ -31,3 +32,44 @@ class PaymentMethodForm(forms.Form):
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
         label="Use as default payment method",
     )
+
+
+class PaymentMethodSelectionForm(forms.Form):
+    """
+    Form to select an existing payment method at checkout.
+    """
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Get active payment methods from the user
+        payment_methods = user.payment_methods.filter(is_active=True)
+
+        choices = [
+            (
+                pm.id,
+                f"{pm.get_card_type_display()} ****{pm.last_four_digits} (Expires: {pm.get_expiration_display()})",
+            )
+            for pm in payment_methods
+        ]
+
+        self.fields["payment_method"] = forms.ChoiceField(
+            choices=choices,
+            widget=forms.RadioSelect(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+            label="Select a payment method",
+        )
+
+        # Add option to add new card
+        self.fields["use_new_card"] = forms.BooleanField(
+            required=False,
+            widget=forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+            label="Use a new card",
+        )

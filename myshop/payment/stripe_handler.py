@@ -75,44 +75,42 @@ class StripePaymentMethodHandler:
         try:
             # Ensure that the user has a client in Stripe
             stripe_customer = StripeCustomerHandler.create_or_get_customer(user)
-            stripe_customer_id = stripe_customer['id']
-            
+            stripe_customer_id = stripe_customer["id"]
+
             # Get details of Stripe's payment method
             payment_method = stripe.PaymentMethod.retrieve(payment_method_id)
-            
+
             # Link card to customer
-            stripe.PaymentMethod.attach(
-                payment_method_id,
-                customer=stripe_customer_id
-            )
-            
+            stripe.PaymentMethod.attach(payment_method_id, customer=stripe_customer_id)
+
             # Extract information from the card
             card = payment_method.card
-            
+
             # Create PaymentMethod in our database
             db_payment_method = PaymentMethod.objects.create(
                 user=user,
-                stripe_payment_method_id = payment_method_id,
-                card_type = card.brand,
-                last_four_digits = card.last4,
-                card_holder_name = payment_method.billing_details.name or user.get_full_name()
-                exp_month = card.exp_month,
-                exp_year = card.exp_year,
-                is_default = not user.payment_method.exists()
+                stripe_payment_method_id=payment_method_id,
+                card_type=card.brand,
+                last_four_digits=card.last4,
+                card_holder_name=payment_method.billing_details.name
+                or user.get_full_name(),
+                exp_month=card.exp_month,
+                exp_year=card.exp_year,
+                is_default=not user.payment_method.exists(),
             )
-            
+
             return db_payment_method
-        
+
         except stripe.error.CardError as e:
-            raise Exception(f'Card error: {e.user_message}')
+            raise Exception(f"Card error: {e.user_message}")
         except stripe.error.InvalidRequestError as e:
-            raise Exception(f'Invalid payment method: {str(e)}')
-    
+            raise Exception(f"Invalid payment method: {str(e)}")
+
     @staticmethod
     def detach_payment_method(payment_method_id: str):
         """
         Disconnect a payment method from Stripe.
-        
+
         Args:
             payment_method_id: Stripe payment method ID
         """
@@ -121,12 +119,12 @@ class StripePaymentMethodHandler:
         except stripe.error.InvalidRequestError:
             # If it is already disconnected or does not exist, there is no problem.
             pass
-    
+
     @staticmethod
     def delete_payment_method(payment_method: PaymentMethod):
         """
         Deletes a payment method from the database and unlinks it from Stripe.
-        
+
         Args:
             payment_method: PaymentMethod instance
         """
@@ -134,15 +132,15 @@ class StripePaymentMethodHandler:
         StripePaymentMethodHandler.detach_payment_method(
             payment_method.stripe_payment_method_id
         )
-        
+
         # Delete it from the database
         payment_method.delete()
-    
+
     @staticmethod
     def set_default_payment_method(payment_method: PaymentMethod):
         """
         Set a payment method as the default in Stripe.
-        
+
         Args:
             payment_method: PaymentMethod instance
         """
@@ -150,12 +148,12 @@ class StripePaymentMethodHandler:
             stripe.Customer.modify(
                 payment_method.user.stripe_customer_id,
                 invoice_settings={
-                    'default_payment_method': payment_method.stripe_payment_method_id
-                }
+                    "default_payment_method": payment_method.stripe_payment_method_id
+                },
             )
             # Also update in our database
             payment_method.is_default = True
             payment_method.save()
-        
+
         except stripe.error.InvalidRequestError as e:
             raise Exception(f"Error setting default method: {str(e)}")
