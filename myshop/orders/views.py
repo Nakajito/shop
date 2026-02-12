@@ -7,12 +7,35 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.utils import timezone
 import weasyprint
+import logging
 
 from cart.cart import Cart
 from orders.forms import OrderCreateForm, AddressForm
-from orders.models import Order, OrderItem, Address
+from orders.models import Order, OrderItem, Address, OrderStatusUpdate, OrderTracking
 from orders.tasks import order_created
+
+# Configurar logger para registro de errores
+logger = logging.getLogger(__name__)
+
+
+def get_user_order(request, order_id):
+    """
+    Helper function to get an order accessible by the current user.
+    Allows access to orders that:
+    1. Have the current user as owner (user = request.user)
+    2. Have the same email as the current user (for legacy orders before user field)
+
+    Returns the Order or raises Http404 if not found or not accessible.
+    """
+    try:
+        # Try to get order by user (new orders)
+        return Order.objects.get(id=order_id, user=request.user)
+    except Order.DoesNotExist:
+        # Try to get order by email (legacy orders without user field)
+        order = get_object_or_404(Order, id=order_id, email=request.user.email)
+        return order
 
 
 def order_create(request):
@@ -139,6 +162,49 @@ def admin_order_pdf(request, order_id):
     )
 
     return response
+
+
+@login_required
+@require_http_methods(["GET"])
+def order_pdf(request, order_id):
+    """
+    Vista para que el USUARIO descargue su recibo en PDF.
+    GET: Genera y descarga PDF del recibo.
+    """
+    try:
+        # Aseguramos que la orden pertenezca al usuario actual
+        order = get_user_order(request, order_id)
+
+        # Renderizar plantilla HTML
+        # Nota: Usamos la plantilla existente 'orders/order/pdf.html'.
+        # Si prefieres una distinta, cambia a 'orders/pdf/order_receipt.html'
+        html_string = render_to_string("orders/order/pdf.html", {"order": order})
+
+        # Configurar respuesta HTTP
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = (
+            f'attachment; filename="recibo_pedido_{order.id}.pdf"'
+        )
+
+        # Convertir a PDF
+        # Incluimos base_url y stylesheets para que carguen las imágenes y CSS correctamente
+        html = weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri("/")
+        )
+
+        html.write_pdf(
+            response, stylesheets=[weasyprint.CSS(finders.find("css/pdf.css"))]
+        )
+
+        return response
+
+    except Exception as e:
+        logger.error(f"Error generando PDF para orden {order_id}: {str(e)}")
+        messages.error(request, "Error al generar el PDF del recibo.")
+        # Redirige a la lista de historial o al detalle si ocurre un error
+        return redirect(
+            "orders:order_history"
+        )  # Asegúrate que esta URL existe en urls.py
 
 
 @login_required(login_url="accounts:login")
@@ -316,7 +382,7 @@ def order_history(request):
         "total_orders": orders.count(),
     }
 
-    return render(request, "orders/order_history.html", context)
+    return render(request, "orders/order/order_history.html", context)
 
 
 @login_required(login_url="accounts:login")
@@ -327,7 +393,7 @@ def order_detail(request, order_id):
     GET: Displays complete order information.
     """
 
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_user_order(request, order_id)
     items = order.items.all()
 
     context = {
@@ -336,4 +402,75 @@ def order_detail(request, order_id):
         "page_title": f"Order #{order.id}",
     }
 
-    return render(request, "orders/order_detail.html", context)
+    return render(request, "orders/order/order_detail.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def order_tracking(request, order_id):
+    """
+    Vista para ver el seguimiento completo de un pedido.
+    Muestra timeline de cambios de estado e información de envío.
+    GET: Muestra información de tracking del pedido
+    """
+
+    order = get_user_order(request, order_id)
+
+    # Obtener historial de cambios de estado
+    status_updates = order.status_updates.all().order_by("-created_at")
+
+    # Obtener información de tracking
+    tracking = order.tracking if hasattr(order, "tracking") else None
+
+    # Obtener timeline de pasos
+    timeline_steps = order.get_timeline_steps()
+
+    context = {
+        "order": order,
+        "status_updates": status_updates,
+        "tracking": tracking,
+        "timeline_steps": timeline_steps,
+        "page_title": f"Seguimiento de Pedido #{order.id}",
+    }
+
+    return render(request, "orders/order/order_tracking.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def order_status_history(request, order_id):
+    """
+    Vista para ver el historial detallado de cambios de estado.
+    GET: Muestra todos los cambios de estado con detalles
+    """
+
+    order = get_user_order(request, order_id)
+    status_updates = order.status_updates.all().order_by("-created_at")
+
+    context = {
+        "order": order,
+        "status_updates": status_updates,
+        "page_title": f"Historial de Estado - Pedido #{order.id}",
+    }
+
+    return render(request, "orders/order/order_status_history.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET"])
+def order_tracking_info(request, order_id):
+    """
+    Vista para ver información detallada de envío/tracking.
+    GET: Muestra datos del carrier, número de guía, ubicación actual
+    """
+
+    order = get_user_order(request, order_id)
+    tracking = get_object_or_404(OrderTracking, order=order)
+
+    context = {
+        "order": order,
+        "tracking": tracking,
+        "page_title": f"Información de Envío - Pedido #{order.id}",
+    }
+
+    return render(request, "orders/order/order_tracking_info.html", context)
