@@ -1,0 +1,100 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="mb-4">
+        <a href="{% url 'orders:order_tracking' order.id %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a Seguimiento
+        </a>
+    </div>
+    
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ page_title }}</h4>
+        </div>
+        
+        <div class="card-body">
+            <div class="mb-4 p-3 bg-light rounded">
+                <h6 class="text-muted">Información General</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p class="mb-1"><strong>Número de Pedido:</strong></p>
+                        <p>#{{ order.id }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-1"><strong>Fecha de Pedido:</strong></p>
+                        <p>{{ order.created|date:"d/m/Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mb-1"><strong>Estado Actual:</strong></p>
+                        <p>
+                            <span class="badge" 
+                                  style="background-color: {% if order.status == 'delivered' %}#28a745{% elif order.status == 'shipped' %}#007bff{% elif order.status == 'preparing' %}#17a2b8{% elif order.status == 'confirmed' %}#17a2b8{% elif order.status == 'cancelled' %}#dc3545{% else %}#ffc107{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            {% if status_updates %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Fecha y Hora</th>
+                                <th>Estado Anterior</th>
+                                <th>Nuevo Estado</th>
+                                <th>Motivo</th>
+                                <th>Realizado Por</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for update in status_updates %}
+                                <tr>
+                                    <td>
+                                        <small>{{ update.created_at|date:"d/m/Y H:i:s" }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            {{ update.get_old_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" 
+                                              style="background-color: {% if update.new_status == 'delivered' %}#28a745{% elif update.new_status == 'shipped' %}#007bff{% elif update.new_status == 'preparing' %}#17a2b8{% elif update.new_status == 'confirmed' %}#17a2b8{% elif update.new_status == 'cancelled' %}#dc3545{% else %}#ffc107{% endif %}">
+                                            {{ update.get_new_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if update.reason %}
+                                            <small>{{ update.reason }}</small>
+                                        {% else %}
+                                            <small class="text-muted">N/A</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if update.changed_by %}
+                                            <small>{{ update.changed_by.get_full_name|default:update.changed_by.username }}</small>
+                                        {% else %}
+                                            <small class="text-muted">Sistema</small>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    No hay cambios de estado registrados aún.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

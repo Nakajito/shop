@@ -31,6 +31,7 @@ urlpatterns = [
         "admin/order/<int:order_id>/pdf/", views.admin_order_pdf, name="admin_order_pdf"
     ),
     path("detail/<int:order_id>/", views.order_detail, name="order_detail"),
+    path("detail/<int:order_id>/pdf/", views.order_pdf, name="order_pdf"),
     # Purchase history
     path("history/", views.order_history, name="order_history"),
     # Shipping addresses
@@ -46,5 +47,19 @@ urlpatterns = [
         "addresses/<int:address_id>/set-default/",
         views.address_set_default,
         name="address_set_default",
+    ),
+    # Tracking
+    path(
+        "detail/<int:order_id>/tracking/", views.order_tracking, name="order_tracking"
+    ),
+    path(
+        "detail/<int:order_id>/status-history/",
+        views.order_status_history,
+        name="order_status_history",
+    ),
+    path(
+        "detail/<int:order_id>/tracking-info/",
+        views.order_tracking_info,
+        name="order_tracking_info",
     ),
 ]

@@ -417,7 +417,7 @@ class OrderStatusUpdate(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name="status_updated",
+        related_name="status_updates",
         help_text="Order status changed",
     )
 

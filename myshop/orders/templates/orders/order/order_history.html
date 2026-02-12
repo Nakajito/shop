@@ -53,10 +53,16 @@
                                         <strong>${{ order.get_total }}</strong>
                                     </td>
                                     <td>
-                                        <a href="{% url 'orders:order_detail' order.id %}" 
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-eye"></i> See
-                                        </a>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="{% url 'orders:order_detail' order.id %}" 
+                                            class="btn btn-outline-primary" title="Ver detalles">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{% url 'orders:order_tracking' order.id %}" 
+                                            class="btn btn-outline-info" title="Seguimiento">
+                                                <i class="bi bi-pin-map"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             {% endfor %}

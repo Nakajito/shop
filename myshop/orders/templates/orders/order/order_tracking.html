@@ -1,0 +1,387 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #dee2e6;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 80px;
+        margin-bottom: 30px;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 60px;
+        height: 60px;
+        background: #fff;
+        border: 3px solid #dee2e6;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        z-index: 1;
+    }
+
+    .timeline-item.completed .timeline-marker {
+        background: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+
+    .timeline-item.current .timeline-marker {
+        background: #007bff;
+        border-color: #007bff;
+        color: white;
+        animation: pulse 2s infinite;
+    }
+
+    .timeline-item.pending .timeline-marker {
+        background: #e9ecef;
+        border-color: #dee2e6;
+        color: #6c757d;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+        }
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 3px solid #dee2e6;
+    }
+
+    .timeline-item.completed .timeline-content {
+        border-left-color: #28a745;
+    }
+
+    .timeline-item.current .timeline-content {
+        border-left-color: #007bff;
+        background: #e7f3ff;
+    }
+
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    .progress-step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+    }
+
+    .progress-step::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        right: -50%;
+        height: 2px;
+        background: #dee2e6;
+        z-index: -1;
+    }
+
+    .progress-step:last-child::after {
+        display: none;
+    }
+
+    .progress-step.completed::after {
+        background: #28a745;
+    }
+
+    .progress-step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e9ecef;
+        border: 2px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        color: #6c757d;
+    }
+
+    .progress-step.completed .progress-step-circle {
+        background: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+
+    .progress-step.current .progress-step-circle {
+        background: #007bff;
+        border-color: #007bff;
+        color: white;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="mb-4">
+        <a href="{% url 'orders:order_history' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a Mis Compras
+        </a>
+    </div>
+    
+    <!-- Estado General del Pedido -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Pedido #{{ order.id }}</h4>
+        </div>
+        
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <h6 class="text-muted">Fecha de Pedido</h6>
+                    <p class="mb-0">{{ order.created|date:"d/m/Y H:i" }}</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-muted">Estado Actual</h6>
+                    <p class="mb-0">
+                        <span class="badge" 
+                              style="background-color: {% if order.status == 'delivered' %}#28a745{% elif order.status == 'shipped' %}#007bff{% elif order.status == 'preparing' %}#17a2b8{% elif order.status == 'confirmed' %}#17a2b8{% elif order.status == 'cancelled' %}#dc3545{% else %}#ffc107{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-muted">Total</h6>
+                    <p class="mb-0"><strong>${{ order.get_total }}</strong></p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-muted">Estado de Pago</h6>
+                    <p class="mb-0">
+                        {% if order.paid %}
+                            <span class="badge bg-success">Pagado</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pendiente</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Progreso Visual -->
+    {% if not order.status == 'cancelled' %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Progreso de Entrega</h5>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="progress-steps">
+                    {% for step in timeline_steps %}
+                        <div class="progress-step {% if step.completed %}completed{% elif step.status == order.status %}current{% endif %}">
+                            <div class="progress-step-circle">
+                                {% if step.completed %}
+                                    <i class="bi bi-check"></i>
+                                {% elif step.status == order.status %}
+                                    <i class="bi bi-hourglass-split"></i>
+                                {% else %}
+                                    {{ forloop.counter }}
+                                {% endif %}
+                            </div>
+                            <p class="mb-0 small">{{ step.step }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                {% if order.estimated_delivery_date %}
+                    <div class="alert alert-info mt-3 mb-0">
+                        <i class="bi bi-calendar-check"></i>
+                        <strong>Entrega Estimada:</strong> {{ order.estimated_delivery_date|date:"d / F / Y" }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Timeline de Cambios de Estado -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Historial de Cambios</h5>
+            {% if status_updates.count > 0 %}
+                <a href="{% url 'orders:order_status_history' order.id %}" class="btn btn-sm btn-outline-primary">
+                    Ver Detalles
+                </a>
+            {% endif %}
+        </div>
+        
+        <div class="card-body">
+            {% if status_updates %}
+                <div class="timeline">
+                    {% for update in status_updates %}
+                        <div class="timeline-item {% if update.new_status == order.status %}current{% else %}completed{% endif %}">
+                            <div class="timeline-marker">
+                                {% if update.new_status == 'confirmed' %}
+                                    <i class="bi bi-check-circle"></i>
+                                {% elif update.new_status == 'preparing' %}
+                                    <i class="bi bi-box"></i>
+                                {% elif update.new_status == 'shipped' %}
+                                    <i class="bi bi-truck"></i>
+                                {% elif update.new_status == 'delivered' %}
+                                    <i class="bi bi-check-circle"></i>
+                                {% elif update.new_status == 'cancelled' %}
+                                    <i class="bi bi-x-circle"></i>
+                                {% else %}
+                                    <i class="bi bi-info-circle"></i>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="timeline-content">
+                                <h6 class="mb-1">
+                                    {{ update.get_new_status_display }}
+                                </h6>
+                                <p class="mb-1 small text-muted">
+                                    {{ update.created_at|date:"d/m/Y H:i" }}
+                                </p>
+                                {% if update.reason %}
+                                    <p class="mb-0 small">
+                                        <strong>Motivo:</strong> {{ update.reason }}
+                                    </p>
+                                {% endif %}
+                                {% if update.changed_by %}
+                                    <p class="mb-0 small text-muted">
+                                        Por: {{ update.changed_by.get_full_name|default:update.changed_by.username }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    No hay cambios de estado registrados aún.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Información de Envío -->
+    {% if tracking %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Información de Envío</h5>
+                <a href="{% url 'orders:order_tracking_info' order.id %}" class="btn btn-sm btn-outline-primary">
+                    Ver Detalles
+                </a>
+            </div>
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted">Número de Guía</h6>
+                        <p><code>{{ tracking.tracking_number }}</code></p>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                onclick="copyToClipboard('{{ tracking.tracking_number }}')">
+                            <i class="bi bi-clipboard"></i> Copiar
+                        </button>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted">Paquetería</h6>
+                        <p>{{ tracking.get_carrier_display }}</p>
+                    </div>
+                </div>
+                
+                {% if tracking.tracking_url %}
+                    <a href="{{ tracking.tracking_url }}" target="_blank" class="btn btn-primary mb-3">
+                        <i class="bi bi-box-arrow-up-right"></i> Rastrear Paquete en {{ tracking.get_carrier_display }}
+                    </a>
+                {% endif %}
+                
+                <div class="row">
+                    {% if tracking.last_location %}
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">Última Ubicación</h6>
+                            <p>{{ tracking.last_location }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if tracking.estimated_delivery_date %}
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted">Entrega Estimada</h6>
+                            <p>{{ tracking.estimated_delivery_date|date:"d/m/Y" }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                {% if tracking.actual_delivery_date %}
+                    <div class="alert alert-success mb-0">
+                        <i class="bi bi-check-circle"></i>
+                        <strong>Entregado:</strong> {{ tracking.actual_delivery_date|date:"d / F / Y" }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Acciones -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Acciones</h5>
+        </div>
+        
+        <div class="card-body">
+            <div class="btn-group w-100" role="group">
+                <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-outline-primary">
+                    <i class="bi bi-eye"></i> Ver Detalle Completo
+                </a>
+                
+                <a href="{% url 'orders:order_pdf' order.id %}" class="btn btn-outline-primary">
+                    <i class="bi bi-file-pdf"></i> Descargar Recibo
+                </a>
+                
+                {% comment %} <a href="{% url 'support:ticket_create_for_order' order.id %}" class="btn btn-outline-warning"> {% endcomment %}
+                <a href="#" class="btn btn-outline-warning">
+                    <i class="bi bi-chat-left-text"></i> Reportar Problema
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Número de guía copiado al portapapeles');
+        });
+    }
+</script>
+{% endblock %}
