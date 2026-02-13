@@ -178,23 +178,29 @@
                 </a>
             {% endif %}
             
+            <!-- Cancelar pedido - Solo si puede cancelarse -->
             {% if order.can_be_cancelled %}
-                {% comment %} <a href="{% url 'orders:cancel_order' order.id %}" class="btn btn-danger w-100 mb-2"> {% endcomment %}
-                <a href="#" class="btn btn-danger w-100 mb-2">
+                <a href="{% url 'orders:cancel_order' order.id %}" class="btn btn-danger w-100 mb-2">
                     <i class="bi bi-x-circle"></i> Cancelar Pedido
                 </a>
             {% endif %}
             
+            <!-- Reordenar - Solo si puede reordenarse -->
             {% if order.can_be_reordered %}
-                <a href="{% url 'orders:reorder' order.id %}" class="btn btn-success w-100 mb-2">
-                    <i class="bi bi-arrow-repeat"></i> Reordenar
-                </a>
+                <form action="{% url 'orders:reorder' order.id %}" method="post" class="mb-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-arrow-repeat"></i> Reordenar
+                    </button>
+                </form>
             {% endif %}
             
+            <!-- Descargar recibo -->
             <a href="{% url 'orders:order_pdf' order.id %}" class="btn btn-outline-primary w-100 mb-2">
                 <i class="bi bi-file-pdf"></i> Descargar Recibo
             </a>
             
+            <!-- Reportar problema -->
             {% comment %} <a href="{% url 'support:ticket_create_for_order' order.id %}" class="btn btn-outline-secondary w-100"> {% endcomment %}
             <a href="#" class="btn btn-outline-secondary w-100">
                 <i class="bi bi-chat-left-text"></i> Reportar Problema

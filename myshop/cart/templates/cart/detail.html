@@ -7,6 +7,17 @@
 
 {% block content %}
   <h1>Your shopping cart</h1>
+
+
+{% if request.session.reordered_from %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i>
+        <strong>Pedido reordenado:</strong> 
+        Los productos del pedido #{{ request.session.reordered_from }} han sido agregados al carrito.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+{% endif %}
+
   <table class="cart">
     <thead>
       <tr>

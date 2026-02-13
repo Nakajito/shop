@@ -62,4 +62,6 @@ urlpatterns = [
         views.order_tracking_info,
         name="order_tracking_info",
     ),
+    path("detail/<int:order_id>/reorder/", views.reorder, name="reorder"),
+    path("detail/<int:order_id>/cancel/", views.cancel_order, name="cancel_order"),
 ]

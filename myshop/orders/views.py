@@ -474,3 +474,156 @@ def order_tracking_info(request, order_id):
     }
 
     return render(request, "orders/order/order_tracking_info.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["POST"])
+def reorder(request, order_id):
+    """
+    Vista para reordenar una compra anterior.
+    Copia todos los items de una orden anterior al carrito.
+    POST: Agrega items al carrito
+    """
+
+    try:
+        order = get_user_order(request, order_id)
+
+        # Validar que la orden pueda reordenarse
+        if not order.can_be_reordered():
+            messages.error(
+                request, "Solo puedes reordenar pedidos entregados o cancelados."
+            )
+            return redirect("orders:order_detail", order_id=order_id)
+
+        # Obtener carrito
+        from cart.cart import Cart
+
+        cart = Cart(request)
+
+        # Verificar disponibilidad de productos y agregar al carrito
+        items_added = 0
+        for item in order.items.all():
+            # Verificar que el producto aún existe y está disponible
+            if item.product and item.product.available:
+                # Agregar al carrito
+                cart.add(
+                    product=item.product,
+                    quantity=item.quantity,
+                    override_quantity=False,
+                )
+                items_added += 1
+            else:
+                messages.warning(
+                    request,
+                    f'Producto "{item.product.name}" no está disponible actualmente.',
+                )
+
+        if items_added > 0:
+            messages.success(
+                request,
+                f"{items_added} producto(s) agregado(s) al carrito. "
+                f"Total en carrito: {len(cart)} artículos.",
+            )
+            return redirect("cart:cart_detail")
+        else:
+            messages.error(request, "No hay productos disponibles para reordenar.")
+            return redirect("orders:order_detail", order_id=order_id)
+
+        request.session["reordered_from"] = order.id
+
+    except Exception as e:
+        logger.error(f"Error reordenando: {str(e)}")
+        messages.error(request, f"Error al reordenar: {str(e)}")
+        return redirect("orders:order_history")
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET", "POST"])
+def cancel_order(request, order_id):
+    """
+    View to cancel an order.
+    Only allows cancellation if the status is pending or confirmed.
+    GET: Shows confirmation.
+    POST: Cancels the order and issues a refund if it was paid.
+    """
+
+    try:
+        order = get_user_order(request, order_id)
+
+        if request.method == "POST":
+            # Confirm that it can be canceled
+            if not order.can_be_cancelled():
+                messages.error(
+                    request,
+                    "This order cannot be canceled. "
+                    "Only pending or confirmed orders can be canceled.",
+                )
+                return redirect("orders:order_detail", order_id=order_id)
+
+            # Obtain reason for cancellation (optional)
+            reason = request.POST.get("reason", "User requested cancellation")
+
+            with transaction.atomic():
+                # Change status to canceled
+                order.change_status("cancelled", changed_by=request.user, reason=reason)
+
+                # Si fue pagado, procesar reembolso con Stripe
+                if order.paid and order.stripe_id:
+                    try:
+                        import stripe
+                        from django.conf import settings
+
+                        stripe.api_key = settings.STRIPE_SECRET_KEY
+
+                        # Revertir el PaymentIntent
+                        intent = stripe.PaymentIntent.retrieve(order.stripe_id)
+
+                        # Si el status es succeeded, crear un refund
+                        if intent.status == "succeeded":
+                            refund = stripe.Refund.create(
+                                payment_intent=order.stripe_id,
+                                reason="requested_by_customer",
+                            )
+
+                            logger.info(
+                                f"Reembolso procesado para orden {order.id}: "
+                                f"Stripe Refund ID {refund.id}"
+                            )
+
+                            messages.success(
+                                request,
+                                "Pedido cancelado. Tu reembolso será procesado "
+                                "en 5-10 días hábiles.",
+                            )
+                        else:
+                            messages.warning(
+                                request,
+                                "Pedido cancelado, pero no se pudo procesar "
+                                "el reembolso automáticamente. "
+                                "Por favor contacta a soporte.",
+                            )
+
+                    except stripe.error.StripeError as e:
+                        logger.error(f"Error al procesar reembolso: {str(e)}")
+                        messages.warning(
+                            request,
+                            "Pedido cancelado, pero hubo un error al "
+                            "procesar el reembolso. Nos contactaremos pronto.",
+                        )
+                else:
+                    messages.success(request, "Pedido cancelado exitosamente.")
+
+            return redirect("orders:order_history")
+
+        else:
+            # GET - Mostrar confirmación
+            context = {
+                "order": order,
+                "page_title": f"Cancelar Pedido #{order.id}",
+            }
+            return render(request, "orders/order/cancel_order.html", context)
+
+    except Exception as e:
+        logger.error(f"Error cancelando pedido: {str(e)}")
+        messages.error(request, f"Error: {str(e)}")
+        return redirect("orders:order_history")
