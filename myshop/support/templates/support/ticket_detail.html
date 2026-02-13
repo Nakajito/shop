@@ -1,0 +1,217 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Ticket #{{ ticket.id }} - {{ ticket.subject }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <a href="{% url 'support:ticket_list' %}" class="btn btn-sm btn-outline-secondary mb-3">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+            <h1 class="mb-2">{{ ticket.subject }}</h1>
+            <p class="text-muted">Ticket #{{ ticket.id }} creado el {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="col-md-4 text-end">
+            {% if ticket.status != 'closed' %}
+                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#closeModal">
+                    <i class="bi bi-x-circle"></i> Cerrar Ticket
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Panel Lateral - Información del Ticket -->
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title text-muted">ESTADO</h6>
+                    <p class="mb-3">
+                        <span class="badge bg-{{ ticket.get_status_color }} fs-6">
+                            {{ ticket.get_status_display }}
+                        </span>
+                    </p>
+
+                    <h6 class="card-title text-muted">TIPO</h6>
+                    <p class="mb-3">{{ ticket.get_issue_type_display }}</p>
+
+                    <h6 class="card-title text-muted">PRIORIDAD</h6>
+                    <p class="mb-3">
+                        {% if ticket.priority == 'urgent' %}
+                            <span class="badge bg-danger">{{ ticket.get_priority_display }}</span>
+                        {% elif ticket.priority == 'high' %}
+                            <span class="badge bg-warning">{{ ticket.get_priority_display }}</span>
+                        {% elif ticket.priority == 'medium' %}
+                            <span class="badge bg-info">{{ ticket.get_priority_display }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ ticket.get_priority_display }}</span>
+                        {% endif %}
+                    </p>
+
+                    {% if ticket.order %}
+                        <h6 class="card-title text-muted">PEDIDO</h6>
+                        <p class="mb-3">
+                            <a href="{% url 'orders:order_detail' ticket.order.id %}" class="text-decoration-none">
+                                #{{ ticket.order.id }}
+                            </a>
+                        </p>
+                    {% endif %}
+
+                    {% if ticket.assigned_to %}
+                        <h6 class="card-title text-muted">ASIGNADO A</h6>
+                        <p class="mb-0">{{ ticket.assigned_to.get_full_name|default:ticket.assigned_to.email }}</p>
+                    {% endif %}
+
+                    {% if ticket.resolved_at %}
+                        <hr>
+                        <h6 class="card-title text-muted">RESUELTO EL</h6>
+                        <p class="small mb-0">{{ ticket.resolved_at|date:"d/m/Y H:i" }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Principal - Conversación -->
+        <div class="col-md-9">
+            <!-- Mensaje Original -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="mb-1">{{ ticket.user.get_full_name|default:ticket.user.email }}</h6>
+                            <small class="text-muted">{{ ticket.created_at|date:"d/m/Y H:i" }}</small>
+                        </div>
+                        <span class="badge bg-light text-dark">Cliente</span>
+                    </div>
+                    <p class="mb-0 lh-lg">{{ ticket.message|linebreaks }}</p>
+                </div>
+            </div>
+
+            <!-- Hilo de Mensajes -->
+            {% if ticket.messages.all %}
+                <h5 class="mb-3">Conversación</h5>
+
+                <div class="message-thread mb-4">
+                    {% for message in ticket.messages.all %}
+                        <div class="card border-0 shadow-sm mb-3 {% if message.is_internal %}bg-light{% endif %}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            {% if message.sender %}
+                                                {{ message.sender.get_full_name|default:message.sender.email }}
+                                            {% else %}
+                                                <span class="text-muted">Usuario Eliminado</span>
+                                            {% endif %}
+                                        </h6>
+                                        <small class="text-muted">{{ message.created_at|date:"d/m/Y H:i" }}</small>
+                                    </div>
+                                    <div>
+                                        {% if message.sender %}
+                                            {% if message.sender.is_staff %}
+                                                <span class="badge bg-primary">Soporte</span>
+                                            {% else %}
+                                                <span class="badge bg-light text-dark">Cliente</span>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if message.is_internal %}
+                                            <span class="badge bg-warning">Interno</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <p class="mb-0 lh-lg">{{ message.message|linebreaks }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Formulario de Respuesta -->
+            {% if ticket.status != 'closed' %}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Agregar Respuesta</h5>
+                        <form method="post" action="{% url 'support:ticket_reply' ticket.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.message }}
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send"></i> Enviar Respuesta
+                                </button>
+                                {% if ticket.status == 'waiting_customer' %}
+                                    <small class="text-muted align-self-center">
+                                        El estado cambiará a "En Progreso"
+                                    </small>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    Este ticket está cerrado. No puedes agregar más respuestas.
+                    {% if not ticket.messages.all %}
+                        <a href="{% url 'support:ticket_create' %}" class="alert-link">Crear un nuevo ticket</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Cerrar Ticket -->
+<div class="modal fade" id="closeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title">Cerrar Ticket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'support:ticket_close' ticket.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p class="mb-3">¿Estás seguro de que deseas cerrar este ticket?</p>
+                    <p class="text-muted small">
+                        Una vez cerrado, no podrás agregar más respuestas. Siempre puedes crear un nuevo ticket si necesitas continuar.
+                    </p>
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-x-circle"></i> Cerrar Ticket
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .message-thread {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .message-thread .card {
+        animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

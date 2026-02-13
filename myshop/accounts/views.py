@@ -191,3 +191,10 @@ def change_user_type(request):
         messages.error(request, "Invalid user type.")
 
     return redirect("accounts:profile")
+
+@require_http_methods(["GET"])
+def google_login(request):
+    """
+    Redirect to Google OAuth2 login endpoint provided by allauth.
+    """
+    return redirect("/accounts/social/google/login/")

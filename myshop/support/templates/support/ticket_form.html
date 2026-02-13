@@ -1,0 +1,147 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Crear Ticket de Soporte{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <h1 class="card-title mb-1">Crear Ticket de Soporte</h1>
+                    <p class="text-muted mb-4">Describe tu problema detalladamente para que podamos ayudarte mejor</p>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Pedido Relacionado (si aplica) -->
+                        {% if not order %}
+                            <div class="mb-3">
+                                <label for="id_order" class="form-label">Pedido Relacionado (Opcional)</label>
+                                {{ form.order }}
+                                {% if form.order.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.order.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info mb-3">
+                                <strong>Pedido relacionado:</strong> #{{ order.id }}
+                                <input type="hidden" name="order" value="{{ order.id }}">
+                            </div>
+                        {% endif %}
+
+                        <!-- Tipo de Problema -->
+                        <div class="mb-3">
+                            <label for="id_issue_type" class="form-label">Tipo de Problema <span class="text-danger">*</span></label>
+                            {{ form.issue_type }}
+                            {% if form.issue_type.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.issue_type.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Asunto -->
+                        <div class="mb-3">
+                            <label for="id_subject" class="form-label">Asunto <span class="text-danger">*</span></label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.subject.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Mensaje -->
+                        <div class="mb-3">
+                            <label for="id_message" class="form-label">Descripción <span class="text-danger">*</span></label>
+                            {{ form.message }}
+                            <small class="form-text text-muted">Mínimo 10 caracteres</small>
+                            {% if form.message.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.message.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Prioridad -->
+                        <div class="mb-3">
+                            <label for="id_priority" class="form-label">Prioridad <span class="text-danger">*</span></label>
+                            {{ form.priority }}
+                            {% if form.priority.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.priority.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Crear Ticket
+                            </button>
+                            <a href="{% url 'support:ticket_list' %}" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Información de Ayuda -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-lightbulb"></i> Consejos para reportar un problema
+                    </h5>
+                    <ul class="small mb-0">
+                        <li>Sé lo más específico posible</li>
+                        <li>Incluye el número de pedido si está relacionado</li>
+                        <li>Describe los pasos que seguiste cuando ocurrió el problema</li>
+                        <li>Responde en el menor tiempo posible para que podamos resolver</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .priority-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+    }
+
+    .priority-option {
+        cursor: pointer;
+    }
+
+    .priority-option input[type="radio"] {
+        display: none;
+    }
+
+    .priority-label {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border: 2px solid #dee2e6;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .priority-option input[type="radio"]:checked + .priority-label {
+        border-color: #0d6efd;
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .priority-option:hover .priority-label {
+        border-color: #0d6efd;
+    }
+</style>
+{% endblock %}
