@@ -8,6 +8,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.db import models, transaction
 import weasyprint
 import logging
 
@@ -363,23 +364,82 @@ def address_set_default(request, address_id):
 @require_http_methods(["GET"])
 def order_history(request):
     """
-    View to see the user's purchase history.
-    GET: Shows all the user's orders.
+    Vista mejorada para ver el historial de compras del usuario.
+    Incluye filtros, búsqueda y estadísticas.
+    GET: Muestra todas las órdenes del usuario con opciones de filtro.
     """
 
+    # Obtener todas las órdenes del usuario
     orders = request.user.orders.all().order_by("-created")
 
-    # Paginación opcional
+    # Filtros
+    status_filter = request.GET.get("status")
+    payment_filter = request.GET.get("payment")
+    search_query = request.GET.get("q")
+
+    # Aplicar filtro de estado
+    if status_filter:
+        orders = orders.filter(status=status_filter)
+
+    # Aplicar filtro de pago
+    if payment_filter:
+        if payment_filter == "paid":
+            orders = orders.filter(paid=True)
+        elif payment_filter == "unpaid":
+            orders = orders.filter(paid=False)
+
+    # Aplicar búsqueda por ID o email
+    if search_query:
+        orders = orders.filter(
+            models.Q(id__icontains=search_query)
+            | models.Q(email__icontains=search_query)
+        )
+
+    # Paginación
     from django.core.paginator import Paginator
 
     paginator = Paginator(orders, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    # Estadísticas
+    all_orders = request.user.orders.all()
+    stats = {
+        "total_orders": all_orders.count(),
+        "total_spent": sum(o.get_total() for o in all_orders),
+        "delivered_orders": all_orders.filter(status="delivered").count(),
+        "pending_orders": all_orders.filter(
+            status__in=["pending", "confirmed"]
+        ).count(),
+        "cancelled_orders": all_orders.filter(status="cancelled").count(),
+    }
+
+    # Opciones de filtro para dropdown
+    status_choices = [
+        ("", "Todos los estados"),
+        ("pending", "Pendiente"),
+        ("confirmed", "Confirmado"),
+        ("preparing", "Preparando"),
+        ("shipped", "Enviado"),
+        ("delivered", "Entregado"),
+        ("cancelled", "Cancelado"),
+    ]
+
+    payment_choices = [
+        ("", "Todos los pagos"),
+        ("paid", "Pagado"),
+        ("unpaid", "No pagado"),
+    ]
+
     context = {
         "orders": page_obj,
-        "page_title": "My Purchases",
-        "total_orders": orders.count(),
+        "stats": stats,
+        "status_choices": status_choices,
+        "payment_choices": payment_choices,
+        "current_status": status_filter,
+        "current_payment": payment_filter,
+        "search_query": search_query,
+        "page_title": "Mis Compras",
     }
 
     return render(request, "orders/order/order_history.html", context)
