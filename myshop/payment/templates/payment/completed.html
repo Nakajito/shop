@@ -1,6 +1,64 @@
 {% extends "shop/base.html" %}
-{% block title %}Payment successful{% endblock %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans "Payment Successful" %} - One Synk
+{% endblock %}
+
 {% block content %}
-  <h1>Your payment was successful</h1>
-  <p>Your payment has been processed successfully.</p>
+<div class="container my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <div class="mb-4">
+                <span class="display-1 text-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                </span>
+            </div>
+            
+            <h1 class="fw-bold mb-3">{% trans "Payment Received!" %}</h1>
+            <p class="lead text-secondary mb-4">
+                {% trans "Your transaction was processed successfully. Thank you for choosing One Synk." %}
+            </p>
+
+            <div class="card border-0 bg-light shadow-sm mb-5 text-start">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-dark text-uppercase small mb-3">
+                        <i class="bi bi-info-circle-fill me-2 text-primary"></i>{% trans "What's next?" %}
+                    </h6>
+                    <div class="d-flex mb-3">
+                        <i class="bi bi-envelope text-primary me-3 fs-5"></i>
+                        <p class="small text-muted mb-0">
+                            {% trans "You will receive an email confirmation with your order details shortly." %}
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <i class="bi bi-file-earmark-pdf text-primary me-3 fs-5"></i>
+                        <p class="small text-muted mb-0">
+                            {% trans "A PDF invoice has been generated and sent to your registered email address." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 justify-content-center">
+                <div class="col-sm-6">
+                    <a href="{% url 'orders:order_history' %}" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm">
+                        <i class="bi bi-bag-check me-2"></i> {% trans "View My Orders" %}
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <a href="{% url 'shop:product_list' %}" class="btn btn-outline-secondary btn-lg w-100">
+                        {% trans "Continue Shopping" %}
+                    </a>
+                </div>
+            </div>
+
+            <p class="mt-5 text-muted small">
+                {% trans "Having trouble?" %} 
+                <a href="#" class="text-primary text-decoration-none fw-bold">{% trans "Contact Support" %}</a>
+            </p>
+        </div>
+    </div>
+</div>
 {% endblock %}

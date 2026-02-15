@@ -2,53 +2,30 @@ from django.urls import path
 from . import views
 
 """
-URL configuration for the 'orders' application.
+URL Configuration for the 'orders' application.
 
-This module defines the URL patterns for order management, including:
-- Public-facing order creation (checkout).
-- Admin-specific views for detailed order inspection and PDF generation.
+This module handles the routing for:
+- Checkout & Reordering logic.
+- User Order History & Detailed Tracking.
+- Shipping Address Management (CRUD).
+- Admin-specific extensions (PDF generation and extended details).
 
 Namespace:
     app_name = "orders"
-
-Available patterns:
-    - order_create: Public checkout page processing.
-    - admin_order_detail: Custom admin view to see order details.
-    - admin_order_pdf: Custom admin view to download the invoice PDF.
 """
 
 app_name = "orders"
 
 urlpatterns = [
-    # orders
+    # --- Checkout & Core Actions ---
     path("create/", views.order_create, name="order_create"),
-    path(
-        "admin/order/<int:order_id>/",
-        views.admin_order_detail,
-        name="admin_order_detail",
-    ),
-    path(
-        "admin/order/<int:order_id>/pdf/", views.admin_order_pdf, name="admin_order_pdf"
-    ),
+    path("reorder/<int:order_id>/", views.reorder, name="reorder"),
+    path("cancel/<int:order_id>/", views.cancel_order, name="cancel_order"),
+    # --- User Order History & Details ---
+    path("history/", views.order_history, name="order_history"),
     path("detail/<int:order_id>/", views.order_detail, name="order_detail"),
     path("detail/<int:order_id>/pdf/", views.order_pdf, name="order_pdf"),
-    # Purchase history
-    path("history/", views.order_history, name="order_history"),
-    # Shipping addresses
-    path("addresses/", views.address_list, name="address_list"),
-    path("addresses/create/", views.address_create, name="address_create"),
-    path("addresses/<int:address_id>/edit/", views.address_edit, name="address_edit"),
-    path(
-        "addresses/<int:address_id>/delete/",
-        views.address_delete,
-        name="address_delete",
-    ),
-    path(
-        "addresses/<int:address_id>/set-default/",
-        views.address_set_default,
-        name="address_set_default",
-    ),
-    # Tracking
+    # --- Tracking & Logistics ---
     path(
         "detail/<int:order_id>/tracking/", views.order_tracking, name="order_tracking"
     ),
@@ -62,6 +39,28 @@ urlpatterns = [
         views.order_tracking_info,
         name="order_tracking_info",
     ),
-    path("detail/<int:order_id>/reorder/", views.reorder, name="reorder"),
-    path("detail/<int:order_id>/cancel/", views.cancel_order, name="cancel_order"),
+    # --- Shipping Address Management (CRUD) ---
+    path("addresses/", views.address_list, name="address_list"),
+    path("addresses/create/", views.address_create, name="address_create"),
+    path("addresses/<int:address_id>/edit/", views.address_edit, name="address_edit"),
+    path(
+        "addresses/<int:address_id>/delete/",
+        views.address_delete,
+        name="address_delete",
+    ),
+    path(
+        "addresses/<int:address_id>/set-default/",
+        views.address_set_default,
+        name="address_set_default",
+    ),
+    # --- Admin Custom Extensions ---
+    # These views are typically called from the Django Admin interface
+    path(
+        "admin/order/<int:order_id>/",
+        views.admin_order_detail,
+        name="admin_order_detail",
+    ),
+    path(
+        "admin/order/<int:order_id>/pdf/", views.admin_order_pdf, name="admin_order_pdf"
+    ),
 ]

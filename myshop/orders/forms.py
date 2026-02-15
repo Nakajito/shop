@@ -1,38 +1,45 @@
 from django import forms
-from .models import Order
-from orders.models import Address
+from django.utils.translation import gettext_lazy as _
+from .models import Order, Address
 
 
 class OrderCreateForm(forms.ModelForm):
     """
-    Form for creating a new Order.
+    Form for creating a new Order during checkout.
 
-    This ModelForm is used in the checkout view. It exposes the essential
-    customer details required to process an order (name, email, address)
-    while excluding internal fields like 'paid', 'created', or 'stripe_id'.
+    This ModelForm handles the essential customer details required to process
+    an order. It includes Bootstrap styling for immediate frontend integration.
     """
 
     class Meta:
         model = Order
-        fields = [
-            "first_name",
-            "last_name",
-            "email",
-            "address",
-            "postal_code",
-            "city",
-        ]
+        fields = ["first_name", "last_name", "email", "address", "postal_code", "city"]
+
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "address": forms.TextInput(attrs={"class": "form-control"}),
+            "postal_code": forms.TextInput(attrs={"class": "form-control"}),
+            "city": forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+        labels = {
+            "first_name": _("First Name"),
+            "last_name": _("Last Name"),
+            "email": _("Email Address"),
+            "address": _("Shipping Address"),
+            "postal_code": _("Postal Code"),
+            "city": _("City"),
+        }
 
 
 class AddressForm(forms.ModelForm):
     """
     Form to create or edit shipping addresses.
 
-    This form handles user input for the Address model. It excludes the 'user'
-    field because that is securely assigned in the view based on the currently
-    logged-in user.
-
-    It uses Bootstrap-ready widgets for immediate frontend integration.
+    This form handles user input for the Address model, excluding the 'user'
+    field which is assigned in the view. It uses Bootstrap-ready widgets.
     """
 
     class Meta:
@@ -52,44 +59,51 @@ class AddressForm(forms.ModelForm):
 
         widgets = {
             "recipient_name": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Recipient's name"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": _("Recipient's full name"),
+                }
             ),
             "address_line1": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Street, number, and apartment",
+                    "placeholder": _("Street address, company name, c/o"),
                 }
             ),
             "address_line2": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Additional information (optional)",
+                    "placeholder": _("Apartment, suite, unit, building, floor, etc."),
                 }
             ),
             "city": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "City"}
+                attrs={"class": "form-control", "placeholder": _("City")}
             ),
-            "state": forms.Select(attrs={"class": "form-control"}),
+            # 'form-select' is the correct class for dropdowns in Bootstrap 5
+            "state": forms.Select(attrs={"class": "form-select"}),
             "postal_code": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Postal Code"}
+                attrs={"class": "form-control", "placeholder": _("ZIP / Postal Code")}
             ),
-            "country": forms.Select(attrs={"class": "form-control"}),
+            "country": forms.Select(attrs={"class": "form-select"}),
             "phone": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "5547130542"}
+                attrs={
+                    "class": "form-control",
+                    "placeholder": _("Phone number (for delivery updates)"),
+                }
             ),
-            "address_type": forms.Select(attrs={"class": "form-control"}),
+            "address_type": forms.Select(attrs={"class": "form-select"}),
             "is_default": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
         labels = {
-            "recipient_name": "Recipient's name",
-            "address_line1": "Main address",
-            "address_line2": "Secondary address",
-            "city": "City",
-            "state": "State/Province",
-            "postal_code": "Postal code",
-            "country": "Country",
-            "phone": "Contact telephone number",
-            "address_type": "Address type",
-            "is_default": "Use as default address",
+            "recipient_name": _("Recipient's Name"),
+            "address_line1": _("Address Line 1"),
+            "address_line2": _("Address Line 2 (Optional)"),
+            "city": _("City"),
+            "state": _("State / Province / Region"),
+            "postal_code": _("Postal Code"),
+            "country": _("Country"),
+            "phone": _("Phone Number"),
+            "address_type": _("Address Type"),
+            "is_default": _("Set as default address"),
         }

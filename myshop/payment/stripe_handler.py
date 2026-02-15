@@ -1,151 +1,139 @@
 import stripe
+import logging
 from django.conf import settings
 from django.utils.translation import gettext as _
 from payment.models import PaymentMethod
 from accounts.models import CustomUser
 from decouple import config
 
-# Configure Stripe with your secret key
-stripe.api_key = config("STRIPE_PUBLISHABLE_KEY")
+# Initialize logger
+logger = logging.getLogger(__name__)
+
+# SECURITY FIX: Use STRIPE_SECRET_KEY for server-side API calls
+stripe.api_key = config("STRIPE_SECRET_KEY")
 
 
 class StripeCustomerHandler:
-    """Manage the creation and updating of clients in Stripe.
-    Link users with Stripe clients.
+    """
+    Manages Stripe Customer objects and links them to CustomUser instances.
     """
 
     @staticmethod
     def create_or_get_customer(user: CustomUser):
-        """Creates a customer in Stripe if it does not exist, or returns the existing one.
-
-        Args:
-            user: CustomUser instance
+        """
+        Retrieves an existing Stripe customer ID or creates a new one.
 
         Returns:
-            Dictionary with {‘id’: stripe_customer_id, ‘created’: bool}
-
-        Args:
-            user (CustomUser): _description_
+            dict: {'id': str, 'created': bool}
         """
-
         try:
-            # If the user already has a stripe_customer_id, return it.
-            if hasattr(user, "stripe_customer_id") and user.stripe_customer_id:
+            # Return existing ID if already present on the user model
+            if user.stripe_customer_id:
                 return {"id": user.stripe_customer_id, "created": False}
 
             # Create a new customer in Stripe
             customer = stripe.Customer.create(
                 email=user.email,
-                name=f"{user.first_name} {user.last_name}".strip(),
-                metadata={"user_id": user.id, "username": user.username},
+                name=user.get_full_name() or user.username,
+                metadata={
+                    "user_id": user.id,
+                    "env": "production" if not settings.DEBUG else "development",
+                },
             )
 
-            # Save stripe_customer_id in the user
+            # Sync local database
             user.stripe_customer_id = customer.id
-            user.save()
+            user.save(update_fields=["stripe_customer_id"])
 
+            logger.info(f"Created Stripe customer for User {user.id}: {customer.id}")
             return {"id": customer.id, "created": True}
-        except stripe.error.CardError as e:
-            raise Exception(f"Card error: {e.user_message}")
-        except stripe.error.RateLimitError as e:
-            raise Exception("Too many requests. Please try again later.")
-        except stripe.error.InvalidRequestError as e:
-            raise Exception(f"Invalid parameters: {str(e)}")
-        except stripe.error.AuthenticationError:
-            raise Exception("Authentication error")
-        except stripe.error.APIConnectionError:
-            raise Exception("Connection error")
+
+        except stripe.error.StripeError as e:
+            logger.error(f"Stripe Customer Error for User {user.id}: {str(e)}")
+            raise Exception(
+                _("Could not verify customer identity with payment provider.")
+            )
 
 
 class StripePaymentMethodHandler:
-    """Manage payment methods (cards) in Stripe"""
+    """
+    Handles logic for attaching, detaching, and defaulting cards via Stripe.
+    """
 
     @staticmethod
     def attach_payment_method(user: CustomUser, payment_method_id: str):
-        """Links a payment method to a Stripe customer.
-
-        Args:
-            user: CustomUser instance
-            payment_method_id: Stripe payment method ID (pm_xxxxx)
-
-        Returns:
-            PaymentMethod object created in DB
-
         """
-
+        Links a Stripe PaymentMethod (pm_...) to a Customer and saves it locally.
+        """
         try:
-            # Ensure that the user has a client in Stripe
+            # 1. Ensure user has a Stripe Customer profile
             stripe_customer = StripeCustomerHandler.create_or_get_customer(user)
-            stripe_customer_id = stripe_customer["id"]
+            customer_id = stripe_customer["id"]
 
-            # Get details of Stripe's payment method
-            payment_method = stripe.PaymentMethod.retrieve(payment_method_id)
+            # 2. Retrieve method details from Stripe to verify validity
+            stripe_pm = stripe.PaymentMethod.retrieve(payment_method_id)
 
-            # Link card to customer
-            stripe.PaymentMethod.attach(payment_method_id, customer=stripe_customer_id)
+            # 3. Attach to customer (if not already attached)
+            if not stripe_pm.customer:
+                stripe.PaymentMethod.attach(payment_method_id, customer=customer_id)
 
-            # Extract information from the card
-            card = payment_method.card
-            has_payment_methods = PaymentMethod.objects.filter(user=user).exists()
+            # 4. Extract card metadata
+            card = stripe_pm.card
+            # Default logic: if it's the first active card, make it default
+            is_first = not PaymentMethod.objects.filter(
+                user=user, is_active=True
+            ).exists()
 
-            # Create PaymentMethod in our database
-            db_payment_method = PaymentMethod.objects.create(
+            # 5. Create local record
+            db_method = PaymentMethod.objects.create(
                 user=user,
                 stripe_payment_method_id=payment_method_id,
                 card_type=card.brand,
                 last_four_digits=card.last4,
-                card_holder_name=payment_method.billing_details.name
-                or user.get_full_name(),
+                card_holder_name=stripe_pm.billing_details.name or user.get_full_name(),
                 exp_month=card.exp_month,
                 exp_year=card.exp_year,
-                is_default=not has_payment_methods,
+                is_default=is_first,
             )
 
-            return db_payment_method
+            logger.info(f"Attached PM {payment_method_id} to User {user.id}")
+            return db_method
 
         except stripe.error.CardError as e:
-            raise Exception(f"Card error: {e.user_message}")
-        except stripe.error.InvalidRequestError as e:
-            raise Exception(f"Invalid payment method: {str(e)}")
+            raise Exception(e.user_message)
+        except stripe.error.StripeError as e:
+            logger.error(f"Stripe PM Error: {str(e)}")
+            raise Exception(_("Failed to link payment method. Please try again."))
 
     @staticmethod
     def detach_payment_method(payment_method_id: str):
         """
-        Disconnect a payment method from Stripe.
-
-        Args:
-            payment_method_id: Stripe payment method ID
+        Safely disconnects a card from Stripe.
         """
         try:
             stripe.PaymentMethod.detach(payment_method_id)
         except stripe.error.InvalidRequestError:
-            # If it is already disconnected or does not exist, there is no problem.
+            # Card might already be detached or deleted on Stripe dashboard
             pass
 
     @staticmethod
     def delete_payment_method(payment_method: PaymentMethod):
         """
-        Deletes a payment method from the database and unlinks it from Stripe.
-
-        Args:
-            payment_method: PaymentMethod instance
+        Removes card from Stripe and deletes local database record.
         """
-        # Disconnect from Stripe
         StripePaymentMethodHandler.detach_payment_method(
             payment_method.stripe_payment_method_id
         )
-
-        # Delete it from the database
         payment_method.delete()
 
     @staticmethod
     def set_default_payment_method(payment_method: PaymentMethod):
         """
-        Set a payment method as the default in Stripe.
-
-        Args:
-            payment_method: PaymentMethod instance
+        Updates the Stripe Customer's default payment method settings.
         """
+        if not payment_method.user.stripe_customer_id:
+            StripeCustomerHandler.create_or_get_customer(payment_method.user)
+
         try:
             stripe.Customer.modify(
                 payment_method.user.stripe_customer_id,
@@ -153,9 +141,13 @@ class StripePaymentMethodHandler:
                     "default_payment_method": payment_method.stripe_payment_method_id
                 },
             )
-            # Also update in our database
+            # update local DB
             payment_method.is_default = True
             payment_method.save()
 
-        except stripe.error.InvalidRequestError as e:
-            raise Exception(f"Error setting default method: {str(e)}")
+            logger.info(
+                f"Default PM updated to {payment_method.id} for User {payment_method.user.id}"
+            )
+        except stripe.error.StripeError as e:
+            logger.error(f"Stripe Default Update Error: {str(e)}")
+            raise Exception(_("Could not update default payment method."))

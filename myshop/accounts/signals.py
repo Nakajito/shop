@@ -4,13 +4,13 @@ from accounts.models import CustomUser, UserProfile
 
 
 @receiver(post_save, sender=CustomUser)
-def create_user_profile(sender, instance, created, **kwargs):
+def manage_user_profile(sender, instance, created, **kwargs):
     """
-    Signal receiver that creates a UserProfile whenever a new CustomUser is saved.
+    Signal receiver that handles the creation and updates of UserProfiles.
 
-    This function listens for the post_save signal from the CustomUser model.
-    If a new user instance is created, it initializes an associated empty
-    UserProfile.
+    This single function handles both:
+    1. Creating a UserProfile when a new CustomUser is created.
+    2. Saving the UserProfile when the CustomUser is updated.
 
     Args:
         sender (Model): The model class that sent the signal (CustomUser).
@@ -19,25 +19,11 @@ def create_user_profile(sender, instance, created, **kwargs):
         **kwargs: Arbitrary keyword arguments passed by the signal dispatcher.
     """
     if created:
+        # Create a new profile for every new user
         UserProfile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=CustomUser)
-def save_user_profile(sender, instance, **kwargs):
-    """
-    Signal receiver that saves the associated UserProfile when CustomUser is updated.
-
-    This ensures that any changes to the user instance trigger a save on the
-    related profile, maintaining data consistency.
-
-    Args:
-        sender (Model): The model class that sent the signal (CustomUser).
-        instance (CustomUser): The actual instance of the user being saved.
-        **kwargs: Arbitrary keyword arguments passed by the signal dispatcher.
-    """
-    try:
-        instance.profile.save()
-    except UserProfile.DoesNotExist:
-        # Handles cases where the user exists but the profile has not been created yet
-        # (e.g., during the very first save transaction or with legacy data).
-        pass
+    else:
+        # For existing users, save the profile if it exists
+        # hasattr check prevents crashing if for some reason the profile
+        # was deleted or doesn't exist (e.g. legacy data)
+        if hasattr(instance, "profile"):
+            instance.profile.save()

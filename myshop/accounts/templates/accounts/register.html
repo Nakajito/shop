@@ -1,148 +1,128 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
+{% load socialaccount %}
 
-{% block title %}Create Account - One Synk{% endblock %}
+{% block title %}{% trans "Create Account" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">{{ page_title }}</h3>
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0 fw-bold">{% trans "Create Account" %}</h3>
                 </div>
                 
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-md-5">
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                                 {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         {% endfor %}
                     {% endif %}
                     
-                    <!-- Botones de Redes Sociales -->
                     <div class="social-login mb-4">
-                        <a href="{% url 'accounts:google_login' %}" class="btn btn-outline-danger w-100 mb-2">
-                            <i class="bi bi-google"></i> Registrarse con Google
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-google"></i> {% trans "Sign up with Google" %}
                         </a>
                     </div>
                     
-                    <div class="divider my-3 text-center">
-                        <span class="bg-light px-2">O</span>
+                    <div class="position-relative text-center my-4">
+                        <hr class="text-muted opacity-25">
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small text-uppercase">
+                            {% trans "or register with email" %}
+                        </span>
                     </div>
                     
                     <form method="post" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Username -->
-                        <div class="mb-3">
-                            <label for="id_username" class="form-label">User name</label>
-                            {{ form.username }}
-                            {% if form.username.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.username.errors }}
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.first_name }}
+                                    <label for="{{ form.first_name.id_for_label }}">{% trans "First Name" %}</label>
                                 </div>
-                            {% endif %}
-                            <small class="form-text text-muted d-block mt-1">
-                                {{ form.username.help_text|safe }}
-                            </small>
-                        </div>
-                        
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <label for="id_email" class="form-label">Email</label>
-                            {{ form.email }}
-                            {% if form.email.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.email.errors }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Full name -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="id_first_name" class="form-label">Name</label>
-                                {{ form.first_name }}
                                 {% if form.first_name.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.first_name.errors }}
-                                    </div>
+                                    <div class="text-danger small mt-1 ps-1">{{ form.first_name.errors|striptags }}</div>
                                 {% endif %}
                             </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="id_last_name" class="form-label">Last name</label>
-                                {{ form.last_name }}
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.last_name }}
+                                    <label for="{{ form.last_name.id_for_label }}">{% trans "Last Name" %}</label>
+                                </div>
                                 {% if form.last_name.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.last_name.errors }}
-                                    </div>
+                                    <div class="text-danger small mt-1 ps-1">{{ form.last_name.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form.username }}
+                            <label for="{{ form.username.id_for_label }}">{% trans "Username" %}</label>
+                            {% if form.username.help_text %}
+                                <div class="form-text small">{{ form.username.help_text }}</div>
+                            {% endif %}
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1 ps-1">{{ form.username.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            {{ form.email }}
+                            <label for="{{ form.email.id_for_label }}">{% trans "Email Address" %}</label>
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1 ps-1">{{ form.email.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.phone }}
+                                    <label for="{{ form.phone.id_for_label }}">{% trans "Phone (Optional)" %}</label>
+                                </div>
+                                {% if form.phone.errors %}
+                                    <div class="text-danger small mt-1 ps-1">{{ form.phone.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.user_type }}
+                                    <label for="{{ form.user_type.id_for_label }}">{% trans "Account Type" %}</label>
+                                </div>
+                                {% if form.user_type.errors %}
+                                    <div class="text-danger small mt-1 ps-1">{{ form.user_type.errors|striptags }}</div>
                                 {% endif %}
                             </div>
                         </div>
                         
-                        <!-- Phone -->
-                        <div class="mb-3">
-                            <label for="id_phone" class="form-label">Phone (Optional)</label>
-                            {{ form.phone }}
-                            {% if form.phone.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.phone.errors }}
+                        {% for field in form %}
+                            {% if field.name not in "first_name,last_name,username,email,phone,user_type,terms_accepted" %}
+                                <div class="form-floating mb-3">
+                                    {{ field }}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {% if field.help_text %}
+                                        <div class="form-text small">{{ field.help_text }}</div>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1 ps-1">{{ field.errors|striptags }}</div>
+                                    {% endif %}
                                 </div>
                             {% endif %}
-                        </div>
+                        {% endfor %}
                         
-                        <!-- User type -->
-                        <div class="mb-3">
-                            <label class="form-label">User type</label>
-                            <div class="mt-2">
-                                {{ form.user_type }}
-                            </div>
-                            {% if form.user_type.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.user_type.errors }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label for="id_password1" class="form-label">Password</label>
-                            {{ form.password1 }}
-                            {% if form.password1.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.password1.errors }}
-                                </div>
-                            {% endif %}
-                            <small class="form-text text-muted d-block mt-1">
-                                {{ form.password1.help_text|safe }}
-                            </small>
-                        </div>
-                        
-                        <!-- Comfirm password -->
-                        <div class="mb-3">
-                            <label for="id_password2" class="form-label">Comfirm password</label>
-                            {{ form.password2 }}
-                            {% if form.password2.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.password2.errors }}
-                                </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Terms -->
-                        <div class="mb-3 form-check">
+                        <div class="mb-4 form-check bg-light p-3 rounded border">
                             {{ form.terms_accepted }}
-                            <label class="form-check-label" for="id_terms_accepted">
-                                I accept the terms and conditions
+                            <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
+                                {% trans "I accept the" %} <a href="#" class="text-decoration-none">{% trans "terms and conditions" %}</a>
                             </label>
                             {% if form.terms_accepted.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ form.terms_accepted.errors }}
-                                </div>
+                                <div class="text-danger small mt-1 ps-1">{{ form.terms_accepted.errors|striptags }}</div>
                             {% endif %}
                         </div>
                         
@@ -152,42 +132,24 @@
                             </div>
                         {% endif %}
                         
-                        <!-- Buttons -->
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Create account</button>
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                                {% trans "Create Account" %}
+                            </button>
                         </div>
                     </form>
                     
-                    <hr class="my-4">
-                    
-                    <p class="text-center mb-0">
-                        Do you already have an account? <a href="{% url 'accounts:login' %}">Log in here</a>
-                    </p>
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <p class="mb-0">
+                            {% trans "Already have an account?" %} 
+                            <a href="{% url 'accounts:login' %}" class="text-decoration-none fw-semibold">
+                                {% trans "Log in here" %}
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .divider {
-        position: relative;
-    }
-    
-    .divider::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-        background: #dee2e6;
-        z-index: 0;
-    }
-    
-    .divider span {
-        position: relative;
-        z-index: 1;
-    }
-</style>
 {% endblock %}

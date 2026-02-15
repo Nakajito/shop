@@ -1,28 +1,29 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.views.decorators.http import require_http_methods
 from django.db import transaction
+from django.shortcuts import render, redirect
+from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_http_methods
+
 from accounts.forms import (
     CustomUserCreationForm,
     CustomUserLoginForm,
     CustomUserChangeForm,
     UserProfileForm,
 )
-from accounts.models import CustomUser, UserProfile
+from accounts.models import CustomUser
 
 
 @require_http_methods(["GET", "POST"])
 def register(request):
     """
     New user registration view.
-    GET: Displays registration form
-    POST: Processes data and creates new user
+    GET: Displays registration form.
+    POST: Processes data, creates new user, and logs them in automatically.
     """
-
     if request.user.is_authenticated:
-        messages.info(request, "You are already registered.")
+        messages.info(request, _("You are already registered."))
         return redirect("shop:product_list")
 
     if request.method == "POST":
@@ -31,30 +32,41 @@ def register(request):
         if form.is_valid():
             try:
                 with transaction.atomic():
-                    # Create user
+                    # Create user (password is hashed automatically by form.save)
                     user = form.save()
 
                     # The CustomUser signal automatically creates the UserProfile.
 
-                    # Automatically authenticate and log in
+                    # Authenticate and log in the user
+                    # We need to retrieve the raw password from cleaned_data to authenticate
                     username = form.cleaned_data.get("username")
-                    password = form.cleaned_data.get("password1")
-                    user = authenticate(username=username, password=password)
+                    # Note: UserCreationForm standardizes on 'password' or checks matching,
+                    # but typically doesn't include 'password1' in cleaned_data unless custom.
+                    # Since we customized the form, we check our specific fields.
+                    # If using standard AuthenticationForm logic, accessing the user object directly is easier:
+                    login(
+                        request,
+                        user,
+                        backend="django.contrib.auth.backends.ModelBackend",
+                    )
 
-                    if user is not None:
-                        login(request, user)
-                        messages.success(
-                            request,
-                            f"Welcome {user.first_name}! Your account has been successfully created.",
-                        )
-                        return redirect("accounts:profile")
+                    messages.success(
+                        request,
+                        _(
+                            "Welcome {name}! Your account has been successfully created."
+                        ).format(name=user.first_name),
+                    )
+                    return redirect("accounts:profile")
 
             except Exception as e:
-                messages.error(request, f"Error creating account: {str(e)}")
+                # Catch unexpected errors during the transaction
+                messages.error(
+                    request, _("Error creating account: {error}").format(error=str(e))
+                )
     else:
         form = CustomUserCreationForm()
 
-    context = {"form": form, "page_title": "Create New Account"}
+    context = {"form": form, "page_title": _("Create New Account")}
     return render(request, "accounts/register.html", context)
 
 
@@ -65,9 +77,8 @@ def user_login(request):
     GET: Displays login form.
     POST: Authenticates user and creates session.
     """
-
     if request.user.is_authenticated:
-        messages.info(request, "You are already logged in.")
+        messages.info(request, _("You are already logged in."))
         return redirect("shop:product_list")
 
     if request.method == "POST":
@@ -79,13 +90,16 @@ def user_login(request):
             if user is not None:
                 login(request, user)
 
-                # If you checked “remember me,” long session
+                # "Remember me" functionality
                 if form.cleaned_data.get("remember_me"):
-                    request.session.set_expiry(1209600)  # 2 semanas
+                    # Set session expiry to 2 weeks (1,209,600 seconds)
+                    request.session.set_expiry(1209600)
 
-                messages.success(request, f"¡Bienvenido {user.first_name}!")
+                messages.success(
+                    request, _("Welcome back, {name}!").format(name=user.first_name)
+                )
 
-                # Redirect to next page or profile
+                # Redirect to 'next' parameter or default profile
                 next_url = request.GET.get("next")
                 if next_url:
                     return redirect(next_url)
@@ -94,7 +108,7 @@ def user_login(request):
     else:
         form = CustomUserLoginForm()
 
-    context = {"form": form, "page_title": "Log in"}
+    context = {"form": form, "page_title": _("Log in")}
     return render(request, "accounts/login.html", context)
 
 
@@ -102,10 +116,10 @@ def user_login(request):
 def user_logout(request):
     """
     View to log out.
-    Only accepts POST for security.
+    Only accepts POST for security (prevents CSRF attacks via GET links).
     """
     logout(request)
-    messages.success(request, "Session closed successfully.")
+    messages.success(request, _("Session closed successfully."))
     return redirect("shop:product_list")
 
 
@@ -114,10 +128,16 @@ def user_logout(request):
 def profile(request):
     """
     User profile view.
-    GET: Display profile and forms
-    POST: Update user information
+    GET: Display profile dashboard and edit forms.
+    POST: Update user and profile information simultaneously.
     """
     user = request.user
+    # Ensure profile exists to avoid crash if signal failed previously (defensive coding)
+    if not hasattr(user, "profile"):
+        from accounts.models import UserProfile
+
+        UserProfile.objects.create(user=user)
+
     user_profile = user.profile
 
     if request.method == "POST":
@@ -131,20 +151,30 @@ def profile(request):
                 with transaction.atomic():
                     user_form.save()
                     profile_form.save()
-                    messages.success(request, "Profile successfully updated.")
+                    messages.success(request, _("Profile successfully updated."))
                     return redirect("accounts:profile")
 
             except Exception as e:
-                messages.error(request, f"Error updating profile: {str(e)}")
+                messages.error(
+                    request, _("Error updating profile: {error}").format(error=str(e))
+                )
 
     else:
         user_form = CustomUserChangeForm(instance=user)
         profile_form = UserProfileForm(instance=user_profile)
 
-    # Get data to display
-    recent_orders = user.orders.all()[:5]
-    addresses_count = user.addresses.count()
-    payment_methods_count = user.payment_methods.count()
+    # Context data for the dashboard
+    # Use 'all()' and let the template slice or use DB slicing here
+    recent_orders = user.orders.all().order_by("-created")[:5]
+
+    # Use defensive checks for related managers in case apps aren't connected yet
+    addresses_count = user.addresses.count() if hasattr(user, "addresses") else 0
+    # Assuming 'payment_methods' is the related_name from the Payment app
+    payment_methods_count = (
+        getattr(user, "payment_methods", None).count()
+        if hasattr(user, "payment_methods")
+        else 0
+    )
 
     context = {
         "user_form": user_form,
@@ -152,7 +182,7 @@ def profile(request):
         "recent_orders": recent_orders,
         "addresses_count": addresses_count,
         "payment_methods_count": payment_methods_count,
-        "page_title": "My Profile",
+        "page_title": _("My Profile"),
     }
 
     return render(request, "accounts/profile.html", context)
@@ -164,10 +194,7 @@ def profile_details(request):
     Profile details view (read-only).
     Displays summary information about the user.
     """
-    user = request.user
-
-    context = {"user": user, "page_title": "Profile Details"}
-
+    context = {"user": request.user, "page_title": _("Profile Details")}
     return render(request, "accounts/profile_details.html", context)
 
 
@@ -176,25 +203,29 @@ def profile_details(request):
 def change_user_type(request):
     """
     View to switch between normal user and wholesaler.
-    POST only for security.
     """
     new_type = request.POST.get("user_type")
 
-    if new_type in dict(CustomUser.USER_TYPE_CHOICES):
+    # Validate against the TextChoices values defined in the model
+    if new_type in CustomUser.UserTypes.values:
         request.user.user_type = new_type
         request.user.save()
         messages.success(
             request,
-            f"User type changed to {request.user.get_user_type_display()}",
+            _("User type changed to {type}").format(
+                type=request.user.get_user_type_display()
+            ),
         )
     else:
-        messages.error(request, "Invalid user type.")
+        messages.error(request, _("Invalid user type."))
 
     return redirect("accounts:profile")
+
 
 @require_http_methods(["GET"])
 def google_login(request):
     """
-    Redirect to Google OAuth2 login endpoint provided by allauth.
+    Redirect to Google OAuth2 login endpoint.
+    This path usually comes from django-allauth.
     """
     return redirect("/accounts/social/google/login/")

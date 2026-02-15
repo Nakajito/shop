@@ -1,63 +1,72 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}{{ page_title }} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-danger shadow-sm">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0">{{ page_title }}</h4>
+        <div class="col-md-7 col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-danger text-white py-3">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-shield-exclamation me-2"></i>{% trans "Remove Payment Method" %}
+                    </h4>
                 </div>
                 
-                <div class="card-body p-4">
-                    <div class="alert alert-warning" role="alert">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        <strong>Attention!</strong> This action cannot be undone.
+                <div class="card-body p-4 p-md-5">
+                    <div class="alert alert-warning border-0 shadow-sm mb-4" role="alert">
+                        <div class="d-flex">
+                            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                            <div>
+                                <h6 class="alert-heading fw-bold">{% trans "Confirm Deletion" %}</h6>
+                                <p class="mb-0 small">{% trans "This card will be permanently removed from your One Synk account." %}</p>
+                            </div>
+                        </div>
                     </div>
                     
-                    <p class="mb-3">
-                        Are you sure you want to delete the following payment method?
-                    </p>
+                    <p class="text-muted mb-3">{% trans "You are about to delete:" %}</p>
                     
-                    <div class="card bg-light mb-4">
-                        <div class="card-body">
-                            <h5>{{ payment_method.get_card_type_display }}</h5>
-                            <p class="mb-1">
-                                <strong>{{ payment_method.get_masked_card }}</strong>
-                            </p>
-                            <p class="mb-1">
-                                Card holder: {{ payment_method.card_holder_name }}
-                            </p>
-                            <p class="mb-0">
-                                Expires: {{ payment_method.get_expiration_display }}
-                            </p>
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-credit-card-2-front fs-1 text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">{{ payment_method.get_card_type_display }}</h6>
+                                <p class="mb-1 fw-mono text-dark">{{ payment_method.get_masked_card }}</p>
+                                <div class="small text-muted">
+                                    <span>{% trans "Exp:" %} {{ payment_method.get_expiration_display }}</span>
+                                    <span class="mx-1">•</span>
+                                    <span>{{ payment_method.card_holder_name }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     {% if payment_method.is_default %}
-                        <div class="alert alert-info" role="alert">
-                            <i class="bi bi-info-circle"></i>
-                            <strong>Note:</strong> This is your default payment method.
-                            A new default method will be assigned automatically.
+                        <div class="alert alert-info border-0 shadow-sm mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+                                <p class="mb-0 small">
+                                    <strong>{% trans "Note:" %}</strong> {% trans "This is your primary card. If deleted, another saved method will be set as default." %}
+                                </p>
+                            </div>
                         </div>
                     {% endif %}
                     
                     <form method="post">
                         {% csrf_token %}
-                        
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-danger btn-lg">
-                                <i class="bi bi-trash"></i> Yes, delete
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                                <i class="bi bi-trash3 me-2"></i>{% trans "Delete Permanently" %}
                             </button>
+                            <a href="{% url 'payment:payment_method_list' %}" class="btn btn-link text-muted text-decoration-none">
+                                {% trans "No, keep this card" %}
+                            </a>
                         </div>
                     </form>
-                    
-                    <a href="{% url 'payment:payment_method_list' %}" class="btn btn-outline-secondary w-100 mt-2">
-                        Cancel
-                    </a>
                 </div>
             </div>
         </div>

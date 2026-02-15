@@ -1,32 +1,50 @@
-from django.db import models
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Coupon(models.Model):
     """
     Model representing a discount coupon.
 
-    This model stores the code users must enter, the validity period during which
-    the coupon can be redeemed, and the discount percentage (constrained between
-    0 and 100). The 'active' boolean allows for manual deactivation regardless
-    of dates.
+    This model stores the code users must enter, the validity period,
+    and the discount percentage. It includes validation logic to ensure
+    date ranges are consistent.
     """
 
-    code = models.CharField(max_length=50, unique=True)
-    valid_from = models.DateTimeField()
-    valid_to = models.DateTimeField()
-
-    discount = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        help_text="Percentage value (0 to 100)",
+    code = models.CharField(
+        _("code"),
+        max_length=50,
+        unique=True,
+        help_text=_("The code users enter to apply the discount (e.g. SUMMER20)."),
     )
 
-    active = models.BooleanField()
+    valid_from = models.DateTimeField(_("valid from"))
+    valid_to = models.DateTimeField(_("valid to"))
+
+    discount = models.IntegerField(
+        _("discount"),
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        help_text=_("Percentage value (0 to 100)"),
+    )
+
+    active = models.BooleanField(_("active"), default=True)
 
     class Meta:
-        verbose_name = "Coupon"
-        verbose_name_plural = "Coupons"
+        verbose_name = _("Coupon")
+        verbose_name_plural = _("Coupons")
         ordering = ["-valid_to"]
 
     def __str__(self):
-        return self.code
+        return f"{self.code} ({self.discount}%)"
+
+    def clean(self):
+        """
+        Custom validation to ensure the date range is logical.
+        Django admin calls this automatically before saving.
+        """
+        if self.valid_from and self.valid_to and self.valid_from > self.valid_to:
+            raise ValidationError(
+                {"valid_to": _("The end date cannot be before the start date.")}
+            )

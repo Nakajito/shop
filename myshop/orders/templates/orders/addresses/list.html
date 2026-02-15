@@ -1,92 +1,90 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}My addresses - One Synk{% endblock %}
+{% block title %}{% trans "My Addresses" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <!-- Sidebar -->
-        {% include "includes/sidebar.html" %}
+        <div class="col-md-3 mb-4 mb-md-0">
+            {% include "includes/sidebar.html" %}
+        </div>
         
-        <!-- Main Content -->
         <div class="col-md-9">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>{{ page_title }}</h2>
-                <a href="{% url 'orders:address_create' %}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Add Address
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <h2 class="h3 fw-bold mb-0 text-dark">{% trans "Shipping Addresses" %}</h2>
+                <a href="{% url 'orders:address_create' %}" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-plus-lg"></i> {% trans "Add New Address" %}
                 </a>
             </div>
             
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
                         {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endif %}
             
             {% if addresses %}
-                <div class="row">
+                <div class="row g-4">
                     {% for address in addresses %}
-                        <div class="col-md-6 mb-4">
-                            <div class="card h-100 {% if address.is_default %}border-primary border-2{% endif %}">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm {% if address.is_default %}ring-default{% endif %}">
                                 {% if address.is_default %}
-                                    <div class="card-header bg-primary text-white py-2">
-                                        <small><i class="bi bi-check-circle"></i> Default Address</small>
+                                    <div class="card-header bg-success text-white py-2 border-0">
+                                        <small class="fw-bold"><i class="bi bi-star-fill me-1"></i> {% trans "Default Address" %}</small>
                                     </div>
                                 {% endif %}
                                 
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ address.recipient_name }}</h5>
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title fw-bold mb-0 text-primary">{{ address.recipient_name }}</h5>
+                                        <span class="badge bg-light text-dark border text-uppercase">
+                                            {{ address.get_address_type_display }}
+                                        </span>
+                                    </div>
                                     
-                                    <p class="card-text text-muted small mb-3">
-                                        <i class="bi bi-geo-alt"></i> 
-                                        {{ address.get_address_type_display }}
-                                    </p>
-                                    
-                                    <div class="mb-3">
-                                        <p class="mb-1">
-                                            <strong>{{ address.address_line1 }}</strong>
-                                        </p>
+                                    <div class="address-details text-secondary small">
+                                        <p class="mb-1 fw-bold text-dark fs-6">{{ address.address_line1 }}</p>
                                         {% if address.address_line2 %}
                                             <p class="mb-1">{{ address.address_line2 }}</p>
                                         {% endif %}
                                         <p class="mb-1">
-                                            {{ address.city }}, {{ address.get_state_display }}
+                                            {{ address.city }}, {{ address.get_state_display }} {{ address.postal_code }}
                                         </p>
-                                        <p class="mb-1">
-                                            {{ address.postal_code }}, {{ address.get_country_display }}
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="bi bi-telephone"></i> {{ address.phone }}
+                                        <p class="mb-3">{{ address.get_country_display }}</p>
+                                        
+                                        <p class="mb-0 text-dark">
+                                            <i class="bi bi-telephone-fill me-2 text-muted"></i>{{ address.phone }}
                                         </p>
                                     </div>
-                                    
-                                    <p class="text-muted small">
-                                        Attached: {{ address.created_at|date:"d/m/Y" }}
-                                    </p>
                                 </div>
                                 
-                                <div class="card-footer bg-light">
-                                    <div class="btn-group btn-group-sm w-100" role="group">
-                                        <a href="{% url 'orders:address_edit' address.id %}" class="btn btn-outline-primary">
-                                            <i class="bi bi-pencil"></i> Edit
-                                        </a>
-                                        
+                                <div class="card-footer bg-white border-top-0 pb-3 pt-0">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <a href="{% url 'orders:address_edit' address.id %}" class="btn btn-outline-secondary btn-sm w-100">
+                                                <i class="bi bi-pencil-square me-1"></i> {% trans "Edit" %}
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="{% url 'orders:address_delete' address.id %}" class="btn btn-outline-danger btn-sm w-100">
+                                                <i class="bi bi-trash3 me-1"></i> {% trans "Delete" %}
+                                            </a>
+                                        </div>
                                         {% if not address.is_default %}
-                                            <form action="{% url 'orders:address_set_default' address.id %}" method="post" class="flex-fill">
+                                        <div class="col-12 mt-2">
+                                            <form action="{% url 'orders:address_set_default' address.id %}" method="post">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-outline-success w-100 btn-sm">
-                                                    <i class="bi bi-check"></i> By Default
+                                                <button type="submit" class="btn btn-outline-success btn-sm w-100">
+                                                    <i class="bi bi-bookmark-star me-1"></i> {% trans "Set as Default" %}
                                                 </button>
                                             </form>
+                                        </div>
                                         {% endif %}
-                                        
-                                        <a href="{% url 'orders:address_delete' address.id %}" class="btn btn-outline-danger">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -95,13 +93,28 @@
                 </div>
             
             {% else %}
-                <div class="alert alert-info" role="alert">
-                    <i class="bi bi-info-circle"></i>
-                    You have no addresses saved.
-                    <a href="{% url 'orders:address_create' %}" class="alert-link">Add one now</a>
+                <div class="text-center py-5 bg-light rounded-3 shadow-sm">
+                    <div class="mb-3 text-muted">
+                        <i class="bi bi-geo-alt fs-1"></i>
+                    </div>
+                    <h4 class="fw-bold">{% trans "No Addresses Saved Yet" %}</h4>
+                    <p class="text-secondary">{% trans "Save your shipping addresses to speed up the checkout process." %}</p>
+                    <a href="{% url 'orders:address_create' %}" class="btn btn-primary px-4 mt-2">
+                        {% trans "Add your first address" %}
+                    </a>
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<style>
+    .ring-default {
+        border: 2px solid #198754 !important;
+    }
+    .hover-shadow:hover {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        transition: box-shadow 0.3s ease;
+    }
+</style>
 {% endblock %}

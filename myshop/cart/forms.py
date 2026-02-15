@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 # Generate a list of tuples for quantity selection (1 to 20)
 # Format: [(1, '1'), (2, '2'), ..., (20, '20')]
@@ -18,7 +19,10 @@ class CartAddProductForm(forms.Form):
     """
 
     quantity = forms.TypedChoiceField(
-        choices=PRODUCT_QUANTITY_CHOICES, coerce=int, label="Quantity"
+        choices=PRODUCT_QUANTITY_CHOICES,
+        coerce=int,
+        label=_("Quantity"),
+        widget=forms.Select(attrs={"class": "form-select"}),  # Bootstrap 5 styling
     )
 
     override = forms.BooleanField(

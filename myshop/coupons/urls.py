@@ -2,22 +2,21 @@ from django.urls import path
 from . import views
 
 """
-URL configuration for the 'coupons' application.
+URL Configuration for the 'coupons' application.
 
-This module defines the URL mapping for applying discount codes.
+This module defines the URL patterns for managing discount codes.
 
 Namespace:
     app_name = "coupons"
 
-Available patterns:
-    - apply: Processes the coupon application form via POST request.
-
-Usage Example (in templates):
-    <form action="{% url 'coupons:apply' %}" method="post">
+Endpoints:
+    - /apply/: Processes the coupon application form (typically via POST).
+      Accepts a 'code' parameter and validates it against active coupons.
 """
 
 app_name = "coupons"
 
 urlpatterns = [
+    # Applies a coupon to the current session's cart
     path("apply/", views.coupon_apply, name="apply"),
 ]

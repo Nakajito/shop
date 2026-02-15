@@ -1,68 +1,68 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Login - One Synk{% endblock %}
+{% block title %}{% trans "Login" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">{{ page_title }}</h3>
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0 fw-bold">{% trans "Welcome Back" %}</h3>
                 </div>
                 
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-md-5">
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                                 {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         {% endfor %}
                     {% endif %}
                     
-                    <!-- Botones de Redes Sociales -->
                     <div class="social-login mb-4">
-                        <a href="{% url 'accounts:google_login' %}" class="btn btn-outline-danger w-100 mb-2">
-                            <i class="bi bi-google"></i> Iniciar sesión con Google
+                        <a href="{% url 'accounts:google_login' %}" class="btn btn-outline-danger w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-google"></i> {% trans "Sign in with Google" %}
                         </a>
                     </div>
                     
-                    <div class="divider my-3 text-center">
-                        <span class="bg-light px-2">O</span>
+                    <div class="position-relative text-center my-4">
+                        <hr class="text-muted opacity-25">
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small text-uppercase">
+                            {% trans "or" %}
+                        </span>
                     </div>
                     
                     <form method="post" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Email or User -->
-                        <div class="mb-3">
-                            <label for="id_email_or_username" class="form-label">Email or user</label>
+                        <div class="form-floating mb-3">
                             {{ form.email_or_username }}
+                            <label for="id_email_or_username">{% trans "Email or Username" %}</label>
                             {% if form.email_or_username.errors %}
                                 <div class="text-danger small mt-1">
-                                    {{ form.email_or_username.errors }}
+                                    {{ form.email_or_username.errors|striptags }}
                                 </div>
                             {% endif %}
                         </div>
                         
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label for="id_password" class="form-label">Password</label>
+                        <div class="form-floating mb-3">
                             {{ form.password }}
+                            <label for="id_password">{% trans "Password" %}</label>
                             {% if form.password.errors %}
                                 <div class="text-danger small mt-1">
-                                    {{ form.password.errors }}
+                                    {{ form.password.errors|striptags }}
                                 </div>
                             {% endif %}
                         </div>
                         
-                        <!-- Remind me -->
                         <div class="mb-3 form-check">
                             {{ form.remember_me }}
-                            <label class="form-check-label" for="id_remember_me">
-                                Remember me on this device
+                            <label class="form-check-label text-muted" for="id_remember_me">
+                                {% trans "Remember me on this device" %}
                             </label>
                         </div>
                         
@@ -72,47 +72,31 @@
                             </div>
                         {% endif %}
                         
-                        <!-- Button -->
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">Log in</button>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                                {% trans "Log In" %}
+                            </button>
                         </div>
                     </form>
                     
-                    <hr class="my-4">
-                    
-                    <!-- Additional links -->
-                    <p class="text-center mb-2">
-                        Don't have an account? <a href="{% url 'accounts:register' %}">Create one here</a>
-                    </p>
-                    
-                    <p class="text-center mb-0">
-                        ¿Olvidaste tu contraseña? <a href="#">Reset it here</a>
-                    </p>
+                    <div class="text-center mt-4 pt-2 border-top">
+                        <p class="mb-2">
+                            {% trans "Don't have an account?" %} 
+                            <a href="{% url 'accounts:register' %}" class="text-decoration-none fw-semibold">
+                                {% trans "Create one here" %}
+                            </a>
+                        </p>
+                        
+                        <p class="mb-0 small">
+                            {% trans "Forgot your password?" %} 
+                            <a href="#" class="text-decoration-none text-muted">
+                                {% trans "Reset it here" %}
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .divider {
-        position: relative;
-    }
-    
-    .divider::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-        background: #dee2e6;
-        z-index: 0;
-    }
-    
-    .divider span {
-        position: relative;
-        z-index: 1;
-    }
-</style>
 {% endblock %}
