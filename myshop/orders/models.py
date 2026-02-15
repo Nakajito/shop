@@ -3,150 +3,142 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 from shop.models import Product
 from coupons.models import Coupon
 from accounts.models import CustomUser
 from payment.models import PaymentMethod
 
-COUNTRY_CHOICES = (("MX", "México"), ("US", "Estados Unidos"), ("ES", "España"))
-
-STATE_CHOICES = (
-    ("CDMX", "Ciudad de México"),
-    ("MEX", "Estado de México"),
-    ("QRO", "Querétaro"),
-)
-
-ADDRESS_TYPE_CHOICES = (
-    ("home", "Home"),
-    ("office", "Office"),
-    ("other", "Other"),
-)
-
-ORDER_STATUS_CHOICES = (
-    ("pending", "Pedido Pendiente"),
-    ("confirmed", "Pedido Confirmado"),
-    ("preparing", "Preparando Pedido"),
-    ("shipped", "Enviado"),
-    ("delivered", "Entregado"),
-    ("cancelled", "Cancelado"),
-)
-
-CARRIER_CHOICES = (
-    ("fedex", "FedEx"),
-    ("ups", "UPS"),
-    ("dhl", "DHL"),
-    ("other", "Otro"),
+STATUS_CHOICES = (
+    ("pending", _("Pending")),
+    ("confirmed", _("Confirmed")),
+    ("preparing", _("Preparing")),
+    ("shipped", _("Shipped")),
+    ("delivered", _("Delivered")),
+    ("cancelled", _("Cancelled")),
 )
 
 
 class Address(models.Model):
     """
     Model representing a user's shipping or billing address.
-
-    This model handles multiple addresses per user, allowing one to be marked
-    as the default. It includes logic to automatically unset other default
-    addresses when a new one is selected.
     """
+
+    class AddressType(models.TextChoices):
+        HOME = "home", _("Home")
+        OFFICE = "office", _("Office")
+        OTHER = "other", _("Other")
+
+    # We define Country/State choices here or import them from a utils file
+    # to keep the global namespace clean.
+    COUNTRY_CHOICES = (
+        ("MX", _("Mexico")),
+        ("US", _("United States")),
+        ("ES", _("Spain")),
+    )
+
+    STATE_CHOICES = (
+        ("CDMX", "Ciudad de México"),
+        ("MEX", "Estado de México"),
+        ("QRO", "Querétaro"),
+        # Add more states as needed
+    )
 
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         related_name="addresses",
-        help_text="User who owns the address",
+        verbose_name=_("user"),
     )
 
     address_line1 = models.CharField(
-        max_length=255, help_text="Street, number, and apartment"
+        _("address line 1"),
+        max_length=255,
+        help_text=_("Street, number, and apartment"),
     )
 
     address_line2 = models.CharField(
+        _("address line 2"),
         max_length=255,
         blank=True,
         null=True,
-        help_text="Additional information (floor, reference, etc.)",
+        help_text=_("Additional information (floor, reference, etc.)"),
     )
 
-    city = models.CharField(max_length=100, help_text="City")
-    state = models.CharField(max_length=50, choices=STATE_CHOICES, help_text="State")
-    postal_code = models.CharField(max_length=10, help_text="Zip Code")
+    city = models.CharField(_("city"), max_length=100)
+
+    state = models.CharField(_("state"), max_length=50, choices=STATE_CHOICES)
+
+    postal_code = models.CharField(_("postal code"), max_length=10)
+
     country = models.CharField(
-        max_length=2, choices=COUNTRY_CHOICES, default="MX", help_text="Country"
+        _("country"), max_length=2, choices=COUNTRY_CHOICES, default="MX"
     )
 
     phone = models.CharField(
-        max_length=10, help_text="Contact telephone number for shipping"
+        _("phone number"),
+        max_length=15,
+        help_text=_("Contact telephone number for shipping"),
     )
 
     recipient_name = models.CharField(
-        max_length=200, help_text="Name of the person receiving the package"
+        _("recipient name"),
+        max_length=200,
+        help_text=_("Name of the person receiving the package"),
     )
 
     is_default = models.BooleanField(
-        default=False, help_text="Is this the default address?"
+        _("default address"),
+        default=False,
     )
 
     address_type = models.CharField(
+        _("address type"),
         max_length=10,
-        choices=ADDRESS_TYPE_CHOICES,
-        default="home",
-        help_text="Address type",
+        choices=AddressType.choices,
+        default=AddressType.HOME,
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Address"
-        verbose_name_plural = "Addresses"
-        # Ordered by default status first, then newest created
+        verbose_name = _("Address")
+        verbose_name_plural = _("Addresses")
         ordering = ["-is_default", "-created_at"]
         indexes = [
             models.Index(fields=["user", "-is_default"]),
-            models.Index(fields=["user", "created_at"]),
         ]
 
     def __str__(self):
-        return (
-            f"{self.recipient_name} - {self.address_line1}, {self.city}, {self.country}"
-        )
+        return f"{self.recipient_name} - {self.city}"
 
     def save(self, *args, **kwargs):
         """
-        Save the address.
-        If this address is marked as default, ensure no other address for this user
-        is also marked as default.
+        Ensure only one address is marked as default per user.
         """
         if self.is_default:
             Address.objects.filter(user=self.user, is_default=True).exclude(
                 pk=self.pk
             ).update(is_default=False)
-
         super().save(*args, **kwargs)
 
     def get_full_address(self):
-        """
-        Return the formatted full address string.
-        """
+        """Return the formatted full address string."""
         parts = [self.address_line1]
         if self.address_line2:
             parts.append(self.address_line2)
-
-        # Combine City, State, Zip into one line
-        location_line = f"{self.city}, {self.state}, {self.postal_code}"
-        parts.append(location_line)
-
+        location = f"{self.city}, {self.state}, {self.postal_code}"
+        parts.append(location)
         parts.append(self.get_country_display())
-
         return ", ".join(parts)
 
 
 class Order(models.Model):
     """
     Model representing a customer order.
-
-    Stores shipping information, payment status, Stripe transaction IDs,
-    and applied coupon data. It serves as the parent model for individual
-    OrderItems.
+    Includes snapshots of shipping data, payment status, and coupon usage.
     """
 
     user = models.ForeignKey(
@@ -155,22 +147,26 @@ class Order(models.Model):
         null=True,
         blank=True,
         related_name="orders",
-        help_text="User who made the purchase",
+        verbose_name=_("user"),
     )
 
-    first_name = models.CharField(max_length=50)
+    # Snapshot fields: These store the data AS IT WAS when the order was created.
+    # Even if the User or Address model changes later, this data remains historic.
+    first_name = models.CharField(_("first name"), max_length=50)
+    last_name = models.CharField(_("last name"), max_length=50)
+    email = models.EmailField(_("email"))
+    address = models.CharField(_("address"), max_length=250)
+    postal_code = models.CharField(_("postal code"), max_length=20)
+    city = models.CharField(_("city"), max_length=100)
 
-    last_name = models.CharField(max_length=50)
-
-    email = models.EmailField()
-
+    # Links to Address book (optional, for reference)
     shipping_address = models.ForeignKey(
         Address,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="orders_shipper",
-        help_text="Shipping address",
+        related_name="orders_as_shipping",
+        verbose_name=_("shipping address reference"),
     )
 
     billing_address = models.ForeignKey(
@@ -178,54 +174,31 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="ordes_billed",
-        help_text="Billing address (if different)",
+        related_name="orders_as_billing",
+        verbose_name=_("billing address reference"),
     )
 
-    address = models.CharField(max_length=200)
+    created = models.DateTimeField(_("created at"), auto_now_add=True)
+    updated = models.DateTimeField(_("updated at"), auto_now=True)
 
-    postal_code = models.CharField(max_length=20)
-
-    city = models.CharField(max_length=50)
-
-    created = models.DateTimeField(auto_now_add=True)
-
-    updated = models.DateTimeField(auto_now=True)
-
-    paid = models.BooleanField(default=False)
+    paid = models.BooleanField(_("paid"), default=False)
 
     status = models.CharField(
+        _("status"),
         max_length=20,
-        choices=ORDER_STATUS_CHOICES,
+        choices=STATUS_CHOICES,
         default="pending",
-        help_text="Current order status",
     )
 
     estimated_delivery_date = models.DateField(
-        null=True, blank=True, help_text="Estimated delivery date"
+        _("estimated delivery"), null=True, blank=True
     )
 
-    notes = models.TextField(
-        blank=True, null=True, help_text="Internal notes on the order"
-    )
+    notes = models.TextField(_("internal notes"), blank=True, null=True)
+    customer_notes = models.TextField(_("customer notes"), blank=True, null=True)
 
-    customer_notes = models.TextField(
-        blank=True, null=True, help_text="Customer notes when making the purchase"
-    )
-
-    # Stores the Stripe PaymentIntent ID (e.g., pi_12345...)
-    stripe_id = models.CharField(max_length=250, blank=True)
-
-    # Coupon system integration
-    coupon = models.ForeignKey(
-        Coupon, related_name="orders", null=True, blank=True, on_delete=models.SET_NULL
-    )
-
-    discount = models.IntegerField(
-        default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        help_text="Discount percentage (0-100) applied at the time of order.",
-    )
+    # Payment Integration
+    stripe_id = models.CharField(_("Stripe Payment ID"), max_length=250, blank=True)
 
     payment_method = models.ForeignKey(
         PaymentMethod,
@@ -233,156 +206,109 @@ class Order(models.Model):
         null=True,
         blank=True,
         related_name="orders",
-        help_text="Método de pago utilizado",
+        verbose_name=_("payment method"),
     )
 
-    def get_timeline_steps(self):
-        """
-        Returns steps from the order timeline to display in templates.
-        Useful for displaying visual progress.
-        """
-        steps = [
-            {
-                "step": "Order Confirmed",
-                "status": "confirmed",
-                "completed": self.status
-                in ["confirmed", "preparing", "shipped", "delivered"],
-                "icon": "check-circle",
-            },
-            {
-                "step": "Preparing",
-                "status": "preparing",
-                "completed": self.status in ["preparing", "shipped", "delivered"],
-                "icon": "box",
-            },
-            {
-                "step": "Shipped",
-                "status": "shipped",
-                "completed": self.status in ["shipped", "delivered"],
-                "icon": "truck",
-            },
-            {
-                "step": "Delivered",
-                "status": "delivered",
-                "completed": self.status == "delivered",
-                "icon": "check-circle",
-            },
-        ]
-        return steps
+    # Coupon Integration
+    coupon = models.ForeignKey(
+        Coupon,
+        related_name="orders",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_("coupon"),
+    )
 
-    def can_be_cancelled(self):
-        """Returns True if the order can be cancelled"""
-        return self.status in ["pending", "confirmed"]
-
-    def can_be_reordered(self):
-        """Returns True if the order can be reordered"""
-        return self.status in ["delivered", "cancelled"]
+    discount = models.IntegerField(
+        _("discount percentage"),
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
 
     class Meta:
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")
         ordering = ["-created"]
         indexes = [models.Index(fields=["-created"])]
 
     def __str__(self):
         return f"Order {self.id}"
 
-    def get_total_cost(self):
-        """
-        Calculate the final total cost of the order.
-
-        Returns:
-            Decimal: Total cost of items minus the discount amount.
-        """
-        total_cost = self.get_total_cost_before_discount()
-        return total_cost - self.get_discount()
-
-    def get_stripe_url(self):
-        """
-        Generate a link to the Stripe Dashboard for this specific payment.
-
-        Checks the STRIPE_SECRET_KEY setting to determine if the link should
-        point to the Test mode or Live mode dashboard.
-
-        Returns:
-            str: URL to the Stripe transaction or an empty string if no ID exists.
-        """
-        if not self.stripe_id:
-            return ""
-
-        if "_test_" in settings.STRIPE_SECRET_KEY:
-            # Stripe path for test payments
-            path = "/test/"
-        else:
-            # Stripe path for real payments
-            path = "/"
-
-        return f"https://dashboard.stripe.com{path}payments/{self.stripe_id}"
-
     def get_total_cost_before_discount(self):
-        """
-        Calculate the sum of all line items before any discounts.
-
-        Returns:
-            Decimal: Sum of (price * quantity) for all items.
-        """
+        """Sum of all items before discount."""
         return sum(item.get_cost() for item in self.items.all())
 
     def get_discount(self):
-        """
-        Calculate the monetary value of the applied discount.
-
-        Returns:
-            Decimal: The calculated discount amount based on the percentage.
-        """
-        total_cost = self.get_total_cost_before_discount()
+        """Calculate discount amount."""
+        total = self.get_total_cost_before_discount()
         if self.discount:
-            return total_cost * (self.discount / Decimal(100))
+            return total * (self.discount / Decimal(100))
         return Decimal(0)
 
-    def change_status(self, new_status, changed_by=None, reason=None):
+    def get_total_cost(self):
+        """Final total to pay."""
+        return self.get_total_cost_before_discount() - self.get_discount()
+
+    def get_stripe_url(self):
+        """Generate link to Stripe dashboard based on environment."""
+        if not self.stripe_id:
+            return ""
+        path = "/test/" if "_test_" in settings.STRIPE_SECRET_KEY else "/"
+        return f"https://dashboard.stripe.com{path}payments/{self.stripe_id}"
+
+    def get_timeline_steps(self):
         """
-        Changes the order status and creates an audit log.
+        Returns steps for the frontend timeline visualization.
         """
-        if new_status not in dict(ORDER_STATUS_CHOICES):
-            raise ValidationError(f"Invalid status: {new_status}")
+        steps = [
+            {"id": "confirmed", "label": _("Confirmed"), "icon": "bi-check-circle"},
+            {"id": "shipped", "label": _("Shipped"), "icon": "bi-truck"},
+            {"id": "delivered", "label": _("Delivered"), "icon": "bi-house-door"},
+        ]
 
-        if self.status == new_status:
-            return None
+        status_order = ["pending", "confirmed", "shipped", "delivered"]
 
-        old_status = self.status
-        self.status = new_status
-        self.save()
+        current_idx = -1
+        if self.status in status_order:
+            current_idx = status_order.index(self.status)
 
-        # Create audit log
-        status_update = OrderStatusUpdate.objects.create(
-            order=self,
-            old_status=old_status,
-            new_status=new_status,
-            changed_by=changed_by,
-            reason=reason,
-        )
+        timeline = []
+        for step in steps:
+            step_idx = status_order.index(step["id"])
 
-        return status_update
+            is_completed = current_idx >= step_idx
+            is_current = current_idx == step_idx
 
-    def get_status_display_with_badge(self):
-        """Returns the status with color for templates"""
-        colors = {
-            "pending": "warning",
-            "confirmed": "info",
-            "preparing": "info",
-            "shipped": "primary",
-            "delivered": "success",
-            "cancelled": "danger",
-        }
-        color = colors.get(self.status, "secondary")
-        return f'<span class="badge bg-{color}">{self.get_status_display()}</span>'
+            timeline.append(
+                {
+                    "label": step["label"],
+                    "completed": is_completed,
+                    "current": is_current,
+                    "icon": step["icon"],
+                }
+            )
+
+        return timeline
+
+    def change_status(self, new_status, user=None, note=""):
+        """
+        Updates the order status and creates a tracking log entry.
+        """
+        if self.status != new_status:
+            self.status = new_status
+            self.save()
+
+            # Create tracking entry
+            OrderTracking.objects.create(
+                order=self, status=new_status, user=user, note=note
+            )
+            return True
+        return False
 
 
 class OrderItem(models.Model):
     """
-    Model representing an individual line item within an order.
-
-    Links a specific Product to an Order, capturing the price at the moment
-    of purchase (to prevent historical data changes if product price updates).
+    Individual line item within an order.
     """
 
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
@@ -393,152 +319,103 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return str(self.id)
+        return f"{self.id}"
 
     def get_cost(self):
-        """
-        Calculate the total cost for this line item.
-
-        Returns:
-            Decimal: price * quantity
-        """
         return self.price * self.quantity
 
 
 class OrderStatusUpdate(models.Model):
-    """Audit log of order status changes.
-    Each status change creates a record here.
-    Allows you to view the complete history of changes.
-
-    Args:
-        models (_type_): _description_
+    """
+    Audit log for order status changes.
     """
 
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
         related_name="status_updates",
-        help_text="Order status changed",
     )
-
-    old_status = models.CharField(
-        max_length=20, choices=ORDER_STATUS_CHOICES, help_text="Previous status"
-    )
-
-    new_status = models.CharField(
-        max_length=20, choices=ORDER_STATUS_CHOICES, help_text="New status"
-    )
-
+    old_status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    new_status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     changed_by = models.ForeignKey(
         CustomUser,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="order_status_changed",
-        help_text="User who made the change",
     )
-
-    reason = models.TextField(
-        blank=True, null=True, help_text="Reason for change of status"
-    )
-
+    reason = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Order Status Change"
-        verbose_name_plural = "Order Status Changes"
-        indexes = [models.Index(fields=["-order", "-created_at"])]
+        verbose_name = _("Status Update")
+        verbose_name_plural = _("Status Updates")
+        ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Order {self.order.id}: {self.old_status} -> {self.new_status}"
+        return f"{self.old_status} -> {self.new_status}"
 
 
 class OrderTracking(models.Model):
-    """Tracking and shipping information for an order.
-    Links mail/carrier data to the order.
-
-    Args:
-        models (_type_): _description_
     """
+    Tracking and shipping information.
+    """
+
+    class Carrier(models.TextChoices):
+        FEDEX = "fedex", "FedEx"
+        UPS = "ups", "UPS"
+        DHL = "dhl", "DHL"
+        OTHER = "other", _("Other")
 
     order = models.OneToOneField(
         Order,
         on_delete=models.CASCADE,
         related_name="tracking",
-        help_text="Associated order",
     )
 
-    tracking_number = models.CharField(
-        max_length=255, help_text="Tracking number (e.g., 1Z999AA10123456784)"
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
+    note = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
-    carrier = models.CharField(
-        max_length=20, choices=CARRIER_CHOICES, help_text="Parcel delivery company"
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    tracking_number = models.CharField(max_length=255)
+    carrier = models.CharField(max_length=20, choices=Carrier.choices)
+    tracking_url = models.URLField(blank=True, null=True)
 
-    tracking_url = models.URLField(
-        blank=True,
-        null=True,
-        help_text="Direct link to tracking (e.g., https://tracking.fedex.com/...)",
-    )
+    # Dates
+    shipped_at = models.DateTimeField(auto_now_add=True)
+    estimated_delivery_date = models.DateField(blank=True, null=True)
+    actual_delivery_date = models.DateField(blank=True, null=True)
 
-    shipped_at = models.DateTimeField(
-        auto_now_add=True, help_text="Date/time when sent"
-    )
-
-    estimated_delivery_date = models.DateField(
-        blank=True, null=True, help_text="Estimated delivery date of the carrier"
-    )
-
-    actual_delivery_date = models.DateField(
-        blank=True, null=True, help_text="Date when it was actually delivered"
-    )
-
+    # Details
     weight = models.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        blank=True,
-        null=True,
-        help_text="Package weight in kg",
+        _("weight (kg)"), max_digits=8, decimal_places=2, blank=True, null=True
     )
-
-    dimensions = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        help_text="Package dimensions (e.g., 30x20x10 cm)",
-    )
-
-    last_location = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-        help_text="Last known location of the package",
-    )
-
-    last_status_update = models.DateTimeField(
-        blank=True, null=True, help_text="Latest carrier update"
-    )
+    dimensions = models.CharField(max_length=100, blank=True, null=True)
+    last_location = models.CharField(max_length=255, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Order Tracking"
-        verbose_name_plural = "Order Tracking"
+        verbose_name = _("Order Tracking")
+        verbose_name_plural = _("Order Trackings")
 
     def __str__(self):
-        return f"Tracking {self.tracking_number} - {self.get_carrier_display()}"
+        return f"{self.tracking_number} ({self.get_carrier_display()})"
 
     def get_full_tracking_info(self):
-        """Returns formatted tracking information"""
-        info = f"Tracking number: {self.tracking_number}\n"
-        info += f"Parcel delivery: {self.get_carrier_display()}\n"
+        lines = [
+            f"{_('Tracking Number')}: {self.tracking_number}",
+            f"{_('Carrier')}: {self.get_carrier_display()}",
+        ]
         if self.tracking_url:
-            info += f"Tracking link: {self.tracking_url}\n"
-        if self.last_location:
-            info += f"Last location: {self.last_location}\n"
-        if self.estimated_delivery_date:
-            info += f"Estimated delivery: {self.estimated_delivery_date}\n"
-        return info
+            lines.append(f"{_('Link')}: {self.tracking_url}")
+        return "\n".join(lines)
+
+    class Meta:
+        ordering = ["-created"]
+
+    def __str__(self):
+        return f"{self.order.id} - {self.status}"

@@ -72,7 +72,6 @@ WSGI_APPLICATION = "myshop.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -83,7 +82,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
@@ -114,7 +111,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
@@ -151,6 +147,13 @@ REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_DB = 1
 
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "UTC"
 
 # Custom User Model
 AUTH_USER_MODEL = "accounts.CustomUser"
@@ -191,7 +194,9 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Auto-connecting social accounts with existing users
 SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Link URL after login
 LOGIN_REDIRECT_URL = "shop:product_list"
 ACCOUNT_LOGIN_REDIRECT_URL = "shop:product_list"
+ACCOUNT_LOGOUT_REDIRECT_URL = "shop:product_list"

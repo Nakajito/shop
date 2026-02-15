@@ -1,111 +1,165 @@
 {% extends "admin/base_site.html" %}
+{% load i18n static %}
+
 {% block title %}
-Order {{ order.id }} {{ block.super }}
+  {% trans "Order" %} {{ order.id }} | {{ block.super }}
 {% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .module table th { width: 200px; }
+    .num { text-align: right !important; }
+    .neg { color: #ba2121; }
+    .total, .subtotal { font-weight: bold; }
+    .badge {
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .badge-paid { background: #d4edda; color: #155724; }
+    .badge-pending { background: #fff3cd; color: #856404; }
+</style>
+{% endblock %}
+
 {% block breadcrumbs %}
   <div class="breadcrumbs">
-    <a href="{% url "admin:index" %}">Home</a> &rsaquo;
-    <a href="{% url "admin:orders_order_changelist" %}">Orders</a>
-    &rsaquo;
-    <a href="{% url "admin:orders_order_change" order.id %}">Order {{ order.id }}</a>
-    &rsaquo; Detail
+    <a href="{% url 'admin:index' %}">{% trans "Home" %}</a> &rsaquo;
+    <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_config.verbose_name }}</a> &rsaquo;
+    <a href="{% url 'admin:orders_order_changelist' %}">{% trans "Orders" %}</a> &rsaquo;
+    <a href="{% url 'admin:orders_order_change' order.id %}">{% trans "Order" %} {{ order.id }}</a> &rsaquo; 
+    {% trans "Detail" %}
   </div>
 {% endblock %}
-{% block content %}
-<div class="module">
-  <h1>Order {{ order.id }}</h1>
-  <ul class="object-tools">
-    <li>
-      <a href="#" onclick="window.print();">
-        Print order
-      </a>
-    </li>
-  </ul>
-  <table>
-    <tr>
-      <th>Created</th>
-      <td>{{ order.created }}</td>
-      </tr>
-    <tr>
-      <th>Customer</th>
-      <td>{{ order.first_name }} {{ order.last_name }}</td>
-    </tr>
-    <tr>
-      <th>E-mail</th>
-      <td><a href="mailto:{{ order.email }}">{{ order.email }}</a></td>
-    </tr>
-    <tr>
-      <th>Address</th>
-    <td>
-      {{ order.address }},
-      {{ order.postal_code }} {{ order.city }}
-    </td>
-    </tr>
-    <tr>
-      <th>Total amount</th>
-      <td>${{ order.get_total_cost }}</td>
-    </tr>
-    <tr>
-      <th>Status</th>
-      <td>{% if order.paid %}Paid{% else %}Pending payment{% endif %}</td>
-    </tr>
-    <tr>
-      <th>Stripe payment</th>
-      <td>
-        {% if order.stripe_id %}
-          <a href="{{ order.get_stripe_url }}" target="_blank">
-            {{ order.stripe_id }}
-          </a>
-        {% endif %}
-      </td>
-    </tr>
-  </table>
-</div>
-<div class="module">
-  <h2>Items bought</h2>
-  <table style="width:100%">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in order.items.all %}
-        <tr class="row{% cycle "1" "2" %}">
-          <td>{{ item.product.name }}</td>
-          <td class="num">${{ item.price }}</td>
-          <td class="num">{{ item.quantity }}</td>
-          <td class="num">${{ item.get_cost }}</td>
-        </tr>
-      {% endfor %}
 
-      {% if order.coupon %}
-      <tr class="subtotal">
-        <td colspan="3">Subtotal</td>
-        <td class="num">
-          ${{ order.get_total_cost_before_discount|floatformat:2 }}
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          "{{ order.coupon.code }}" coupon
-          ({{ order.discount }}% off)
-        </td>
-        <td class="num neg">
-          - ${{ order.get_discount|floatformat:2 }}
-        </td>
-      </tr>
+{% block content %}
+<div id="content-main">
+    <div class="module">
+        <h1>{% trans "Order" %} {{ order.id }}</h1>
+        <ul class="object-tools">
+            <li>
+                <a href="{% url 'orders:admin_order_pdf' order.id %}" class="viewsitelink">
+                    <i class="bi bi-file-pdf"></i> {% trans "Download PDF Invoice" %}
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="window.print();">{% trans "Print Order" %}</a>
+            </li>
+        </ul>
+
+        <table>
+            <tr>
+                <th>{% trans "Status" %}</th>
+                <td>{{ order.get_status_display_with_badge|safe }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Payment Status" %}</th>
+                <td>
+                    {% if order.paid %}
+                        <span class="badge badge-paid">{% trans "Paid" %}</span>
+                    {% else %}
+                        <span class="badge badge-pending">{% trans "Pending Payment" %}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{% trans "Created" %}</th>
+                <td>{{ order.created|date:"DATETIME_FORMAT" }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Customer" %}</th>
+                <td>{{ order.first_name }} {{ order.last_name }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "E-mail" %}</th>
+                <td><a href="mailto:{{ order.email }}">{{ order.email }}</a></td>
+            </tr>
+            <tr>
+                <th>{% trans "Address" %}</th>
+                <td>
+                    {{ order.address }}<br>
+                    {{ order.postal_code }} {{ order.city }}
+                </td>
+            </tr>
+            {% if order.stripe_id %}
+            <tr>
+                <th>{% trans "Stripe Payment" %}</th>
+                <td>
+                    <a href="{{ order.get_stripe_url }}" target="_blank" class="fw-bold">
+                        {{ order.stripe_id }} <i class="bi bi-box-arrow-up-right"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    {% if order.tracking %}
+    <div class="module">
+        <h2>{% trans "Shipping Information" %}</h2>
+        <table>
+            <tr>
+                <th>{% trans "Carrier" %}</th>
+                <td>{{ order.tracking.get_carrier_display }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Tracking Number" %}</th>
+                <td>
+                    {% if order.tracking.tracking_url %}
+                        <a href="{{ order.tracking.tracking_url }}" target="_blank">{{ order.tracking.tracking_number }}</a>
+                    {% else %}
+                        {{ order.tracking.tracking_number }}
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
     {% endif %}
 
+    <div class="module">
+        <h2>{% trans "Items Bought" %}</h2>
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th>{% trans "Product" %}</th>
+                    <th class="num">{% trans "Price" %}</th>
+                    <th class="num">{% trans "Quantity" %}</th>
+                    <th class="num">{% trans "Total" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr class="row{% cycle '1' '2' %}">
+                    <td>{{ item.product.name }}</td>
+                    <td class="num">${{ item.price }}</td>
+                    <td class="num">{{ item.quantity }}</td>
+                    <td class="num">${{ item.get_cost }}</td>
+                </tr>
+                {% endfor %}
 
-      <tr class="total">
-        <td colspan="3">Total</td>
-        <td class="num">${{ order.get_total_cost|floatformat:2 }}</td>
-      </tr>
-    </tbody>
-  </table>
+                {% if order.coupon %}
+                <tr class="subtotal">
+                    <td colspan="3">{% trans "Subtotal" %}</td>
+                    <td class="num">${{ order.get_total_cost_before_discount|floatformat:2 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        {% blocktrans with code=order.coupon.code discount=order.discount %}
+                            Coupon "{{ code }}" ({{ discount }}% off)
+                        {% endblocktrans %}
+                    </td>
+                    <td class="num neg">- ${{ order.get_discount|floatformat:2 }}</td>
+                </tr>
+                {% endif %}
+
+                <tr class="total">
+                    <td colspan="3">{% trans "Total" %}</td>
+                    <td class="num">${{ order.get_total_cost|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

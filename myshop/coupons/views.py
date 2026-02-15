@@ -1,8 +1,10 @@
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from .forms import CouponApplyForm
+from django.contrib import messages
+from django.utils.translation import gettext as _
 from .models import Coupon
+from .forms import CouponApplyForm
 
 
 @require_POST
@@ -16,8 +18,7 @@ def coupon_apply(request):
     2. Current time matches the validity window (`valid_from` <= now <= `valid_to`).
     3. The coupon is explicitly marked as `active`.
 
-    If valid, the coupon's ID is stored in the user's session. If invalid,
-    any existing coupon in the session is cleared.
+    It provides immediate feedback to the user via Django messages.
 
     Args:
         request (HttpRequest): The incoming POST request.
@@ -31,11 +32,38 @@ def coupon_apply(request):
     if form.is_valid():
         code = form.cleaned_data["code"]
         try:
+            # Check for a valid, active coupon within the date range
             coupon = Coupon.objects.get(
                 code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True
             )
             request.session["coupon_id"] = coupon.id
+            messages.success(request, _("Coupon applied successfully."))
+
+        except Coupon.DoesNotExist:
+            # Clear any previously applied coupon if the new one is invalid
+            request.session["coupon_id"] = None
+            messages.error(request, _("This coupon is invalid, expired, or inactive."))
+
+    return redirect("cart:cart_detail")
+
+
+@require_POST
+def coupon_apply(request):
+    now = timezone.now()
+    form = CouponApplyForm(request.POST)
+
+    if form.is_valid():
+        code = form.cleaned_data["code"]
+        try:
+            # Validate: exact code, current date within range, and active status
+            coupon = Coupon.objects.get(
+                code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True
+            )
+            # Store in session
+            request.session["coupon_id"] = coupon.id
+            messages.success(request, _("Coupon applied successfully!"))
         except Coupon.DoesNotExist:
             request.session["coupon_id"] = None
+            messages.error(request, _("Invalid or expired coupon code."))
 
     return redirect("cart:cart_detail")

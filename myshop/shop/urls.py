@@ -2,28 +2,30 @@ from django.urls import path
 from . import views
 
 """
-URL configuration for the 'shop' application.
+URL Configuration for the 'shop' application.
 
-This module defines the public-facing URL patterns for browsing the product catalog.
+This module manages the storefront routing including:
+- Main catalog browsing.
+- Category-based filtering.
+- SEO-optimized product detail pages.
 
 Namespace:
     app_name = "shop"
-
-Available patterns:
-    - product_list: The home page of the shop, listing all available products.
-    - product_list_by_category: Filters the product list by a specific category slug.
-    - product_detail: Displays the full details of a specific product.
-      Pattern: /<id>/<slug>/ (e.g., /5/green-t-shirt/)
 """
 
 app_name = "shop"
 
 urlpatterns = [
-    # Catalog Home / List of all products
+    # Catalog Index: Displays all available products.
     path("", views.product_list, name="product_list"),
-    # List products filtered by category
-    path("<slug:category_slug>/", views.product_list, name="product_list_by_category"),
-    # Product detail view
-    # Note: Using both ID and Slug for better SEO and unique lookup
+    # Category Filter: Displays products belonging to a specific category.
+    # Note: Placed before detail view to avoid slug collisions.
+    path(
+        "category/<slug:category_slug>/",
+        views.product_list,
+        name="product_list_by_category",
+    ),
+    # Product Detail: Unique lookup using both ID (for speed) and Slug (for SEO).
+    # Example: /shop/42/gaming-laptop/
     path("<int:id>/<slug:slug>/", views.product_detail, name="product_detail"),
 ]

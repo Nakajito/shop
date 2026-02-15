@@ -1,11 +1,77 @@
 {% extends "shop/base.html" %}
+{% load i18n %}
+{% load static %}
 
 {% block title %}
-  Thank you
+    {% trans "Order Confirmed" %} - One Synk
 {% endblock %}
 
 {% block content %}
-  <h1>Thank you</h1>
-  <p>Your order has been successfully completed. Your order number is
-  <strong>{{ order.id }}</strong>.</p>
+<div class="container my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+            </div>
+            
+            <h1 class="fw-bold mb-3">{% trans "Thank You for Your Purchase!" %}</h1>
+            <p class="lead text-secondary mb-4">
+                {% trans "Your order has been successfully placed. We've sent a confirmation email to" %} 
+                <span class="fw-bold text-dark">{{ order.email }}</span>.
+            </p>
+
+            <div class="card bg-light border-0 shadow-sm mb-5 mx-auto" style="max-width: 400px;">
+                <div class="card-body py-4">
+                    <p class="text-uppercase text-muted small fw-bold mb-1">{% trans "Order Number" %}</p>
+                    <h2 class="display-6 fw-bold text-primary mb-0">#{{ order.id }}</h2>
+                </div>
+            </div>
+
+            <div class="row g-3 justify-content-center">
+                <div class="col-sm-auto">
+                    <a href="{% url 'shop:product_list' %}" class="btn btn-outline-primary btn-lg px-4 fw-bold">
+                        <i class="bi bi-cart-plus me-2"></i> {% trans "Continue Shopping" %}
+                    </a>
+                </div>
+                <div class="col-sm-auto">
+                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-primary btn-lg px-4 fw-bold shadow-sm">
+                        <i class="bi bi-receipt me-2"></i> {% trans "View Order Details" %}
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-5 pt-5 border-top">
+                <div class="row text-start g-4">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-envelope-check fs-2 text-primary me-3"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">{% trans "Email Confirmation" %}</h6>
+                                <p class="small text-muted mb-0">{% trans "Check your inbox for the receipt." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-truck fs-2 text-primary me-3"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">{% trans "Fast Shipping" %}</h6>
+                                <p class="small text-muted mb-0">{% trans "We'll notify you once it's on the way." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-headset fs-2 text-primary me-3"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">{% trans "Need Help?" %}</h6>
+                                <p class="small text-muted mb-0">{% trans "Contact our 24/7 support team." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

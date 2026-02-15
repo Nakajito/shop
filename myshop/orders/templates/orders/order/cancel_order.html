@@ -1,86 +1,97 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Cancelar Pedido - One Synk{% endblock %}
+{% block title %}{% trans "Cancel Order" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-danger shadow-sm">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0">Cancelar Pedido #{{ order.id }}</h4>
+        <div class="col-md-7 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-danger text-white py-3">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="bi bi-x-octagon-fill me-2"></i>{% trans "Cancel Order" %} #{{ order.id }}
+                    </h4>
                 </div>
                 
-                <div class="card-body p-4">
-                    <div class="alert alert-warning" role="alert">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        <strong>¡Atención!</strong> Esta acción cancelará tu pedido.
+                <div class="card-body p-4 p-md-5">
+                    <div class="alert alert-warning border-0 shadow-sm mb-4" role="alert">
+                        <div class="d-flex">
+                            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                            <div>
+                                <h6 class="alert-heading fw-bold">{% trans "Important" %}</h6>
+                                <p class="mb-0 small">{% trans "This action will stop the processing of your order immediately." %}</p>
+                            </div>
+                        </div>
                     </div>
                     
-                    <p class="mb-3">
-                        ¿Estás seguro de que deseas cancelar este pedido?
-                    </p>
+                    <p class="text-muted">{% trans "Are you sure you want to cancel this order?" %}</p>
                     
-                    <div class="card bg-light mb-4">
+                    <div class="card bg-light border-0 mb-4">
                         <div class="card-body">
-                            <h5>Resumen del Pedido</h5>
-                            <p class="mb-1"><strong>Número:</strong> #{{ order.id }}</p>
-                            <p class="mb-1"><strong>Fecha:</strong> {{ order.created|date:"d/m/Y H:i" }}</p>
-                            <p class="mb-1"><strong>Total:</strong> ${{ order.get_total }}</p>
-                            <p class="mb-1">
-                                <strong>Estado:</strong> 
-                                <span class="badge bg-warning">{{ order.get_status_display }}</span>
-                            </p>
-                            <p class="mb-0">
-                                <strong>Pago:</strong>
+                            <h6 class="text-uppercase text-muted small fw-bold mb-3">{% trans "Order Summary" %}</h6>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-secondary">{% trans "Order ID" %}</span>
+                                <span class="fw-bold">#{{ order.id }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-secondary">{% trans "Date" %}</span>
+                                <span>{{ order.created|date:"M d, Y H:i" }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-secondary">{% trans "Total" %}</span>
+                                <span class="fw-bold text-dark">${{ order.get_total_cost }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-secondary">{% trans "Payment Status" %}</span>
                                 {% if order.paid %}
-                                    <span class="badge bg-success">Pagado</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle">{% trans "Paid" %}</span>
                                 {% else %}
-                                    <span class="badge bg-danger">No Pagado</span>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">{% trans "Unpaid" %}</span>
                                 {% endif %}
-                            </p>
+                            </div>
                         </div>
                     </div>
                     
                     {% if order.paid %}
-                        <div class="alert alert-info" role="alert">
-                            <i class="bi bi-info-circle"></i>
-                            <strong>Reembolso:</strong> Se procesará un reembolso total de ${{ order.get_total }}. 
-                            El dinero llegará a tu cuenta en 5-10 días hábiles.
+                        <div class="alert alert-info border-0 shadow-sm mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+                                <div>
+                                    <p class="mb-0 fw-semibold">{% trans "Refund Information" %}</p>
+                                    <p class="mb-0 small">{% trans "A full refund of" %} <strong>${{ order.get_total_cost }}</strong> {% trans "will be initiated. Please allow 5-10 business days for the funds to reflect in your account." %}</p>
+                                </div>
+                            </div>
                         </div>
                     {% endif %}
                     
-                    {# Formulario de cancelación #}
                     <form method="post">
                         {% csrf_token %}
                         
-                        <div class="mb-3">
-                            <label for="reason" class="form-label">
-                                Motivo de cancelación (Opcional)
+                        <div class="mb-4">
+                            <label for="reason" class="form-label fw-bold small text-uppercase text-muted">
+                                {% trans "Reason for Cancellation (Optional)" %}
                             </label>
                             <textarea 
                                 class="form-control" 
                                 id="reason" 
                                 name="reason" 
                                 rows="3"
-                                placeholder="Cuéntanos por qué deseas cancelar este pedido..."
+                                placeholder="{% trans 'Please tell us why you are cancelling...' %}"
                             ></textarea>
-                            <small class="form-text text-muted">
-                                Tu feedback nos ayuda a mejorar.
-                            </small>
+                            <div class="form-text small">{% trans "Your feedback helps us improve our service." %}</div>
                         </div>
                         
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-danger btn-lg">
-                                <i class="bi bi-x-circle"></i> Sí, Cancelar Pedido
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                                {% trans "Confirm Cancellation" %}
                             </button>
+                            <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-link text-muted text-decoration-none">
+                                {% trans "No, keep my order" %}
+                            </a>
                         </div>
                     </form>
-                    
-                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-outline-secondary w-100 mt-2">
-                        No, Volver
-                    </a>
                 </div>
             </div>
         </div>

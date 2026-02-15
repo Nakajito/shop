@@ -1,43 +1,41 @@
 from django.db import models
-from django.db.models import Q
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from accounts.models import CustomUser
 from orders.models import Order
 
 
 class SupportTicket(models.Model):
     """
-    Modelo para tickets de soporte al cliente.
-    Permite reportar problemas, aclaraciones y contactar soporte.
+    Model for customer support tickets.
+    Handles issue reporting, clarifications, and staff assignments.
     """
 
-    ISSUE_TYPE_CHOICES = (
-        ("clarification", "Solicitar Aclaración"),
-        ("problem", "Reportar Problema"),
-        ("contact", "Contactar Soporte"),
-        ("refund", "Solicitar Reembolso"),
-        ("other", "Otro"),
-    )
+    class IssueType(models.TextChoices):
+        CLARIFICATION = "clarification", _("Request Clarification")
+        PROBLEM = "problem", _("Report a Problem")
+        CONTACT = "contact", _("Contact Support")
+        REFUND = "refund", _("Request Refund")
+        OTHER = "other", _("Other")
 
-    STATUS_CHOICES = (
-        ("open", "Abierto"),
-        ("in_progress", "En Progreso"),
-        ("waiting_customer", "Esperando Respuesta"),
-        ("resolved", "Resuelto"),
-        ("closed", "Cerrado"),
-    )
+    class Status(models.TextChoices):
+        OPEN = "open", _("Open")
+        IN_PROGRESS = "in_progress", _("In Progress")
+        WAITING_CUSTOMER = "waiting_customer", _("Waiting for Customer")
+        RESOLVED = "resolved", _("Resolved")
+        CLOSED = "closed", _("Closed")
 
-    PRIORITY_CHOICES = (
-        ("low", "Baja"),
-        ("medium", "Media"),
-        ("high", "Alta"),
-        ("urgent", "Urgente"),
-    )
+    class Priority(models.TextChoices):
+        LOW = "low", _("Low")
+        MEDIUM = "medium", _("Medium")
+        HIGH = "high", _("High")
+        URGENT = "urgent", _("Urgent")
 
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         related_name="support_tickets",
-        help_text="Usuario que creó el ticket",
+        verbose_name=_("user"),
     )
 
     order = models.ForeignKey(
@@ -46,32 +44,32 @@ class SupportTicket(models.Model):
         null=True,
         blank=True,
         related_name="support_tickets",
-        help_text="Pedido relacionado (opcional)",
+        verbose_name=_("related order"),
     )
 
     issue_type = models.CharField(
         max_length=20,
-        choices=ISSUE_TYPE_CHOICES,
-        default="contact",
-        help_text="Tipo de problema",
+        choices=IssueType.choices,
+        default=IssueType.CONTACT,
+        verbose_name=_("issue type"),
     )
 
-    subject = models.CharField(max_length=255, help_text="Asunto del ticket")
+    subject = models.CharField(max_length=255, verbose_name=_("subject"))
 
-    message = models.TextField(help_text="Descripción detallada del problema")
+    message = models.TextField(verbose_name=_("detailed description"))
 
     status = models.CharField(
         max_length=20,
-        choices=STATUS_CHOICES,
-        default="open",
-        help_text="Estado del ticket",
+        choices=Status.choices,
+        default=Status.OPEN,
+        verbose_name=_("status"),
     )
 
     priority = models.CharField(
         max_length=20,
-        choices=PRIORITY_CHOICES,
-        default="medium",
-        help_text="Prioridad del ticket",
+        choices=Priority.choices,
+        default=Priority.MEDIUM,
+        verbose_name=_("priority"),
     )
 
     assigned_to = models.ForeignKey(
@@ -80,18 +78,18 @@ class SupportTicket(models.Model):
         null=True,
         blank=True,
         related_name="assigned_tickets",
-        help_text="Staff asignado",
+        verbose_name=_("assigned staff"),
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     resolved_at = models.DateTimeField(
-        null=True, blank=True, help_text="Fecha de resolución"
+        null=True, blank=True, verbose_name=_("resolved at")
     )
 
     class Meta:
-        verbose_name = "Ticket de Soporte"
-        verbose_name_plural = "Tickets de Soporte"
+        verbose_name = _("Support Ticket")
+        verbose_name_plural = _("Support Tickets")
         ordering = ["-created_at"]
         indexes = [
             models.Index(fields=["user", "-created_at"]),
@@ -102,28 +100,33 @@ class SupportTicket(models.Model):
         return f"#{self.id} - {self.subject} ({self.get_status_display()})"
 
     def get_status_color(self):
-        """Retorna color para badge del estado"""
+        """Returns Bootstrap 5 context class for the status badge."""
         colors = {
-            "open": "danger",
-            "in_progress": "info",
-            "waiting_customer": "warning",
-            "resolved": "success",
-            "closed": "secondary",
+            self.Status.OPEN: "danger",
+            self.Status.IN_PROGRESS: "info",
+            self.Status.WAITING_CUSTOMER: "warning",
+            self.Status.RESOLVED: "success",
+            self.Status.CLOSED: "secondary",
         }
         return colors.get(self.status, "secondary")
+
+    def save(self, *args, **kwargs):
+        # Automatically set resolved_at when status changes to resolved
+        if self.status == self.Status.RESOLVED and not self.resolved_at:
+            self.resolved_at = timezone.now()
+        super().save(*args, **kwargs)
 
 
 class TicketMessage(models.Model):
     """
-    Modelo para mensajes en un ticket de soporte.
-    Permite conversación entre usuario y soporte.
+    Messages within a support ticket conversation.
     """
 
     ticket = models.ForeignKey(
         SupportTicket,
         on_delete=models.CASCADE,
         related_name="messages",
-        help_text="Ticket relacionado",
+        verbose_name=_("ticket"),
     )
 
     sender = models.ForeignKey(
@@ -131,21 +134,28 @@ class TicketMessage(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name="sent_messages",
-        help_text="Usuario que envió el mensaje",
+        verbose_name=_("sender"),
     )
 
-    message = models.TextField(help_text="Contenido del mensaje")
+    message = models.TextField(verbose_name=_("message content"))
 
     is_internal = models.BooleanField(
-        default=False, help_text="¿Es una nota interna del equipo?"
+        default=False,
+        verbose_name=_("internal note"),
+        help_text=_("Staff only. Hidden from the customer."),
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Mensaje de Ticket"
-        verbose_name_plural = "Mensajes de Ticket"
+        verbose_name = _("Ticket Message")
+        verbose_name_plural = _("Ticket Messages")
         ordering = ["created_at"]
 
     def __str__(self):
-        return f"Mensaje en Ticket #{self.ticket.id}"
+        return f"Message by {self.sender} on Ticket #{self.ticket.id}"
+
+    @property
+    def is_staff_reply(self):
+        """Checks if the sender is a staff member."""
+        return self.sender.is_staff if self.sender else False

@@ -1,27 +1,28 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}My Profile - One Synk{% endblock %}
+{% block title %}{% trans "My Profile" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <!-- Sidebar de Navegación -->
-        {% include "includes/sidebar.html" %}
+        <div class="col-md-3 mb-4 mb-md-0">
+            {% include "includes/sidebar.html" %}
+        </div>
       
-        <!-- Main Content -->
         <div class="col-md-9">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Personal Information</h4>
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill me-2"></i>{% trans "Personal Information" %}</h4>
                 </div>
                 
-                <div class="card-body">
+                <div class="card-body p-4">
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                                 {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -29,131 +30,144 @@
                     <form method="post" enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         
-                        <div class="row">
-                            <!-- Profile Photo -->
-                            <div class="col-md-4 text-center mb-4">
-                                <div class="mb-3">
+                        <div class="row align-items-start">
+                            <div class="col-md-4 text-center mb-4 mb-md-0 border-end-md">
+                                <div class="mb-3 position-relative d-inline-block">
                                     {% if user.profile.profile_picture %}
                                         <img src="{{ user.profile.profile_picture.url }}" 
                                              alt="{{ user.username }}" 
-                                             class="rounded-circle" 
+                                             class="rounded-circle shadow-sm border border-3 border-white" 
                                              style="width: 150px; height: 150px; object-fit: cover;">
                                     {% else %}
-                                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+                                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center text-secondary"
                                              style="width: 150px; height: 150px;">
-                                            <i class="bi bi-person-circle" style="font-size: 100px;"></i>
+                                            <i class="bi bi-person-fill" style="font-size: 80px;"></i>
                                         </div>
                                     {% endif %}
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="id_profile_picture" class="form-label">Change Photo</label>
-                                    {{ profile_form.profile_picture }}
+                                    <label for="id_profile_picture" class="form-label fw-semibold text-muted small text-uppercase">{% trans "Change Photo" %}</label>
+                                    <div class="input-group input-group-sm">
+                                        {{ profile_form.profile_picture }}
+                                    </div>
                                 </div>
                             </div>
                             
-                            <!-- Formulario de Usuario -->
-                            <div class="col-md-8">
+                            <div class="col-md-8 ps-md-4">
                                 <div class="mb-3">
-                                    <label for="id_username" class="form-label">User Form</label>
+                                    <label for="id_username" class="form-label fw-bold">{% trans "Username" %}</label>
                                     {{ user_form.username }}
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="id_first_name" class="form-label">Name</label>
+                                        <label for="id_first_name" class="form-label fw-bold">{% trans "First Name" %}</label>
                                         {{ user_form.first_name }}
                                     </div>
-                                    
                                     <div class="col-md-6 mb-3">
-                                        <label for="id_last_name" class="form-label">Last name</label>
+                                        <label for="id_last_name" class="form-label fw-bold">{% trans "Last Name" %}</label>
                                         {{ user_form.last_name }}
                                     </div>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="id_email" class="form-label">Email</label>
+                                    <label for="id_email" class="form-label fw-bold">{% trans "Email Address" %}</label>
                                     {{ user_form.email }}
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label for="id_phone" class="form-label">Phone</label>
-                                    {{ user_form.phone }}
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="id_user_type" class="form-label">User type</label>
-                                    {{ user_form.user_type }}
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_phone" class="form-label fw-bold">{% trans "Phone Number" %}</label>
+                                        {{ user_form.phone }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_user_type" class="form-label fw-bold">{% trans "Account Type" %}</label>
+                                        {{ user_form.user_type }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <hr>
+                        <hr class="my-4">
                         
-                        <!-- Profile Form -->
                         <div class="mb-3">
-                            <label for="id_bio" class="form-label">Biography</label>
+                            <label for="id_bio" class="form-label fw-bold">{% trans "Biography" %}</label>
                             {{ profile_form.bio }}
-                            <small class="form-text text-muted">Maximum 500 characters</small>
+                            <div class="form-text">{% trans "Maximum 500 characters" %}</div>
                         </div>
                         
-                        <div class="mb-3 form-check">
+                        <div class="mb-4 form-check bg-light p-3 rounded border">
                             {{ profile_form.newsletter_subscribed }}
-                            <label class="form-check-label" for="id_newsletter_subscribed">
-                                Receive promotions and news by email
+                            <label class="form-check-label ms-2" for="id_newsletter_subscribed">
+                                {% trans "Subscribe to our newsletter to receive promotions and news." %}
                             </label>
                         </div>
                         
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="bi bi-check-circle"></i> Save
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                                <i class="bi bi-save me-2"></i> {% trans "Save Changes" %}
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
             
-            <!-- Summary of Information -->
-            <div class="row">
+            <div class="row g-3">
                 <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recent_orders|length }}</h5>
-                            <p class="card-text text-muted">Recent Purchases</p>
-                            <a href="{% url 'orders:order_history' %}" class="btn btn-sm btn-outline-primary">
-                            <a href="#" class="btn btn-sm btn-outline-primary">
-                                See all
+                    <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
+                        <div class="card-body py-4">
+                            <div class="text-primary mb-2"><i class="bi bi-bag-check fs-2"></i></div>
+                            <h3 class="card-title fw-bold mb-0">{{ recent_orders|length }}</h3>
+                            <p class="card-text text-muted small text-uppercase">{% trans "Recent Purchases" %}</p>
+                            <a href="{% url 'orders:order_history' %}" class="btn btn-sm btn-outline-primary mt-2 stretched-link">
+                                {% trans "View History" %}
                             </a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ addresses_count }}</h5>
-                            <p class="card-text text-muted">Address</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary">
-                            <a href="{% url 'orders:address_list' %}" class="btn btn-sm btn-outline-primary">
-                                Manage
+                    <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
+                        <div class="card-body py-4">
+                            <div class="text-success mb-2"><i class="bi bi-geo-alt fs-2"></i></div>
+                            <h3 class="card-title fw-bold mb-0">{{ addresses_count }}</h3>
+                            <p class="card-text text-muted small text-uppercase">{% trans "Saved Addresses" %}</p>
+                            <a href="{% url 'orders:address_list' %}" class="btn btn-sm btn-outline-success mt-2 stretched-link">
+                                {% trans "Manage Addresses" %}
                             </a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ payment_methods_count }}</h5>
-                            <p class="card-text text-muted">Payment method</p>
-                            <a href="{% url 'payment:payment_method_list' %}" class="btn btn-sm btn-outline-primary">
-                                Manage
+                    <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
+                        <div class="card-body py-4">
+                            <div class="text-warning mb-2"><i class="bi bi-credit-card fs-2"></i></div>
+                            <h3 class="card-title fw-bold mb-0">{{ payment_methods_count }}</h3>
+                            <p class="card-text text-muted small text-uppercase">{% trans "Payment Methods" %}</p>
+                            {# We check if the URL exists first or use a placeholder if the app is not ready #}
+                            {% url 'payment:payment_method_list' as payment_url %}
+                            <a href="{{ payment_url|default:'#' }}" class="btn btn-sm btn-outline-warning mt-2 stretched-link">
+                                {% trans "Manage Cards" %}
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom hover effect for dashboard cards */
+    .hover-elevate {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-elevate:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
 {% endblock %}

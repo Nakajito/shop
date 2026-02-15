@@ -1,94 +1,98 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}My Payment Methods - One Synk{% endblock %}
+{% block title %}{% trans "My Payment Methods" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <!-- Sidebar -->
-        {% include "includes/sidebar.html" %}
+        <div class="col-md-3 mb-4 mb-md-0">
+            {% include "includes/sidebar.html" %}
+        </div>
         
-        <!-- Main content-->
         <div class="col-md-9">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>{{ page_title }}</h2>
-                <a href="{% url 'payment:payment_method_add' %}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Add card
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <h2 class="h3 fw-bold mb-0 text-dark">{% trans "My Wallet" %}</h2>
+                <a href="{% url 'payment:payment_method_add' %}" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-plus-lg me-1"></i> {% trans "Add New Card" %}
                 </a>
             </div>
             
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
                         {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endif %}
             
             {% if payment_methods %}
-                <div class="row">
+                <div class="row g-4">
                     {% for pm in payment_methods %}
-                        <div class="col-md-6 mb-4">
-                            <div class="card h-100 {% if pm.is_default %}border-primary border-2{% endif %}">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm {% if pm.is_default %}ring-default{% endif %}">
                                 {% if pm.is_default %}
-                                    <div class="card-header bg-primary text-white py-2">
-                                        <small><i class="bi bi-check-circle"></i> Default Method</small>
+                                    <div class="card-header bg-primary text-white py-2 border-0">
+                                        <small class="fw-bold"><i class="bi bi-star-fill me-1"></i> {% trans "Default Payment Method" %}</small>
                                     </div>
                                 {% endif %}
                                 
-                                <div class="card-body">
-                                    <!-- Card icon by type -->
-                                    <div class="mb-3">
-                                        {% if pm.card_type == 'visa' %}
-                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #1a1f71;"></i>
-                                        {% elif pm.card_type == 'mastercard' %}
-                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #eb001b;"></i>
-                                        {% elif pm.card_type == 'amex' %}
-                                            <i class="bi bi-credit-card" style="font-size: 2rem; color: #006fcf;"></i>
-                                        {% else %}
-                                            <i class="bi bi-credit-card" style="font-size: 2rem;"></i>
-                                        {% endif %}
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div class="card-provider-icon">
+                                            {% if pm.card_type == 'visa' %}
+                                                <i class="bi bi-credit-card-2-front-fill fs-1" style="color: #1a1f71;"></i>
+                                            {% elif pm.card_type == 'mastercard' %}
+                                                <i class="bi bi-credit-card-2-front-fill fs-1" style="color: #eb001b;"></i>
+                                            {% elif pm.card_type == 'amex' %}
+                                                <i class="bi bi-credit-card-2-front-fill fs-1" style="color: #006fcf;"></i>
+                                            {% else %}
+                                                <i class="bi bi-credit-card-2-front-fill fs-1 text-muted"></i>
+                                            {% endif %}
+                                        </div>
+                                        <span class="badge bg-light text-dark border text-uppercase">
+                                            {{ pm.get_card_type_display }}
+                                        </span>
                                     </div>
                                     
-                                    <h5 class="card-title">{{ pm.get_card_type_display }}</h5>
+                                    <h5 class="fw-bold mb-1">{{ pm.get_masked_card }}</h5>
+                                    <p class="text-muted small mb-3">{% trans "Cardholder" %}: {{ pm.card_holder_name }}</p>
                                     
-                                    <p class="card-text">
-                                        <strong>{{ pm.get_masked_card }}</strong>
-                                    </p>
-                                    
-                                    <p class="card-text text-muted small mb-2">
-                                        Titular: {{ pm.card_holder_name }}
-                                    </p>
-                                    
-                                    <p class="card-text text-muted small mb-3">
-                                        Expira: {{ pm.get_expiration_display }}
-                                        {% if pm.is_expired %}
-                                            <br>
-                                            <span class="badge bg-danger">Expired</span>
-                                        {% endif %}
-                                    </p>
-                                    
-                                    <p class="text-muted small">
-                                        Added: {{ pm.created_at|date:"d/m/Y" }}
-                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                                        <div class="small">
+                                            <span class="text-muted">{% trans "Expires" %}:</span>
+                                            <span class="fw-semibold {% if pm.is_expired %}text-danger{% endif %}">
+                                                {{ pm.get_expiration_display }}
+                                            </span>
+                                            {% if pm.is_expired %}
+                                                <span class="badge bg-danger ms-1">{% trans "Expired" %}</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-muted x-small">
+                                            {% trans "Added" %}: {{ pm.created_at|date:"M d, Y" }}
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div class="card-footer bg-light">
-                                    <div class="btn-group btn-group-sm w-100" role="group">
+                                <div class="card-footer bg-white border-top-0 pb-3 pt-0">
+                                    <div class="row g-2">
                                         {% if not pm.is_default and not pm.is_expired %}
-                                            <form action="{% url 'payment:payment_method_set_default' pm.id %}" method="post" class="flex-fill">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-outline-success w-100 btn-sm">
-                                                    <i class="bi bi-check"></i> By default
-                                                </button>
-                                            </form>
+                                            <div class="col-12">
+                                                <form action="{% url 'payment:payment_method_set_default' pm.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-success btn-sm w-100 shadow-xs">
+                                                        <i class="bi bi-bookmark-check me-1"></i> {% trans "Set as Default" %}
+                                                    </button>
+                                                </form>
+                                            </div>
                                         {% endif %}
-                                        
-                                        <a href="{% url 'payment:payment_method_delete' pm.id %}" class="btn btn-outline-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </a>
+                                        <div class="col-12">
+                                            <a href="{% url 'payment:payment_method_delete' pm.id %}" class="btn btn-outline-danger btn-sm w-100 shadow-xs">
+                                                <i class="bi bi-trash3 me-1"></i> {% trans "Remove Card" %}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,13 +101,27 @@
                 </div>
             
             {% else %}
-                <div class="alert alert-info" role="alert">
-                    <i class="bi bi-info-circle"></i>
-                    You have no cards registered..
-                    <a href="{% url 'payment:payment_method_add' %}" class="alert-link">Add one now</a>
+                <div class="text-center py-5 bg-white rounded-3 shadow-sm border border-dashed">
+                    <div class="mb-3 text-muted">
+                        <i class="bi bi-credit-card fs-1"></i>
+                    </div>
+                    <h4 class="fw-bold">{% trans "No Saved Cards" %}</h4>
+                    <p class="text-secondary">{% trans "Securely save your payment methods for a faster checkout experience." %}</p>
+                    <a href="{% url 'payment:payment_method_add' %}" class="btn btn-primary px-4 mt-2">
+                        {% trans "Add your first card" %}
+                    </a>
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<style>
+    .ring-default {
+        border: 2px solid #0d6efd !important;
+    }
+    .x-small { font-size: 0.75rem; }
+    .border-dashed { border: 2px dashed #dee2e6 !important; }
+    .shadow-xs { box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.03); }
+</style>
 {% endblock %}

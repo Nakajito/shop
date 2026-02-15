@@ -1,12 +1,19 @@
 import stripe
+import logging
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
+from django.utils.translation import gettext as _
+
 from orders.models import Order
 from shop.models import Product
 from shop.recommender import Recommender
 from .tasks import payment_completed
 from orders.tasks import send_order_status_update_email
+
+# Initialize logger for production debugging
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -14,72 +21,85 @@ def stripe_webhook(request):
     """
     Webhook endpoint to handle asynchronous events from Stripe.
 
-    This view handles the 'checkout.session.completed' event. It performs
-    the following security and logic steps:
-    1. Verifies the request signature using the STRIPE_WEBHOOK_SECRET to ensure
-       the request actually came from Stripe.
-    2. Retrieves the Order based on the 'client_reference_id' passed to Stripe
-       during session creation.
-    3. Marks the order as paid and stores the Stripe Payment Intent ID.
-    4. Updates the product recommendation engine with the purchased items.
-    5. Triggers the asynchronous email confirmation task.
-
-    Args:
-        request (HttpRequest): The incoming POST request from Stripe.
-
-    Returns:
-        HttpResponse: 200 OK on success, 400 on invalid payload/signature,
-        or 404 if the order is missing.
+    Security: Verifies the STRIPE_WEBHOOK_SECRET signature.
+    Event: checkout.session.completed
     """
     payload = request.body
-    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
     event = None
+
+    # Basic check for signature presence
+    if not sig_header:
+        logger.error("Stripe Webhook Error: Missing signature header.")
+        return HttpResponse(status=400)
 
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except ValueError:
+    except ValueError as e:
         # Invalid payload
+        logger.error(f"Stripe Webhook Error: Invalid payload. {e}")
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
+    except stripe.error.SignatureVerificationError as e:
         # Invalid signature
+        logger.error(f"Stripe Webhook Error: Invalid signature. {e}")
         return HttpResponse(status=400)
 
+    # Logic for successful checkout session
     if event.type == "checkout.session.completed":
         session = event.data.object
 
         if session.mode == "payment" and session.payment_status == "paid":
             try:
-                # The client_reference_id corresponds to our Order ID
-                order = Order.objects.get(id=session.client_reference_id)
+                # The client_reference_id corresponds to our local Order ID
+                order_id = session.client_reference_id
+                order = Order.objects.get(id=order_id)
+
+                # Wrap business logic in an atomic transaction
+                with transaction.atomic():
+                    # 1. Update Order Payment Details
+                    order.paid = True
+                    order.stripe_id = session.payment_intent
+                    order.save(update_fields=["paid", "stripe_id"])
+
+                    # 2. Update Status & Audit Log
+                    order.change_status(
+                        "confirmed",
+                        user=None,
+                        note=_("Payment confirmed via Stripe Checkout."),
+                    )
+
+                # 3. Trigger Asynchronous Background Tasks
+                # Send order status update email (Celery)
+                send_order_status_update_email.delay(order.id, "confirmed")
+
+                # Send PDF invoice email (Celery)
+                payment_completed.delay(order.id)
+
+                # 4. Update Recommendation Engine (Redis)
+                try:
+                    product_ids = order.items.values_list("product_id", flat=True)
+                    products = Product.objects.filter(id__in=product_ids)
+                    r = Recommender()
+                    r.products_bought(products)
+                except Exception as e:
+                    # Don't fail the whole webhook if recommendation engine fails
+                    logger.warning(
+                        f"Recommendation Engine Error for Order {order.id}: {e}"
+                    )
+
+                logger.info(
+                    f"Webhook Success: Order {order.id} processed successfully."
+                )
+
             except Order.DoesNotExist:
+                logger.error(
+                    f"Stripe Webhook Error: Order {session.client_reference_id} not found."
+                )
                 return HttpResponse(status=404)
-
-            # Mark order as paid
-            order.paid = True
-            order.status = "confirmed"
-
-            # Store the Stripe PaymentIntent ID (useful for refunds/audits)
-            order.stripe_id = session.payment_intent
-            order.save()
-
-            # Crear registro de auditoría
-            order.change_status(
-                "confirmed", changed_by=None, reason="Pay confirmed by Stripe"
-            )
-
-            # Enviar email de confirmación de pago
-            send_order_status_update_email.delay(order.id, "confirmed")
-
-            # Update the recommendation engine with the items purchased together
-            product_ids = order.items.values_list("product_id", flat=True)
-            products = Product.objects.filter(id__in=product_ids)
-
-            r = Recommender()
-            r.products_bought(products)
-
-            # Launch asynchronous task to send the invoice email
-            payment_completed.delay(order.id)
+            except Exception as e:
+                logger.error(f"Stripe Webhook Business Logic Error: {str(e)}")
+                return HttpResponse(status=500)
 
     return HttpResponse(status=200)

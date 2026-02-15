@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
+from django.http import HttpRequest
 from shop.models import Product
 from coupons.models import Coupon
 
@@ -11,48 +12,31 @@ class Cart:
     This class handles the addition, removal, and iteration of products within
     the user's session. It persists data using Django's session framework,
     ensuring the cart remains available across requests. It also handles
-    price calculations and coupon applications.
+    price calculations, coupon applications, and data serialization.
     """
 
     def __init__(self, request):
         """
-        Initialize the cart using the current request session.
-
-        If a cart session does not exist, a new empty dictionary is created
-        and stored in the session under the key defined in settings.CART_SESSION_ID.
-
-        Args:
-            request (HttpRequest): The standard Django request object.
+        Initialize the cart using the Django session.
         """
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
-            # save an empty cart in the session
+            # Save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
-        # store current applied coupon
+        # Store current applied coupon
         self.coupon_id = self.session.get("coupon_id")
 
     def __iter__(self):
         """
-        Iterate over the items in the cart and attach Product database instances.
-
-        This method retrieves the actual Product objects from the database based
-        on the IDs stored in the session. It also calculates the 'total_price'
-        for each line item (price * quantity) and converts stored string prices
-        back to Decimal objects for accurate arithmetic.
-
-        Yields:
-            dict: A dictionary containing the product, quantity, price (Decimal),
-                  and total_price (Decimal).
+        Iterate over the items in the cart and get the products from the database.
         """
         product_ids = self.cart.keys()
-        # get the product objects and add them to the cart
+        # Get the product objects and add them to the cart
         products = Product.objects.filter(id__in=product_ids)
 
-        # Create a copy to avoid modifying the session data directly during iteration
         cart = self.cart.copy()
-
         for product in products:
             cart[str(product.id)]["product"] = product
 
@@ -63,30 +47,17 @@ class Cart:
 
     def __len__(self):
         """
-        Return the total number of items in the cart.
-
-        Returns:
-            int: The sum of quantities across all distinct items.
+        Count all items in the cart.
         """
         return sum(item["quantity"] for item in self.cart.values())
 
     def add(self, product, quantity=1, override_quantity=False):
         """
         Add a product to the cart or update its quantity.
-
-        Args:
-            product (Product): The product instance to add.
-            quantity (int, optional): The number of items to add. Defaults to 1.
-            override_quantity (bool, optional): If True, replaces the current
-                quantity with the new value. If False, adds to the existing
-                quantity. Defaults to False.
         """
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {
-                "quantity": 0,
-                "price": str(product.price),  # Store as string for JSON serialization
-            }
+            self.cart[product_id] = {"quantity": 0, "price": str(product.price)}
 
         if override_quantity:
             self.cart[product_id]["quantity"] = quantity
@@ -96,17 +67,12 @@ class Cart:
         self.save()
 
     def save(self):
-        """
-        Mark the session as modified to ensure it gets saved to the backend.
-        """
+        # Mark the session as "modified" to make sure it gets saved
         self.session.modified = True
 
     def remove(self, product):
         """
         Remove a product from the cart.
-
-        Args:
-            product (Product): The product instance to remove.
         """
         product_id = str(product.id)
         if product_id in self.cart:
@@ -116,17 +82,12 @@ class Cart:
     def clear(self):
         """
         Remove the cart from the session entirely.
+        This is typically called after a successful checkout.
         """
         del self.session[settings.CART_SESSION_ID]
         self.save()
 
     def get_total_price(self):
-        """
-        Calculate the total cost of all items in the cart before discounts.
-
-        Returns:
-            Decimal: The sum of (price * quantity) for all items.
-        """
         return sum(
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
         )
@@ -136,18 +97,20 @@ class Cart:
         """
         Retrieve the Coupon object associated with the current session.
 
+        Uses caching (`self._coupon_cache`) to avoid hitting the database
+        multiple times during the same request lifecycle.
+
         Returns:
-            Coupon or None: The Coupon object if a valid ID exists in the
-            session, otherwise None.
+            Coupon or None: The Coupon object if valid, otherwise None.
         """
         if self.coupon_id:
             try:
-                return Coupon.objects.get(id=self.coupon_id)
+                return Coupon.objects.get(id=self.coupon_id, active=True)
             except Coupon.DoesNotExist:
                 pass
         return None
 
-    def get_discount(self):
+    def get_discount(self) -> Decimal:
         """
         Calculate the monetary value of the discount based on the active coupon.
 
@@ -159,6 +122,16 @@ class Cart:
         return Decimal(0)
 
     def get_total_price_after_discount(self):
+        return self.get_total_price() - self.get_discount()
+
+    def clear(self):
+        # Remove cart and coupon from session
+        del self.session[settings.CART_SESSION_ID]
+        if "coupon_id" in self.session:
+            del self.session["coupon_id"]
+        self.save()
+
+    def get_total_price_after_discount(self) -> Decimal:
         """
         Calculate the final total price after applying the coupon discount.
 

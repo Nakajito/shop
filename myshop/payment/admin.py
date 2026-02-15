@@ -1,10 +1,16 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from payment.models import PaymentMethod
 
 
 @admin.register(PaymentMethod)
 class PaymentMethodAdmin(admin.ModelAdmin):
-    """Admin to manage payment methods"""
+    """
+    Admin configuration to manage user payment methods.
+
+    Registration/Addition is disabled via admin to ensure Stripe
+    tokenization integrity, which must happen on the frontend.
+    """
 
     list_display = (
         "card_holder_name",
@@ -14,23 +20,32 @@ class PaymentMethodAdmin(admin.ModelAdmin):
         "get_expiration_display",
         "is_default",
         "is_active",
+        "is_expired_display",
         "created_at",
     )
+
     list_filter = ("card_type", "is_default", "is_active", "created_at")
-    search_fields = ("user__username", "card_holder_name", "last_four_digits")
+
+    search_fields = (
+        "user__username",
+        "user__email",
+        "card_holder_name",
+        "last_four_digits",
+    )
+
     readonly_fields = (
         "stripe_payment_method_id",
         "created_at",
         "updated_at",
         "get_masked_card",
         "get_expiration_display",
-        "is_expired",
+        "is_expired_display",
     )
 
     fieldsets = (
-        ("User", {"fields": ("user",)}),
+        (_("Ownership"), {"fields": ("user",)}),
         (
-            "Card information",
+            _("Card Details"),
             {
                 "fields": (
                     "card_holder_name",
@@ -43,31 +58,32 @@ class PaymentMethodAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "Stripe",
+            _("Stripe Integration"),
             {
                 "fields": ("stripe_payment_method_id",),
                 "classes": ("collapse",),
-                "description": "Información de Stripe (solo lectura)",
+                "description": _("Stripe reference data (Read-only for integrity)."),
             },
         ),
-        ("State", {"fields": ("is_default", "is_active", "is_expired")}),
+        (_("Status"), {"fields": ("is_default", "is_active", "is_expired_display")}),
         (
-            "Audit",
+            _("Audit Trail"),
             {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
         ),
     )
 
-    def is_expired(self, obj):
-        """Shows whether the card has expired"""
+    @admin.display(boolean=True, description=_("Expired?"))
+    def is_expired_display(self, obj):
+        """Displays a boolean icon if the card is past its expiry date."""
         return obj.is_expired()
 
-    is_expired.boolean = True
-    is_expired.short_description = "Expired?"
-
     def has_add_permission(self, request):
-        """Do not allow adding payment methods from the admin"""
+        """
+        Prevents manual card addition.
+        Cards must be added via the frontend to be tokenized by Stripe.
+        """
         return False
 
     def has_delete_permission(self, request, obj=None):
-        """Allow careful removal"""
+        """Allows removal, but use with caution as it affects recurring logic."""
         return True
