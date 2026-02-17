@@ -2,6 +2,10 @@
 {% load static %}
 {% load i18n %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/card_effect.css' %}">
+{% endblock %}
+
 {% block title %}{% trans "My Profile" %} - One Synk{% endblock %}
 
 {% block content %}
@@ -82,8 +86,12 @@
                                         {{ user_form.phone }}
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="id_user_type" class="form-label fw-bold">{% trans "Account Type" %}</label>
-                                        {{ user_form.user_type }}
+                                    <label class="form-label fw-bold">{% trans "Account Type" %}</label>
+                                    <input type="text" 
+                                        class="form-control bg-light" 
+                                        value="{{ user.get_user_type_display }}" 
+                                        disabled 
+                                        readonly>
                                     </div>
                                 </div>
                             </div>
@@ -160,14 +168,6 @@
     </div>
 </div>
 
-<style>
-    /* Custom hover effect for dashboard cards */
-    .hover-elevate {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .hover-elevate:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-    }
-</style>
+
+
 {% endblock %}

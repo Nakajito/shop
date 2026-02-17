@@ -6,29 +6,23 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from .models import Order
 
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
-@shared_task
-def order_created(order_id):
-    """
-    Celery task to send an email notification when an order is created.
-
-    This task runs asynchronously to prevent blocking the user's request/response
-    cycle during checkout. It retrieves the order by ID and sends a confirmation email.
-
-    Args:
-        order_id (int): The primary key of the newly created Order.
-
-    Returns:
-        int: The number of emails successfully delivered (typically 1).
-    """
+@shared_task(
+    bind=True,
+    max_retries=3,
+    default_retry_delay=60,
+    retry_backoff=True,
+    retry_backoff_max=600,
+    retry_jitter=True,
+)
+def order_created(self, order_id):
+    """Send an email notification when an order is created."""
     try:
         order = Order.objects.get(id=order_id)
 
         subject = _("Order Confirmation - Order nr. {}").format(order.id)
-
         message = _(
             "Dear {name},\n\n"
             "You have successfully placed an order. "
@@ -47,29 +41,28 @@ def order_created(order_id):
         return mail_sent
 
     except Order.DoesNotExist:
-        logger.error(
-            f"Failed to send confirmation email: Order {order_id} does not exist."
+        logger.error(f"Order {order_id} does not exist. Not retrying.")
+    except Exception as exc:
+        logger.warning(
+            f"Retry {self.request.retries}/{self.max_retries} for order_created "
+            f"(Order {order_id}): {exc}"
         )
-    except Exception as e:
-        logger.error(
-            f"Error sending order confirmation email for Order {order_id}: {e}"
-        )
+        raise self.retry(exc=exc)
 
 
-@shared_task
-def send_order_status_update_email(order_id, new_status):
-    """
-    Send an email to the customer notifying them of a change in order status.
-
-    Args:
-        order_id (int): The ID of the order being updated.
-        new_status (str): The new status key (e.g., 'shipped', 'delivered').
-    """
+@shared_task(
+    bind=True,
+    max_retries=3,
+    default_retry_delay=60,
+    retry_backoff=True,
+    retry_backoff_max=600,
+    retry_jitter=True,
+)
+def send_order_status_update_email(self, order_id, new_status):
+    """Send an email notifying the customer of an order status change."""
     try:
-        # Select related tracking info if available to avoid extra DB hits later
         order = Order.objects.select_related("tracking").get(id=order_id)
 
-        # Mapping status keys to user-friendly, translatable messages
         status_messages = {
             "confirmed": _("Your order has been confirmed."),
             "preparing": _("We are preparing your order."),
@@ -78,7 +71,6 @@ def send_order_status_update_email(order_id, new_status):
             "cancelled": _("Your order has been cancelled."),
         }
 
-        # Default subject fallback
         subject_text = status_messages.get(
             new_status, _("Update on order #{}").format(order.id)
         )
@@ -91,7 +83,6 @@ def send_order_status_update_email(order_id, new_status):
             "subject": subject,
         }
 
-        # Try to render HTML template, fall back to plain text if template missing/fails
         try:
             html_message = render_to_string(
                 "orders/emails/order_status_update.html", context
@@ -100,7 +91,6 @@ def send_order_status_update_email(order_id, new_status):
                 "orders/emails/order_status_update.txt", context
             )
         except Exception:
-            # Fallback plain text generation if templates fail
             tracking_info = ""
             if (
                 hasattr(order, "tracking")
@@ -141,19 +131,25 @@ def send_order_status_update_email(order_id, new_status):
         )
 
     except Order.DoesNotExist:
-        logger.error(f"Order {order_id} not found for status update.")
-    except Exception as e:
-        logger.error(f"Error sending status update email for Order {order_id}: {e}")
+        logger.error(f"Order {order_id} not found. Not retrying.")
+    except Exception as exc:
+        logger.warning(
+            f"Retry {self.request.retries}/{self.max_retries} for "
+            f"send_order_status_update_email (Order {order_id}): {exc}"
+        )
+        raise self.retry(exc=exc)
 
 
-@shared_task
-def send_order_tracking_email(order_id):
-    """
-    Send an email with tracking information when an order is shipped.
-
-    Args:
-        order_id (int): Order ID.
-    """
+@shared_task(
+    bind=True,
+    max_retries=3,
+    default_retry_delay=60,
+    retry_backoff=True,
+    retry_backoff_max=600,
+    retry_jitter=True,
+)
+def send_order_tracking_email(self, order_id):
+    """Send an email with tracking information when an order is shipped."""
     try:
         order = Order.objects.select_related("tracking").get(id=order_id)
 
@@ -182,7 +178,6 @@ def send_order_tracking_email(order_id):
                 "orders/emails/order_tracking.txt", context
             )
         except Exception:
-            # Fallback plain text
             tracking_link = ""
             if tracking.tracking_url:
                 tracking_link = _("Tracking link: {}").format(tracking.tracking_url)
@@ -224,6 +219,10 @@ def send_order_tracking_email(order_id):
         logger.info(f"Tracking email sent to {order.email} for Order {order.id}")
 
     except Order.DoesNotExist:
-        logger.error(f"Order {order_id} not found for tracking email.")
-    except Exception as e:
-        logger.error(f"Error sending tracking email for Order {order_id}: {e}")
+        logger.error(f"Order {order_id} not found. Not retrying.")
+    except Exception as exc:
+        logger.warning(
+            f"Retry {self.request.retries}/{self.max_retries} for "
+            f"send_order_tracking_email (Order {order_id}): {exc}"
+        )
+        raise self.retry(exc=exc)

@@ -50,3 +50,8 @@ wcwidth==0.3.1
 weasyprint==68.0
 webencodings==0.5.1
 zopfli==0.4.0
+# Production
+gunicorn==23.0.0
+whitenoise==6.8.2
+sentry-sdk==2.19.2
+psycopg2-binary==2.9.10

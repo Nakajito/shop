@@ -21,9 +21,8 @@ class CustomUser(AbstractUser):
     )
 
     USER_TYPE_CHOICES = (
-        ("customer", "Customer"),
-        ("staff", "Support Staff"),
-        ("admin", "Administrator"),
+        ("regular_user", "Regular User"),
+        ("wholesaler", "Wholesaler"),
     )
 
     class UserTypes(models.TextChoices):
@@ -45,7 +44,7 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(
         max_length=20,
         choices=USER_TYPE_CHOICES,
-        default="customer",
+        default="regular_user",
         help_text=_(
             "Designates whether the user is a regular customer or a wholesaler."
         ),

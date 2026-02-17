@@ -26,6 +26,8 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", views.user_login, name="login"),
     path("logout/", views.user_logout, name="logout"),
+    # --- Social Authentication ---
+    path("google-login/", views.google_login, name="google_login"),
     # --- Profile Management ---
     path("profile/", views.profile, name="profile"),
     path("profile/details/", views.profile_details, name="profile_details"),

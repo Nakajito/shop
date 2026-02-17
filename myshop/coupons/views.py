@@ -45,25 +45,3 @@ def coupon_apply(request):
             messages.error(request, _("This coupon is invalid, expired, or inactive."))
 
     return redirect("cart:cart_detail")
-
-
-@require_POST
-def coupon_apply(request):
-    now = timezone.now()
-    form = CouponApplyForm(request.POST)
-
-    if form.is_valid():
-        code = form.cleaned_data["code"]
-        try:
-            # Validate: exact code, current date within range, and active status
-            coupon = Coupon.objects.get(
-                code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True
-            )
-            # Store in session
-            request.session["coupon_id"] = coupon.id
-            messages.success(request, _("Coupon applied successfully!"))
-        except Coupon.DoesNotExist:
-            request.session["coupon_id"] = None
-            messages.error(request, _("Invalid or expired coupon code."))
-
-    return redirect("cart:cart_detail")

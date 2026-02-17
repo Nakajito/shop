@@ -79,14 +79,6 @@ class Cart:
             del self.cart[product_id]
             self.save()
 
-    def clear(self):
-        """
-        Remove the cart from the session entirely.
-        This is typically called after a successful checkout.
-        """
-        del self.session[settings.CART_SESSION_ID]
-        self.save()
-
     def get_total_price(self):
         return sum(
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
@@ -120,9 +112,6 @@ class Cart:
         if self.coupon:
             return (self.coupon.discount / Decimal(100)) * self.get_total_price()
         return Decimal(0)
-
-    def get_total_price_after_discount(self):
-        return self.get_total_price() - self.get_discount()
 
     def clear(self):
         # Remove cart and coupon from session

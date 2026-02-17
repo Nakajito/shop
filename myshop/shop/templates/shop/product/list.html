@@ -14,6 +14,7 @@
                 <div class="card-header bg-white py-3">
                     <h6 class="mb-0 fw-bold text-uppercase small text-muted">{% trans "Categories" %}</h6>
                 </div>
+
                 <div class="list-group list-group-flush">
                     <a href="{% url 'shop:product_list' %}" 
                        class="list-group-item list-group-item-action border-0 {% if not category %}active fw-bold{% endif %}">
@@ -25,6 +26,23 @@
                             <i class="bi bi-tag me-2"></i> {{ c.name }}
                         </a>
                     {% endfor %}
+                </div>
+
+                                <div class="p-3 border-bottom">
+                    <form method="get" class="row g-2">
+                        <div class="col-6">
+                            <input type="number" step="0.01" min="0" name="min_price" class="form-control form-control-sm" placeholder="Min" value="{% if min_price %}{{ min_price }}{% endif %}">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" step="0.01" min="0" name="max_price" class="form-control form-control-sm" placeholder="Max" value="{% if max_price %}{{ max_price }}{% endif %}">
+                        </div>
+                        <div class="col-8">
+                            <button class="btn btn-primary btn-sm w-100 mt-1" type="submit">{% trans "Apply" %}</button>
+                        </div>
+                        <div class="col-4">
+                            <a href="{% url 'shop:product_list' %}" class="btn btn-outline-secondary btn-sm w-100 mt-1">{% trans "Clear" %}</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

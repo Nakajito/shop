@@ -1,17 +1,15 @@
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+SECRET_KEY = config(
+    "SECRET_KEY",
+    default="django-insecure-change-me-in-production",
+)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-5-o02w@*1&6g%b_holy_yt#xo001q*vbgf^6htl28w_!cazj8s"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=Csv())
 
 
 # Application definition
@@ -71,16 +69,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "myshop.wsgi.application"
 
 
-# Database
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -120,10 +108,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 CART_SESSION_ID = "cart"
 
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Stripe settings
@@ -133,7 +118,7 @@ STRIPE_API_VERSION = config("STRIPE_API_VERSION")
 STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 
 
-# Emailsettings
+# Email settings
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
@@ -143,13 +128,13 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 
 # Redis settings
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_DB = 1
+REDIS_HOST = config("REDIS_HOST", default="localhost")
+REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
+REDIS_DB = config("REDIS_DB", default=1, cast=int)
 
 # Celery settings
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="redis://localhost:6379/0")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
@@ -162,15 +147,11 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
-    # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 # Allauth settings
-# Use the correct allauth setting name. `ACCOUNT_AUTHENTICATION_METHOD`
-# accepts 'username', 'email' or 'username_email'.
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_FIELDS = ["email", "username"]
 ACCOUNT_UNIQUE_EMAIL = True
@@ -192,11 +173,61 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# Auto-connecting social accounts with existing users
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-# Link URL after login
-LOGIN_REDIRECT_URL = "shop:product_list"
-ACCOUNT_LOGIN_REDIRECT_URL = "shop:product_list"
+# Redirect URLs
+LOGIN_REDIRECT_URL = "accounts:profile"
+ACCOUNT_LOGIN_REDIRECT_URL = "accounts:profile"
 ACCOUNT_LOGOUT_REDIRECT_URL = "shop:product_list"
+
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "django.log",
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "orders": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "payment": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "celery": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}

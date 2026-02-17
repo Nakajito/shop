@@ -359,4 +359,8 @@ $RECYCLE.BIN/
 # Github
 .github/
 
+# Cloud Code
+.cloudcode/
+CLAUDE.md
+
 # End of https://www.toptal.com/developers/gitignore/api/git,venv,linux,macos,django,python,windows,visualstudiocode,pycharm

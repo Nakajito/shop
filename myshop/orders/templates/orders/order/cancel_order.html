@@ -66,7 +66,7 @@
                         </div>
                     {% endif %}
                     
-                    <form method="post">
+                    <form method="post" action="{% url 'orders:cancel_order' order.id %}">
                         {% csrf_token %}
                         
                         <div class="mb-4">
@@ -84,7 +84,7 @@
                         </div>
                         
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">
+                            <button type="submit" name="confirm_cancel" class="btn btn-danger btn-lg fw-bold shadow-sm">
                                 {% trans "Confirm Cancellation" %}
                             </button>
                             <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-link text-muted text-decoration-none">

@@ -16,6 +16,7 @@ from decouple import config
 from orders.models import Order
 from payment.forms import PaymentMethodForm
 from payment.models import PaymentMethod
+from payment.services import PaymentService
 from payment.stripe_handler import StripePaymentMethodHandler, StripeCustomerHandler
 
 # Initialize logger
@@ -37,39 +38,10 @@ def payment_process(request):
         success_url = request.build_absolute_uri(reverse("payment:completed"))
         cancel_url = request.build_absolute_uri(reverse("payment:canceled"))
 
-        # Prepare Checkout Session Data
-        session_data = {
-            "mode": "payment",
-            "client_reference_id": order.id,
-            "success_url": success_url,
-            "cancel_url": cancel_url,
-            "line_items": [],
-        }
-
-        # Add line items from order
-        for item in order.items.all():
-            session_data["line_items"].append(
-                {
-                    "price_data": {
-                        "unit_amount": int(item.price * Decimal("100")),
-                        "currency": "mxn",
-                        "product_data": {
-                            "name": item.product.name,
-                        },
-                    },
-                    "quantity": item.quantity,
-                }
-            )
-
-        # Attach Stripe Coupon if a discount exists
-        if order.coupon:
-            stripe_coupon = stripe.Coupon.create(
-                name=order.coupon.code, percent_off=order.discount, duration="once"
-            )
-            session_data["discounts"] = [{"coupon": stripe_coupon.id}]
-
         try:
-            session = stripe.checkout.Session.create(**session_data)
+            session = PaymentService.create_checkout_session(
+                order, success_url, cancel_url
+            )
             return redirect(session.url, code=303)
         except stripe.error.StripeError as e:
             logger.error(f"Stripe Session Error for Order {order.id}: {e}")

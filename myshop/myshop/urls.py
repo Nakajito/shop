@@ -24,10 +24,10 @@ Static & Media Files:
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Include django-allauth canonical URLs under the same `accounts/` prefix
-    # so provider login paths like `/accounts/google/login/` are exposed.
-    path("accounts/", include("allauth.urls")),
+    # Custom accounts URLs first so they take precedence over allauth defaults
     path("accounts/", include("accounts.urls")),
+    # Allauth URLs (without namespace) for social auth provider routes
+    path("accounts/", include("allauth.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("orders/", include("orders.urls", namespace="orders")),
     path("payment/", include("payment.urls", namespace="payment")),
