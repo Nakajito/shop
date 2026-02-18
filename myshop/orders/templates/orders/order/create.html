@@ -15,6 +15,28 @@
             <form method="post" class="needs-validation" novalidate>
                 {% csrf_token %}
                 
+                {% if user.is_authenticated and user.addresses.exists %}
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase">{% trans "Choose a saved address" %}</label>
+                        <div class="list-group mb-3">
+                            {% for addr in user.addresses.all %}
+                                <label class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="form-check w-100 d-flex align-items-start">
+                                        <input class="form-check-input me-2" type="radio" name="selected_address" id="addr_{{ addr.id }}" value="{{ addr.id }}" data-address-full="{{ addr.address_line1 }}{% if addr.address_line2 %} {{ addr.address_line2 }}{% endif %}" data-postal-code="{{ addr.postal_code }}" data-city="{{ addr.city }}" data-recipient-name="{{ addr.recipient_name }}" {% if addr.is_default %}checked{% endif %}>
+                                        <div class="ms-2">
+                                            <div class="fw-bold">{{ addr.recipient_name }}</div>
+                                            <div class="small text-muted">{{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}, {{ addr.city }} {{ addr.postal_code }}</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            {% endfor %}
+                            <label class="list-group-item">
+                                <input class="form-check-input me-2" type="radio" name="selected_address" id="addr_new" value="">
+                                <span class="small text-muted">{% trans "Use a different address" %}</span>
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="form-floating">
@@ -160,4 +182,48 @@
         transition: top 0.3s ease;
     }
 </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addressRadios = document.querySelectorAll('input[name="selected_address"]');
+            const addressField = document.getElementById('id_address');
+            const cityField = document.getElementById('id_city');
+            const postalField = document.getElementById('id_postal_code');
+            const firstNameField = document.getElementById('id_first_name');
+            const lastNameField = document.getElementById('id_last_name');
+
+            function applyAddressData(radio) {
+                if (!radio || !radio.value) {
+                    // Enable fields for manual entry
+                    [addressField, cityField, postalField].forEach(f => f && f.removeAttribute('disabled'));
+                    return;
+                }
+
+                const addrFull = radio.getAttribute('data-address-full') || '';
+                const city = radio.getAttribute('data-city') || '';
+                const postal = radio.getAttribute('data-postal-code') || '';
+                const recipient = radio.getAttribute('data-recipient-name') || '';
+
+                if (addressField) { addressField.value = addrFull; addressField.setAttribute('disabled', 'disabled'); }
+                if (cityField) { cityField.value = city; cityField.setAttribute('disabled', 'disabled'); }
+                if (postalField) { postalField.value = postal; postalField.setAttribute('disabled', 'disabled'); }
+
+                // Optionally populate first/last name if empty
+                if (recipient) {
+                    const parts = recipient.split(' ');
+                    if (firstNameField && !firstNameField.value) firstNameField.value = parts[0] || '';
+                    if (lastNameField && !lastNameField.value) lastNameField.value = parts.slice(1).join(' ') || '';
+                }
+            }
+
+            if (addressRadios.length) {
+                // Initialize based on selected radio
+                const checked = document.querySelector('input[name="selected_address"]:checked');
+                applyAddressData(checked);
+
+                addressRadios.forEach(r => r.addEventListener('change', function (e) {
+                    applyAddressData(e.target);
+                }));
+            }
+        });
+    </script>
 {% endblock %}

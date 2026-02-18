@@ -21,7 +21,7 @@ def ticket_list(request):
     """
     Lists all support tickets for the current user with filtering and pagination.
     """
-    tickets = request.user.support_tickets.all().order_by("-created_at")
+    tickets = request.user.support_tickets.select_related("order", "assigned_to").order_by("-created_at")
 
     # Filters
     status_filter = request.GET.get("status")
@@ -105,7 +105,7 @@ def ticket_detail(request, ticket_id):
     """
     ticket = get_object_or_404(SupportTicket, id=ticket_id, user=request.user)
     # Hide internal staff notes from the customer
-    messages_list = ticket.messages.filter(is_internal=False).order_by("created_at")
+    messages_list = ticket.messages.select_related("sender").filter(is_internal=False).order_by("created_at")
     form = TicketMessageForm()
 
     context = {

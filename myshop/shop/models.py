@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from shop.managers import ProductManager
+
 
 class Category(models.Model):
     """
@@ -51,6 +53,8 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    objects = ProductManager()
+
     class Meta:
         ordering = ["name"]
         verbose_name = _("product")
@@ -59,6 +63,14 @@ class Product(models.Model):
             models.Index(fields=["id", "slug"]),
             models.Index(fields=["name"]),
             models.Index(fields=["-created"]),
+            models.Index(fields=["available"]),
+            models.Index(fields=["category", "available"]),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(price__gte=0),
+                name="product_price_non_negative",
+            ),
         ]
 
     def __str__(self):

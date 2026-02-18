@@ -165,7 +165,7 @@ def profile(request):
 
     # Context data for the dashboard
     # Use 'all()' and let the template slice or use DB slicing here
-    recent_orders = user.orders.all().order_by("-created")[:5]
+    recent_orders = user.orders.select_related("payment_method").order_by("-created")[:5]
 
     # Use defensive checks for related managers in case apps aren't connected yet
     addresses_count = user.addresses.count() if hasattr(user, "addresses") else 0
@@ -228,4 +228,4 @@ def google_login(request):
     Redirect to Google OAuth2 login endpoint.
     This path usually comes from django-allauth.
     """
-    return redirect("/accounts/social/google/login/")
+    return redirect("/accounts/google/login/")

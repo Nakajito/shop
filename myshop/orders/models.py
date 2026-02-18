@@ -9,6 +9,7 @@ from shop.models import Product
 from coupons.models import Coupon
 from accounts.models import CustomUser
 from payment.models import PaymentMethod
+from orders.managers import OrderManager
 
 STATUS_CHOICES = (
     ("pending", _("Pending")),
@@ -225,11 +226,25 @@ class Order(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
     )
 
+    objects = OrderManager()
+
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
         ordering = ["-created"]
-        indexes = [models.Index(fields=["-created"])]
+        indexes = [
+            models.Index(fields=["-created"]),
+            models.Index(fields=["status"]),
+            models.Index(fields=["paid"]),
+            models.Index(fields=["user", "-created"]),
+            models.Index(fields=["user", "status"]),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(discount__gte=0, discount__lte=100),
+                name="order_discount_range",
+            ),
+        ]
 
     def __str__(self):
         return f"Order {self.id}"
@@ -248,6 +263,27 @@ class Order(models.Model):
     def get_total_cost(self):
         """Final total to pay."""
         return self.get_total_cost_before_discount() - self.get_discount()
+
+    def get_status_display_with_badge(self):
+        badge_map = {
+            "pending": "warning",
+            "confirmed": "info",
+            "preparing": "primary",
+            "shipped": "info",
+            "delivered": "success",
+            "cancelled": "danger",
+        }
+        color = badge_map.get(self.status, "secondary")
+        return f'<span class="badge bg-{color}">{self.get_status_display()}</span>'
+
+    @property
+    def can_be_reordered(self):
+        # Allow reordering for delivered, cancelled and confirmed orders
+        return self.status in ("delivered", "cancelled", "confirmed")
+
+    @property
+    def can_be_cancelled(self):
+        return self.status in ("pending", "confirmed")
 
     def get_stripe_url(self):
         """Generate link to Stripe dashboard based on environment."""
@@ -295,13 +331,21 @@ class Order(models.Model):
         Updates the order status and creates a tracking log entry.
         """
         if self.status != new_status:
+            old_status = self.status
             self.status = new_status
             self.save()
 
-            # Create tracking entry
-            OrderTracking.objects.create(
-                order=self, status=new_status, user=user, note=note
+            # Create a status update audit entry (OrderStatusUpdate)
+            OrderStatusUpdate.objects.create(
+                order=self,
+                old_status=old_status,
+                new_status=new_status,
+                changed_by=user,
+                reason=note,
             )
+
+            # If you need to create or update shipping tracking information
+            # for specific statuses (e.g. 'shipped'), handle that elsewhere.
             return True
         return False
 
@@ -401,6 +445,7 @@ class OrderTracking(models.Model):
     class Meta:
         verbose_name = _("Order Tracking")
         verbose_name_plural = _("Order Trackings")
+        ordering = ["-created"]
 
     def __str__(self):
         return f"{self.tracking_number} ({self.get_carrier_display()})"
@@ -413,9 +458,3 @@ class OrderTracking(models.Model):
         if self.tracking_url:
             lines.append(f"{_('Link')}: {self.tracking_url}")
         return "\n".join(lines)
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __str__(self):
-        return f"{self.order.id} - {self.status}"

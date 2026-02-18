@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from accounts.models import CustomUser
 from orders.models import Order
+from support.managers import SupportTicketManager
 
 
 class SupportTicket(models.Model):
@@ -86,6 +87,8 @@ class SupportTicket(models.Model):
     resolved_at = models.DateTimeField(
         null=True, blank=True, verbose_name=_("resolved at")
     )
+
+    objects = SupportTicketManager()
 
     class Meta:
         verbose_name = _("Support Ticket")

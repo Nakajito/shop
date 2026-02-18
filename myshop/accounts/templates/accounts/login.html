@@ -23,11 +23,14 @@
                         {% endfor %}
                     {% endif %}
                     
+                    {% url 'accounts:google_login' as google_login_url %}
+                    {% if google_login_url %}
                     <div class="social-login mb-4">
-                        <a href="{% url 'accounts:google_login' %}" class="btn btn-outline-danger w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                        <a href="{{ google_login_url }}" class="btn btn-outline-danger w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2">
                             <i class="bi bi-google"></i> {% trans "Sign in with Google" %}
                         </a>
                     </div>
+                    {% endif %}
                     
                     <div class="position-relative text-center my-4">
                         <hr class="text-muted opacity-25">

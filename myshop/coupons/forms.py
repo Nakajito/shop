@@ -30,12 +30,3 @@ class CouponApplyForm(forms.Form):
         if code:
             return code.strip()
         return code
-
-
-class CouponApplyForm(forms.Form):
-    code = forms.CharField(
-        label=_("Coupon Code"),
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": _("Enter code")}
-        ),
-    )

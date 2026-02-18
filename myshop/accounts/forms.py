@@ -105,6 +105,8 @@ class CustomUserChangeForm(UserChangeForm):
     Form for editing user account details (excluding password).
     """
 
+    password = None
+
     class Meta:
         model = CustomUser
         fields = ("username", "email", "first_name", "last_name", "phone", "user_type")

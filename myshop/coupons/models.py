@@ -35,6 +35,10 @@ class Coupon(models.Model):
         verbose_name = _("Coupon")
         verbose_name_plural = _("Coupons")
         ordering = ["-valid_to"]
+        indexes = [
+            models.Index(fields=["active"]),
+            models.Index(fields=["valid_from", "valid_to"]),
+        ]
 
     def __str__(self):
         return f"{self.code} ({self.discount}%)"
