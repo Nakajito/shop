@@ -7,6 +7,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from .models import Order, OrderItem, Address, OrderStatusUpdate, OrderTracking
+from payment.models import PaymentMethod
 
 
 @admin.action(description=_("Export selected orders to CSV"))
@@ -48,12 +49,17 @@ def export_to_csv(modeladmin, request, queryset):
 
 class OrderItemsInline(admin.TabularInline):
     """
-    Inline admin view for OrderItems.
+    Inline admin view for OrderItems (read-only).
     """
 
     model = OrderItem
     raw_id_fields = ["product"]
     extra = 0
+    readonly_fields = ("product", "price", "quantity")
+    can_delete = False
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 class OrderStatusUpdateInline(admin.TabularInline):
@@ -73,7 +79,7 @@ class OrderTrackingInline(admin.StackedInline):
 
     model = OrderTracking
     extra = 0
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("user", "created_at", "updated_at")
 
 
 @admin.register(Order)
@@ -108,25 +114,66 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemsInline, OrderTrackingInline, OrderStatusUpdateInline]
     actions = [export_to_csv]
 
-    readonly_fields = ("created", "updated", "order_payment")
+    readonly_fields = (
+        "created",
+        "updated",
+        "order_payment",
+        "first_name",
+        "last_name",
+        "email",
+        "user",
+    )
 
     fieldsets = (
         (
             _("Customer Information"),
-            {"fields": ("first_name", "last_name", "email", "user")},
+            {
+                "fields": ("first_name", "last_name", "email", "user"),
+                "description": _("Read-only customer snapshot at purchase time."),
+            },
         ),
         (_("Shipping & Billing"), {"fields": ("shipping_address", "billing_address")}),
         (
             _("Payment Details"),
-            {"fields": ("payment_method", "paid", "stripe_id", "order_payment")},
+            {"fields": ("payment_method", "paid", "order_payment")},
         ),
         (
             _("Order Details"),
             {"fields": ("status", "estimated_delivery_date", "coupon", "discount")},
         ),
-        (_("Notes"), {"fields": ("notes", "customer_notes")}),
+        (
+            _("Notes"),
+            {"fields": ("notes", "customer_notes"), "classes": ("collapse",)},
+        ),
         (_("Timestamps"), {"fields": ("created", "updated"), "classes": ("collapse",)}),
     )
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name in ("shipping_address", "billing_address"):
+            order_id = request.resolver_match.kwargs.get("object_id")
+            if order_id:
+                try:
+                    order = Order.objects.get(pk=order_id)
+                    if order.user:
+                        kwargs["queryset"] = Address.objects.filter(user=order.user)
+                    else:
+                        kwargs["queryset"] = Address.objects.none()
+                except Order.DoesNotExist:
+                    kwargs["queryset"] = Address.objects.none()
+        elif db_field.name == "payment_method":
+            order_id = request.resolver_match.kwargs.get("object_id")
+            if order_id:
+                try:
+                    order = Order.objects.get(pk=order_id)
+                    if order.user:
+                        kwargs["queryset"] = PaymentMethod.objects.filter(
+                            user=order.user
+                        )
+                    else:
+                        kwargs["queryset"] = PaymentMethod.objects.none()
+                except Order.DoesNotExist:
+                    kwargs["queryset"] = PaymentMethod.objects.none()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def order_payment(self, obj):
         """Link to Stripe Dashboard if applicable."""
