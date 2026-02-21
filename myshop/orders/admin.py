@@ -275,10 +275,110 @@ class OrderTrackingAdmin(admin.ModelAdmin):
 
     list_display = (
         "order",
+        "order_customer",
         "tracking_number",
         "carrier",
-        # "status",
+        "status",
         "estimated_delivery_date",
     )
     search_fields = ("order__id", "tracking_number")
-    # list_filter = ("carrier", "status")
+    list_filter = ("carrier", "status")
+
+    readonly_fields = (
+        "order",
+        "user",
+        "order_customer",
+        "order_email",
+        "order_status",
+        "order_total",
+        "order_paid",
+        "shipped_at",
+        "created_at",
+        "updated_at",
+    )
+
+    fieldsets = (
+        (
+            _("Order Information"),
+            {
+                "fields": (
+                    "order",
+                    "order_customer",
+                    "order_email",
+                    "order_status",
+                    "order_total",
+                    "order_paid",
+                ),
+                "description": _("Read-only information from the associated order."),
+            },
+        ),
+        (
+            _("Tracking Details"),
+            {
+                "fields": (
+                    "user",
+                    "tracking_number",
+                    "carrier",
+                    "tracking_url",
+                    "status",
+                ),
+            },
+        ),
+        (
+            _("Shipping Details"),
+            {
+                "fields": (
+                    "shipped_at",
+                    "estimated_delivery_date",
+                    "actual_delivery_date",
+                    "weight",
+                    "dimensions",
+                    "last_location",
+                ),
+            },
+        ),
+        (
+            _("Notes"),
+            {"fields": ("note",), "classes": ("collapse",)},
+        ),
+        (
+            _("Timestamps"),
+            {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
+        ),
+    )
+
+    def order_customer(self, obj):
+        if obj.order:
+            return f"{obj.order.first_name} {obj.order.last_name}"
+        return "-"
+
+    order_customer.short_description = _("Customer")
+
+    def order_email(self, obj):
+        if obj.order:
+            return obj.order.email
+        return "-"
+
+    order_email.short_description = _("Email")
+
+    def order_status(self, obj):
+        if obj.order:
+            return obj.order.get_status_display()
+        return "-"
+
+    order_status.short_description = _("Order Status")
+
+    def order_total(self, obj):
+        if obj.order:
+            return f"${obj.order.get_total_cost()}"
+        return "-"
+
+    order_total.short_description = _("Order Total")
+
+    def order_paid(self, obj):
+        if obj.order:
+            return obj.order.paid
+        return False
+
+    order_paid.short_description = _("Paid")
+    order_paid.boolean = True

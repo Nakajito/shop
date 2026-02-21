@@ -363,4 +363,7 @@ $RECYCLE.BIN/
 .cloudcode/
 CLAUDE.md
 
+# TestSrpite
+testsprite_tests/
+
 # End of https://www.toptal.com/developers/gitignore/api/git,venv,linux,macos,django,python,windows,visualstudiocode,pycharm
