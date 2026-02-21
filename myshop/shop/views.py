@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext as _
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_control
+from django.views.decorators.vary import vary_on_cookie
 from decimal import Decimal, InvalidOperation
 
 from cart.forms import CartAddProductForm
@@ -8,7 +9,8 @@ from .models import Category, Product
 from .recommender import Recommender
 
 
-@cache_page(60 * 15)
+@vary_on_cookie
+@cache_control(private=True, no_cache=True)
 def product_list(request, category_slug=None):
     """
     Displays the product catalog with optional category filtering.
@@ -54,7 +56,8 @@ def product_list(request, category_slug=None):
     return render(request, "shop/product/list.html", context)
 
 
-@cache_page(60 * 30)
+@vary_on_cookie
+@cache_control(private=True, no_cache=True)
 def product_detail(request, id, slug):
     """
     Displays single product details, the cart form, and Redis recommendations.
