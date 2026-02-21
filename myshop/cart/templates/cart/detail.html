@@ -53,7 +53,7 @@
                                 {{ item.update_quantity_form.quantity }}
                                 {{ item.update_quantity_form.override }}
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-primary" title="{% trans 'Update quantity' %}">
+                                <button type="submit" class="btn btn-sm btn-outline-primary d-none" title="{% trans 'Update quantity' %}">
                                     <i class="bi bi-arrow-clockwise"></i> {% trans "Update" %}
                                 </button>
                             </form>
@@ -167,4 +167,16 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.quantity-select').forEach(function (select) {
+        select.addEventListener('change', function () {
+            this.closest('form').submit();
+        });
+    });
+});
+</script>
 {% endblock %}

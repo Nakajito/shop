@@ -22,7 +22,7 @@ class CartAddProductForm(forms.Form):
         choices=PRODUCT_QUANTITY_CHOICES,
         coerce=int,
         label=_("Quantity"),
-        widget=forms.Select(attrs={"class": "form-select"}),  # Bootstrap 5 styling
+        widget=forms.Select(attrs={"class": "form-select quantity-select"}),  # Bootstrap 5 styling
     )
 
     override = forms.BooleanField(
