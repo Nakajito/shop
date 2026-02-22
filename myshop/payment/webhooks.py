@@ -71,11 +71,14 @@ def stripe_webhook(request):
                     )
 
                 # 3. Trigger Asynchronous Background Tasks
-                # Send order status update email (Celery)
-                send_order_status_update_email.delay(order.id, "confirmed")
-
-                # Send PDF invoice email (Celery)
-                payment_completed.delay(order.id)
+                try:
+                    send_order_status_update_email.delay(order.id, "confirmed")
+                    payment_completed.delay(order.id)
+                except Exception as e:
+                    logger.error(
+                        f"Celery task dispatch error for Order {order.id}: {e}"
+                    )
+                    # Don't fail the webhook — order is already saved as paid
 
                 # 4. Update Recommendation Engine (Redis)
                 try:
