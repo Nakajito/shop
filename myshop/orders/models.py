@@ -422,7 +422,7 @@ class OrderTracking(models.Model):
     note = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     tracking_number = models.CharField(max_length=255)
     carrier = models.CharField(max_length=20, choices=Carrier.choices)
     tracking_url = models.URLField(blank=True, null=True)

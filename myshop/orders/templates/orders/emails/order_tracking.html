@@ -1,0 +1,120 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ subject }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f9;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f9;padding:30px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#0d6efd;padding:28px 40px;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;letter-spacing:1px;">One Synk</h1>
+            </td>
+          </tr>
+
+          <!-- Title -->
+          <tr>
+            <td style="padding:32px 40px 16px;">
+              <h2 style="margin:0 0 8px;color:#212529;font-size:20px;">{% trans "Your Order Has Been Shipped!" %}</h2>
+              <p style="margin:0;color:#495057;font-size:15px;line-height:1.6;">
+                {% blocktrans with name=order.first_name id=order.id %}
+                  Hello {{ name }}, your order #{{ id }} is on its way.
+                {% endblocktrans %}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Tracking Details -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f9fa;border-radius:6px;border-left:4px solid #0d6efd;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <h3 style="margin:0 0 16px;color:#212529;font-size:15px;">{% trans "Shipment Details" %}</h3>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding:5px 0;color:#6c757d;font-size:13px;width:160px;">{% trans "Tracking Number" %}</td>
+                        <td style="padding:5px 0;color:#212529;font-size:14px;font-weight:600;">{{ tracking.tracking_number }}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:5px 0;color:#6c757d;font-size:13px;">{% trans "Carrier" %}</td>
+                        <td style="padding:5px 0;color:#212529;font-size:14px;">{{ tracking.get_carrier_display }}</td>
+                      </tr>
+                      {% if tracking.estimated_delivery_date %}
+                      <tr>
+                        <td style="padding:5px 0;color:#6c757d;font-size:13px;">{% trans "Estimated Delivery" %}</td>
+                        <td style="padding:5px 0;color:#212529;font-size:14px;">{{ tracking.estimated_delivery_date|date:"M d, Y" }}</td>
+                      </tr>
+                      {% endif %}
+                      {% if tracking.last_location %}
+                      <tr>
+                        <td style="padding:5px 0;color:#6c757d;font-size:13px;">{% trans "Last Location" %}</td>
+                        <td style="padding:5px 0;color:#212529;font-size:14px;">{{ tracking.last_location }}</td>
+                      </tr>
+                      {% endif %}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Track Button -->
+          {% if tracking.tracking_url %}
+          <tr>
+            <td style="padding:0 40px 32px;text-align:center;">
+              <a href="{{ tracking.tracking_url }}"
+                 style="display:inline-block;background-color:#0d6efd;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:600;">
+                {% trans "Track My Package" %}
+              </a>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- Order Summary -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <h3 style="margin:0 0 12px;color:#212529;font-size:15px;border-bottom:1px solid #dee2e6;padding-bottom:8px;">
+                {% trans "Order" %} #{{ order.id }}
+              </h3>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                {% for item in order.items.all %}
+                <tr>
+                  <td style="padding:6px 0;color:#495057;font-size:14px;border-bottom:1px solid #f0f0f0;">
+                    {{ item.product.name }}
+                  </td>
+                  <td style="padding:6px 0;color:#6c757d;font-size:14px;text-align:center;border-bottom:1px solid #f0f0f0;">
+                    x{{ item.quantity }}
+                  </td>
+                  <td style="padding:6px 0;color:#212529;font-size:14px;text-align:right;border-bottom:1px solid #f0f0f0;">
+                    ${{ item.get_cost|floatformat:2 }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8f9fa;padding:20px 40px;text-align:center;border-top:1px solid #dee2e6;">
+              <p style="margin:0;color:#adb5bd;font-size:12px;">
+                {% trans "Thank you for shopping with One Synk." %}<br>
+                {% trans "Questions? Contact us at support@onesynk.com" %}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

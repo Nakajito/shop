@@ -119,7 +119,7 @@ STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 
 
 # Email settings
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = "smtp.zoho.com"
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587

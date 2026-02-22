@@ -1,0 +1,30 @@
+{% load i18n %}{% autoescape off %}
+{% trans "One Synk" %} — {{ subject }}
+================================================
+
+{% blocktrans with name=order.first_name %}Hello {{ name }},{% endblocktrans %}
+
+{% if status == "confirmed" %}{% trans "Great news! Your order has been confirmed and is being processed." %}
+{% elif status == "preparing" %}{% trans "We are currently preparing your order for shipment." %}
+{% elif status == "shipped" %}{% trans "Your order is on its way!" %}
+{% elif status == "delivered" %}{% trans "Your order has been delivered. We hope you enjoy your purchase!" %}
+{% elif status == "cancelled" %}{% trans "Your order has been cancelled. If you have any questions, please contact support." %}
+{% endif %}
+
+------------------------------------------------
+{% trans "Order" %} #{{ order.id }}
+{% trans "Status" %}: {{ order.get_status_display }}
+{% trans "Total" %}: ${{ order.get_total_cost|floatformat:2 }}
+------------------------------------------------
+
+{% trans "Order Summary" %}:
+{% for item in order.items.all %}  - {{ item.product.name }} x{{ item.quantity }}  ${{ item.get_cost|floatformat:2 }}
+{% endfor %}{% if order.coupon %}  {% trans "Discount" %} ({{ order.coupon.code }}): -${{ order.get_discount|floatformat:2 }}
+{% endif %}  {% trans "Total" %}: ${{ order.get_total_cost|floatformat:2 }}
+
+{% if order.tracking and order.tracking.tracking_url %}{% trans "Track your order" %}: {{ order.tracking.tracking_url }}
+{% endif %}
+------------------------------------------------
+{% trans "Thank you for shopping with One Synk." %}
+{% trans "Questions? Contact us at support@onesynk.com" %}
+{% endautoescape %}

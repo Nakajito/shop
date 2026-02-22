@@ -1,0 +1,150 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ subject }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f9;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f9;padding:30px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#0d6efd;padding:28px 40px;">
+              <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;letter-spacing:1px;">One Synk</h1>
+            </td>
+          </tr>
+
+          <!-- Status Banner -->
+          <tr>
+            <td style="padding:32px 40px 0;">
+              <h2 style="margin:0 0 8px;color:#212529;font-size:20px;">
+                {% if status == "confirmed" %}{% trans "Order Confirmed" %}
+                {% elif status == "preparing" %}{% trans "Order Being Prepared" %}
+                {% elif status == "shipped" %}{% trans "Order Shipped" %}
+                {% elif status == "delivered" %}{% trans "Order Delivered" %}
+                {% elif status == "cancelled" %}{% trans "Order Cancelled" %}
+                {% else %}{% trans "Order Update" %}
+                {% endif %}
+              </h2>
+              <p style="margin:0;color:#6c757d;font-size:15px;">
+                {% blocktrans with name=order.first_name %}Hello {{ name }},{% endblocktrans %}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Message -->
+          <tr>
+            <td style="padding:20px 40px;">
+              <p style="margin:0;color:#495057;font-size:15px;line-height:1.6;">
+                {% if status == "confirmed" %}
+                  {% trans "Great news! Your order has been confirmed and is being processed." %}
+                {% elif status == "preparing" %}
+                  {% trans "We are currently preparing your order for shipment." %}
+                {% elif status == "shipped" %}
+                  {% trans "Your order is on its way!" %}
+                {% elif status == "delivered" %}
+                  {% trans "Your order has been delivered. We hope you enjoy your purchase!" %}
+                {% elif status == "cancelled" %}
+                  {% trans "Your order has been cancelled. If you have any questions, please contact support." %}
+                {% endif %}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Order Details -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f9fa;border-radius:6px;padding:20px;">
+                <tr>
+                  <td style="padding:6px 0;">
+                    <span style="color:#6c757d;font-size:13px;">{% trans "Order ID" %}</span><br>
+                    <strong style="color:#212529;font-size:15px;">#{{ order.id }}</strong>
+                  </td>
+                  <td style="padding:6px 0;">
+                    <span style="color:#6c757d;font-size:13px;">{% trans "Status" %}</span><br>
+                    <strong style="color:#0d6efd;font-size:15px;">{{ order.get_status_display }}</strong>
+                  </td>
+                  <td style="padding:6px 0;">
+                    <span style="color:#6c757d;font-size:13px;">{% trans "Total" %}</span><br>
+                    <strong style="color:#212529;font-size:15px;">${{ order.get_total_cost|floatformat:2 }}</strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Order Items -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <h3 style="margin:0 0 12px;color:#212529;font-size:15px;border-bottom:1px solid #dee2e6;padding-bottom:8px;">
+                {% trans "Order Summary" %}
+              </h3>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                {% for item in order.items.all %}
+                <tr>
+                  <td style="padding:8px 0;color:#495057;font-size:14px;border-bottom:1px solid #f0f0f0;">
+                    {{ item.product.name }}
+                  </td>
+                  <td style="padding:8px 0;color:#6c757d;font-size:14px;text-align:center;border-bottom:1px solid #f0f0f0;">
+                    x{{ item.quantity }}
+                  </td>
+                  <td style="padding:8px 0;color:#212529;font-size:14px;text-align:right;border-bottom:1px solid #f0f0f0;">
+                    ${{ item.get_cost|floatformat:2 }}
+                  </td>
+                </tr>
+                {% endfor %}
+                {% if order.coupon %}
+                <tr>
+                  <td colspan="2" style="padding:8px 0;color:#dc3545;font-size:14px;">
+                    {% trans "Discount" %} ({{ order.coupon.code }})
+                  </td>
+                  <td style="padding:8px 0;color:#dc3545;font-size:14px;text-align:right;">
+                    -${{ order.get_discount|floatformat:2 }}
+                  </td>
+                </tr>
+                {% endif %}
+                <tr>
+                  <td colspan="2" style="padding:12px 0 0;color:#212529;font-size:15px;font-weight:700;">
+                    {% trans "Total" %}
+                  </td>
+                  <td style="padding:12px 0 0;color:#0d6efd;font-size:15px;font-weight:700;text-align:right;">
+                    ${{ order.get_total_cost|floatformat:2 }}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Tracking Link (if available) -->
+          {% if order.tracking and order.tracking.tracking_url %}
+          <tr>
+            <td style="padding:0 40px 24px;text-align:center;">
+              <a href="{{ order.tracking.tracking_url }}"
+                 style="display:inline-block;background-color:#0d6efd;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:6px;font-size:14px;font-weight:600;">
+                {% trans "Track My Order" %}
+              </a>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f8f9fa;padding:20px 40px;text-align:center;border-top:1px solid #dee2e6;">
+              <p style="margin:0;color:#adb5bd;font-size:12px;">
+                {% trans "Thank you for shopping with One Synk." %}<br>
+                {% trans "If you have questions, contact us at support@onesynk.com" %}
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

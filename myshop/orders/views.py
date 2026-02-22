@@ -97,6 +97,9 @@ def order_create(request):
                 order.city = chosen_address.city or order.city
                 order.save()
 
+            # Dispatch async order confirmation email
+            order_created.delay(order.id)
+
             # Redirect for payment
             return redirect(reverse("payment:process"))
     else:

@@ -1,0 +1,24 @@
+{% load i18n %}{% autoescape off %}
+{% trans "One Synk" %} — {{ subject }}
+================================================
+
+{% blocktrans with name=order.first_name id=order.id %}Hello {{ name }}, your order #{{ id }} is on its way.{% endblocktrans %}
+
+------------------------------------------------
+{% trans "Shipment Details" %}
+------------------------------------------------
+{% trans "Tracking Number" %}: {{ tracking.tracking_number }}
+{% trans "Carrier" %}: {{ tracking.get_carrier_display }}
+{% if tracking.estimated_delivery_date %}{% trans "Estimated Delivery" %}: {{ tracking.estimated_delivery_date|date:"M d, Y" }}
+{% endif %}{% if tracking.last_location %}{% trans "Last Location" %}: {{ tracking.last_location }}
+{% endif %}{% if tracking.tracking_url %}
+{% trans "Track your package" %}: {{ tracking.tracking_url }}
+{% endif %}
+------------------------------------------------
+{% trans "Order" %} #{{ order.id }}
+{% for item in order.items.all %}  - {{ item.product.name }} x{{ item.quantity }}  ${{ item.get_cost|floatformat:2 }}
+{% endfor %}
+------------------------------------------------
+{% trans "Thank you for shopping with One Synk." %}
+{% trans "Questions? Contact us at support@onesynk.com" %}
+{% endautoescape %}
