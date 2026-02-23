@@ -29,8 +29,8 @@ CACHES = {
     }
 }
 
-# Session via cache
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Session via cache with DB fallback (prevents session loss if Redis restarts)
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 # Security
 SECURE_SSL_REDIRECT = True
