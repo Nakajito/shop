@@ -9,35 +9,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('orders', '0010_alter_order_options_alter_orderstatusupdate_options_and_more'),
+        ("orders", "0010_alter_order_options_alter_orderstatusupdate_options_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='ordertracking',
-            options={'ordering': ['-created']},
+            name="ordertracking",
+            options={"ordering": ["-created"]},
         ),
         migrations.AddField(
-            model_name='ordertracking',
-            name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="ordertracking",
+            name="created",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='ordertracking',
-            name='note',
+            model_name="ordertracking",
+            name="note",
             field=models.TextField(blank=True),
         ),
         migrations.AddField(
-            model_name='ordertracking',
-            name='status',
-            field=models.CharField(choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('preparing', 'Preparing'), ('shipped', 'Shipped'), ('delivered', 'Delivered'), ('cancelled', 'Cancelled')], default=django.utils.timezone.now, max_length=20),
+            model_name="ordertracking",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("pending", "Pending"),
+                    ("confirmed", "Confirmed"),
+                    ("preparing", "Preparing"),
+                    ("shipped", "Shipped"),
+                    ("delivered", "Delivered"),
+                    ("cancelled", "Cancelled"),
+                ],
+                default="pending",
+                max_length=20,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='ordertracking',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            model_name="ordertracking",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
