@@ -50,12 +50,18 @@
                         </td>
                         <td>
                             <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex align-items-center gap-2">
+                                <div class="qty-control d-flex align-items-center">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-btn qty-minus" aria-label="{% trans 'Decrease quantity' %}">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+                                    <span class="qty-display mx-2 fw-bold">{{ item.quantity }}</span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-btn qty-plus" aria-label="{% trans 'Increase quantity' %}">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
                                 {{ item.update_quantity_form.quantity }}
                                 {{ item.update_quantity_form.override }}
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-primary d-none" title="{% trans 'Update quantity' %}">
-                                    <i class="bi bi-arrow-clockwise"></i> {% trans "Update" %}
-                                </button>
                             </form>
                         </td>
                         <td>
@@ -169,12 +175,27 @@
 </div>
 {% endblock %}
 
+{% block extra_css %}
+<style>
+    .qty-btn { width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .qty-display { min-width: 20px; text-align: center; user-select: none; }
+</style>
+{% endblock %}
+
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.quantity-select').forEach(function (select) {
-        select.addEventListener('change', function () {
-            this.closest('form').submit();
+    document.querySelectorAll('.qty-control').forEach(function (control) {
+        var form = control.closest('form');
+        var input = form.querySelector('.quantity-input');
+        var display = control.querySelector('.qty-display');
+        var qty = parseInt(input.value) || 1;
+
+        control.querySelector('.qty-minus').addEventListener('click', function () {
+            if (qty > 1) { qty--; input.value = qty; display.textContent = qty; form.submit(); }
+        });
+        control.querySelector('.qty-plus').addEventListener('click', function () {
+            if (qty < 20) { qty++; input.value = qty; display.textContent = qty; form.submit(); }
         });
     });
 });

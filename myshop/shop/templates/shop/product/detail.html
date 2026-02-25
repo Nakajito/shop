@@ -39,6 +39,15 @@
                     {% csrf_token %}
                     <div class="col-auto">
                         <label class="small fw-bold text-muted text-uppercase d-block mb-1">{% trans "Quantity" %}</label>
+                        <div class="qty-control d-flex align-items-center">
+                            <button type="button" class="btn btn-outline-secondary qty-btn qty-minus" aria-label="{% trans 'Decrease quantity' %}">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <span class="qty-display mx-3 fw-bold fs-5">1</span>
+                            <button type="button" class="btn btn-outline-secondary qty-btn qty-plus" aria-label="{% trans 'Increase quantity' %}">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
                         {{ cart_product_form.quantity }}
                     </div>
                     {{ cart_product_form.override }}
@@ -93,6 +102,26 @@
     .bg-soft-primary { background-color: #e7f1ff; }
     .hover-up:hover { transform: translateY(-5px); transition: 0.3s; }
     .transition { transition: 0.3s; }
-    #id_quantity { width: 80px; border-radius: 8px; border: 1px solid #ced4da; padding: 5px 10px; }
+    .qty-btn { width: 38px; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .qty-display { min-width: 24px; text-align: center; user-select: none; }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.qty-control').forEach(function (control) {
+        var input = control.parentElement.querySelector('.quantity-input');
+        var display = control.querySelector('.qty-display');
+        var qty = parseInt(input.value) || 1;
+
+        display.textContent = qty;
+
+        control.querySelector('.qty-minus').addEventListener('click', function () {
+            if (qty > 1) { qty--; input.value = qty; display.textContent = qty; }
+        });
+        control.querySelector('.qty-plus').addEventListener('click', function () {
+            if (qty < 20) { qty++; input.value = qty; display.textContent = qty; }
+        });
+    });
+});
+</script>
 {% endblock %}
