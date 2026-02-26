@@ -163,11 +163,65 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Delete Account Section -->
+            <div class="card border-danger shadow-sm mt-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 text-danger fw-bold">
+                        <i class="bi bi-exclamation-triangle me-2"></i>{% trans "Danger Zone" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">
+                        {% trans "Once you delete your account, there is no going back. Please be certain." %}
+                    </p>
+                    <button type="button" class="btn btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                        <i class="bi bi-trash me-2"></i>{% trans "Delete Account" %}
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
-
+<!-- Delete Account Confirmation Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title text-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>{% trans "Delete Account" %}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'accounts:deactivate_account' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p class="mb-3">{% trans "Are you sure you want to delete your account?" %}</p>
+                    <p class="text-muted small mb-3">
+                        {% trans "This action cannot be undone. All your data will become inaccessible." %}
+                    </p>
+                    <div class="mb-3">
+                        <label for="id_deactivate_password" class="form-label fw-bold">
+                            {% trans "Confirm your password" %}
+                        </label>
+                        <input type="password" name="password" id="id_deactivate_password"
+                               class="form-control" placeholder="{% trans 'Enter your password' %}" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        {% trans "Cancel" %}
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-2"></i>{% trans "Delete Account" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

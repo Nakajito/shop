@@ -32,4 +32,5 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("profile/details/", views.profile_details, name="profile_details"),
     path("profile/change-user-type/", views.change_user_type, name="change_user_type"),
+    path("profile/deactivate/", views.deactivate_account, name="deactivate_account"),
 ]

@@ -156,31 +156,41 @@ class CustomUserLoginForm(forms.Form):
     def clean(self):
         """
         Authenticate the user against the database.
+        Checks for deactivated accounts before authenticating.
         """
         email_or_username = self.cleaned_data.get("email_or_username")
         password = self.cleaned_data.get("password")
 
         if email_or_username and password:
-            # 1. Try to authenticate treating input as a username
-            self.user = authenticate(username=email_or_username, password=password)
-
-            # 2. If failure, try treating input as an email
-            if self.user is None:
+            # 1. Resolve user object by username or email
+            user_obj = None
+            try:
+                user_obj = CustomUser.objects.get(username=email_or_username)
+            except CustomUser.DoesNotExist:
                 try:
                     user_obj = CustomUser.objects.get(email=email_or_username)
-                    self.user = authenticate(
-                        username=user_obj.username, password=password
-                    )
                 except CustomUser.DoesNotExist:
-                    # User not found by email either
                     pass
 
-            # 3. Final Check
-            if self.user is None:
-                raise forms.ValidationError(_("Invalid email/username or password."))
+            # 2. If user exists but is inactive, show "account doesn't exist"
+            if user_obj is not None and not user_obj.is_active:
+                raise forms.ValidationError(
+                    _("The account doesn't exist.")
+                )
 
-            if not self.user.is_active:
-                raise forms.ValidationError(_("This account is inactive."))
+            # 3. Authenticate (checks password)
+            if user_obj is not None:
+                self.user = authenticate(
+                    username=user_obj.username, password=password
+                )
+            else:
+                self.user = None
+
+            # 4. If authenticate returned None, credentials are wrong
+            if self.user is None:
+                raise forms.ValidationError(
+                    _("Invalid email/username or password.")
+                )
 
         return self.cleaned_data
 
@@ -217,3 +227,24 @@ class UserProfileForm(forms.ModelForm):
             "profile_picture": _("Profile Picture"),
             "newsletter_subscribed": _("Subscribe to newsletter"),
         }
+
+
+class DeactivateAccountForm(forms.Form):
+    """Form requiring password confirmation to deactivate the account."""
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": _("Enter your password")}
+        ),
+        label=_("Current Password"),
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        if not self.user.check_password(password):
+            raise forms.ValidationError(_("Incorrect password."))
+        return password

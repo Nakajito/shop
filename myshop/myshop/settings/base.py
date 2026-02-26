@@ -178,6 +178,10 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+# Custom allauth adapters
+ACCOUNT_ADAPTER = "accounts.adapter.CustomAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "accounts.adapter.CustomSocialAccountAdapter"
+
 # Redirect URLs
 LOGIN_REDIRECT_URL = "accounts:profile"
 ACCOUNT_LOGIN_REDIRECT_URL = "accounts:profile"

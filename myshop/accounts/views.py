@@ -11,6 +11,7 @@ from accounts.forms import (
     CustomUserLoginForm,
     CustomUserChangeForm,
     UserProfileForm,
+    DeactivateAccountForm,
 )
 from accounts.models import CustomUser
 
@@ -219,6 +220,27 @@ def change_user_type(request):
     else:
         messages.error(request, _("Invalid user type."))
 
+    return redirect("accounts:profile")
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["POST"])
+def deactivate_account(request):
+    """
+    Soft-delete: sets is_active=False and logs the user out.
+    Requires password confirmation via POST data.
+    """
+    form = DeactivateAccountForm(request.user, request.POST)
+
+    if form.is_valid():
+        user = request.user
+        user.is_active = False
+        user.save(update_fields=["is_active"])
+        logout(request)
+        messages.success(request, _("Your account has been successfully deleted."))
+        return redirect("shop:product_list")
+
+    messages.error(request, _("Incorrect password. Account was not deleted."))
     return redirect("accounts:profile")
 
 
