@@ -51,10 +51,18 @@
                         {{ cart_product_form.quantity }}
                     </div>
                     {{ cart_product_form.override }}
-                    <div class="col-12 mt-4">
+                    <div class="col-12 mt-4 d-flex align-items-center gap-3">
                         <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
                             <i class="bi bi-cart-plus me-2"></i>{% trans "Add to Cart" %}
                         </button>
+                        {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-outline-danger btn-lg favorite-btn"
+                                data-product-id="{{ product.id }}"
+                                data-url="{% url 'shop:toggle_favorite' product.id %}"
+                                title="{% trans 'Add to Favorites' %}">
+                            <i class="bi {% if is_favorite %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                        </button>
+                        {% endif %}
                     </div>
                 </form>
 
@@ -120,6 +128,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         control.querySelector('.qty-plus').addEventListener('click', function () {
             if (qty < 20) { qty++; input.value = qty; display.textContent = qty; }
+        });
+    });
+
+    document.querySelectorAll('.favorite-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var url = this.dataset.url;
+            var icon = this.querySelector('i');
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.is_favorite) {
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill');
+                } else {
+                    icon.classList.remove('bi-heart-fill');
+                    icon.classList.add('bi-heart');
+                }
+            });
         });
     });
 });

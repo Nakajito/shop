@@ -68,6 +68,13 @@ class CustomUser(AbstractUser):
         help_text=_("ID of the default payment method in Stripe."),
     )
 
+    favorites = models.ManyToManyField(
+        "shop.Product",
+        blank=True,
+        related_name="favorited_by",
+        verbose_name=_("Favorite Products"),
+    )
+
     created_at = models.DateTimeField(_("created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"), auto_now=True)
 

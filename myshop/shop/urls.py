@@ -25,6 +25,9 @@ urlpatterns = [
         views.product_list,
         name="product_list_by_category",
     ),
+    # Favorites
+    path("favorites/", views.favorite_list, name="favorite_list"),
+    path("favorites/toggle/<int:product_id>/", views.toggle_favorite, name="toggle_favorite"),
     # Product Detail: Unique lookup using both ID (for speed) and Slug (for SEO).
     # Example: /shop/42/gaming-laptop/
     path("<int:id>/<slug:slug>/", views.product_detail, name="product_detail"),

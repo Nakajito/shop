@@ -1,6 +1,9 @@
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
+from django.views.decorators.http import require_POST
 from django.views.decorators.vary import vary_on_cookie
 from decimal import Decimal, InvalidOperation
 
@@ -43,6 +46,10 @@ def product_list(request, category_slug=None):
         min_price = None
         max_price = None
 
+    user_favorites = []
+    if request.user.is_authenticated:
+        user_favorites = list(request.user.favorites.values_list("id", flat=True))
+
     context = {
         "category": category,
         "categories": categories,
@@ -50,6 +57,7 @@ def product_list(request, category_slug=None):
         "min_price": min_price,
         "max_price": max_price,
         "price_filter_applied": price_filter_applied,
+        "user_favorites": user_favorites,
         "page_title": category.name if category else _("All Products"),
     }
 
@@ -79,11 +87,44 @@ def product_detail(request, id, slug):
         # If Redis is down, we still want to show the product page
         pass
 
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = request.user.favorites.filter(id=product.id).exists()
+
     context = {
         "product": product,
         "cart_product_form": cart_product_form,
         "recommended_products": recommended_products,
+        "is_favorite": is_favorite,
         "page_title": product.name,
     }
 
     return render(request, "shop/product/detail.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_POST
+def toggle_favorite(request, product_id):
+    """Toggle a product in the user's favorites list. Returns JSON."""
+    product = get_object_or_404(Product, id=product_id)
+    if request.user.favorites.filter(id=product_id).exists():
+        request.user.favorites.remove(product)
+        is_favorite = False
+    else:
+        request.user.favorites.add(product)
+        is_favorite = True
+    return JsonResponse({
+        "is_favorite": is_favorite,
+        "count": request.user.favorites.count(),
+    })
+
+
+@login_required(login_url="accounts:login")
+def favorite_list(request):
+    """Display all products in the user's favorites."""
+    products = request.user.favorites.select_related("category").filter(available=True)
+    context = {
+        "products": products,
+        "page_title": _("My Favorites"),
+    }
+    return render(request, "shop/product/favorites.html", context)

@@ -122,7 +122,7 @@
             </div>
             
             <div class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
                         <div class="card-body py-4">
                             <div class="text-primary mb-2"><i class="bi bi-bag-check fs-2"></i></div>
@@ -134,8 +134,21 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-4">
+
+                <div class="col-md-3">
+                    <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
+                        <div class="card-body py-4">
+                            <div class="text-danger mb-2"><i class="bi bi-heart fs-2"></i></div>
+                            <h3 class="card-title fw-bold mb-0">{{ favorites_count }}</h3>
+                            <p class="card-text text-muted small text-uppercase">{% trans "Favorites" %}</p>
+                            <a href="{% url 'shop:favorite_list' %}" class="btn btn-sm btn-outline-danger mt-2 stretched-link">
+                                {% trans "View Favorites" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
                     <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
                         <div class="card-body py-4">
                             <div class="text-success mb-2"><i class="bi bi-geo-alt fs-2"></i></div>
@@ -147,14 +160,13 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-4">
+
+                <div class="col-md-3">
                     <div class="card text-center h-100 border-0 shadow-sm hover-elevate">
                         <div class="card-body py-4">
                             <div class="text-warning mb-2"><i class="bi bi-credit-card fs-2"></i></div>
                             <h3 class="card-title fw-bold mb-0">{{ payment_methods_count }}</h3>
                             <p class="card-text text-muted small text-uppercase">{% trans "Payment Methods" %}</p>
-                            {# We check if the URL exists first or use a placeholder if the app is not ready #}
                             {% url 'payment:payment_method_list' as payment_url %}
                             <a href="{{ payment_url|default:'#' }}" class="btn btn-sm btn-outline-warning mt-2 stretched-link">
                                 {% trans "Manage Cards" %}

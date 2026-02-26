@@ -168,6 +168,8 @@ def profile(request):
     # Use 'all()' and let the template slice or use DB slicing here
     recent_orders = user.orders.select_related("payment_method").order_by("-created")[:5]
 
+    favorites_count = user.favorites.count()
+
     # Use defensive checks for related managers in case apps aren't connected yet
     addresses_count = user.addresses.count() if hasattr(user, "addresses") else 0
     # Assuming 'payment_methods' is the related_name from the Payment app
@@ -183,6 +185,7 @@ def profile(request):
         "recent_orders": recent_orders,
         "addresses_count": addresses_count,
         "payment_methods_count": payment_methods_count,
+        "favorites_count": favorites_count,
         "page_title": _("My Profile"),
     }
 
