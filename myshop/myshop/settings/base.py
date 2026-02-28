@@ -144,6 +144,7 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 REDIS_HOST = config("REDIS_HOST", default="localhost")
 REDIS_PORT = config("REDIS_PORT", default=6379, cast=int)
 REDIS_DB = config("REDIS_DB", default=1, cast=int)
+REDIS_PASSWORD = config("REDIS_PASSWORD", default="")
 
 # Celery settings
 CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://localhost:6379/0")

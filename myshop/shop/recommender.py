@@ -10,7 +10,10 @@ logger = logging.getLogger(__name__)
 # Connect to Redis using settings
 try:
     r = redis.Redis(
-        host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB
+        host=settings.REDIS_HOST,
+        port=settings.REDIS_PORT,
+        db=settings.REDIS_DB,
+        password=settings.REDIS_PASSWORD or None,
     )
 except Exception as e:
     logger.error(f"Redis connection failed: {e}")
@@ -47,6 +50,9 @@ class Recommender:
         pipe.execute()
 
     def suggest_products_for(self, products, max_results=6):
+        if not r:
+            return []
+
         product_ids = [p.id for p in products]
 
         if len(products) == 1:

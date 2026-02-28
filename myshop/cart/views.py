@@ -69,16 +69,14 @@ def cart_detail(request):
     coupon_apply_form = CouponApplyForm()
 
     # Recommendation logic
-    r = Recommender()
-    # Extract product objects from the prepared list
-    cart_products = [item["product"] for item in cart_items]
-
-    if cart_products:
-        recommended_products = r.suggest_products_for(cart_products, max_results=4)
-    else:
-        recommended_products = []
-
-    coupon_apply_form = CouponApplyForm()
+    recommended_products = []
+    try:
+        r = Recommender()
+        cart_products = [item["product"] for item in cart_items]
+        if cart_products:
+            recommended_products = r.suggest_products_for(cart_products, max_results=4)
+    except Exception:
+        pass
 
     return render(
         request,
