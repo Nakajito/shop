@@ -1,0 +1,42 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <a href="{% url 'blog:manage_post_list' %}" class="text-decoration-none mb-3 d-inline-block">
+                <i class="bi bi-arrow-left me-1"></i> {% trans "Back to Posts" %}
+            </a>
+
+            <div class="card shadow-sm">
+                <div class="card-body text-center p-5">
+                    <i class="bi bi-exclamation-triangle display-3 text-danger mb-3"></i>
+                    <h3 class="fw-bold">{% trans "Delete Post" %}</h3>
+                    <p class="text-muted">
+                        {% blocktrans with title=post.title %}
+                            Are you sure you want to delete the post "<strong>{{ title }}</strong>"?
+                            This action cannot be undone.
+                        {% endblocktrans %}
+                    </p>
+
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="{% url 'blog:manage_post_list' %}" class="btn btn-outline-secondary px-4">
+                                {% trans "Cancel" %}
+                            </a>
+                            <button type="submit" class="btn btn-danger px-4">
+                                <i class="bi bi-trash me-1"></i> {% trans "Delete" %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

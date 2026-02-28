@@ -1,0 +1,174 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ post.title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'blog/css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Back link -->
+            <a href="{% url 'blog:post_list' %}" class="text-decoration-none mb-4 d-inline-block">
+                <i class="bi bi-arrow-left me-1"></i> {% trans "Back to Blog" %}
+            </a>
+
+            <!-- Cover Image -->
+            {% if post.cover_image %}
+                <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="blog-detail-cover w-100 mb-4">
+            {% endif %}
+
+            <!-- Category & Tags -->
+            <div class="mb-3">
+                {% if post.category %}
+                    <a href="{% url 'blog:post_list_by_category' post.category.slug %}" class="badge bg-primary text-decoration-none me-1">
+                        {{ post.category.name }}
+                    </a>
+                {% endif %}
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="badge bg-secondary text-decoration-none me-1">
+                        {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <!-- Title & Subtitle -->
+            <h1 class="fw-bold mb-2">{{ post.title }}</h1>
+            {% if post.subtitle %}
+                <p class="lead text-muted">{{ post.subtitle }}</p>
+            {% endif %}
+
+            <!-- Author & Date -->
+            <div class="d-flex align-items-center text-muted mb-4 pb-3 border-bottom">
+                <i class="bi bi-person-circle me-2 fs-5"></i>
+                <span class="me-3">{{ post.author.get_full_name|default:post.author.username }}</span>
+                <i class="bi bi-calendar3 me-2"></i>
+                <span>{{ post.created|date:"F d, Y" }}</span>
+            </div>
+
+            <!-- Body Content -->
+            <div class="blog-detail-body mb-5">
+                {{ post.body|safe }}
+            </div>
+
+            <!-- Gallery -->
+            {% if post.images.all %}
+                <div class="mb-5">
+                    <h3 class="fw-bold mb-3">
+                        <i class="bi bi-images me-2"></i>{% trans "Gallery" %}
+                    </h3>
+                    <div class="blog-gallery-grid">
+                        {% for image in post.images.all %}
+                            <div class="blog-gallery-item">
+                                <img src="{{ image.image.url }}"
+                                     alt="{{ image.caption|default:post.title }}"
+                                     data-bs-toggle="modal"
+                                     data-bs-target="#galleryModal"
+                                     data-bs-img="{{ image.image.url }}"
+                                     data-bs-caption="{{ image.caption }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Gallery Modal -->
+                <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header border-0">
+                                <h6 class="modal-title text-white" id="galleryModalCaption"></h6>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}"></button>
+                            </div>
+                            <div class="modal-body p-0 text-center">
+                                <img id="galleryModalImg" src="" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Videos -->
+            {% if post.videos.all %}
+                <div class="mb-5">
+                    <h3 class="fw-bold mb-3">
+                        <i class="bi bi-play-circle me-2"></i>{% trans "Videos" %}
+                    </h3>
+                    {% for video in post.videos.all %}
+                        {% if video.title %}
+                            <h5 class="mb-2">{{ video.title }}</h5>
+                        {% endif %}
+                        {% if video.video_type == 'file' and video.file %}
+                            <div class="blog-video-container mb-3">
+                                <video controls>
+                                    <source src="{{ video.file.url }}" type="video/mp4">
+                                    {% trans "Your browser does not support the video tag." %}
+                                </video>
+                            </div>
+                        {% else %}
+                            <div class="blog-video-container mb-3">
+                                <iframe src="{{ video.get_embed_url }}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        loading="lazy">
+                                </iframe>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Related Posts -->
+            {% if related_posts %}
+                <div class="mb-5">
+                    <h3 class="fw-bold mb-3">
+                        <i class="bi bi-link-45deg me-2"></i>{% trans "Related Posts" %}
+                    </h3>
+                    <div class="row g-3">
+                        {% for related in related_posts %}
+                            <div class="col-md-4">
+                                <div class="card blog-card shadow-sm h-100">
+                                    {% if related.cover_image %}
+                                        <img src="{{ related.cover_image.url }}" class="card-img-top" alt="{{ related.title }}">
+                                    {% else %}
+                                        <div class="blog-cover-placeholder" style="font-size: 2rem;">
+                                            <i class="bi bi-journal-text"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <a href="{{ related.get_absolute_url }}">{{ related.title }}</a>
+                                        </h6>
+                                        <small class="text-muted">{{ related.created|date:"M d, Y" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Gallery modal handler
+    const galleryModal = document.getElementById('galleryModal');
+    if (galleryModal) {
+        galleryModal.addEventListener('show.bs.modal', function (event) {
+            const trigger = event.relatedTarget;
+            const imgSrc = trigger.getAttribute('data-bs-img');
+            const caption = trigger.getAttribute('data-bs-caption');
+            document.getElementById('galleryModalImg').src = imgSrc;
+            document.getElementById('galleryModalCaption').textContent = caption || '';
+        });
+    }
+</script>
+{% endblock %}

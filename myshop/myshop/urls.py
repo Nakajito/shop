@@ -33,6 +33,8 @@ urlpatterns = [
     path("payment/", include("payment.urls", namespace="payment")),
     path("coupons/", include("coupons.urls", namespace="coupons")),
     path("support/", include("support.urls", namespace="support")),
+    path("blog/", include("blog.urls", namespace="blog")),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # The 'shop' app handles the root URL, so it is included last to allow
     # other specific patterns to be matched first.
     path("", include("shop.urls", namespace="shop")),

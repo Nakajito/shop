@@ -1,0 +1,399 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'blog/css/blog.css' %}" rel="stylesheet">
+{{ form.media.css }}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <a href="{% url 'blog:manage_post_list' %}" class="text-decoration-none">
+            <i class="bi bi-arrow-left me-1"></i> {% trans "Back to Posts" %}
+        </a>
+        <h1 class="fw-bold mt-2">{{ page_title }}</h1>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Close' %}"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {# Show all form errors at the top for visibility #}
+    {% if form.errors or image_formset.non_form_errors or video_formset.non_form_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h6 class="alert-heading fw-bold mb-2">
+                <i class="bi bi-exclamation-triangle me-1"></i> {% trans "Please correct the errors below" %}
+            </h6>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="mb-1">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {% for field in form %}
+                {% if field.errors %}
+                    <p class="mb-1"><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</p>
+                {% endif %}
+            {% endfor %}
+            {% for error in image_formset.non_form_errors %}
+                <p class="mb-1"><strong>{% trans "Gallery" %}:</strong> {{ error }}</p>
+            {% endfor %}
+            {% for img_form in image_formset %}
+                {% if img_form.errors %}
+                    <p class="mb-1"><strong>{% trans "Image" %} {{ forloop.counter }}:</strong>
+                        {% for field, errors in img_form.errors.items %}
+                            {{ field }}: {{ errors|join:", " }}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            {% endfor %}
+            {% for error in video_formset.non_form_errors %}
+                <p class="mb-1"><strong>{% trans "Videos" %}:</strong> {{ error }}</p>
+            {% endfor %}
+            {% for vid_form in video_formset %}
+                {% if vid_form.errors %}
+                    <p class="mb-1"><strong>{% trans "Video" %} {{ forloop.counter }}:</strong>
+                        {% for field, errors in vid_form.errors.items %}
+                            {{ field }}: {{ errors|join:", " }}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Close' %}"></button>
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Post Details -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-file-text me-1"></i> {% trans "Post Details" %}
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label fw-bold">{% trans "Title" %} *</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_subtitle" class="form-label fw-bold">{% trans "Subtitle" %}</label>
+                            {{ form.subtitle }}
+                            {% if form.subtitle.errors %}
+                                <div class="text-danger small mt-1">{{ form.subtitle.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_slug" class="form-label fw-bold">{% trans "Slug" %}</label>
+                            {{ form.slug }}
+                            {% if form.slug.errors %}
+                                <div class="text-danger small mt-1">{{ form.slug.errors }}</div>
+                            {% endif %}
+                            <small class="text-muted">{% trans "Auto-generated from title if left empty." %}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-body-text me-1"></i> {% trans "Content" %} *
+                    </div>
+                    <div class="card-body">
+                        {{ form.body }}
+                        {% if form.body.errors %}
+                            <div class="text-danger small mt-1">{{ form.body.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Cover Image -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-image me-1"></i> {% trans "Cover Image" %}
+                    </div>
+                    <div class="card-body">
+                        {% if post and post.cover_image %}
+                            <div class="mb-3">
+                                <img src="{{ post.cover_image.url }}" alt="{% trans 'Current cover' %}" class="img-fluid rounded" style="max-height: 200px;" id="cover-preview">
+                            </div>
+                        {% else %}
+                            <img src="" alt="" class="img-fluid rounded mb-3 d-none" style="max-height: 200px;" id="cover-preview">
+                        {% endif %}
+                        {{ form.cover_image }}
+                        {% if form.cover_image.errors %}
+                            <div class="text-danger small mt-1">{{ form.cover_image.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Gallery Images -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-images me-1"></i> {% trans "Gallery Images" %}</span>
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="add-image-btn">
+                            <i class="bi bi-plus-lg me-1"></i> {% trans "Add Image" %}
+                        </button>
+                    </div>
+                    <div class="card-body" id="images-container">
+                        {{ image_formset.management_form }}
+                        {% for img_form in image_formset %}
+                            <div class="formset-row mb-3">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-5">
+                                        <label class="form-label small">{% trans "Image" %}</label>
+                                        {{ img_form.image }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">{% trans "Caption" %}</label>
+                                        {{ img_form.caption }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label small">{% trans "Order" %}</label>
+                                        {{ img_form.order }}
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-formset-row" title="{% trans 'Remove' %}">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                        <div class="d-none">{{ img_form.DELETE }}{{ img_form.id }}</div>
+                                    </div>
+                                </div>
+                                {% if img_form.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for field, errors in img_form.errors.items %}
+                                            {{ errors|join:", " }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        {# Hidden empty form template for JS cloning #}
+                        <div class="formset-row mb-3 d-none" id="images-empty-form">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label small">{% trans "Image" %}</label>
+                                    {{ image_formset.empty_form.image }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">{% trans "Caption" %}</label>
+                                    {{ image_formset.empty_form.caption }}
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label small">{% trans "Order" %}</label>
+                                    {{ image_formset.empty_form.order }}
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-sm btn-outline-danger delete-formset-row" title="{% trans 'Remove' %}">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                    <div class="d-none">{{ image_formset.empty_form.DELETE }}{{ image_formset.empty_form.id }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Videos -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-play-circle me-1"></i> {% trans "Videos" %}</span>
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="add-video-btn">
+                            <i class="bi bi-plus-lg me-1"></i> {% trans "Add Video" %}
+                        </button>
+                    </div>
+                    <div class="card-body" id="videos-container">
+                        {{ video_formset.management_form }}
+                        {% for vid_form in video_formset %}
+                            <div class="formset-row mb-3">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label small">{% trans "Type" %}</label>
+                                        {{ vid_form.video_type }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">{% trans "URL" %}</label>
+                                        {{ vid_form.url }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">{% trans "Or File" %}</label>
+                                        {{ vid_form.file }}
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-formset-row" title="{% trans 'Remove' %}">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                        <div class="d-none">{{ vid_form.DELETE }}{{ vid_form.id }}</div>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mt-1">
+                                    <div class="col-md-9">
+                                        <label class="form-label small">{% trans "Video Title" %}</label>
+                                        {{ vid_form.title }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small">{% trans "Order" %}</label>
+                                        {{ vid_form.order }}
+                                    </div>
+                                </div>
+                                {% if vid_form.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for field, errors in vid_form.errors.items %}
+                                            {{ errors|join:", " }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        {# Hidden empty form template for JS cloning #}
+                        <div class="formset-row mb-3 d-none" id="videos-empty-form">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label small">{% trans "Type" %}</label>
+                                    {{ video_formset.empty_form.video_type }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">{% trans "URL" %}</label>
+                                    {{ video_formset.empty_form.url }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">{% trans "Or File" %}</label>
+                                    {{ video_formset.empty_form.file }}
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-sm btn-outline-danger delete-formset-row" title="{% trans 'Remove' %}">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                    <div class="d-none">{{ video_formset.empty_form.DELETE }}{{ video_formset.empty_form.id }}</div>
+                                </div>
+                            </div>
+                            <div class="row g-2 mt-1">
+                                <div class="col-md-9">
+                                    <label class="form-label small">{% trans "Video Title" %}</label>
+                                    {{ video_formset.empty_form.title }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small">{% trans "Order" %}</label>
+                                    {{ video_formset.empty_form.order }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Publish -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-send me-1"></i> {% trans "Publish" %}
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="id_status" class="form-label fw-bold">{% trans "Status" %}</label>
+                            {{ form.status }}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>
+                                {% if post %}{% trans "Update Post" %}{% else %}{% trans "Create Post" %}{% endif %}
+                            </button>
+                            <a href="{% url 'blog:manage_post_list' %}" class="btn btn-outline-secondary">
+                                {% trans "Cancel" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-folder me-1"></i> {% trans "Category" %}
+                    </div>
+                    <div class="card-body">
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+                        {% endif %}
+                        <hr class="my-2">
+                        <div class="d-flex gap-2">
+                            <input type="text" id="new-category-input" class="form-control form-control-sm" placeholder="{% trans 'New category name' %}">
+                            <button type="button" id="add-category-btn" class="btn btn-sm btn-outline-success text-nowrap">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                        <div id="category-feedback" class="small mt-1"></div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-tags me-1"></i> {% trans "Tags" %}
+                    </div>
+                    <div class="card-body">
+                        <div style="max-height: 200px; overflow-y: auto;" class="mb-2" id="tags-list">
+                            {{ form.tags }}
+                        </div>
+                        {% if form.tags.errors %}
+                            <div class="text-danger small mt-1">{{ form.tags.errors }}</div>
+                        {% endif %}
+                        <hr class="my-2">
+                        <div class="d-flex gap-2">
+                            <input type="text" id="new-tag-input" class="form-control form-control-sm" placeholder="{% trans 'New tag name' %}">
+                            <button type="button" id="add-tag-btn" class="btn btn-sm btn-outline-success text-nowrap">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                        <div id="tag-feedback" class="small mt-1"></div>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white fw-bold">
+                        <i class="bi bi-link-45deg me-1"></i> {% trans "Related Posts" %}
+                    </div>
+                    <div class="card-body" style="max-height: 250px; overflow-y: auto;">
+                        {{ form.related_posts }}
+                        {% if form.related_posts.errors %}
+                            <div class="text-danger small mt-1">{{ form.related_posts.errors }}</div>
+                        {% endif %}
+                        {% if not form.related_posts.field.queryset.exists %}
+                            <p class="text-muted small mb-0">{% trans "No published posts available." %}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media.js }}
+<script src="{% static 'blog/js/blog.js' %}"></script>
+<script>
+    // AJAX category/tag creation - URLs from Django
+    window.BLOG_AJAX_URLS = {
+        createCategory: "{% url 'blog:ajax_create_category' %}",
+        createTag: "{% url 'blog:ajax_create_tag' %}",
+    };
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+{% endblock %}

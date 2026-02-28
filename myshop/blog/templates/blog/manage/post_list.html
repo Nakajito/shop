@@ -1,0 +1,138 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'blog/css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">{% trans "Manage Posts" %}</h1>
+            <a href="{% url 'blog:manage_dashboard' %}" class="text-decoration-none">
+                <i class="bi bi-arrow-left me-1"></i> {% trans "Back to Dashboard" %}
+            </a>
+        </div>
+        <a href="{% url 'blog:manage_post_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> {% trans "New Post" %}
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold">{% trans "Status" %}</label>
+                    <select name="status" class="form-select">
+                        <option value="">{% trans "All" %}</option>
+                        <option value="published" {% if current_status == "published" %}selected{% endif %}>{% trans "Published" %}</option>
+                        <option value="draft" {% if current_status == "draft" %}selected{% endif %}>{% trans "Draft" %}</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label small fw-bold">{% trans "Search" %}</label>
+                    <input type="text" name="q" class="form-control" placeholder="{% trans 'Search by title or content...' %}" value="{{ search_query }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-funnel me-1"></i> {% trans "Filter" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Posts Table -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover blog-manage-table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% trans "Title" %}</th>
+                        <th>{% trans "Author" %}</th>
+                        <th>{% trans "Category" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Created" %}</th>
+                        <th>{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td>
+                                <strong>{{ post.title }}</strong>
+                                {% if post.subtitle %}
+                                    <br><small class="text-muted">{{ post.subtitle|truncatewords:10 }}</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ post.author.get_full_name|default:post.author.username }}</td>
+                            <td>{{ post.category.name|default:"-" }}</td>
+                            <td>
+                                {% if post.status == 'published' %}
+                                    <span class="badge bg-success">{% trans "Published" %}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{% trans "Draft" %}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ post.created|date:"M d, Y" }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{% url 'blog:manage_post_edit' post.id %}" class="btn btn-outline-primary" title="{% trans 'Edit' %}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    {% if post.status == 'published' %}
+                                        <a href="{{ post.get_absolute_url }}" class="btn btn-outline-secondary" title="{% trans 'View' %}" target="_blank">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'blog:manage_post_delete' post.id %}" class="btn btn-outline-danger" title="{% trans 'Delete' %}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                {% trans "No posts found." %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+        <nav class="mt-4" aria-label="{% trans 'Pagination' %}">
+            <ul class="pagination justify-content-center">
+                {% if posts.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.previous_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+                {% for num in posts.paginator.page_range %}
+                    <li class="page-item {% if posts.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if posts.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.next_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

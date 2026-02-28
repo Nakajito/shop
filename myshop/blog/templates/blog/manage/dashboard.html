@@ -1,0 +1,114 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} - One Synk{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'blog/css/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">
+            <i class="bi bi-speedometer2 me-2"></i>{% trans "Blog Dashboard" %}
+        </h1>
+        <a href="{% url 'blog:manage_post_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> {% trans "New Post" %}
+        </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card blog-stat-card shadow-sm text-center p-4">
+                <div class="display-6 text-primary">{{ stats.total }}</div>
+                <p class="text-muted mb-0">{% trans "Total Posts" %}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card blog-stat-card shadow-sm text-center p-4">
+                <div class="display-6 text-success">{{ stats.published }}</div>
+                <p class="text-muted mb-0">{% trans "Published" %}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card blog-stat-card shadow-sm text-center p-4">
+                <div class="display-6 text-warning">{{ stats.drafts }}</div>
+                <p class="text-muted mb-0">{% trans "Drafts" %}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="d-flex gap-2 mb-4">
+        <a href="{% url 'blog:manage_post_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-list-ul me-1"></i> {% trans "All Posts" %}
+        </a>
+        <a href="{% url 'blog:manage_post_list' %}?status=published" class="btn btn-outline-success">
+            <i class="bi bi-check-circle me-1"></i> {% trans "Published" %}
+        </a>
+        <a href="{% url 'blog:manage_post_list' %}?status=draft" class="btn btn-outline-warning">
+            <i class="bi bi-pencil me-1"></i> {% trans "Drafts" %}
+        </a>
+    </div>
+
+    <!-- Recent Posts -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white fw-bold">
+            <i class="bi bi-clock-history me-1"></i> {% trans "Recent Posts" %}
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% trans "Title" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Category" %}</th>
+                        <th>{% trans "Created" %}</th>
+                        <th>{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in recent_posts %}
+                        <tr>
+                            <td>
+                                <strong>{{ post.title }}</strong>
+                                {% if post.subtitle %}
+                                    <br><small class="text-muted">{{ post.subtitle|truncatewords:8 }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if post.status == 'published' %}
+                                    <span class="badge bg-success">{% trans "Published" %}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{% trans "Draft" %}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ post.category.name|default:"-" }}</td>
+                            <td>{{ post.created|date:"M d, Y" }}</td>
+                            <td>
+                                <a href="{% url 'blog:manage_post_edit' post.id %}" class="btn btn-sm btn-outline-primary" title="{% trans 'Edit' %}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% if post.status == 'published' %}
+                                    <a href="{{ post.get_absolute_url }}" class="btn btn-sm btn-outline-secondary" title="{% trans 'View' %}" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                {% trans "No posts yet. Create your first post!" %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

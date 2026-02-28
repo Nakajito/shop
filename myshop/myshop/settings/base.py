@@ -1,4 +1,6 @@
 from pathlib import Path
+
+from django.contrib.messages import constants as message_constants
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third party
+    "django_ckeditor_5",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -35,6 +38,7 @@ INSTALLED_APPS = [
     "payment.apps.PaymentConfig",
     "coupons.apps.CouponsConfig",
     "support.apps.SupportConfig",
+    "blog.apps.BlogConfig",
 ]
 
 MIDDLEWARE = [
@@ -109,6 +113,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 CART_SESSION_ID = "cart"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Map Django message levels to Bootstrap alert classes
+MESSAGE_TAGS = {
+    message_constants.DEBUG: "secondary",
+    message_constants.INFO: "info",
+    message_constants.SUCCESS: "success",
+    message_constants.WARNING: "warning",
+    message_constants.ERROR: "danger",
+}
 
 
 # Stripe settings
@@ -237,3 +250,33 @@ LOGGING = {
         },
     },
 }
+
+
+# CKEditor 5 settings
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "|",
+            "link",
+            "imageUpload",
+            "|",
+            "undo",
+            "redo",
+        ],
+        "height": "400px",
+        "width": "100%",
+    },
+}
+
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_PATH = "blog/ckeditor/"
