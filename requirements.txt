@@ -14,9 +14,11 @@ cryptography==46.0.5
 cssselect2==0.8.0
 Django==6.0.1
 django-allauth==65.14.1
+django-ckeditor-5==0.2.20
 flower==2.0.1
 fonttools==4.61.1
 git-filter-repo==2.47.0
+gunicorn==23.0.0
 humanize==4.15.0
 idna==3.11
 kombu==5.6.2
@@ -25,6 +27,7 @@ packaging==26.0
 pillow==12.1.0
 prometheus_client==0.24.1
 prompt_toolkit==3.0.52
+psycopg2-binary==2.9.10
 pycparser==3.0
 pydyf==0.12.1
 PyJWT==2.11.0
@@ -35,6 +38,7 @@ pytz==2025.2
 redis==7.1.0
 requests==2.32.5
 requests-oauthlib==2.0.0
+sentry-sdk==2.19.2
 six==1.17.0
 sqlparse==0.5.5
 stripe==14.2.0
@@ -49,9 +53,5 @@ vine==5.1.0
 wcwidth==0.3.1
 weasyprint==68.0
 webencodings==0.5.1
-zopfli==0.4.0
-# Production
-gunicorn==23.0.0
 whitenoise==6.8.2
-sentry-sdk==2.19.2
-psycopg2-binary==2.9.10
+zopfli==0.4.0
