@@ -1,4 +1,5 @@
 from pathlib import Path
+from urllib.parse import quote
 
 from django.contrib.messages import constants as message_constants
 from decouple import config, Csv
@@ -147,9 +148,11 @@ REDIS_DB = config("REDIS_DB", default=1, cast=int)
 REDIS_PASSWORD = config("REDIS_PASSWORD", default="")
 
 # Celery settings
-CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://localhost:6379/0")
+_redis_auth = f":{quote(REDIS_PASSWORD, safe='')}@" if REDIS_PASSWORD else ""
+_redis_celery_url = f"redis://{_redis_auth}{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_BROKER_URL = config("CELERY_BROKER_URL", default=_redis_celery_url)
 CELERY_RESULT_BACKEND = config(
-    "CELERY_RESULT_BACKEND", default="redis://localhost:6379/0"
+    "CELERY_RESULT_BACKEND", default=_redis_celery_url
 )
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
