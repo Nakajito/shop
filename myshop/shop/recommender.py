@@ -4,20 +4,23 @@ from django.conf import settings
 from typing import List
 from .models import Product
 
-# Initialize logger
 logger = logging.getLogger(__name__)
 
-# Connect to Redis using settings
-try:
-    r = redis.Redis(
-        host=settings.REDIS_HOST,
-        port=settings.REDIS_PORT,
-        db=settings.REDIS_DB,
-        password=settings.REDIS_PASSWORD or None,
-    )
-except Exception as e:
-    logger.error(f"Redis connection failed: {e}")
-    r = None
+
+def _get_redis():
+    """Get a Redis connection, returning None if unavailable."""
+    try:
+        r = redis.Redis(
+            host=settings.REDIS_HOST,
+            port=settings.REDIS_PORT,
+            db=settings.REDIS_DB,
+            password=settings.REDIS_PASSWORD or None,
+        )
+        r.ping()
+        return r
+    except Exception as e:
+        logger.warning(f"Redis unavailable: {e}")
+        return None
 
 
 class Recommender:
@@ -35,6 +38,7 @@ class Recommender:
         Records that a list of products were purchased together.
         Uses a Pipeline to execute all updates in a single network request.
         """
+        r = _get_redis()
         if not r:
             return
 
@@ -50,6 +54,7 @@ class Recommender:
         pipe.execute()
 
     def suggest_products_for(self, products, max_results=6):
+        r = _get_redis()
         if not r:
             return []
 
@@ -69,7 +74,6 @@ class Recommender:
             r.zunionstore(tmp_key, keys)
             r.zrem(tmp_key, *product_ids)
 
-            # FIXED LINE BELOW
             suggestions = r.zrange(tmp_key, 0, max_results - 1, desc=True)
 
             r.delete(tmp_key)
@@ -82,6 +86,7 @@ class Recommender:
 
     def clear_purchases(self):
         """Clears all recommendation data from Redis."""
+        r = _get_redis()
         if not r:
             return
 
