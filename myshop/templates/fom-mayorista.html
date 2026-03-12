@@ -1,0 +1,122 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mayoristas - Synk Food</title>
+    {% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/form-mayorista.css' %}">
+    {% endblock %}
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-mayorista">
+        <a href="/" class="logo">
+            <div class="logo-icon">S</div>
+            <div class="logo-text">Synk<br>Food</div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="{% url 'shop:product_list' %}" class="active">Productos</a></li>
+            <li><a href="#">Recetario</a></li>
+            <li><a href="{% url 'shop:form_mayorista' %}">Mayoristas</a></li>
+        </ul>
+
+        <div class="nav-icons">
+            <a href="{% url 'cart:cart_detail' %}" title="Carrito">
+                <i class="bi bi-bag"></i>
+            </a>
+            <a href="{% url 'accounts:profile' %}" title="Mi cuenta">
+                <i class="bi bi-person-fill"></i>
+            </a>
+            <a href="#" title="Buscar">
+                <i class="bi bi-search"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-mayorista">
+        <h1>¿Tienes tienda,<br>restaurante o negocio?</h1>
+        <p class="hero-subtitle">
+            Lleva productos de alta rotación, buen margen<br>
+            y excelente calidad.<br>
+            Sé distribuidor Soho y sorprende a tus clientes.
+        </p>
+        <p class="hero-cta">
+            Llena el formulario para una propuesta personalizada<br>
+            te daremos asesoría, precios especiales y apoyo visual para<br>
+            tu punto de venta.
+        </p>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="form-section">
+        <div class="form-card">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" id="apellidos" name="apellidos" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <input type="text" id="estado" name="estado" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ciudad">Ciudad:</label>
+                        <input type="text" id="ciudad" name="ciudad" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="comentarios">Comentarios:</label>
+                        <textarea id="comentarios" name="comentarios"></textarea>
+                    </div>
+                </div>
+                <div class="form-submit">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-mayorista">
+        <div class="footer-content">
+            <div class="footer-social">
+                <span>Síguenos en redes:</span>
+                <div class="footer-social-icons">
+                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+                    <a href="#" title="TikTok"><i class="bi bi-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Aviso de privacidad</a>
+                <a href="#">Términos y condiciones</a>
+            </div>
+        </div>
+    </footer>
+    <div class="footer-bottom">
+        &copy; Synk Food, 2026
+    </div>
+
+</body>
+</html>

@@ -119,6 +119,11 @@ def toggle_favorite(request, product_id):
     })
 
 
+def form_mayorista(request):
+    """Displays the wholesaler contact form."""
+    return render(request, "fom-mayorista.html")
+
+
 @login_required(login_url="accounts:login")
 def favorite_list(request):
     """Display all products in the user's favorites."""

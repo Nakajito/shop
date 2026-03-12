@@ -25,6 +25,8 @@ urlpatterns = [
         views.product_list,
         name="product_list_by_category",
     ),
+    # Wholesaler form
+    path("mayoristas/", views.form_mayorista, name="form_mayorista"),
     # Favorites
     path("favorites/", views.favorite_list, name="favorite_list"),
     path("favorites/toggle/<int:product_id>/", views.toggle_favorite, name="toggle_favorite"),
