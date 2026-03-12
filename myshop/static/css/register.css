@@ -1,0 +1,101 @@
+/* HEADER NEGRO */
+
+.auth-top{
+    background:#111;
+    height:260px;
+    align-items:center;
+    justify-content:center;
+    padding-top: 2rem;
+
+    color:white;
+    font-size:40px;
+    letter-spacing:4px;
+}
+
+
+/* CARD */
+
+.register-card{
+    margin-top:-120px;
+    border-radius:25px;
+    padding:45px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.15);
+}
+
+
+/* INPUTS */
+
+.register-card .form-control{
+    background:#e5e5e5;
+    border:none;
+    border-radius:10px;
+}
+
+.register-card .form-control:focus{
+    background:white;
+    border:1px solid black;
+    box-shadow:none;
+}
+
+
+/* CHECKBOX */
+
+.form-check-label{
+    font-size:15px;
+}
+
+.form-check-input{
+    width:18px;
+    height:18px;
+}
+
+
+/* BOTON */
+
+.register-btn{
+    background:black;
+    border:none;
+    letter-spacing:2px;
+}
+
+
+/* LINK LOGIN */
+
+.login-link a{
+    color:black;
+    border-bottom:1px solid black;
+    text-decoration:none;
+}
+/* CAPTCHA */
+
+/* RECAPTCHA */
+
+ /* RECAPTCHA CHECKBOX */
+
+.captcha-check{
+    width:22px;
+    height:22px;
+    border:2px solid #ccc;
+    border-radius:3px;
+    appearance:none;
+    cursor:pointer;
+    position:relative;
+}
+
+/* cuando se selecciona */
+
+.captcha-check:checked{
+    background:#34a853;
+    border-color:#34a853;
+}
+
+/* palomita */
+
+.captcha-check:checked::after{
+    content:"✓";
+    color:white;
+    font-size:16px;
+    position:absolute;
+    left:4px;
+    top:-2px;
+}

@@ -1,0 +1,403 @@
+/* ============================================
+   FORM MAYORISTA - Styles
+   ============================================ */
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #000;
+    background: #fff;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar-mayorista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 50px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar-mayorista .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.navbar-mayorista .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    position: relative;
+}
+
+.navbar-mayorista .logo-icon::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.navbar-mayorista .logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.navbar-mayorista .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+}
+
+.navbar-mayorista .nav-links a {
+    text-decoration: none;
+    color: #000;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    transition: background 0.3s;
+}
+
+.navbar-mayorista .nav-links a.active {
+    background: #000;
+    color: #fff;
+    border-radius: 30px;
+}
+
+.navbar-mayorista .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.navbar-mayorista .nav-icons a {
+    color: #000;
+    text-decoration: none;
+    font-size: 20px;
+    transition: opacity 0.3s;
+}
+
+.navbar-mayorista .nav-icons a:hover {
+    opacity: 0.6;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-mayorista {
+    background: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 80px 40px 180px;
+}
+
+.hero-mayorista h1 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.hero-mayorista .hero-subtitle {
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    line-height: 1.8;
+    text-transform: uppercase;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    font-weight: 400;
+}
+
+.hero-mayorista .hero-cta {
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    line-height: 1.8;
+    text-transform: uppercase;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 700;
+}
+
+/* ============================================
+   FORM SECTION
+   ============================================ */
+.form-section {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px 80px;
+    margin-top: -120px;
+    position: relative;
+    z-index: 10;
+}
+
+.form-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 50px 55px;
+    width: 100%;
+    max-width: 780px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 30px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 400;
+    color: #000;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+    background: #d9d9d9;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    outline: none;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    background: #cecece;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.form-submit {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.form-submit button {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 14px 60px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.form-submit button:hover {
+    background: #333;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer-mayorista {
+    padding: 50px 50px 0;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.footer-social span {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #000;
+}
+
+.footer-social-icons {
+    display: flex;
+    gap: 14px;
+}
+
+.footer-social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.footer-social-icons a:hover {
+    background: #333;
+}
+
+.footer-links {
+    display: flex;
+    gap: 50px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+    opacity: 0.6;
+}
+
+.footer-bottom {
+    background: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .navbar-mayorista {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px;
+    }
+
+    .navbar-mayorista .nav-links {
+        gap: 15px;
+    }
+
+    .navbar-mayorista .nav-links a {
+        font-size: 11px;
+        letter-spacing: 2px;
+        padding: 6px 14px;
+    }
+
+    .hero-mayorista {
+        padding: 50px 20px 150px;
+    }
+
+    .hero-mayorista h1 {
+        font-size: 28px;
+    }
+
+    .hero-mayorista .hero-subtitle,
+    .hero-mayorista .hero-cta {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+    }
+
+    .form-section {
+        padding: 0 20px 60px;
+    }
+
+    .form-card {
+        padding: 35px 28px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .footer-mayorista {
+        padding: 40px 20px 0;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-mayorista h1 {
+        font-size: 24px;
+    }
+
+    .form-submit button {
+        padding: 12px 40px;
+        font-size: 11px;
+    }
+
+    .navbar-mayorista .nav-icons {
+        gap: 16px;
+    }
+}

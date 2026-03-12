@@ -1,0 +1,181 @@
+
+
+/* ===== GLOBAL ===== */
+
+body{
+    font-family: 'Segoe UI', sans-serif;
+    margin:0;
+}
+
+
+/* ===== LOGIN LAYOUT ===== */
+
+/*.login-wrapper{
+    height:100vh;
+}/*
+
+
+/* COLUMNA IZQUIERDA */
+
+.login-left{
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+}
+
+
+.login-box{
+    width:360px;
+}
+
+
+/* LOGO */
+
+.logo img{
+    height:40px;
+}
+
+
+/* TITULOS */
+
+.login-title{
+    font-size:34px;
+    letter-spacing:2px;
+    font-weight:600;
+    text-align:center;
+}
+
+.login-sub{
+    color:#ccc;
+    margin-bottom:30px;
+    font-size:14px;
+    text-align:center;
+}
+
+/* INPUTS */
+
+.login-input{
+    background:#e5e5e5;
+    border:none;
+    border-radius:8px;
+    padding:12px;
+}
+
+.login-input:focus{
+    background:white;
+    box-shadow:none;
+    border:1px solid white;
+}
+
+
+/* LINK OLVIDASTE PASSWORD */
+
+.forgot{
+    font-size:12px;
+    color:#aaa;
+    text-decoration:none;
+    border-bottom:1px solid #aaa;
+    padding-bottom:2px;
+}
+
+.forgot:hover{
+    color:white;
+    border-bottom:1px solid white;
+}
+/* BOTON LOGIN */
+
+.login-btn{
+    background:#cfcfcf;
+    border:none;
+    border-radius:25px;
+    padding:12px;
+    font-weight:600;
+}
+
+.login-btn:hover{
+    background:white;
+}
+
+
+/* BOTON GOOGLE */
+
+.google-btn{
+    background:white;
+    border-radius:25px;
+    padding:12px;
+    border:none;
+    font-weight:500;
+}
+
+.google-btn:hover{
+    background:#f3f3f3;
+}
+
+
+/* REGISTER */
+
+.register{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+}
+
+.register-text{
+    color:#ccc;
+}
+
+.register-link{
+    color:white;
+    font-weight:600;
+    text-decoration:none;
+    border-bottom:1px solid white;
+}
+
+.register-link:hover{
+    opacity:0.8;
+}
+
+/* ===== COLUMNA DERECHA ===== */
+
+.login-image{
+    background:url('/static/img/login-food.jpg') center/cover no-repeat;
+    position:relative;
+}
+
+
+/* TEXTO SOBRE IMAGEN */
+
+.image-overlay{
+    position:absolute;
+    bottom:40px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:12px;
+    letter-spacing:1px;
+    padding:0 40px;
+}
+
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width:992px){
+
+.login-image{
+    display:none;
+}
+
+.login-left{
+    width:100%;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+}
+
+}
