@@ -2,158 +2,295 @@
 {% load static %}
 {% load i18n %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
 {% block title %}{{ product.name }} - One Synk{% endblock %}
 
 {% block content %}
+
 <div class="container my-5">
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'shop:product_list' %}" class="text-decoration-none">{% trans "Shop" %}</a></li>
-            <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}" class="text-decoration-none">{{ product.category.name }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
-        </ol>
-    </nav>
 
-    <div class="row g-5">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm overflow-hidden">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" 
-                     class="img-fluid rounded" alt="{{ product.name }}">
-            </div>
-        </div>
+<!-- BREADCRUMB -->
 
-        <div class="col-md-6">
-            <div class="ps-md-4">
-                <span class="badge bg-soft-primary text-primary mb-2">{{ product.category.name }}</span>
-                <h1 class="fw-bold mb-3">{{ product.name }}</h1>
-                
-                <h3 class="text-primary fw-bold mb-4">${{ product.price }}</h3>
+<nav class="mb-4 small breadcrumb">
+<a href="{% url 'shop:product_list' %}">Shop</a> /
+<a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a> /
+{{ product.name }}
+</nav>
 
-                <div class="description mb-4 text-secondary">
-                    {{ product.description|linebreaks }}
-                </div>
 
-                <hr class="my-4">
+<div class="row g-5">
 
-                <form action="{% url 'cart:cart_add' product.id %}" method="post" class="row g-3 align-items-center">
-                    {% csrf_token %}
-                    <div class="col-auto">
-                        <label class="small fw-bold text-muted text-uppercase d-block mb-1">{% trans "Quantity" %}</label>
-                        <div class="qty-control d-flex align-items-center">
-                            <button type="button" class="btn btn-outline-secondary qty-btn qty-minus" aria-label="{% trans 'Decrease quantity' %}">
-                                <i class="bi bi-dash"></i>
-                            </button>
-                            <span class="qty-display mx-3 fw-bold fs-5">1</span>
-                            <button type="button" class="btn btn-outline-secondary qty-btn qty-plus" aria-label="{% trans 'Increase quantity' %}">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
-                        {{ cart_product_form.quantity }}
-                    </div>
-                    {{ cart_product_form.override }}
-                    <div class="col-12 mt-4 d-flex align-items-center gap-3">
-                        <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
-                            <i class="bi bi-cart-plus me-2"></i>{% trans "Add to Cart" %}
-                        </button>
-                        {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-outline-danger btn-lg favorite-btn"
-                                data-product-id="{{ product.id }}"
-                                data-url="{% url 'shop:toggle_favorite' product.id %}"
-                                title="{% trans 'Add to Favorites' %}">
-                            <i class="bi {% if is_favorite %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
-                        </button>
-                        {% endif %}
-                    </div>
-                </form>
+<!-- IMAGENES PRODUCTO -->
 
-                <div class="mt-5 p-3 bg-light rounded-3 d-flex align-items-center">
-                    <i class="bi bi-shield-check text-success fs-3 me-3"></i>
-                    <div class="small">
-                        <p class="mb-0 fw-bold">{% trans "Safe & Secure Checkout" %}</p>
-                        <p class="mb-0 text-muted">{% trans "We process all payments through Stripe encryption." %}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="col-lg-6">
 
-    {% if recommended_products %}
-        <div class="mt-5 pt-5 border-top">
-            <h4 class="fw-bold mb-4">
-                <i class="bi bi-stars text-warning me-2"></i>{% trans "Customers who bought this also bought" %}
-            </h4>
-            <div class="row row-cols-2 row-cols-md-4 g-4">
-                {% for p in recommended_products %}
-                    <div class="col">
-                        <div class="card h-100 border-0 shadow-sm hover-up transition">
-                            <a href="{{ p.get_absolute_url }}">
-                                <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" 
-                                     class="card-img-top p-3 rounded" alt="{{ p.name }}" style="height: 180px; object-fit: contain;">
-                            </a>
-                            <div class="card-body text-center pt-0">
-                                <h6 class="card-title mb-1">
-                                    <a href="{{ p.get_absolute_url }}" class="text-decoration-none text-dark stretched-link">
-                                        {{ p.name }}
-                                    </a>
-                                </h6>
-                                <p class="text-primary fw-bold small">${{ p.price }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
+<div id="productCarousel"
+class="carousel slide product-carousel"
+data-bs-ride="carousel"
+data-bs-interval="3000">
+
+
+<!-- INDICADORES -->
+
+<div class="carousel-indicators">
+
+<button type="button"
+data-bs-target="#productCarousel"
+data-bs-slide-to="0"
+class="active"></button>
+
+<button type="button"
+data-bs-target="#productCarousel"
+data-bs-slide-to="1"></button>
+
+<button type="button"
+data-bs-target="#productCarousel"
+data-bs-slide-to="2"></button>
+
 </div>
 
-<style>
-    .bg-soft-primary { background-color: #e7f1ff; }
-    .hover-up:hover { transform: translateY(-5px); transition: 0.3s; }
-    .transition { transition: 0.3s; }
-    .qty-btn { width: 38px; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-    .qty-display { min-width: 24px; text-align: center; user-select: none; }
-</style>
+
+<!-- IMAGENES -->
+
+<div class="carousel-inner">
+
+<!-- IMAGEN 1 -->
+
+<div class="carousel-item active text-center">
+
+<img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/corena.jpg' %}{% endif %}"
+class="img-fluid product-img"
+alt="{{ product.name }}">
+
+</div>
+
+
+<!-- IMAGEN 2 -->
+
+<div class="carousel-item text-center">
+
+<img src="{% if product.image2 %}{{ product.image2.url }}{% else %}{% static 'img/corena.jpg' %}{% endif %}"
+class="img-fluid product-img">
+
+</div>
+
+
+<!-- IMAGEN 3 -->
+
+<div class="carousel-item text-center">
+
+<img src="{% if product.image3 %}{{ product.image3.url }}{% else %}{% static 'img/corena.jpg' %}{% endif %}"
+class="img-fluid product-img">
+
+</div>
+
+</div>
+
+
+<!-- BOTON PREV -->
+
+<button class="carousel-control-prev"
+type="button"
+data-bs-target="#productCarousel"
+data-bs-slide="prev">
+
+<span class="carousel-control-prev-icon"></span>
+
+</button>
+
+
+<!-- BOTON NEXT -->
+
+<button class="carousel-control-next"
+type="button"
+data-bs-target="#productCarousel"
+data-bs-slide="next">
+
+<span class="carousel-control-next-icon"></span>
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- INFO PRODUCTO -->
+
+<div class="col-lg-6 product-info">
+
+<span class="badge category-badge mb-2">
+{{ product.category.name }}
+</span>
+
+<h1 class="product-title">
+{{ product.name }}
+</h1>
+
+<h3 class="product-price">
+${{ product.price }}
+</h3>
+
+<div class="product-description">
+{{ product.description|linebreaks }}
+</div>
+
+<hr>
+
+
+<form action="{% url 'cart:cart_add' product.id %}" method="post">
+{% csrf_token %}
+
+<label class="qty-label mb-2">
+{% trans "Quantity" %}
+</label>
+
+<div class="qty-control d-flex align-items-center mb-4">
+
+<button type="button" class="btn btn-outline-secondary qty-minus">
+<i class="bi bi-dash"></i>
+</button>
+
+<span class="qty-display mx-3 fw-bold">1</span>
+
+<button type="button" class="btn btn-outline-secondary qty-plus">
+<i class="bi bi-plus"></i>
+</button>
+
+</div>
+
+{{ cart_product_form.quantity }}
+{{ cart_product_form.override }}
+
+<button type="submit" class="btn add-cart-btn">
+<i class="bi bi-cart-plus me-2"></i>
+{% trans "Add to Cart" %}
+</button>
+
+</form>
+
+
+<!-- SHARE -->
+
+<div class="share mt-4">
+
+<span class="share-title">
+Compartir:
+</span>
+
+<i class="bi bi-facebook"></i>
+<i class="bi bi-instagram"></i>
+<i class="bi bi-twitter"></i>
+
+</div>
+
+
+<!-- SEGURIDAD -->
+
+<div class="secure-box">
+
+<i class="bi bi-shield-check text-success fs-3"></i>
+
+<div>
+<p class="fw-bold mb-0">
+Safe & Secure Checkout
+</p>
+
+<p class="text-muted small mb-0">
+We process payments through Stripe encryption
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- PRODUCTOS RECOMENDADOS -->
+
+{% if recommended_products %}
+
+<div class="recommended-products mt-5 pt-5 border-top">
+
+<h5 class="recommended-title text-center mb-5">
+PRODUCTOS QUE TE PUEDEN GUSTAR
+</h5>
+
+<div class="row justify-content-center g-4">
+
+{% for p in recommended_products %}
+
+<div class="col-6 col-md-3">
+
+<div class="recommended-card text-center">
+
+<a href="{{ p.get_absolute_url }}">
+
+<img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/corea1.jpg' %}{% endif %}"
+class="recommended-img">
+
+</a>
+
+<p class="recommended-name">
+{{ p.name }}
+</p>
+
+<p class="recommended-price">
+${{ p.price }}
+</p>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endif %}
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.qty-control').forEach(function (control) {
-        var input = control.parentElement.querySelector('.quantity-input');
-        var display = control.querySelector('.qty-display');
-        var qty = parseInt(input.value) || 1;
 
-        display.textContent = qty;
+document.addEventListener('DOMContentLoaded', function(){
 
-        control.querySelector('.qty-minus').addEventListener('click', function () {
-            if (qty > 1) { qty--; input.value = qty; display.textContent = qty; }
-        });
-        control.querySelector('.qty-plus').addEventListener('click', function () {
-            if (qty < 20) { qty++; input.value = qty; display.textContent = qty; }
-        });
-    });
+document.querySelectorAll('.qty-control').forEach(function(control){
 
-    document.querySelectorAll('.favorite-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var url = this.dataset.url;
-            var icon = this.querySelector('i');
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            })
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                if (data.is_favorite) {
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill');
-                } else {
-                    icon.classList.remove('bi-heart-fill');
-                    icon.classList.add('bi-heart');
-                }
-            });
-        });
-    });
+var input = control.parentElement.querySelector('.quantity-input');
+var display = control.querySelector('.qty-display');
+var qty = 1;
+
+display.textContent = qty;
+
+control.querySelector('.qty-minus').addEventListener('click',function(){
+
+if(qty>1){
+qty--;
+display.textContent = qty;
+input.value = qty;
+}
+
 });
+
+control.querySelector('.qty-plus').addEventListener('click',function(){
+
+qty++;
+display.textContent = qty;
+input.value = qty;
+
+});
+
+});
+
+});
+
 </script>
+
 {% endblock %}

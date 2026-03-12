@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+     "widget_tweaks",   # 👈 AQUÍ LO AGREGAS
     # Local apps
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
