@@ -1,0 +1,53 @@
+{
+  "skill_name": "software-docs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Necesito el documento de arquitectura (SAD) para mi plataforma SaaS de gestión de proyectos. Usa React en el frontend, Node.js con Express en el backend, PostgreSQL como base de datos principal, Redis para caché de sesiones, y está desplegada en AWS con EC2 y RDS. Tiene módulos de autenticación, gestión de equipos, tableros Kanban y notificaciones en tiempo real con WebSockets.",
+      "expected_output": "Architecture document (SAD) including: system overview, tech stack table with rationale, Mermaid architecture diagram, component descriptions for each module, design patterns used, security architecture, and non-functional requirements table.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Genera el diccionario de datos para un sistema de e-commerce. Las entidades principales son: usuarios, productos, categorías, pedidos, items de pedido, pagos y cupones de descuento.",
+      "expected_output": "Data dictionary with ER diagram in Mermaid, and a full table definition for each entity including column names, types, constraints, descriptions, indexes, and relationships.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Escribe el manual de usuario para el panel de administración de un e-commerce. El admin puede gestionar productos (crear, editar, eliminar, importar CSV), gestionar pedidos (ver, cambiar estado, generar factura), gestionar cupones y ver reportes de ventas.",
+      "expected_output": "Admin user manual with table of contents, step-by-step instructions for each module, tips and warnings for irreversible actions, and a glossary of domain terms (SKU, fulfillment, etc.). Plain language, no technical jargon.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Crea el plan y reporte de pruebas para una aplicación móvil de delivery. Incluye pruebas unitarias, de integración, UAT y un checklist de seguridad OWASP para los endpoints de la API.",
+      "expected_output": "Test plan with scope, test types table with tools, environment table, test cases summary table with status, test report with pass/fail counts, and OWASP Top 10 coverage checklist with status for each item.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Necesito el protocolo de backup y recuperación ante desastres para una plataforma de pagos en producción en GCP. Tiene una base de datos Cloud SQL (PostgreSQL), archivos en Cloud Storage y configuraciones en Secret Manager. El RTO debe ser menor a 2 horas.",
+      "expected_output": "Backup & recovery document with: backup schedule table (assets, frequency, retention, location), step-by-step backup verification procedure with commands, disaster recovery procedure with numbered steps and CLI commands, and RTO/RPO targets.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Redacta el acta de aceptación para la entrega de un sistema de facturación electrónica desarrollado para una empresa de logística. El sistema genera facturas en formato CFDI 4.0, tiene integración con el SAT, panel de administración y API REST para integrarse con otros sistemas. El proyecto tomó 4 meses.",
+      "expected_output": "Formal acceptance certificate in Spanish with: project summary, deliverables table with status, functionalities checklist, testing summary, warranty period clause, and signature blocks for both parties.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Genera la matriz de trazabilidad para un sistema de recursos humanos. Los requisitos acordados fueron: gestión de empleados, control de asistencia con QR, nómina automatizada, gestión de vacaciones y reportes de RRHH. Dime qué módulos están completos y cuáles pendientes.",
+      "expected_output": "Traceability matrix table mapping each requirement to its feature/module implementation, associated test cases, and status (complete/pending/deferred). Include a coverage summary percentage.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Crea el inventario de licencias de un proyecto Node.js que usa: react, express, prisma, stripe, jsonwebtoken, bcryptjs, zod, axios, dayjs y dotenv.",
+      "expected_output": "License inventory with: license type summary table, full dependency list with package name/version/license/notes, notes about GPL compatibility if applicable, and command to regenerate the list.",
+      "files": []
+    }
+  ]
+}

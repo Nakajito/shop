@@ -1,0 +1,46 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-03-01T22:55:10.505Z",
+      "updatedAt": "2026-03-01T22:55:10.505Z"
+    },
+    "django-expert": {
+      "source": "vintasoftware/django-ai-plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vintasoftware/django-ai-plugins.git",
+      "skillPath": "plugins/django-expert/skills/SKILL.md",
+      "skillFolderHash": "dca0dd3dba703209fe7c9ec6ceac5be3f4b99687",
+      "installedAt": "2026-03-04T17:11:15.638Z",
+      "updatedAt": "2026-03-04T17:11:15.638Z"
+    },
+    "software-docs": {
+      "source": "Nakajito/software-docs",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Nakajito/software-docs.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "4c5007d5b910b60b39281a78ab2b48dc8c92bed2",
+      "installedAt": "2026-03-04T17:35:20.996Z",
+      "updatedAt": "2026-03-04T17:35:20.996Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "claude-code"
+  ]
+}

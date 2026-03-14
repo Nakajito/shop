@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "django-expert": {
+      "source": "vintasoftware/django-ai-plugins",
+      "sourceType": "github",
+      "computedHash": "a6b8c224017570496d688a526fcbea74025a01cc90d9afb0977bfcc1f76af306"
+    },
+    "software-docs": {
+      "source": "Nakajito/software-docs",
+      "sourceType": "github",
+      "computedHash": "902bccb9beba4b6f39075ea783eeb21d492425de6e329bfac5ffe840609b3dc2"
+    }
+  }
+}
