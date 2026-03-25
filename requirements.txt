@@ -13,3 +13,4 @@ stripe
 python-decouple
 PyJWT
 cryptography
+weasyprint
