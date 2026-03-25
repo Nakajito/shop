@@ -11,3 +11,4 @@ django-allauth
 django-ckeditor-5
 stripe
 python-decouple
+PyJWT
