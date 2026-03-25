@@ -4,22 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0004_alter_product_options_alter_category_name_and_more'),
+        ("shop", "0004_alter_product_options_alter_category_name_and_more"),
     ]
 
     operations = [
         migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['available'], name='shop_produc_availab_47d513_idx'),
+            model_name="product",
+            index=models.Index(
+                fields=["available"], name="shop_produc_availab_47d513_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['category', 'available'], name='shop_produc_categor_322d96_idx'),
+            model_name="product",
+            index=models.Index(
+                fields=["category", "available"], name="shop_produc_categor_322d96_idx"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='product',
-            constraint=models.CheckConstraint(condition=models.Q(('price__gte', 0)), name='product_price_non_negative'),
+            model_name="product",
+            constraint=models.CheckConstraint(
+                check=models.Q(("price__gte", 0)), name="product_price_non_negative"
+            ),
         ),
     ]

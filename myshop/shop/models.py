@@ -68,7 +68,7 @@ class Product(models.Model):
         ]
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(price__gte=0),
+                check=models.Q(price__gte=0),
                 name="product_price_non_negative",
             ),
         ]
