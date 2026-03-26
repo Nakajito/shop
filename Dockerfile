@@ -26,4 +26,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # El comando maestro que arrancará todo
-CMD python myshop/manage.py migrate --noinput && python myshop/manage.py collectstatic --noinput && gunicorn --pythonpath myshop myshop.wsgi:application --bind 0.0.0.0:8000
+CMD python myshop/manage.py migrate --noinput && \
+    python myshop/manage.py collectstatic --noinput && \
+    gunicorn --pythonpath myshop myshop.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers 3 \
+    --threads 2 \
+    --access-logfile - \
+    --error-logfile -
