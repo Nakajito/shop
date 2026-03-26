@@ -1,0 +1,343 @@
+/* =============================================
+   ONE SYNK — card_effect.css
+   Sombras y resalte en Personal Info + Danger Zone
+   Template intacto, solo CSS
+   ============================================= */
+
+:root {
+  --synk-dark:    #0d1b2a;
+  --synk-blue:    #1565c0;
+  --synk-green:   #2e7d32;
+  --synk-red:     #c62828;
+  --synk-orange:  #e65100;
+  --synk-border:  #e9ecef;
+  --synk-bg:      #f0f2f5;
+  --synk-muted:   #9aa0a6;
+  --radius:       12px;
+  --radius-sm:    8px;
+  --shadow-card:  0 4px 24px rgba(13,27,42,0.13), 0 1.5px 6px rgba(13,27,42,0.07);
+  --shadow-hover: 0 8px 32px rgba(13,27,42,0.18), 0 2px 8px rgba(13,27,42,0.09);
+  --shadow-stat:  0 2px 10px rgba(0,0,0,0.07);
+}
+
+body { background-color: var(--synk-bg); }
+
+/* =============================================
+   CARD PRINCIPAL — Personal Information
+   Sombra azul-oscura pronunciada + borde top azul
+   ============================================= */
+.card.shadow-sm.border-0.mb-4 {
+  border-radius: var(--radius) !important;
+  border: none !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden;
+  /* Línea de acento azul arriba */
+  border-top: 3px solid var(--synk-blue) !important;
+  transition: box-shadow 0.2s;
+}
+.card.shadow-sm.border-0.mb-4:hover {
+  box-shadow: var(--shadow-hover) !important;
+}
+
+/* Header dark */
+.card.shadow-sm.border-0.mb-4 .card-header.bg-primary {
+  background: var(--synk-dark) !important;
+  padding: 14px 22px !important;
+  border-bottom: none;
+}
+.card.shadow-sm.border-0.mb-4 .card-header.bg-primary h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0;
+  color: #fff;
+}
+.card.shadow-sm.border-0.mb-4 .card-header.bg-primary h4 i {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.card.shadow-sm.border-0.mb-4 .card-body.p-4 {
+  padding: 28px 28px !important;
+  background: #fff;
+}
+
+/* ── Avatar ─────────────────────────────────── */
+.rounded-circle.shadow-sm.border.border-3.border-white {
+  border-color: var(--synk-border) !important;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12) !important;
+}
+.bg-light.rounded-circle.d-inline-flex {
+  background: #f0f2f5 !important;
+  border: 2px solid var(--synk-border) !important;
+}
+.bg-light.rounded-circle.d-inline-flex i { color: #c8cdd2 !important; }
+
+/* ── Labels ─────────────────────────────────── */
+.card-body .form-label.fw-semibold.text-muted.small.text-uppercase {
+  font-size: 0.67rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em;
+  color: var(--synk-muted) !important;
+  margin-bottom: 6px;
+  display: block;
+}
+.card-body .form-label.fw-bold {
+  font-size: 0.67rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-bottom: 6px;
+}
+
+/* ── Form controls ──────────────────────────── */
+.card-body .form-control {
+  border-color: var(--synk-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  padding: 10px 14px;
+  box-shadow: none !important;
+  color: var(--synk-dark);
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.card-body .form-control:focus {
+  border-color: var(--synk-blue);
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.12) !important;
+}
+.card-body .form-control.bg-light,
+.card-body .form-control[disabled],
+.card-body .form-control[readonly] {
+  background: #f8f9fa !important;
+  color: var(--synk-muted) !important;
+  cursor: not-allowed;
+}
+.card-body textarea.form-control { resize: vertical; min-height: 90px; }
+.card-body .form-text { font-size: 0.68rem; color: var(--synk-muted); margin-top: 4px; }
+
+/* ── Newsletter ─────────────────────────────── */
+.mb-4.form-check.bg-light.p-3.rounded.border {
+  background: #f8f9fa !important;
+  border-color: var(--synk-border) !important;
+  border-radius: 8px !important;
+  padding: 13px 16px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mb-4.form-check.bg-light.p-3.rounded.border .form-check-input {
+  width: 16px; height: 16px;
+  margin-top: 0;
+  border-color: #ced4da;
+  flex-shrink: 0;
+}
+.mb-4.form-check.bg-light.p-3.rounded.border .form-check-input:checked {
+  background-color: var(--synk-dark);
+  border-color: var(--synk-dark);
+}
+.mb-4.form-check.bg-light.p-3.rounded.border .form-check-label {
+  font-size: 0.82rem; color: #444; margin: 0;
+}
+
+/* ── Divider ────────────────────────────────── */
+.card-body hr.my-4 { border-color: #f0f2f5; margin: 24px 0 !important; }
+
+/* ── Save button ────────────────────────────── */
+.btn.btn-primary.btn-lg.px-5.shadow-sm {
+  background: var(--synk-dark) !important;
+  border-color: var(--synk-dark) !important;
+  border-radius: 8px !important;
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 28px !important;
+  box-shadow: 0 3px 10px rgba(13,27,42,0.25) !important;
+  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.btn.btn-primary.btn-lg.px-5.shadow-sm:hover {
+  background: #1a2f45 !important;
+  border-color: #1a2f45 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(13,27,42,0.3) !important;
+}
+
+/* =============================================
+   STAT CARDS — 4 tarjetas
+   ============================================= */
+.row.g-3 .card.text-center.h-100.border-0.shadow-sm {
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--synk-border) !important;
+  box-shadow: var(--shadow-stat) !important;
+  transition: box-shadow 0.2s, transform 0.18s;
+  background: #fff;
+}
+.row.g-3 .card.text-center.h-100.border-0.shadow-sm:hover {
+  box-shadow: 0 8px 28px rgba(13,27,42,0.13) !important;
+  transform: translateY(-3px);
+}
+.row.g-3 .card.text-center.h-100.border-0.shadow-sm .card-body {
+  padding: 24px 12px 20px !important;
+}
+
+/* Icono circular */
+.row.g-3 .card .text-primary,
+.row.g-3 .card .text-danger,
+.row.g-3 .card .text-success,
+.row.g-3 .card .text-warning {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.row.g-3 .card .text-primary { background: #e8f0fe; color: var(--synk-blue) !important; }
+.row.g-3 .card .text-danger  { background: #fce4ec; color: var(--synk-red) !important; }
+.row.g-3 .card .text-success { background: #e8f5e9; color: var(--synk-green) !important; }
+.row.g-3 .card .text-warning { background: #fff3e0; color: var(--synk-orange) !important; }
+.row.g-3 .card .fs-2 { font-size: 1.3rem !important; }
+
+.row.g-3 .card .card-title.fw-bold {
+  font-size: 1.9rem !important;
+  font-weight: 800 !important;
+  color: var(--synk-dark);
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.row.g-3 .card .card-text.text-muted.small.text-uppercase {
+  font-size: 0.63rem !important;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--synk-muted) !important;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Botones stat cards */
+.row.g-3 .card .btn.btn-sm {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 20px; padding: 5px 14px;
+  transition: background 0.15s, color 0.15s;
+}
+.row.g-3 .card .btn-outline-primary  { border-color: var(--synk-blue);   color: var(--synk-blue); }
+.row.g-3 .card .btn-outline-primary:hover  { background: var(--synk-blue);   color: #fff; border-color: var(--synk-blue); }
+.row.g-3 .card .btn-outline-danger   { border-color: var(--synk-red);    color: var(--synk-red); }
+.row.g-3 .card .btn-outline-danger:hover   { background: var(--synk-red);    color: #fff; border-color: var(--synk-red); }
+.row.g-3 .card .btn-outline-success  { border-color: var(--synk-green);  color: var(--synk-green); }
+.row.g-3 .card .btn-outline-success:hover  { background: var(--synk-green);  color: #fff; border-color: var(--synk-green); }
+.row.g-3 .card .btn-outline-warning  { border-color: var(--synk-orange); color: var(--synk-orange); }
+.row.g-3 .card .btn-outline-warning:hover  { background: var(--synk-orange); color: #fff; border-color: var(--synk-orange); }
+
+/* =============================================
+   DANGER ZONE — sombra + borde rojo resaltado
+   ============================================= */
+.card.border-danger.shadow-sm.mt-4 {
+  border-radius: var(--radius) !important;
+  border: none !important;
+  border-top: 3px solid var(--synk-red) !important;
+  box-shadow: 0 4px 24px rgba(198,40,40,0.12), 0 1.5px 6px rgba(198,40,40,0.07) !important;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.card.border-danger.shadow-sm.mt-4:hover {
+  box-shadow: 0 8px 32px rgba(198,40,40,0.18), 0 2px 8px rgba(198,40,40,0.09) !important;
+}
+.card.border-danger.shadow-sm.mt-4 .card-header.bg-white {
+  background: #fff !important;
+  border-bottom: 1px solid #fde8e8 !important;
+  padding: 13px 22px !important;
+}
+.card.border-danger.shadow-sm.mt-4 .card-header.bg-white h5 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--synk-red) !important;
+  margin: 0;
+}
+.card.border-danger.shadow-sm.mt-4 .card-body {
+  background: #fff9f9;
+  padding: 18px 22px !important;
+}
+.card.border-danger.shadow-sm.mt-4 .card-body p.text-muted {
+  font-size: 0.82rem; color: #888 !important; margin-bottom: 14px;
+}
+.card.border-danger.shadow-sm.mt-4 .btn-outline-danger {
+  border-color: var(--synk-red); color: var(--synk-red);
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.06em;
+  border-radius: var(--radius-sm); padding: 8px 18px;
+  transition: background 0.15s, color 0.15s;
+}
+.card.border-danger.shadow-sm.mt-4 .btn-outline-danger:hover {
+  background: var(--synk-red); color: #fff;
+}
+
+/* =============================================
+   MODAL
+   ============================================= */
+.modal-content.border-0 {
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+}
+.modal-content .modal-header {
+  background: #fff;
+  border-bottom: 1px solid #f0f2f5 !important;
+  padding: 15px 22px;
+}
+.modal-content .modal-title.text-danger {
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--synk-red) !important;
+}
+.modal-content .modal-body { padding: 20px 22px !important; }
+.modal-content .modal-body p { font-size: 0.85rem; color: #333; margin-bottom: 8px; }
+.modal-content .modal-body p.text-muted.small { font-size: 0.78rem; color: var(--synk-muted) !important; }
+.modal-content .modal-body .form-label.fw-bold {
+  font-size: 0.67rem; font-weight: 700 !important;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #6c757d;
+}
+.modal-content .modal-body .form-control {
+  border-radius: var(--radius-sm); border-color: var(--synk-border);
+  font-size: 0.88rem; padding: 10px 14px; box-shadow: none !important;
+}
+.modal-content .modal-body .form-control:focus {
+  border-color: var(--synk-red);
+  box-shadow: 0 0 0 3px rgba(198,40,40,0.1) !important;
+}
+.modal-content .modal-footer {
+  border-top: 1px solid #f0f2f5 !important; padding: 13px 22px;
+}
+.modal-content .modal-footer .btn-outline-secondary {
+  border-color: var(--synk-border); color: #6c757d;
+  font-size: 0.76rem; font-weight: 600;
+  border-radius: var(--radius-sm); padding: 8px 18px;
+}
+.modal-content .modal-footer .btn-outline-secondary:hover { background: #f0f2f5; color: var(--synk-dark); }
+.modal-content .modal-footer .btn-danger {
+  background: var(--synk-red) !important; border-color: var(--synk-red) !important;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.06em;
+  border-radius: var(--radius-sm); padding: 8px 18px;
+}
+.modal-content .modal-footer .btn-danger:hover { background: #b71c1c !important; border-color: #b71c1c !important; }
+
+/* =============================================
+   ALERTS
+   ============================================= */
+.alert { border-radius: 8px; font-size: 0.84rem; border: none; padding: 12px 16px; }
+.alert-success { background: #e8f5e9; color: var(--synk-green); }
+.alert-danger   { background: #fce4ec; color: var(--synk-red); }
+.alert-warning  { background: #fff8e1; color: var(--synk-orange); }
+.alert-info     { background: #e3f2fd; color: #0277bd; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 767.98px) {
+  .card.shadow-sm.border-0.mb-4 .card-body.p-4 { padding: 20px 16px !important; }
+  .row.g-3 .card .card-title.fw-bold { font-size: 1.5rem !important; }
+}

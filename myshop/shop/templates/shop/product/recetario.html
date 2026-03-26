@@ -1,0 +1,59 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recetario.css' %}">
+{% endblock %}
+
+{% block title %}Recetario - Synk Food{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+  <!-- TÍTULO -->
+  <h1 class="recetario-title mb-5">RECETARIO</h1>
+
+  <!-- GRID DE RECETAS -->
+  <div class="row g-4">
+
+    {% for recipe in recipes %}
+    <div class="col-12 col-md-6">
+      <a href="{{ recipe.get_absolute_url }}" class="text-decoration-none">
+        <div class="recipe-card">
+          <div class="recipe-img-wrapper">
+            <img src="{% if recipe.image %}{{ recipe.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                 alt="{{ recipe.title }}"
+                 class="recipe-img">
+          </div>
+          <div class="recipe-label">
+            <span class="recipe-name">{{ recipe.title }}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% empty %}
+    <!-- Tarjetas de prueba cuando no hay recetas en BD -->
+    {% for i in "123456" %}
+    <div class="col-12 col-md-6">
+      <a href="#" class="text-decoration-none">
+        <div class="recipe-card">
+          <div class="recipe-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80"
+                 alt="Receta de prueba"
+                 class="recipe-img">
+          </div>
+          <div class="recipe-label">
+            <span class="recipe-name">BUNG-O PAN ICE<br>CREAM SANDWICH</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock %}

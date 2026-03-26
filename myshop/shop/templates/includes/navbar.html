@@ -1,0 +1,24 @@
+    <nav class="navbar-mayorista">
+        <a href="/" class="logo">
+            <div class="logo-icon">S</div>
+            <div class="logo-text">Synk<br>Food</div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="{% url 'shop:product_list' %}" class="active">Productos</a></li>
+            <li><a href="{% url 'blog:post_list' %}">Recetario</a></li>
+            <li><a href="{% url 'shop:form_mayorista' %}">Mayoristas</a></li>
+        </ul>
+
+        <div class="nav-icons">
+            <a href="{% url 'cart:cart_detail' %}" title="Carrito">
+                <i class="bi bi-bag"></i>
+            </a>
+            <a href="{% url 'accounts:profile' %}" title="Mi cuenta">
+                <i class="bi bi-person-fill"></i>
+            </a>
+            <a href="#" title="Buscar">
+                <i class="bi bi-search"></i>
+            </a>
+        </div>
+    </nav>

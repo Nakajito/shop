@@ -1,6 +1,9 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
 
 {% block title %}{% trans "My Orders" %} - One Synk{% endblock %}
 

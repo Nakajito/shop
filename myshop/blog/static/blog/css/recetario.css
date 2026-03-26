@@ -1,0 +1,367 @@
+/* ============================================================
+   SYNK FOOD — RECETARIO
+   blog.css
+   ============================================================ */
+
+/* ---- Variables ------------------------------------------- */
+:root {
+    --sf-black:      #111111;
+    --sf-white:      #ffffff;
+    --sf-gray-light: #f5f5f5;
+    --sf-gray-mid:   #cccccc;
+    --sf-gray-dark:  #555555;
+    --sf-overlay:    rgba(15, 15, 15, 0.78);
+
+    --sf-font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --sf-font-body:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+    --sf-radius:  14px;
+    --sf-gap:     24px;
+    --sf-transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---- Wrapper --------------------------------------------- */
+.recetario-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+}
+
+/* ---- Header ---------------------------------------------- */
+.recetario-header {
+    margin-bottom: 36px;
+}
+
+.recetario-title {
+    font-family: var(--sf-font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--sf-black);
+    margin: 0 0 8px;
+    line-height: 1;
+}
+
+.recetario-subtitle {
+    font-size: 0.875rem;
+    color: var(--sf-gray-dark);
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+/* ---- Controls row (filters + search) --------------------- */
+.recetario-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--sf-gray-mid);
+    padding-bottom: 20px;
+}
+
+/* Filter pills */
+.recetario-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1.5px solid var(--sf-gray-mid);
+    font-family: var(--sf-font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sf-gray-dark);
+    text-decoration: none;
+    transition: var(--sf-transition);
+    white-space: nowrap;
+}
+
+.filter-pill:hover {
+    border-color: var(--sf-black);
+    color: var(--sf-black);
+}
+
+.filter-pill--active {
+    background: var(--sf-black);
+    border-color: var(--sf-black);
+    color: var(--sf-white);
+}
+
+.filter-pill__count {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 99px;
+    padding: 0 5px;
+    font-size: 0.65rem;
+    line-height: 1.6;
+    min-width: 18px;
+    text-align: center;
+}
+
+.filter-pill:not(.filter-pill--active) .filter-pill__count {
+    background: var(--sf-gray-light);
+    color: var(--sf-gray-dark);
+}
+
+/* Search */
+.recetario-search {
+    display: flex;
+    align-items: center;
+    background: var(--sf-gray-light);
+    border-radius: 99px;
+    padding: 0 6px 0 16px;
+    gap: 4px;
+    border: 1.5px solid transparent;
+    transition: var(--sf-transition);
+}
+
+.recetario-search:focus-within {
+    border-color: var(--sf-black);
+    background: var(--sf-white);
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--sf-font-body);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    color: var(--sf-black);
+    width: 180px;
+    padding: 8px 0;
+}
+
+.search-input::placeholder {
+    color: var(--sf-gray-dark);
+}
+
+.search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sf-black);
+    border: none;
+    border-radius: 99px;
+    color: var(--sf-white);
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: var(--sf-transition);
+}
+
+.search-btn:hover {
+    background: #333;
+}
+
+/* ---- Grid ------------------------------------------------- */
+.recetario-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sf-gap);
+}
+
+/* ---- Recipe Card ------------------------------------------ */
+.recipe-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--sf-radius);
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--sf-black);
+    cursor: pointer;
+    transition: transform var(--sf-transition), box-shadow var(--sf-transition);
+}
+
+.recipe-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Image section */
+.recipe-card__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--sf-gray-mid);
+}
+
+.recipe-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--sf-transition);
+    filter: brightness(0.92);
+}
+
+.recipe-card:hover .recipe-card__image {
+    transform: scale(1.04);
+    filter: brightness(0.8);
+}
+
+/* Placeholder when no image */
+.recipe-card__placeholder {
+    width: 100%;
+    height: 100%;
+    background: #d4d4d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+/* Category badge (top-left on image) */
+.recipe-card__category {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--sf-white);
+    color: var(--sf-black);
+    font-family: var(--sf-font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 99px;
+}
+
+/* Info bar (dark bottom) */
+.recipe-card__info {
+    background: var(--sf-black);
+    padding: 16px 18px 18px;
+    flex: 1;
+}
+
+.recipe-card__title {
+    font-family: var(--sf-font-display);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--sf-white);
+    margin: 0 0 4px;
+    line-height: 1.4;
+}
+
+.recipe-card__sub {
+    font-family: var(--sf-font-body);
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    margin: 0;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+}
+
+/* ---- Pagination ------------------------------------------ */
+.recetario-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 56px;
+}
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 99px;
+    border: 1.5px solid var(--sf-gray-mid);
+    font-family: var(--sf-font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--sf-gray-dark);
+    text-decoration: none;
+    transition: var(--sf-transition);
+}
+
+.page-btn:hover {
+    border-color: var(--sf-black);
+    color: var(--sf-black);
+}
+
+.page-btn--active {
+    background: var(--sf-black);
+    border-color: var(--sf-black);
+    color: var(--sf-white);
+}
+
+/* ---- Empty state ------------------------------------------ */
+.recetario-empty {
+    text-align: center;
+    padding: 80px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--sf-gray-dark);
+}
+
+.recetario-empty p {
+    font-family: var(--sf-font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.empty-reset {
+    display: inline-block;
+    padding: 10px 24px;
+    border: 1.5px solid var(--sf-black);
+    border-radius: 99px;
+    font-family: var(--sf-font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sf-black);
+    text-decoration: none;
+    transition: var(--sf-transition);
+}
+
+.empty-reset:hover {
+    background: var(--sf-black);
+    color: var(--sf-white);
+}
+
+/* ---- Responsive ------------------------------------------ */
+@media (max-width: 640px) {
+    .recetario-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recetario-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-input {
+        width: 140px;
+    }
+
+    .recetario-title {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .recetario-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

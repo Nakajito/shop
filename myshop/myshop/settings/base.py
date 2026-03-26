@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "coupons.apps.CouponsConfig",
     "support.apps.SupportConfig",
     "blog.apps.BlogConfig",
+ 
 ]
 
 MIDDLEWARE = [

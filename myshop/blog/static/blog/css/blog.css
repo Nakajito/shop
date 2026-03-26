@@ -1,201 +1,316 @@
-:root{
---primary:#df0700;
---accent:#B47472;
---dark:#ff0000d2;
---soft:#FFEFEE;
---border:#DCC5D2;
+/* ===========================
+   SYNK FOOD — blog.css
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --black:      #111111;
+  --white:      #ffffff;
+  --light-gray: #f0f0f0;
+  --mid-gray:   #d4d4d4;
+  --text-gray:  #555555;
+  --radius:     14px;
+  --font:       'DM Sans', sans-serif;
 }
 
-/* FONDO GENERAL */
-
-body{
-background:var(--soft);
-font-family:'Segoe UI',sans-serif;
+body {
+  font-family: var(--font) !important;
+  background: var(--white);
+  color: var(--black);
 }
 
-
-/* TITULO BLOG */
-
-h1{
-color:var(--dark);
-font-weight:700;
-letter-spacing:1px;
+/* ===========================
+   HERO
+   =========================== */
+.blog-hero {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  position: relative;
 }
 
-
-/* CARD POSTS */
-
-.blog-card{
-border:none;
-border-radius:16px;
-overflow:hidden;
-transition:.3s;
-background:white;
-border:1px solid var(--border);
+.blog-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
-.blog-card:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 40px rgba(0,0,0,.08);
+.blog-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.10) 0%,
+    rgba(0,0,0,0.55) 100%
+  );
 }
 
-
-/* IMAGEN POST */
-
-.blog-card img{
-height:200px;
-object-fit:cover;
+.blog-hero-content {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  padding: 0 40px;
 }
 
-
-/* PLACEHOLDER */
-
-.blog-cover-placeholder{
-height:200px;
-background:var(--soft);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:40px;
-color:var(--primary);
+.blog-hero-title {
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.2;
+  margin: 0;
+  max-width: 640px;
 }
 
-
-/* TITULO POST */
-
-.blog-card .card-title a{
-color:var(--dark);
-text-decoration:none;
-font-weight:600;
+/* ===========================
+   INTRO / SUBTÍTULO
+   =========================== */
+.blog-intro {
+  max-width: 680px;
+  margin: 0 auto;
 }
 
-.blog-card .card-title a:hover{
-color:var(--primary);
+.blog-intro-title {
+  font-size: clamp(15px, 2.5vw, 20px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.4;
+  margin-bottom: 16px;
 }
 
-
-/* SUBTITULO */
-
-.blog-card .card-text{
-font-size:14px;
-color:#666;
+.blog-intro-body {
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--text-gray);
+  font-weight: 400;
 }
 
-
-/* BADGE CATEGORIA */
-
-.badge.bg-primary{
-background:var(--primary)!important;
+/* ===========================
+   SECCIÓN RECETA (2 columnas)
+   =========================== */
+.blog-recipe-section {
+  max-width: 900px;
 }
 
-
-/* FOOTER POST */
-
-.blog-card .card-footer{
-font-size:12px;
-color:#777;
+.blog-col-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--black);
+  line-height: 1.5;
 }
 
-
-/* SIDEBAR */
-
-.blog-sidebar .card{
-border-radius:14px;
-border:1px solid var(--border);
+.blog-ingredients {
+  font-size: 12.5px;
+  line-height: 2;
+  color: var(--text-gray);
 }
 
-
-/* TITULOS SIDEBAR */
-
-.blog-sidebar .card-header{
-font-weight:600;
-background:white;
-border-bottom:1px solid var(--border);
+.blog-ingredients p,
+.blog-ingredients ul,
+.blog-ingredients li {
+  font-size: 12.5px;
+  line-height: 2;
+  color: var(--text-gray);
+  margin-bottom: 4px;
 }
 
-
-/* CATEGORIAS */
-
-.list-group-item{
-border:none;
-border-bottom:1px solid var(--border);
+.blog-prep-text {
+  font-size: 12.5px;
+  line-height: 2;
+  color: var(--text-gray);
 }
 
-.list-group-item a{
-text-decoration:none;
-color:var(--dark);
+/* ===========================
+   IMAGEN PRODUCTO
+   =========================== */
+.blog-product-img-wrapper {
+  max-width: 280px;
 }
 
-.list-group-item a:hover{
-color:var(--primary);
+.blog-product-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
-
-/* TAG CLOUD */
-
-.blog-tag-cloud .badge{
-font-size:12px;
-padding:6px 10px;
-border-radius:20px;
+/* ===========================
+   VIDEO
+   =========================== */
+.blog-video-wrapper {
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-.blog-tag-cloud .badge.bg-secondary{
-background:var(--border)!important;
-color:#333;
+.blog-video {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  display: block;
+  object-fit: cover;
 }
 
-.blog-tag-cloud .badge.bg-primary{
-background:var(--primary)!important;
+/* Placeholder video (prueba) */
+.blog-video-placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
 }
 
-
-/* SEARCH */
-
-input.form-control{
-border-radius:30px;
-border:1px solid var(--border);
-padding:10px 15px;
+.blog-video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.btn-outline-primary{
-border-radius:30px;
-border-color:var(--primary);
-color:var(--primary);
+.blog-video-placeholder:hover .blog-video-thumb {
+  transform: scale(1.04);
 }
 
-.btn-outline-primary:hover{
-background:var(--primary);
-border-color:var(--primary);
+.blog-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 52px;
+  color: var(--white);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  z-index: 2;
+  transition: transform 0.2s;
 }
 
-
-/* PAGINACION */
-
-.pagination .page-link{
-border:none;
-color:var(--dark);
-border-radius:8px;
-margin:0 3px;
+.blog-video-placeholder:hover .blog-play-icon {
+  transform: translate(-50%, -50%) scale(1.1);
 }
 
-.pagination .page-item.active .page-link{
-background:var(--primary);
+/* ===========================
+   SEPARADOR
+   =========================== */
+.blog-divider {
+  border: none;
+  border-top: 1px solid var(--mid-gray);
+  margin: 0;
 }
 
-
-/* ANIMACION */
-
-.blog-card{
-animation:fadeIn .6s ease;
+/* ===========================
+   ALGUNAS RECETAS
+   =========================== */
+.blog-related {
+  max-width: 960px;
 }
 
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(10px);
+.blog-related-title {
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: var(--black);
 }
-to{
-opacity:1;
-transform:translateY(0);
+
+/* Tarjetas recetas (igual que recetario.css) */
+.recipe-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: block;
+  background: var(--light-gray);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.13);
+}
+
+.recipe-img-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--mid-gray);
+}
+
+.recipe-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.recipe-card:hover .recipe-img {
+  transform: scale(1.07);
+}
+
+.recipe-label {
+  background: rgba(17, 17, 17, 0.92);
+  padding: 16px 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.recipe-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .blog-hero {
+    height: 300px;
+  }
+
+  .blog-hero-content {
+    bottom: 24px;
+    padding: 0 20px;
+  }
+
+  .blog-hero-title {
+    font-size: 20px;
+  }
+
+  .blog-intro-title {
+    font-size: 14px;
+  }
+
+  .blog-col-title {
+    font-size: 12px;
+  }
+
+  .blog-related-title {
+    font-size: 24px;
+  }
+
+  .blog-product-img-wrapper {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-hero {
+    height: 240px;
+  }
 }
