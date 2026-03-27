@@ -1,14 +1,15 @@
 from decimal import Decimal
+
+from accounts.models import CustomUser
+from coupons.models import Coupon
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from shop.models import Product
-from coupons.models import Coupon
-from accounts.models import CustomUser
 from payment.models import PaymentMethod
+from shop.models import Product
+
 from orders.managers import OrderManager
 
 STATUS_CHOICES = (
@@ -241,7 +242,7 @@ class Order(models.Model):
         ]
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(discount__gte=0, discount__lte=100),
+                check=models.Q(discount__gte=0, discount__lte=100),
                 name="order_discount_range",
             ),
         ]
