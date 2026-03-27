@@ -1,3 +1,6 @@
+from decimal import Decimal, InvalidOperation
+
+from cart.forms import CartAddProductForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -5,9 +8,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 from django.views.decorators.vary import vary_on_cookie
-from decimal import Decimal, InvalidOperation
 
-from cart.forms import CartAddProductForm
 from .models import Category, Product
 from .recommender import Recommender
 
@@ -113,10 +114,12 @@ def toggle_favorite(request, product_id):
     else:
         request.user.favorites.add(product)
         is_favorite = True
-    return JsonResponse({
-        "is_favorite": is_favorite,
-        "count": request.user.favorites.count(),
-    })
+    return JsonResponse(
+        {
+            "is_favorite": is_favorite,
+            "count": request.user.favorites.count(),
+        }
+    )
 
 
 def form_mayorista(request):
@@ -133,3 +136,11 @@ def favorite_list(request):
         "page_title": _("My Favorites"),
     }
     return render(request, "shop/product/favorites.html", context)
+
+
+def landing_page(request):
+
+    return render(
+        request,
+        "shop/landing.html",
+    )

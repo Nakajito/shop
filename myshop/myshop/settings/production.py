@@ -59,3 +59,5 @@ if SENTRY_DSN:
 
 CELERY_BROKER_URL = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"

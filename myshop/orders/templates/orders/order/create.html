@@ -1,187 +1,190 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
 {% load static %}
-
 {% block title %}
-  {% trans "Checkout" %} - One Synk
+    {% trans "Checkout" %} - One Synk
 {% endblock %}
-
 {% block content %}
-<div class="container my-5">
-    <div class="row g-5">
-        <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3 fw-bold text-primary">{% trans "Shipping Details" %}</h4>
-            
-            <form method="post" class="needs-validation" novalidate>
-                {% csrf_token %}
-                
-                {% if user.is_authenticated and user.addresses.exists %}
-                    <div class="mb-4">
-                        <label class="form-label small fw-bold text-muted text-uppercase">{% trans "Choose a saved address" %}</label>
-                        <div class="list-group mb-3">
-                            {% for addr in user.addresses.all %}
-                                <label class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="form-check w-100 d-flex align-items-start">
-                                        <input class="form-check-input me-2" type="radio" name="selected_address" id="addr_{{ addr.id }}" value="{{ addr.id }}" data-address-full="{{ addr.address_line1 }}{% if addr.address_line2 %} {{ addr.address_line2 }}{% endif %}" data-postal-code="{{ addr.postal_code }}" data-city="{{ addr.city }}" data-recipient-name="{{ addr.recipient_name }}" {% if addr.is_default %}checked{% endif %}>
-                                        <div class="ms-2">
-                                            <div class="fw-bold">{{ addr.recipient_name }}</div>
-                                            <div class="small text-muted">{{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}, {{ addr.city }} {{ addr.postal_code }}</div>
+    <div class="container my-5">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3 fw-bold text-primary">{% trans "Shipping Details" %}</h4>
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    {% if user.is_authenticated and user.addresses.exists %}
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-muted text-uppercase">{% trans "Choose a saved address" %}</label>
+                            <div class="list-group mb-3">
+                                {% for addr in user.addresses.all %}
+                                    <label class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="form-check w-100 d-flex align-items-start">
+                                            <input class="form-check-input me-2"
+                                                   type="radio"
+                                                   name="selected_address"
+                                                   id="addr_{{ addr.id }}"
+                                                   value="{{ addr.id }}"
+                                                   data-address-full="{{ addr.address_line1 }}{% if addr.address_line2 %} {{ addr.address_line2 }}{% endif %}"
+                                                   data-postal-code="{{ addr.postal_code }}"
+                                                   data-city="{{ addr.city }}"
+                                                   data-recipient-name="{{ addr.recipient_name }}"
+                                                   {% if addr.is_default %}checked{% endif %}>
+                                            <div class="ms-2">
+                                                <div class="fw-bold">{{ addr.recipient_name }}</div>
+                                                <div class="small text-muted">
+                                                    {{ addr.address_line1 }}
+                                                    {% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}
+                                                    , {{ addr.city }} {{ addr.postal_code }}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </label>
+                                {% endfor %}
+                                <label class="list-group-item">
+                                    <input class="form-check-input me-2"
+                                           type="radio"
+                                           name="selected_address"
+                                           id="addr_new"
+                                           value="">
+                                    <span class="small text-muted">{% trans "Use a different address" %}</span>
                                 </label>
-                            {% endfor %}
-                            <label class="list-group-item">
-                                <input class="form-check-input me-2" type="radio" name="selected_address" id="addr_new" value="">
-                                <span class="small text-muted">{% trans "Use a different address" %}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                {{ form.first_name }}
+                                <label for="{{ form.first_name.id_for_label }}">{% trans "First Name" %}</label>
+                            </div>
+                            {% if form.first_name.errors %}
+                                <div class="text-danger small mt-1">{{ form.first_name.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                {{ form.last_name }}
+                                <label for="{{ form.last_name.id_for_label }}">{% trans "Last Name" %}</label>
+                            </div>
+                            {% if form.last_name.errors %}
+                                <div class="text-danger small mt-1">{{ form.last_name.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                {{ form.email }}
+                                <label for="{{ form.email.id_for_label }}">{% trans "Email" %}</label>
+                            </div>
+                            {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors|striptags }}</div>{% endif %}
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                {{ form.address }}
+                                <label for="{{ form.address.id_for_label }}">{% trans "Address" %}</label>
+                            </div>
+                            {% if form.address.errors %}<div class="text-danger small mt-1">{{ form.address.errors|striptags }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                {{ form.city }}
+                                <label for="{{ form.city.id_for_label }}">{% trans "City" %}</label>
+                            </div>
+                            {% if form.city.errors %}<div class="text-danger small mt-1">{{ form.city.errors|striptags }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                {{ form.postal_code }}
+                                <label for="{{ form.postal_code.id_for_label }}">{% trans "Postal Code" %}</label>
+                            </div>
+                            {% if form.postal_code.errors %}
+                                <div class="text-danger small mt-1">{{ form.postal_code.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <h4 class="mb-3 fw-bold text-primary">{% trans "Payment" %}</h4>
+                    {% if user.is_authenticated and user.payment_methods.all %}
+                        <div class="p-3 bg-light rounded-3 mb-3 border">
+                            <label for="payment_method"
+                                   class="form-label small fw-bold text-muted text-uppercase">
+                                {% trans "Saved Payment Method" %}
                             </label>
+                            <select id="payment_method"
+                                    name="payment_method"
+                                    class="form-select shadow-sm">
+                                {% for pm in user.payment_methods.all %}
+                                    <option value="{{ pm.id }}" {% if pm.is_default %}selected{% endif %}>
+                                        {{ pm.get_card_type_display }} •••• {{ pm.last_four_digits }}
+                                    </option>
+                                {% endfor %}
+                                <option value="">{% trans "Add new card during next step" %}</option>
+                            </select>
                         </div>
+                    {% else %}
+                        <p class="text-muted small">
+                            <i class="bi bi-shield-lock-fill me-1"></i>
+                            {% trans "You will be redirected to a secure Stripe page to complete your payment." %}
+                        </p>
+                    {% endif %}
+                    <button class="w-100 btn btn-primary btn-lg fw-bold shadow-sm mt-4"
+                            type="submit">
+                        <i class="bi bi-credit-card-2-back me-2"></i> {% trans "Continue to Payment" %}
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-5 col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top"
+                     style="top: 2rem;
+                            z-index: 10">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="mb-0 fw-bold d-flex justify-content-between">
+                            <span>{% trans "Your Order" %}</span>
+                            <span class="badge bg-primary rounded-pill">{{ cart|length }}</span>
+                        </h5>
                     </div>
-                {% endif %}
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <div class="form-floating">
-                            {{ form.first_name }}
-                            <label for="{{ form.first_name.id_for_label }}">{% trans "First Name" %}</label>
-                        </div>
-                        {% if form.first_name.errors %}
-                            <div class="text-danger small mt-1">{{ form.first_name.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-floating">
-                            {{ form.last_name }}
-                            <label for="{{ form.last_name.id_for_label }}">{% trans "Last Name" %}</label>
-                        </div>
-                        {% if form.last_name.errors %}
-                            <div class="text-danger small mt-1">{{ form.last_name.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="col-12">
-                        <div class="form-floating">
-                            {{ form.email }}
-                            <label for="{{ form.email.id_for_label }}">{% trans "Email" %}</label>
-                        </div>
-                        {% if form.email.errors %}
-                            <div class="text-danger small mt-1">{{ form.email.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="col-12">
-                        <div class="form-floating">
-                            {{ form.address }}
-                            <label for="{{ form.address.id_for_label }}">{% trans "Address" %}</label>
-                        </div>
-                        {% if form.address.errors %}
-                            <div class="text-danger small mt-1">{{ form.address.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-floating">
-                            {{ form.city }}
-                            <label for="{{ form.city.id_for_label }}">{% trans "City" %}</label>
-                        </div>
-                        {% if form.city.errors %}
-                            <div class="text-danger small mt-1">{{ form.city.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-floating">
-                            {{ form.postal_code }}
-                            <label for="{{ form.postal_code.id_for_label }}">{% trans "Postal Code" %}</label>
-                        </div>
-                        {% if form.postal_code.errors %}
-                            <div class="text-danger small mt-1">{{ form.postal_code.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <h4 class="mb-3 fw-bold text-primary">{% trans "Payment" %}</h4>
-                {% if user.is_authenticated and user.payment_methods.all %}
-                    <div class="p-3 bg-light rounded-3 mb-3 border">
-                        <label for="payment_method" class="form-label small fw-bold text-muted text-uppercase">{% trans "Saved Payment Method" %}</label>
-                        <select id="payment_method" name="payment_method" class="form-select shadow-sm">
-                            {% for pm in user.payment_methods.all %}
-                                <option value="{{ pm.id }}" {% if pm.is_default %}selected{% endif %}>
-                                    {{ pm.get_card_type_display }} •••• {{ pm.last_four_digits }}
-                                </option>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush mb-3">
+                            {% for item in cart %}
+                                <li class="list-group-item d-flex justify-content-between lh-sm px-0">
+                                    <div>
+                                        <h6 class="my-0 fw-bold text-dark">{{ item.product.name }}</h6>
+                                        <small class="text-muted">{% trans "Quantity" %}: {{ item.quantity }}</small>
+                                    </div>
+                                    <span class="text-muted">${{ item.total_price }}</span>
+                                </li>
                             {% endfor %}
-                            <option value="">{% trans "Add new card during next step" %}</option>
-                        </select>
-                    </div>
-                {% else %}
-                    <p class="text-muted small">
-                        <i class="bi bi-shield-lock-fill me-1"></i> 
-                        {% trans "You will be redirected to a secure Stripe page to complete your payment." %}
-                    </p>
-                {% endif %}
-
-                <button class="w-100 btn btn-primary btn-lg fw-bold shadow-sm mt-4" type="submit">
-                    <i class="bi bi-credit-card-2-back me-2"></i> {% trans "Continue to Payment" %}
-                </button>
-            </form>
-        </div>
-
-        <div class="col-md-5 col-lg-4">
-            <div class="card border-0 shadow-sm sticky-top" style="top: 2rem; z-index: 10;">
-                <div class="card-header bg-dark text-white py-3">
-                    <h5 class="mb-0 fw-bold d-flex justify-content-between">
-                        <span>{% trans "Your Order" %}</span>
-                        <span class="badge bg-primary rounded-pill">{{ cart|length }}</span>
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush mb-3">
-                        {% for item in cart %}
-                            <li class="list-group-item d-flex justify-content-between lh-sm px-0">
-                                <div>
-                                    <h6 class="my-0 fw-bold text-dark">{{ item.product.name }}</h6>
-                                    <small class="text-muted">{% trans "Quantity" %}: {{ item.quantity }}</small>
-                                </div>
-                                <span class="text-muted">${{ item.total_price }}</span>
+                            {% if cart.coupon %}
+                                <li class="list-group-item d-flex justify-content-between bg-light px-2 rounded mt-2">
+                                    <div class="text-success">
+                                        <h6 class="my-0 fw-bold">{% trans "Promo Code" %}</h6>
+                                        <small>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</small>
+                                    </div>
+                                    <span class="text-success fw-bold">−${{ cart.get_discount|floatformat:2 }}</span>
+                                </li>
+                            {% endif %}
+                            <li class="list-group-item d-flex justify-content-between px-0 pt-3 border-top border-dark">
+                                <span class="h5 fw-bold">{% trans "Total (MXN)" %}</span>
+                                <strong class="h5 fw-bold text-primary">${{ cart.get_total_price_after_discount|floatformat:2 }}</strong>
                             </li>
-                        {% endfor %}
-
-                        {% if cart.coupon %}
-                            <li class="list-group-item d-flex justify-content-between bg-light px-2 rounded mt-2">
-                                <div class="text-success">
-                                    <h6 class="my-0 fw-bold">{% trans "Promo Code" %}</h6>
-                                    <small>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</small>
-                                </div>
-                                <span class="text-success fw-bold">−${{ cart.get_discount|floatformat:2 }}</span>
-                            </li>
-                        {% endif %}
-
-                        <li class="list-group-item d-flex justify-content-between px-0 pt-3 border-top border-dark">
-                            <span class="h5 fw-bold">{% trans "Total (USD)" %}</span>
-                            <strong class="h5 fw-bold text-primary">${{ cart.get_total_price_after_discount|floatformat:2 }}</strong>
-                        </li>
-                    </ul>
-                    
-                    <div class="text-center">
-                        <a href="{% url 'cart:cart_detail' %}" class="btn btn-link btn-sm text-decoration-none text-muted">
-                            <i class="bi bi-pencil-square me-1"></i> {% trans "Edit cart" %}
-                        </a>
+                        </ul>
+                        <div class="text-center">
+                            <a href="{% url 'cart:cart_detail' %}"
+                               class="btn btn-link btn-sm text-decoration-none text-muted">
+                                <i class="bi bi-pencil-square me-1"></i> {% trans "Edit cart" %}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<style>
+    <style>
     .form-floating > label {
         padding-left: 1rem;
     }
     .sticky-top {
         transition: top 0.3s ease;
     }
-</style>
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addressRadios = document.querySelectorAll('input[name="selected_address"]');
