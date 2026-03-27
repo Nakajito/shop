@@ -56,3 +56,6 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         traces_sample_rate=0.1,
     )
+
+CELERY_BROKER_URL = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
+CELERY_RESULT_BACKEND = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
