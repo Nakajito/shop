@@ -1,0 +1,16 @@
+Django>=4.2,<5.1
+gunicorn
+psycopg2-binary
+whitenoise
+dj-database-url
+python-dotenv
+celery
+redis
+django-celery-results
+django-allauth
+django-ckeditor-5
+stripe
+python-decouple
+PyJWT
+cryptography
+weasyprint
