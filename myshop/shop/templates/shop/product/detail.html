@@ -2,120 +2,99 @@
 {% load static %}
 {% load i18n %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/detalles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/detalles.css' %}">
 {% endblock %}
 {% block title %}{{ product.name }} - One Synk{% endblock %}
 {% block content %}
-<div class="container my-5">
-<!-- BREADCRUMB -->
-<nav class="mb-4 small">
-<a href="{% url 'shop:product_list' %}">Shop</a> /
-<a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a> /
-{{ product.name }}
-</nav>
-<div class="row g-5">
-<!-- IMAGENES -->
-<div class="col-lg-6">
-<div id="productCarousel" class="carousel slide product-carousel">
-<div class="carousel-inner">
-<div class="carousel-item active text-center">
-<img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-class="img-fluid">
-</div>
-{% if product.image2 %}
-<div class="carousel-item text-center">
-<img src="{{ product.image2.url }}" class="img-fluid">
-</div>
-{% endif %}
-{% if product.image3 %}
-<div class="carousel-item text-center">
-<img src="{{ product.image3.url }}" class="img-fluid">
-</div>
-{% endif %}
-</div>
-<button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-<span class="carousel-control-prev-icon"></span>
-</button>
-<button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-<span class="carousel-control-next-icon"></span>
-</button>
-</div>
-</div>
-<!-- INFORMACION PRODUCTO -->
-<div class="col-lg-6 product-info">
-<span class="badge category-badge mb-2">
-{{ product.category.name }}
-</span>
-<h1 class="product-title">
-{{ product.name }}
-</h1>
-<h3 class="product-price">
-${{ product.price }}
-</h3>
-<div class="product-description">
-{{ product.description|linebreaks }}
-</div>
-<hr>
-<form action="{% url 'cart:cart_add' product.id %}" method="post">
-{% csrf_token %}
-<label class="qty-label">
-{% trans "Quantity" %}
-</label>
-<div class="qty-control d-flex align-items-center mb-4">
-<button type="button" class="btn btn-outline-secondary qty-minus">
-<i class="bi bi-dash"></i>
-</button>
-<span class="qty-display mx-3 fw-bold">1</span>
-<button type="button" class="btn btn-outline-secondary qty-plus">
-<i class="bi bi-plus"></i>
-</button>
-</div>
-{{ cart_product_form.quantity }}
-{{ cart_product_form.override }}
-<button type="submit" class="btn btn-primary btn-lg add-cart-btn">
-<i class="bi bi-cart-plus me-2"></i>
-{% trans "Add to Cart" %}
-</button>
-</form>
-<!-- SHARE -->
-<div class="share mt-4">
-<span class="share-title">
-Compartir:
-</span>
-<i class="bi bi-facebook"></i>
-<i class="bi bi-instagram"></i>
-<i class="bi bi-twitter"></i>
-</div>
-<!-- SEGURIDAD -->
-<div class="secure-box mt-5">
-<i class="bi bi-shield-check text-success fs-3"></i>
-<div>
-<p class="fw-bold mb-0">
-Safe & Secure Checkout
-</p>
-<p class="text-muted small mb-0">
-We process payments through Stripe encryption
-</p>
-</div>
-</div>
-</div>
-</div>
-</div> <!-- cierra row g-5 de imagen + info -->
-
-  <!-- PRODUCTOS RECOMENDADOS -->
-  {% if recommended_products %}
-  <div class="recommended-products mt-5 pt-5">
-    ... (el código nuevo)
+  <div class="container my-5">
+    <nav class="mb-4 small">
+      <a href="{% url 'shop:product_list' %}">Shop</a> /
+      <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a> /
+      {{ product.name }}
+    </nav>
+    <div class="row g-5">
+      <div class="col-lg-6">
+        <div id="productCarousel" class="carousel slide product-carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active text-center">
+              <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                   class="img-fluid">
+            </div>
+            {% if product.image2 %}
+              <div class="carousel-item text-center">
+                <img src="{{ product.image2.url }}" class="img-fluid">
+              </div>
+            {% endif %}
+            {% if product.image3 %}
+              <div class="carousel-item text-center">
+                <img src="{{ product.image3.url }}" class="img-fluid">
+              </div>
+            {% endif %}
+          </div>
+          <button class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#productCarousel"
+                  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#productCarousel"
+                  data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-6 product-info">
+        <span class="badge category-badge mb-2">{{ product.category.name }}</span>
+        <h1 class="product-title">{{ product.name }}</h1>
+        <h3 class="product-price">${{ product.price }}</h3>
+        <div class="product-description">{{ product.description|linebreaks }}</div>
+        <hr>
+        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+          {% csrf_token %}
+          <label class="qty-label">{% trans "Quantity" %}</label>
+          <div class="qty-control d-flex align-items-center mb-4">
+            <button type="button" class="btn btn-outline-secondary qty-minus">
+              <i class="bi bi-dash"></i>
+            </button>
+            <span class="qty-display mx-3 fw-bold">1</span>
+            <button type="button" class="btn btn-outline-secondary qty-plus">
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+          {{ cart_product_form.quantity }}
+          {{ cart_product_form.override }}
+          <div class="d-flex gap-3">
+            <button type="submit" class="btn btn-primary btn-lg add-cart-btn flex-grow-1">
+              <i class="bi bi-cart-plus me-2"></i>
+              {% trans "Add to Cart" %}
+            </button>
+            <button type="button"
+                    class="btn btn-outline-danger btn-lg toggle-favorite-btn"
+                    data-url="{% url 'shop:toggle_favorite' product.id %}">
+              <i class="bi bi-heart{% if is_favorite %}-fill{% endif %} favorite-icon"></i>
+            </button>
+          </div>
+        </form>
+        <div class="share mt-4">
+          <span class="share-title">Compartir:</span>
+          <i class="bi bi-facebook"></i>
+          <i class="bi bi-instagram"></i>
+          <i class="bi bi-twitter"></i>
+        </div>
+        <div class="secure-box mt-5">
+          <i class="bi bi-shield-check text-success fs-3"></i>
+          <div>
+            <p class="fw-bold mb-0">Safe & Secure Checkout</p>
+            <p class="text-muted small mb-0">We process payments through Stripe encryption</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  {% endif %}
-
-</div> <!-- cierra container my-5 -->
-
-<script>
-  // Quantity control
-  
-</script>
-
+  {% if recommended_products %}<div class="recommended-products mt-5 pt-5">... (el código nuevo)</div>{% endif %}
+</div>
 <script>
   // Quantity control
   const qtyDisplay = document.querySelector('.qty-display');
@@ -133,6 +112,60 @@ We process payments through Stripe encryption
     qtyDisplay.textContent = val;
     if (qtyInput) qtyInput.value = val;
   });
-</script>
 
+  // AJAX Favoritos (Toggle Favorite)
+  // Función auxiliar para obtener el token CSRF de las cookies de Django
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  const favBtn = document.querySelector('.toggle-favorite-btn');
+  if (favBtn) {
+      favBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const url = this.dataset.url;
+          const icon = this.querySelector('.favorite-icon');
+
+          fetch(url, {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': getCookie('csrftoken'),
+                  'X-Requested-With': 'XMLHttpRequest',
+              },
+          })
+          .then(response => {
+              // Si el usuario no está logueado, redirigirlo a la página de login
+              if (response.status === 401 || response.status === 403) {
+                  window.location.href = "{% url 'accounts:login' %}?next={{ request.path }}";
+                  return null;
+              }
+              return response.json();
+          })
+          .then(data => {
+              if (data) {
+                  // Cambiar el icono visualmente dependiendo del estado devuelto por el servidor
+                  if (data.is_favorite) {
+                      icon.classList.remove('bi-heart');
+                      icon.classList.add('bi-heart-fill');
+                  } else {
+                      icon.classList.remove('bi-heart-fill');
+                      icon.classList.add('bi-heart');
+                  }
+              }
+          })
+          .catch(error => console.error('Error toggle favorite:', error));
+      });
+  }
+</script>
 {% endblock %}
