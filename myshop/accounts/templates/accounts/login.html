@@ -1,87 +1,56 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% load socialaccount %}
 {% block content %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}"> 
-{% endblock %}
-
-
-<div class="login-wrapper">
-
-    <div class="row g-0 vh-100">
-
-        <!-- IZQUIERDA LOGIN -->
-        <div class="col-lg-5 login-left">
-
-            <div class="login-box">
-
-                <div class="logo mb-4">
-                    <img src="/static/img/logo.svg" height="40">
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    {% endblock %}
+    <div class="login-wrapper">
+        <div class="row g-0 vh-100">
+            <!-- IZQUIERDA LOGIN -->
+            <div class="col-lg-5 login-left">
+                <div class="login-box">
+                    <div class="logo mb-4">
+                        <img src="/static/img/logo.svg" height="40">
+                    </div>
+                    <h2 class="login-title">BIENVENIDO</h2>
+                    <p class="login-sub">A TU ESPACIO SYNKFOOD</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Correo electrónico:</label>
+                            {{ form.email_or_username|add_class:"form-control login-input" }}
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Contraseña:</label>
+                            {{ form.password|add_class:"form-control login-input" }}
+                        </div>
+                        <div class="text-end mb-3">
+                            <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <button type="submit" class="btn login-btn w-100">Iniciar sesión</button>
+                        <a href="{% provider_login_url 'google' %}"
+                           class="btn google-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2 text-decoration-none text-dark">
+                            <i class="bi bi-google"></i>
+                            Continuar con Google
+                        </a>
+                    </form>
+                    <div class="register mt-4">
+                        <span class="register-text">¿Aún no te registras?</span>
+                        <a href="{% url 'accounts:register' %}" class="register-link">Abre tu cuenta</a>
+                    </div>
                 </div>
-
-                <h2 class="login-title">BIENVENIDO</h2>
-                <p class="login-sub">A TU ESPACIO SYNKFOOD</p>
-
-                <form method="post">
-                    {% csrf_token %}
-
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico:</label>
-                        {{ form.email_or_username|add_class:"form-control login-input" }}
-                    </div>
-
-                    <div class="mb-2">
-                        <label class="form-label">Contraseña:</label>
-                        {{ form.password|add_class:"form-control login-input" }}
-                    </div>
-
-                    <div class="text-end mb-3">
-                        <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
-                    </div>
-
-                    <button type="submit" class="btn login-btn w-100">
-                        Iniciar sesión
-                    </button>
-
-                   <button type="button" class="btn google-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2">
-
-                   <i class="bi bi-google"></i>
-
-                   Continuar con Google
-                </button>
-                
-                </form>
-               <div class="register mt-4">
-
-    <span class="register-text">
-        ¿Aún no te registras?
-    </span>
-
-    <a href="{% url 'accounts:register' %}" class="register-link">
-        Abre tu cuenta
-    </a>
-
-</div>
-         </div>
-
-        </div>
-
-
-        <!-- DERECHA IMAGEN -->
-        <div class="col-lg-7 login-image d-none d-lg-block">
-
-            <div class="image-overlay">
-                <p>
-                    COMPRA MÁS RÁPIDO, GUARDA TUS FAVORITOS  
-                    Y ACCEDE A BENEFICIOS EXCLUSIVOS
-                </p>
             </div>
-
+            <!-- DERECHA IMAGEN -->
+            <div class="col-lg-7 login-image d-none d-lg-block">
+                <div class="image-overlay">
+                    <p>
+                        COMPRA MÁS RÁPIDO, GUARDA TUS FAVORITOS
+                        Y ACCEDE A BENEFICIOS EXCLUSIVOS
+                    </p>
+                </div>
+            </div>
         </div>
-
     </div>
-
-</div>
-
 {% endblock %}
