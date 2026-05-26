@@ -1,16 +1,15 @@
 from decimal import Decimal
 
-from accounts.models import CustomUser
-from coupons.models import Coupon
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from accounts.models import CustomUser
+from coupons.models import Coupon
+from orders.managers import OrderManager
 from payment.models import PaymentMethod
 from shop.models import Product
-
-from orders.managers import OrderManager
 
 STATUS_CHOICES = (
     ("pending", _("Pending")),

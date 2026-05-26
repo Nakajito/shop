@@ -1,8 +1,8 @@
 from django.core.cache import cache
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
-from .models import Product, Category
+from .models import Category, Product
 
 
 @receiver([post_save, post_delete], sender=Product)

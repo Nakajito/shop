@@ -1,12 +1,13 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-from django.contrib import messages
+
+from coupons.forms import CouponApplyForm
 from shop.models import Product
+from shop.recommender import Recommender
+
 from .cart import Cart
 from .forms import CartAddProductForm
-from coupons.forms import CouponApplyForm
-from shop.recommender import Recommender
-from coupons.forms import CouponApplyForm
 
 
 @require_POST

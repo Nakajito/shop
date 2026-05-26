@@ -9,7 +9,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.http import require_POST, require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 
 from cart.cart import Cart
 from orders.forms import OrderCreateForm
@@ -27,10 +27,8 @@ def order_create(request):
     """Transition Cart -> Order. On success redirect to payment process."""
     cart = Cart(request)
     default_address = None
-    user_addresses = None
     if request.user.is_authenticated:
         default_address = AddressService.get_default_address(request.user)
-        user_addresses = request.user.addresses.all()
 
     if request.method == "POST":
         post_data = request.POST.copy()

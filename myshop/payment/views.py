@@ -1,7 +1,7 @@
 import json
 import logging
+
 import stripe
-from decimal import Decimal
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,12 +12,11 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods, require_POST
 
-from decouple import config
 from orders.models import Order
 from payment.forms import PaymentMethodForm
 from payment.models import PaymentMethod
 from payment.services import PaymentService
-from payment.stripe_handler import StripePaymentMethodHandler, StripeCustomerHandler
+from payment.stripe_handler import StripeCustomerHandler, StripePaymentMethodHandler
 
 # Initialize logger
 logger = logging.getLogger(__name__)

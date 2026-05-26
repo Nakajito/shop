@@ -1,13 +1,15 @@
 import csv
 import datetime
+
 from django.contrib import admin
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from .models import Order, OrderItem, Address, OrderStatusUpdate, OrderTracking
+
 from payment.models import PaymentMethod
+
+from .models import Address, Order, OrderItem, OrderStatusUpdate, OrderTracking
 
 
 @admin.action(description=_("Export selected orders to CSV"))

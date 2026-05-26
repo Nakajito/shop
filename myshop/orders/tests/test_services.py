@@ -1,13 +1,14 @@
 from decimal import Decimal
-from django.test import TestCase, RequestFactory
+
 from django.contrib.sessions.backends.db import SessionStore
+from django.test import RequestFactory, TestCase
 
 from accounts.models import CustomUser
-from shop.models import Category, Product
-from orders.models import Order, OrderItem, Address
-from orders.forms import OrderCreateForm
-from orders.services import OrderService, AddressService
 from cart.cart import Cart
+from orders.forms import OrderCreateForm
+from orders.models import Address, Order, OrderItem
+from orders.services import AddressService, OrderService
+from shop.models import Category, Product
 
 
 class OrderServiceTest(TestCase):

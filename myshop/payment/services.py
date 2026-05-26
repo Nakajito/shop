@@ -3,10 +3,8 @@ from decimal import Decimal
 
 import stripe
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 
-from orders.models import Order
-from payment.stripe_handler import StripePaymentMethodHandler, StripeCustomerHandler
+from payment.stripe_handler import StripeCustomerHandler, StripePaymentMethodHandler
 
 logger = logging.getLogger(__name__)
 

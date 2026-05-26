@@ -1,16 +1,18 @@
-import stripe
 import logging
+
+import stripe
 from django.conf import settings
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
+from django.http import HttpResponse
 from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 
 from orders.models import Order
+from orders.tasks import send_order_status_update_email
 from shop.models import Product
 from shop.recommender import Recommender
+
 from .tasks import payment_completed
-from orders.tasks import send_order_status_update_email
 
 # Initialize logger for production debugging
 logger = logging.getLogger(__name__)

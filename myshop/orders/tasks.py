@@ -1,9 +1,11 @@
 import logging
+
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
+
 from .models import Order
 
 logger = logging.getLogger(__name__)
@@ -47,7 +49,7 @@ def order_created(self, order_id):
             f"Retry {self.request.retries}/{self.max_retries} for order_created "
             f"(Order {order_id}): {exc}"
         )
-        raise self.retry(exc=exc)
+        raise self.retry(exc=exc) from exc
 
 
 @shared_task(
@@ -137,7 +139,7 @@ def send_order_status_update_email(self, order_id, new_status):
             f"Retry {self.request.retries}/{self.max_retries} for "
             f"send_order_status_update_email (Order {order_id}): {exc}"
         )
-        raise self.retry(exc=exc)
+        raise self.retry(exc=exc) from exc
 
 
 @shared_task(
@@ -225,4 +227,4 @@ def send_order_tracking_email(self, order_id):
             f"Retry {self.request.retries}/{self.max_retries} for "
             f"send_order_tracking_email (Order {order_id}): {exc}"
         )
-        raise self.retry(exc=exc)
+        raise self.retry(exc=exc) from exc

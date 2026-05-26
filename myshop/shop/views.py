@@ -1,6 +1,5 @@
 from decimal import Decimal, InvalidOperation
 
-from cart.forms import CartAddProductForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -8,6 +7,8 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 from django.views.decorators.vary import vary_on_cookie
+
+from cart.forms import CartAddProductForm
 
 from .models import Category, Product
 from .recommender import Recommender

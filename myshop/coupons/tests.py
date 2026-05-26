@@ -1,9 +1,11 @@
 from datetime import timedelta
-from django.test import TestCase, Client
+
+from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from coupons.models import Coupon
+
 from coupons.forms import CouponApplyForm
+from coupons.models import Coupon
 
 
 class CouponModelTest(TestCase):

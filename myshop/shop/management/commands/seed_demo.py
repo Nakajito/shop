@@ -5,9 +5,9 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils.text import slugify
 
-from blog.models import Category as BlogCategory, Post, Tag
+from blog.models import Category as BlogCategory
+from blog.models import Post, Tag
 from shop.models import Category, Product
-
 
 SHOP_CATEGORIES = [
     ("Fideos e Instantáneos", "fideos-instantaneos"),

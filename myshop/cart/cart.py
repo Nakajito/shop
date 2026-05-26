@@ -1,8 +1,9 @@
 from decimal import Decimal
+
 from django.conf import settings
-from django.http import HttpRequest
-from shop.models import Product
+
 from coupons.models import Coupon
+from shop.models import Product
 
 
 class Cart:

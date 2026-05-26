@@ -1,10 +1,12 @@
-import stripe
 import logging
+
+import stripe
+from decouple import config
 from django.conf import settings
 from django.utils.translation import gettext as _
-from payment.models import PaymentMethod
+
 from accounts.models import CustomUser
-from decouple import config
+from payment.models import PaymentMethod
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -52,7 +54,7 @@ class StripeCustomerHandler:
             logger.error(f"Stripe Customer Error for User {user.id}: {str(e)}")
             raise Exception(
                 _("Could not verify customer identity with payment provider.")
-            )
+            ) from e
 
 
 class StripePaymentMethodHandler:
@@ -100,10 +102,12 @@ class StripePaymentMethodHandler:
             return db_method
 
         except stripe.error.CardError as e:
-            raise Exception(e.user_message)
+            raise Exception(e.user_message) from e
         except stripe.error.StripeError as e:
             logger.error(f"Stripe PM Error: {str(e)}")
-            raise Exception(_("Failed to link payment method. Please try again."))
+            raise Exception(
+                _("Failed to link payment method. Please try again.")
+            ) from e
 
     @staticmethod
     def detach_payment_method(payment_method_id: str):
@@ -150,4 +154,6 @@ class StripePaymentMethodHandler:
             )
         except stripe.error.StripeError as e:
             logger.error(f"Stripe Default Update Error: {str(e)}")
-            raise Exception(_("Could not update default payment method."))
+            raise Exception(
+                _("Could not update default payment method.")
+            ) from e

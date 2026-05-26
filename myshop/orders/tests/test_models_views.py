@@ -1,9 +1,11 @@
 from decimal import Decimal
-from django.test import TestCase, Client
+
+from django.test import Client, TestCase
 from django.urls import reverse
+
 from accounts.models import CustomUser
+from orders.models import Address, Order, OrderItem, OrderStatusUpdate
 from shop.models import Category, Product
-from orders.models import Order, OrderItem, Address, OrderTracking, OrderStatusUpdate
 
 
 class OrderModelTest(TestCase):

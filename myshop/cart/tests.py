@@ -1,12 +1,13 @@
-from decimal import Decimal
-from django.test import TestCase, RequestFactory
-from django.contrib.sessions.backends.db import SessionStore
-
-from shop.models import Category, Product
-from coupons.models import Coupon
-from cart.cart import Cart
-from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal
+
+from django.contrib.sessions.backends.db import SessionStore
+from django.test import RequestFactory, TestCase
+from django.utils import timezone
+
+from cart.cart import Cart
+from coupons.models import Coupon
+from shop.models import Category, Product
 
 
 class CartTest(TestCase):

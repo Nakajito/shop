@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
 from accounts.models import CustomUser
 from orders.models import Order
 from support.managers import SupportTicketManager

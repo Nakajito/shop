@@ -1,11 +1,11 @@
 import logging
+
 import stripe
 from django.conf import settings
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
-from cart.cart import Cart
-from orders.models import Order, OrderItem, Address
+from orders.models import OrderItem
 
 logger = logging.getLogger(__name__)
 

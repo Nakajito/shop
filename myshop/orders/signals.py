@@ -1,6 +1,8 @@
 import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from .models import OrderTracking
 from .tasks import send_order_tracking_email
 

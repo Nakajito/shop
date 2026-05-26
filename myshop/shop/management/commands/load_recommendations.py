@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from orders.models import Order
 from shop.models import Product
 from shop.recommender import Recommender

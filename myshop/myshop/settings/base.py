@@ -1,8 +1,8 @@
 from pathlib import Path
 from urllib.parse import quote
 
+from decouple import Csv, config
 from django.contrib.messages import constants as message_constants
-from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent

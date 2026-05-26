@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.utils import timezone
+
 from accounts.models import CustomUser
 from payment.models import PaymentMethod
 

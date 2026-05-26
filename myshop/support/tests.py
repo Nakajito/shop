@@ -1,7 +1,7 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
+
 from accounts.models import CustomUser
-from orders.models import Order
 from support.models import SupportTicket, TicketMessage
 
 

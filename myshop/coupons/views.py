@@ -1,10 +1,11 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.views.decorators.http import require_POST
-from django.contrib import messages
 from django.utils.translation import gettext as _
-from .models import Coupon
+from django.views.decorators.http import require_POST
+
 from .forms import CouponApplyForm
+from .models import Coupon
 
 
 @require_POST

@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         try:
             from allauth.socialaccount.models import SocialApp
-        except Exception as e:
+        except Exception:
             self.stderr.write(
                 "Error importing allauth SocialApp. Is django-allauth installed and migrated?"
             )

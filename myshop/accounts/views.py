@@ -1,17 +1,17 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 
 from accounts.forms import (
+    CustomUserChangeForm,
     CustomUserCreationForm,
     CustomUserLoginForm,
-    CustomUserChangeForm,
-    UserProfileForm,
     DeactivateAccountForm,
+    UserProfileForm,
 )
 from accounts.models import CustomUser
 
@@ -37,14 +37,6 @@ def register(request):
                     user = form.save()
 
                     # The CustomUser signal automatically creates the UserProfile.
-
-                    # Authenticate and log in the user
-                    # We need to retrieve the raw password from cleaned_data to authenticate
-                    username = form.cleaned_data.get("username")
-                    # Note: UserCreationForm standardizes on 'password' or checks matching,
-                    # but typically doesn't include 'password1' in cleaned_data unless custom.
-                    # Since we customized the form, we check our specific fields.
-                    # If using standard AuthenticationForm logic, accessing the user object directly is easier:
                     login(
                         request,
                         user,

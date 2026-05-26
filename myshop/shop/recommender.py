@@ -1,7 +1,8 @@
-import redis
 import logging
+
+import redis
 from django.conf import settings
-from typing import List
+
 from .models import Product
 
 logger = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ class Recommender:
         """Generates the Redis key for a specific product's set."""
         return f"product:{product_id}:purchased_with"
 
-    def products_bought(self, products: List[Product]):
+    def products_bought(self, products: list[Product]):
         """
         Records that a list of products were purchased together.
         Uses a Pipeline to execute all updates in a single network request.

@@ -1,5 +1,6 @@
 import logging
 from io import BytesIO
+
 import weasyprint
 from celery import shared_task
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.contrib.staticfiles import finders
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
+
 from orders.models import Order
 
 logger = logging.getLogger(__name__)
@@ -58,4 +60,4 @@ def payment_completed(self, order_id):
             f"Retry {self.request.retries}/{self.max_retries} for "
             f"payment_completed (Order {order_id}): {exc}"
         )
-        raise self.retry(exc=exc)
+        raise self.retry(exc=exc) from exc

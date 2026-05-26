@@ -52,12 +52,15 @@ select = [
     "UP",
 ]
 ignore = [
-    "E501",
+    "E501",   # line-too-long (handled by formatter)
+    "DJ001",  # nullable string fields — pre-existing schema, requires migrations to fix
+    "DJ012",  # model body ordering — cosmetic
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "**/settings/*.py" = ["F403", "F405"]
 "**/migrations/*.py" = ["E501"]
+"**/apps.py" = ["F401"]   # signals imports for side effects
 
 [tool.djlint]
 profile = "django"

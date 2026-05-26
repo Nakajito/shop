@@ -1,6 +1,7 @@
 from django.contrib.sites.models import Site
-from django.test import TestCase, Client, override_settings
+from django.test import Client, TestCase
 from django.urls import reverse
+
 from accounts.models import CustomUser, UserProfile
 
 

@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 
-from blog.models import Category, Post, PostImage, PostVideo, Tag
+from blog.models import Category, Post, PostVideo, Tag
 
 User = get_user_model()
 
