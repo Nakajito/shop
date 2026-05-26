@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods, require_POST
 
+from myshop.utils import safe_next_url
 from orders.models import Order
 from payment.forms import PaymentMethodForm
 from payment.models import PaymentMethod
@@ -97,9 +98,8 @@ def payment_method_add(request):
                         ),
                     )
 
-                    next_url = request.GET.get("next")
                     return redirect(
-                        next_url if next_url else "payment:payment_method_list"
+                        safe_next_url(request, "payment:payment_method_list")
                     )
             except Exception as e:
                 logger.error(f"Error vaulting card for User {request.user.id}: {e}")

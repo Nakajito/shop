@@ -14,6 +14,7 @@ from accounts.forms import (
     UserProfileForm,
 )
 from accounts.models import CustomUser
+from myshop.utils import safe_next_url
 
 
 @require_http_methods(["GET", "POST"])
@@ -92,11 +93,8 @@ def user_login(request):
                     request, _("Welcome back, {name}!").format(name=user.first_name)
                 )
 
-                # Redirect to 'next' parameter or default profile
-                next_url = request.GET.get("next")
-                if next_url:
-                    return redirect(next_url)
-                return redirect("accounts:profile")
+                # Redirect to validated 'next' or default profile (open-redirect safe)
+                return redirect(safe_next_url(request, "accounts:profile"))
 
     else:
         form = CustomUserLoginForm()

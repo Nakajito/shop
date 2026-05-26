@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods, require_POST
 
+from myshop.utils import safe_next_url
 from orders.forms import AddressForm
 from orders.models import Address
 
@@ -78,5 +79,4 @@ def address_set_default(request, address_id):
         logger.error(f"Error setting default address: {e}")
         messages.error(request, _("Could not update default address."))
 
-    next_url = request.GET.get("next")
-    return redirect(next_url if next_url else "orders:address_list")
+    return redirect(safe_next_url(request, "orders:address_list"))

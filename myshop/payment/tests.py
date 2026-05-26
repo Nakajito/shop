@@ -1,14 +1,18 @@
+import json
 from decimal import Decimal
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import stripe
-from django.test import RequestFactory, TestCase
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from accounts.models import CustomUser
 from orders.models import Order, OrderItem
+from payment.forms import PaymentMethodSelectionForm
 from payment.models import PaymentMethod
 from payment.services import PaymentService
+from payment.stripe_handler import StripeCustomerHandler, StripePaymentMethodHandler
+from payment.tasks import payment_completed as payment_completed_task
 from payment.webhooks import stripe_webhook
 from shop.models import Category, Product
 
@@ -246,12 +250,6 @@ class WebhookUrlRoutingTest(TestCase):
         self.assertEqual(url, "/payment/webhook/")
 
 
-from unittest.mock import MagicMock
-import json as _json
-from django.test import Client
-from django.urls import reverse as _reverse
-
-
 class PaymentViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
@@ -277,25 +275,25 @@ class PaymentViewsTest(TestCase):
         )
 
     def test_payment_completed_renders(self):
-        response = self.client.get(_reverse("payment:completed"))
+        response = self.client.get(reverse("payment:completed"))
         self.assertEqual(response.status_code, 200)
 
     def test_payment_canceled_renders(self):
-        response = self.client.get(_reverse("payment:canceled"))
+        response = self.client.get(reverse("payment:canceled"))
         self.assertEqual(response.status_code, 200)
 
     def test_payment_process_get_renders(self):
         session = self.client.session
         session["order_id"] = self.order.id
         session.save()
-        response = self.client.get(_reverse("payment:process"))
+        response = self.client.get(reverse("payment:process"))
         self.assertEqual(response.status_code, 200)
 
     def test_payment_process_no_order_404(self):
         session = self.client.session
         session["order_id"] = 999999
         session.save()
-        response = self.client.get(_reverse("payment:process"))
+        response = self.client.get(reverse("payment:process"))
         self.assertEqual(response.status_code, 404)
 
     @patch("payment.views.PaymentService.create_checkout_session")
@@ -308,12 +306,12 @@ class PaymentViewsTest(TestCase):
         session["order_id"] = self.order.id
         session.save()
 
-        response = self.client.post(_reverse("payment:process"))
+        response = self.client.post(reverse("payment:process"))
         # redirect() ignores code=303 kwarg silently — bug logged for separate fix
         self.assertIn(response.status_code, (302, 303))
 
     def test_payment_method_list_requires_login(self):
-        response = self.client.get(_reverse("payment:payment_method_list"))
+        response = self.client.get(reverse("payment:payment_method_list"))
         self.assertEqual(response.status_code, 302)
 
     def test_payment_method_list_renders_for_user(self):
@@ -327,19 +325,19 @@ class PaymentViewsTest(TestCase):
             exp_month=6,
             exp_year=2030,
         )
-        response = self.client.get(_reverse("payment:payment_method_list"))
+        response = self.client.get(reverse("payment:payment_method_list"))
         self.assertEqual(response.status_code, 200)
 
     def test_payment_method_add_get_renders(self):
         self.client.force_login(self.user)
-        response = self.client.get(_reverse("payment:payment_method_add"))
+        response = self.client.get(reverse("payment:payment_method_add"))
         self.assertEqual(response.status_code, 200)
 
     def test_create_payment_intent_rejects_invalid_amount(self):
         self.client.force_login(self.user)
         response = self.client.post(
-            _reverse("payment:create_intent"),
-            data=_json.dumps({"amount": 0}),
+            reverse("payment:create_intent"),
+            data=json.dumps({"amount": 0}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 400)
@@ -347,8 +345,8 @@ class PaymentViewsTest(TestCase):
     def test_confirm_payment_missing_id_returns_400(self):
         self.client.force_login(self.user)
         response = self.client.post(
-            _reverse("payment:confirm_payment"),
-            data=_json.dumps({}),
+            reverse("payment:confirm_payment"),
+            data=json.dumps({}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 400)
@@ -361,12 +359,12 @@ class PaymentViewsTest(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(
-            _reverse("payment:confirm_payment"),
-            data=_json.dumps({"paymentIntentId": "pi_x"}),
+            reverse("payment:confirm_payment"),
+            data=json.dumps({"paymentIntentId": "pi_x"}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
-        body = _json.loads(response.content)
+        body = json.loads(response.content)
         self.assertTrue(body["success"])
 
     @patch("payment.views.stripe.PaymentIntent.retrieve")
@@ -377,17 +375,14 @@ class PaymentViewsTest(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.post(
-            _reverse("payment:confirm_payment"),
-            data=_json.dumps({"paymentIntentId": "pi_y"}),
+            reverse("payment:confirm_payment"),
+            data=json.dumps({"paymentIntentId": "pi_y"}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
-        body = _json.loads(response.content)
+        body = json.loads(response.content)
         self.assertFalse(body["success"])
         self.assertTrue(body["requiresAction"])
-
-
-from payment.stripe_handler import StripeCustomerHandler, StripePaymentMethodHandler
 
 
 class StripeCustomerHandlerTest(TestCase):
@@ -414,7 +409,7 @@ class StripeCustomerHandlerTest(TestCase):
     @patch("payment.stripe_handler.stripe.Customer.create")
     def test_stripe_error_raises_wrapped_exception(self, mock_create):
         mock_create.side_effect = stripe.error.StripeError("api down")
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017 — code raises bare Exception
             StripeCustomerHandler.create_or_get_customer(self.user)
 
 
@@ -449,7 +444,7 @@ class StripePaymentMethodHandlerTest(TestCase):
     @patch("payment.stripe_handler.stripe.PaymentMethod.retrieve")
     def test_attach_stripe_error_wraps_message(self, mock_retrieve):
         mock_retrieve.side_effect = stripe.error.StripeError("api down")
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017 — code raises bare Exception
             StripePaymentMethodHandler.attach_payment_method(self.user, "pm_bad")
 
     @patch("payment.stripe_handler.stripe.PaymentMethod.detach")
@@ -501,12 +496,8 @@ class StripePaymentMethodHandlerTest(TestCase):
             exp_month=2,
             exp_year=2030,
         )
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017 — code raises bare Exception
             StripePaymentMethodHandler.set_default_payment_method(pm)
-
-
-from payment.forms import PaymentMethodSelectionForm
-from payment.tasks import payment_completed as payment_completed_task
 
 
 class PaymentMethodSelectionFormTest(TestCase):

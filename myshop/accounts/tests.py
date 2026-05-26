@@ -260,7 +260,7 @@ class SocialAdapterTest(TestCase):
         request._messages = type("M", (), {"add": lambda *a, **k: None})()
 
         sociallogin = self._build_sociallogin("social@example.com")
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception):  # noqa: B017 — code raises bare Exception
             self.adapter.pre_social_login(request, sociallogin)
 
     def test_pre_social_login_skips_unknown_email(self):
