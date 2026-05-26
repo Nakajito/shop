@@ -27,11 +27,11 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # Third party
     "django_ckeditor_5",
+    "widget_tweaks",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-     "widget_tweaks",   # 👈 AQUÍ LO AGREGAS
     # Local apps
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "coupons.apps.CouponsConfig",
     "support.apps.SupportConfig",
     "blog.apps.BlogConfig",
- 
 ]
 
 MIDDLEWARE = [

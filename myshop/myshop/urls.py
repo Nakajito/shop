@@ -1,27 +1,28 @@
+"""Main URL configuration for the 'myshop' project.
+
+Central routing hub. Delegates requests to per-app URLconfs by path prefix.
+
+Mounted apps:
+    - admin/        Django admin
+    - accounts/     custom accounts urls + allauth (social/email auth)
+    - cart/         shopping cart
+    - orders/       order creation/history
+    - payment/      Stripe checkout + webhooks
+    - coupons/      discount codes
+    - support/      support tickets
+    - blog/         CKEditor-5 powered blog
+    - ckeditor5/    CKEditor uploader
+    - /             shop catalog (root)
+
+Static & media:
+    Media is served by Django ONLY when DEBUG=True. In production, an
+    upstream proxy (nginx/Caddy) or WhiteNoise must serve MEDIA_ROOT.
+"""
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
-from django.views.static import serve
-
-"""
-Main URL configuration for the 'myshop' project.
-
-This module acts as the central routing hub, delegating requests to specific
-application URL configurations based on the path prefix.
-
-Included Apps:
-    - admin/: Django administrative interface.
-    - cart/: Shopping cart management (add/remove/view).
-    - orders/: Order creation and history.
-    - payment/: Payment gateway integration.
-    - coupons/: Discount code application.
-    - /: The core shop application (product catalog), handling the root URL.
-
-Static & Media Files:
-    In DEBUG mode, this configuration also serves user-uploaded media files
-    directly from the MEDIA_ROOT directory.
-"""
+from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -41,16 +42,5 @@ urlpatterns = [
     path("", include("shop.urls", namespace="shop")),
 ]
 
-# Serve media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += [
-    re_path(
-        r"^media/(?P<path>.*)$",
-        serve,
-        {
-            "document_root": settings.MEDIA_ROOT,
-        },
-    ),
-]

@@ -1,11 +1,17 @@
+"""Settings selector.
+
+Reads ``DJANGO_SETTINGS_MODULE`` to decide which environment module to load:
+- ``myshop.settings.production`` -> production overrides
+- anything else (default) -> development overrides
+
+Both extend ``base.py``.
+"""
+
 import os
 
-from decouple import config
+_settings_module = os.getenv("DJANGO_SETTINGS_MODULE", "myshop.settings.development")
 
-# Esto lee la variable de Coolify, si no existe, usa development
-settings_module = os.getenv("DJANGO_SETTINGS_MODULE", "myshop.settings.development")
-
-if settings_module == "myshop.settings.production":
-    from .production import *
+if _settings_module == "myshop.settings.production":
+    from .production import *  # noqa: F401, F403
 else:
-    from .development import *
+    from .development import *  # noqa: F401, F403
