@@ -10,6 +10,12 @@
       "source": "Nakajito/software-docs",
       "sourceType": "github",
       "computedHash": "902bccb9beba4b6f39075ea783eeb21d492425de6e329bfac5ffe840609b3dc2"
+    },
+    "tdd-workflow": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/tdd-workflow/SKILL.md",
+      "computedHash": "d10751717312fe7613c05c226013569edd1b6c1785a446897570c703cc9c5d02"
     }
   }
 }
