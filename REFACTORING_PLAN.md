@@ -170,11 +170,41 @@ Fase 0 -> Fase 1 -> Fase 2 -> Fase 3 -> Fase 4 -> Fase 5 -> Fase 6 -> Fase 7 -> 
 
 1. ✅ Borrar `myshop/products/2026/` y `myshop/main.py`.
 2. ✅ Fuente única de dependencias: **`pyproject.toml` con `uv`**. `requirements.txt` se regenera via `uv pip compile` para Docker.
-3. ✅ Framework de tests: mantener **`unittest` + Django TestCase**. Skill `tdd-workflow` se adapta a sintaxis Django.
-4. ✅ Dev DB: **SQLite correcto**. Actualizar `myshop/CLAUDE.md` para reflejar SQLite en dev.
+3. ✅ Framework de tests: mantener **`unittest` + Django TestCase**.
+4. ✅ Dev DB: **SQLite**. `myshop/CLAUDE.md` actualizado.
 5. ✅ Untrack: `static/admin`, `static/account`, `static/django_ckeditor_5`, `db.sqlite3`, `logs/django.log`.
-6. ✅ Completar deletes pendientes en git status (stripe/blog/pdf css/js).
-7. ⏸️ Ejecución pendiente — usuario revisa plan antes de arrancar.
+6. ✅ Completar deletes pendientes en git status (stripe/blog/pdf css/js → restaurados, siguen referenciados).
+
+## Resultado final (2026-05-25)
+
+Rama: `refactor/cleanup-and-structure` ✅ todas las fases completadas.
+
+| Fase | Commit | Diff | Highlight |
+|---|---|---|---|
+| 0 baseline | `c28aa6a` | +709 | plan + baseline doc + tooling (pre-commit, editorconfig) |
+| 1 limpieza | `de00922` | −32639 | dead templates, main.py, products/, untrack collectstatic outputs |
+| 2 settings | `b44ba2c` | +793 | pyproject único, Django 5 pin, urls.py media fix, CLAUDE.md sync |
+| 3 estructura | `db8ecb3` | +20 | orders/views/ y orders/tests/ packages, DRY internos |
+| 4 lint/DRY | `b971af4` | −21 | ruff clean (103→0), dead code, raise-from |
+| 5 coverage+CI | `3d8dae1` | +832 | +55 tests, coverage 70→80%, GitHub Actions |
+| 6 sec+perf | `3515c59` | +83 | open-redirect cerrado en 3 views, auditorías deploy/N+1/auth |
+| 7-8 docs+PR | — | — | README/Makefile + PR a `dev` |
+
+### Métricas
+
+- **Tests**: 141 → 201 (+60). 4 fallos pre-existentes blog. 0 errors.
+- **Coverage**: 70% → **81%**.
+- **Ruff**: 103 → **0**.
+- **`check --deploy`**: **0 issues**.
+- **LOC neto**: −32 245 (mayoritariamente collectstatic outputs y duplicados).
+
+### Diferidos documentados
+
+- `CheckConstraint(check=)` → `condition=`: válido en Django 5 pinned, requerido en Django 6.
+- `TimeStampedModel` mixin: requiere migración 7 modelos por divergencia `created_at` vs `created`.
+- `confirm_payment` AJAX: añadir cross-check de ownership de Stripe intent.
+- `redirect(url, code=303)` en `payment_process`: kwarg ignorado silenciosamente por Django.
+- `DJ001` (nullable CharField/TextField): ignorado por ruff, cambio schema separado.
 
 ## Notas
 

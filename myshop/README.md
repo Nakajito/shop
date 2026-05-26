@@ -45,61 +45,69 @@ Detalles de arquitectura en [CLAUDE.md](CLAUDE.md).
 
 ```bash
 # Clonar y entrar
-cd shop
+cd shop/myshop
 
-# Entorno virtual
-python -m venv .venv
-source .venv/bin/activate
+# Sincronizar venv + dependencias (uv-managed)
+uv sync
 
-# Dependencias
-pip install -r requirements.txt
-
-# Variables de entorno
-cp .env.example .env   # editar credenciales
+# Variables de entorno (en raíz del repo)
+cp ../.env.example ../.env   # editar credenciales
 
 # Migraciones
-python myshop/manage.py migrate
+uv run python manage.py migrate
 
 # Superusuario
-python myshop/manage.py createsuperuser
+uv run python manage.py createsuperuser
 
 # Datos demo (3 categorías, 10 productos, 5 posts de blog)
-python myshop/manage.py seed_demo
+uv run python manage.py seed_demo
 ```
 
 ## Comandos comunes
 
-```bash
-# Servidor de desarrollo
-python myshop/manage.py runserver
+Todos asumen el cwd `myshop/`. También disponibles vía `make <target>` desde la raíz.
 
-# Tests
-python myshop/manage.py test
-python myshop/manage.py test orders
+```bash
+# Servidor de desarrollo (SQLite por defecto)
+uv run python manage.py runserver
+
+# Tests (in-memory SQLite vía settings/testing.py)
+DJANGO_SETTINGS_MODULE=myshop.settings.testing uv run python manage.py test
+DJANGO_SETTINGS_MODULE=myshop.settings.testing uv run python manage.py test orders
+
+# Coverage report
+DJANGO_SETTINGS_MODULE=myshop.settings.testing uv run coverage run manage.py test
+uv run coverage report
+
+# Ruff lint
+uv run ruff check
 
 # Worker Celery (requiere Redis)
-cd myshop && celery -A myshop worker -l info
+uv run celery -A myshop worker -l info
 
 # Flower con auth básica
-cd myshop && celery -A myshop flower --basic-auth=user:pwd
+uv run celery -A myshop flower --basic-auth=user:pwd
 
-# Webhook Stripe local
+# Webhook Stripe local (desde raíz)
 ./stripe listen --forward-to 127.0.0.1:8000/payment/webhook/
 
 # Cargar recomendaciones a Redis
-python myshop/manage.py load_recommendations
+uv run python manage.py load_recommendations
 
 # Setup Google OAuth
-python myshop/manage.py setup_google_oauth --client-id=ID --secret=SECRET
+uv run python manage.py setup_google_oauth --client-id=ID --secret=SECRET
+
+# Regenerar requirements.txt (raíz, para Docker) desde pyproject.toml
+cd .. && uv pip compile myshop/pyproject.toml -o requirements.txt
 ```
 
 ## Entornos
 
-`DJANGO_ENV` selecciona el módulo de settings:
+`DJANGO_SETTINGS_MODULE` selecciona el módulo. Sin variable, se carga `development`.
 
-- `development` — DEBUG=True, LocMemCache, PostgreSQL local
-- `production` — DEBUG=False, Redis, HTTPS/HSTS, WhiteNoise, Sentry
-- `testing` — overrides para test runner
+- `myshop.settings.development` — DEBUG=True, LocMemCache, **SQLite** local
+- `myshop.settings.production`  — DEBUG=False, Redis, HTTPS/HSTS, WhiteNoise, Sentry, PostgreSQL via `DATABASE_URL`
+- `myshop.settings.testing`     — in-memory SQLite, dummy cache, eager Celery, MD5 hasher
 
 Variables cargadas desde `.env` vía `python-decouple`.
 
@@ -107,14 +115,21 @@ Variables cargadas desde `.env` vía `python-decouple`.
 
 ```
 SECRET_KEY=
-DJANGO_ENV=development
-DB_NAME= DB_USER= DB_PASSWORD= DB_HOST= DB_PORT=
+DJANGO_SETTINGS_MODULE=myshop.settings.development     # o .production
+DATABASE_URL=postgres://user:pass@host:5432/db         # solo production
 STRIPE_PUBLISHABLE_KEY= STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET= STRIPE_API_VERSION=
 REDIS_HOST= REDIS_PORT= REDIS_DB= REDIS_PASSWORD=
-REDIS_CACHE_URL=
-EMAIL_HOST= EMAIL_HOST_USER= EMAIL_HOST_PASSWORD=
+REDIS_CACHE_URL=                                       # solo production
+EMAIL_HOST_USER= EMAIL_HOST_PASSWORD= DEFAULT_FROM_EMAIL=
+ALLOWED_HOSTS=                                         # comma-separated
+CSRF_TRUSTED_ORIGINS=                                  # production
+SENTRY_DSN=                                            # opcional
 ```
+
+## Dependencias
+
+Fuente única: `myshop/pyproject.toml` (uv). El `requirements.txt` en la raíz se **regenera** desde pyproject para el build Docker. No editarlo a mano.
 
 ## Docker
 
