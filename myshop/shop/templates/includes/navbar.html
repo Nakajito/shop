@@ -1,5 +1,6 @@
+{% load i18n %}
 <nav class="navbar-mayorista">
-    <a href="/" class="logo">
+    <a href="{% url 'shop:product_list' %}" class="logo">
         <div class="logo-icon">S</div>
         <div class="logo-text">
             Synk
@@ -9,24 +10,37 @@
     </a>
     <ul class="nav-links">
         <li>
-            <a href="{% url 'shop:product_list' %}" class="active">Productos</a>
+            <a href="{% url 'shop:product_list' %}" class="active">{% trans "Productos" %}</a>
         </li>
         <li>
-            <a href="{% url 'blog:post_list' %}">Recetario</a>
+            <a href="{% url 'blog:post_list' %}">{% trans "Recetario" %}</a>
         </li>
         <li>
-            <a href="{% url 'shop:form_mayorista' %}">Mayoristas</a>
+            <a href="{% url 'shop:form_mayorista' %}">{% trans "Mayoristas" %}</a>
         </li>
     </ul>
     <div class="nav-icons">
-        <a href="{% url 'cart:cart_detail' %}" title="Carrito">
+        <a href="{% url 'cart:cart_detail' %}" title="{% trans 'Carrito' %}">
             <i class="bi bi-bag"></i>
         </a>
-        <a href="{% url 'accounts:profile' %}" title="Mi cuenta">
+        <a href="{% url 'accounts:profile' %}" title="{% trans 'Mi cuenta' %}">
             <i class="bi bi-person-fill"></i>
         </a>
-        <a href="#" title="Buscar">
+        <a href="#" title="{% trans 'Buscar' %}">
             <i class="bi bi-search"></i>
         </a>
+        <form action="{% url 'set_language' %}" method="post" class="lang-switch">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Idioma' %}">
+                {% for lang_code, lang_name in LANGUAGES %}
+                    <option value="{{ lang_code }}"{% if lang_code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ lang_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
     </div>
 </nav>

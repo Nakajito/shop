@@ -20,15 +20,27 @@ Static & media:
 """
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from payment import webhooks as payment_webhooks
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Custom accounts URLs first so they take precedence over allauth defaults
+    path("i18n/", include("django.conf.urls.i18n")),
+    # Stripe webhook must stay outside i18n_patterns — Stripe POSTs to a fixed URL
+    path(
+        "payment/webhook/",
+        payment_webhooks.stripe_webhook,
+        name="stripe-webhook",
+    ),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
+]
+
+urlpatterns += i18n_patterns(
     path("accounts/", include("accounts.urls")),
-    # Allauth URLs (without namespace) for social auth provider routes
     path("accounts/", include("allauth.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("orders/", include("orders.urls", namespace="orders")),
@@ -36,11 +48,9 @@ urlpatterns = [
     path("coupons/", include("coupons.urls", namespace="coupons")),
     path("support/", include("support.urls", namespace="support")),
     path("blog/", include("blog.urls", namespace="blog")),
-    path("ckeditor5/", include("django_ckeditor_5.urls")),
-    # The 'shop' app handles the root URL, so it is included last to allow
-    # other specific patterns to be matched first.
     path("", include("shop.urls", namespace="shop")),
-]
+    prefix_default_language=True,
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

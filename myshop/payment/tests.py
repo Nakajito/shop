@@ -246,7 +246,8 @@ class StripeWebhookTest(TestCase):
 
 class WebhookUrlRoutingTest(TestCase):
     def test_webhook_url_resolves(self):
-        url = reverse("payment:stripe-webhook")
+        # Webhook lives outside i18n_patterns so Stripe can POST to a fixed URL.
+        url = reverse("stripe-webhook")
         self.assertEqual(url, "/payment/webhook/")
 
 

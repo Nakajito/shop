@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, webhooks
+from . import views
 
 """
 URL Configuration for the 'payment' application.
@@ -38,6 +38,4 @@ urlpatterns = [
     # --- Stripe AJAX API Endpoints ---
     path("api/create-intent/", views.create_payment_intent, name="create_intent"),
     path("api/confirm-payment/", views.confirm_payment, name="confirm_payment"),
-    # --- System / Webhooks ---
-    path("webhook/", webhooks.stripe_webhook, name="stripe-webhook"),
 ]

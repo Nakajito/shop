@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     shared-mime-info \
     libgdk-pixbuf-2.0-0 \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Establecemos la carpeta de trabajo
@@ -28,6 +29,7 @@ COPY . /app/
 # El comando maestro que arrancará todo
 CMD python myshop/manage.py migrate --noinput && \
     python myshop/manage.py collectstatic --noinput && \
+    python myshop/manage.py compilemessages && \
     gunicorn --pythonpath myshop myshop.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3 \
