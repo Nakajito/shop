@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    name: Django tests + lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: myshop
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: latest
+
+      - name: Set up Python
+        run: uv python install 3.13
+
+      - name: Install system deps for WeasyPrint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libpango-1.0-0 libpangoft2-1.0-0 libcairo2 libffi-dev \
+            shared-mime-info libgdk-pixbuf-2.0-0
+
+      - name: Sync project dependencies
+        run: uv sync --frozen --all-extras
+
+      - name: Ruff lint
+        run: uv run ruff check
+
+      - name: Django check
+        env:
+          DJANGO_SETTINGS_MODULE: myshop.settings.testing
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+          STRIPE_SECRET_KEY: sk_test_dummy
+          STRIPE_API_VERSION: "2024-04-10"
+          STRIPE_WEBHOOK_SECRET: whsec_dummy
+          EMAIL_HOST_USER: test@example.com
+          EMAIL_HOST_PASSWORD: dummy
+          DEFAULT_FROM_EMAIL: test@example.com
+        run: uv run python manage.py check
+
+      - name: Run tests with coverage
+        env:
+          DJANGO_SETTINGS_MODULE: myshop.settings.testing
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+          STRIPE_SECRET_KEY: sk_test_dummy
+          STRIPE_API_VERSION: "2024-04-10"
+          STRIPE_WEBHOOK_SECRET: whsec_dummy
+          EMAIL_HOST_USER: test@example.com
+          EMAIL_HOST_PASSWORD: dummy
+          DEFAULT_FROM_EMAIL: test@example.com
+        run: |
+          uv run coverage run manage.py test
+          uv run coverage report --fail-under=78
+          uv run coverage xml
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: myshop/coverage.xml
+          if-no-files-found: ignore

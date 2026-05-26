@@ -218,3 +218,66 @@ class ChangeUserTypeViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
         self.assertEqual(self.user.user_type, "regular_user")
+
+
+class SocialAdapterTest(TestCase):
+    def setUp(self):
+        from accounts.adapter import CustomSocialAccountAdapter
+
+        self.adapter = CustomSocialAccountAdapter()
+        self.user = CustomUser.objects.create_user(
+            username="suser", email="social@example.com", password="x"
+        )
+
+    def _build_sociallogin(self, email):
+        class _Account:
+            def __init__(self, e):
+                self.extra_data = {"email": e}
+
+        class _SocialLogin:
+            def __init__(self, e):
+                self.account = _Account(e)
+
+        return _SocialLogin(email)
+
+    def test_pre_social_login_allows_active_user(self):
+        from django.test import RequestFactory
+
+        request = RequestFactory().get("/")
+        request._messages = type("M", (), {"add": lambda *a, **k: None})()
+
+        sociallogin = self._build_sociallogin("social@example.com")
+        # No exception raised
+        self.adapter.pre_social_login(request, sociallogin)
+
+    def test_pre_social_login_blocks_deactivated_user(self):
+        from django.test import RequestFactory
+
+        self.user.is_active = False
+        self.user.save()
+
+        request = RequestFactory().get("/")
+        request._messages = type("M", (), {"add": lambda *a, **k: None})()
+
+        sociallogin = self._build_sociallogin("social@example.com")
+        with self.assertRaises(Exception):
+            self.adapter.pre_social_login(request, sociallogin)
+
+    def test_pre_social_login_skips_unknown_email(self):
+        from django.test import RequestFactory
+
+        request = RequestFactory().get("/")
+        request._messages = type("M", (), {"add": lambda *a, **k: None})()
+
+        sociallogin = self._build_sociallogin("ghost@example.com")
+        # No exception, silently allows
+        self.adapter.pre_social_login(request, sociallogin)
+
+    def test_pre_social_login_no_email_skips(self):
+        from django.test import RequestFactory
+
+        request = RequestFactory().get("/")
+        request._messages = type("M", (), {"add": lambda *a, **k: None})()
+
+        sociallogin = self._build_sociallogin("")
+        self.adapter.pre_social_login(request, sociallogin)

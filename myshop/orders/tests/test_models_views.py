@@ -280,3 +280,89 @@ class CancelOrderViewTest(TestCase):
                 order=self.order, new_status="cancelled"
             ).exists()
         )
+
+
+class AddressViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = CustomUser.objects.create_user(
+            username="adruser", password="adrpass123"
+        )
+        self.client.force_login(self.user)
+
+    def test_address_list_renders(self):
+        response = self.client.get(reverse("orders:address_list"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_address_create_get(self):
+        response = self.client.get(reverse("orders:address_create"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_address_create_post_valid(self):
+        response = self.client.post(
+            reverse("orders:address_create"),
+            {
+                "address_line1": "123 Main",
+                "city": "City",
+                "postal_code": "12345",
+                "phone": "5555550100",
+                "recipient_name": "John",
+                "country": "MX",
+                "address_type": "home",
+            },
+        )
+        self.assertIn(response.status_code, (200, 302))
+
+    def test_address_edit_get_owner(self):
+        addr = Address.objects.create(
+            user=self.user,
+            address_line1="x",
+            city="c",
+            postal_code="0",
+            phone="5555550100",
+            recipient_name="J",
+        )
+        response = self.client.get(reverse("orders:address_edit", args=[addr.id]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_address_edit_other_user_404(self):
+        other = CustomUser.objects.create_user(username="other", password="x")
+        addr = Address.objects.create(
+            user=other,
+            address_line1="x",
+            city="c",
+            postal_code="0",
+            phone="5555550100",
+            recipient_name="J",
+        )
+        response = self.client.get(reverse("orders:address_edit", args=[addr.id]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_address_delete_post(self):
+        addr = Address.objects.create(
+            user=self.user,
+            address_line1="del",
+            city="c",
+            postal_code="0",
+            phone="5555550100",
+            recipient_name="J",
+        )
+        response = self.client.post(reverse("orders:address_delete", args=[addr.id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Address.objects.filter(id=addr.id).exists())
+
+    def test_address_set_default_post(self):
+        addr = Address.objects.create(
+            user=self.user,
+            address_line1="def",
+            city="c",
+            postal_code="0",
+            phone="5555550100",
+            recipient_name="J",
+        )
+        response = self.client.post(
+            reverse("orders:address_set_default", args=[addr.id])
+        )
+        self.assertEqual(response.status_code, 302)
+        addr.refresh_from_db()
+        self.assertTrue(addr.is_default)

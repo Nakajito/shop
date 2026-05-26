@@ -372,8 +372,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Github
-.github/
+# Github (allow workflows; ignore other tooling-local subfolders if needed)
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
 
 # Cloud Code
 .cloudcode/

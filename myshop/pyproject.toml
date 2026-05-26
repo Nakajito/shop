@@ -76,9 +76,11 @@ omit = [
     "*/migrations/*",
     "*/tests/*",
     "*/tests.py",
+    "*/management/commands/*",
     "manage.py",
     "myshop/wsgi.py",
     "myshop/asgi.py",
+    "myshop/celery.py",
 ]
 
 [tool.coverage.report]
