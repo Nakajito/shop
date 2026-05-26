@@ -11,3 +11,11 @@ dependencies = [
     "django-widget-tweaks>=1.5.1",
     "python-decouple>=3.8",
 ]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.14.0",
+    "djlint>=1.36.4",
+    "pre-commit>=4.6.0",
+    "ruff>=0.15.14",
+]
