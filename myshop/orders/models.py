@@ -241,7 +241,7 @@ class Order(models.Model):
         ]
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(discount__gte=0, discount__lte=100),
+                check=models.Q(discount__gte=0, discount__lte=100),
                 name="order_discount_range",
             ),
         ]
