@@ -47,6 +47,9 @@ SESSION_COOKIE_SAMESITE = "Lax"
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")  # noqa: F405
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# Media files — persistent volume mount in Coolify
+MEDIA_ROOT = BASE_DIR.parent / "media"  # /app/media
+
 # Sentry
 SENTRY_DSN = config("SENTRY_DSN", default="")
 if SENTRY_DSN:

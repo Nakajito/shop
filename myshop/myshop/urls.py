@@ -15,8 +15,9 @@ Mounted apps:
     - /             shop catalog (root)
 
 Static & media:
-    Media is served by Django ONLY when DEBUG=True. In production, an
-    upstream proxy (nginx/Caddy) or WhiteNoise must serve MEDIA_ROOT.
+    Media files served by Django via static() helper in all environments.
+    For high-traffic production, consider placing an upstream proxy
+    (nginx/Caddy) in front of MEDIA_ROOT, or using cloud storage.
 """
 
 from django.conf import settings
@@ -52,5 +53,4 @@ urlpatterns += i18n_patterns(
     prefix_default_language=True,
 )
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
