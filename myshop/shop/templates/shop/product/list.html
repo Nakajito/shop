@@ -56,10 +56,14 @@
               <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
                    alt="{{ product.name }}"
                    class="prod-img">
+              <div class="prod-overlay">
+                <span class="prod-overlay-label">Ver producto</span>
+              </div>
             </div>
-            <div class="prod-info text-center mt-2">
+            <div class="prod-info mt-2">
               <p class="prod-name">{{ product.name }}</p>
               {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
+              <p class="prod-price">${{ product.price }}</p>
             </div>
           </div>
         </a>

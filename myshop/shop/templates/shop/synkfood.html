@@ -1,0 +1,364 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYNK FOOD — Productos Coreanos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/synkfood.css' %}" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="sf-nav">
+    <div class="sf-nav__inner">
+      <!-- Logo izquierda — cambia height en .sf-nav__logo-img sin afectar el grid -->
+      <a href="{% url 'shop:home' %}" class="sf-nav__logo">
+        <div class="sf-nav__logo-box">
+          <img src="{% static 'img/onesynk/logo-sinfood.svg' %}" alt="Synk Food" class="sf-nav__logo-img" />
+        </div>
+      </a>
+
+      <!-- Links centrados -->
+      <ul class="sf-nav__links" id="sfNavLinks">
+        <li><a href="#productos" class="sf-nav__link sf-nav__link--active">PRODUCTOS</a></li>
+        <li><a href="#recetas" class="sf-nav__link">RECETARIO</a></li>
+        <li><a href="{% url 'shop:form_mayorista' %}" class="sf-nav__link">MAYORISTAS</a></li>
+      </ul>
+
+      <!-- Iconos derecha -->
+      <div class="sf-nav__actions">
+        <a href="{% url 'cart:cart_detail' %}" class="sf-nav__action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+        <a href="#" class="sf-nav__action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="#" class="sf-nav__action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
+        <button class="sf-nav__toggle" id="sfNavToggle" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO CAROUSEL ===== -->
+  <section class="sf-hero" id="inicio">
+    <div class="sf-carousel" id="sfCarousel">
+
+      <!-- Flecha izquierda -->
+      <button class="sf-carousel__arrow sf-carousel__arrow--prev" id="sfPrev" aria-label="Anterior">
+        <img src="{% static 'img/onesynk/02.png' %}" alt="prev" class="sf-arrow-img sf-arrow-img--flip" />
+      </button>
+
+      <!-- Slides wrapper -->
+      <div class="sf-carousel__track">
+
+        <!-- Slide 1: dos productos -->
+        <div class="sf-carousel__slide sf-carousel__slide--active">
+          <div class="sf-carousel__container">
+            <div class="sf-carousel__left">
+              <p class="sf-carousel__question">¿LISTO PARA<br>PROBAR?</p>
+              <a href="{% url 'shop:product_list' %}" class="sf-btn sf-btn--dark sf-btn--carousel">COMPRAR</a>
+            </div>
+            <div class="sf-carousel__center">
+              <img src="{% static 'img/onesynk/sabrita1.png' %}" alt="Bung-O Pan" class="sf-carousel__product sf-carousel__product--back" />
+              <img src="{% static 'img/onesynk/sabrita2.png' %}" alt="Cheese Balls" class="sf-carousel__product sf-carousel__product--front" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="sf-carousel__slide">
+          <div class="sf-carousel__container">
+            <div class="sf-carousel__left">
+              <p class="sf-carousel__question">¿LISTO PARA<br>PROBAR?</p>
+              <a href="{% url 'shop:product_list' %}" class="sf-btn sf-btn--dark sf-btn--carousel">COMPRAR</a>
+            </div>
+            <div class="sf-carousel__center">
+              <img src="{% static 'img/onesynk/sabrita1.png' %}" alt="Bung-O Pan" class="sf-carousel__product sf-carousel__product--solo" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="sf-carousel__slide">
+          <div class="sf-carousel__container">
+            <div class="sf-carousel__left">
+              <p class="sf-carousel__question">¿LISTO PARA<br>PROBAR?</p>
+              <a href="{% url 'shop:product_list' %}" class="sf-btn sf-btn--dark sf-btn--carousel">COMPRAR</a>
+            </div>
+            <div class="sf-carousel__center">
+              <img src="{% static 'img/onesynk/sabrita3.png' %}" alt="Bung-O Pan doble" class="sf-carousel__product sf-carousel__product--solo" />
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+
+      <!-- Flecha derecha -->
+      <button class="sf-carousel__arrow sf-carousel__arrow--next" id="sfNext" aria-label="Siguiente">
+        <img src="{% static 'img/onesynk/02.png' %}" alt="next" class="sf-arrow-img" />
+      </button>
+
+    </div><!-- /carousel -->
+
+    <!-- Dots -->
+    <div class="sf-carousel__dots">
+      <button class="sf-carousel__dot sf-carousel__dot--active" data-index="0"></button>
+      <button class="sf-carousel__dot" data-index="1"></button>
+      <button class="sf-carousel__dot" data-index="2"></button>
+    </div>
+  </section>
+
+  <!-- ===== SOBRE NOSOTROS ===== -->
+  <section class="sf-sobre" id="sobre">
+    <div class="sf-sobre__left">
+      <h2 class="sf-sobre__title">SOBRE<br>NOSOTROS</h2>
+      <p>Synk Food nace con la idea de crear un punto único de conexión entre Corea y nuevos mercados, enfocado en productos alimenticios de calidad, innovación y tendencias globales.</p>
+      <p>A través de nuestras marcas, transformamos tendencias coreanas en propuestas auténticas, accesibles y alineadas al mercado actual.</p>
+      <p>Nos especializamos en la importación y comercialización de snacks, bebidas y alimentos coreanos con los más altos estándares de calidad y sabor.</p>
+    </div>
+    <div class="sf-sobre__right">
+      <div class="sf-sobre__img-wrap">
+        <img src="{% static 'img/onesynk/sopa1.png' %}" alt="Synk Food" class="sf-sobre__product" />
+        <div class="sf-sobre__overlay"></div>
+        <img src="{% static 'img/onesynk/logo-sinfood.svg' %}" alt="Synk Food logo" class="sf-sobre__logo-overlay" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTOS ===== -->
+  <section class="sf-productos py-5" id="productos">
+    <div class="container">
+      <h2 class="sf-section-title mb-5">PRODUCTOS</h2>
+      <div class="row g-4">
+
+        <!-- Productos Dulces -->
+        <div class="col-12 col-md-4">
+          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+            <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
+              <img src="{% static 'img/onesynk/sopa1.png' %}" alt="Dulces" class="sf-prod-card__img" />
+              <div class="sf-prod-card__overlay"></div>
+              <div class="sf-prod-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="6" r="3"/><circle cx="17" cy="6" r="3"/><circle cx="8" cy="12" r="3"/><ellipse cx="12" cy="19" rx="7" ry="2"/></svg>
+              </div>
+            </div>
+            <p class="sf-prod-card__label">PRODUCTOS<br>DULCES</p>
+          </a>
+        </div>
+
+        <!-- Productos Salados — centro, más alto -->
+        <div class="col-12 col-md-4">
+          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+            <div class="sf-prod-card__wrap sf-prod-card__wrap--lg">
+              <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Salados" class="sf-prod-card__img" />
+              <div class="sf-prod-card__overlay"></div>
+              <div class="sf-prod-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a9 9 0 0 1 9 9c0 4-2.5 7.5-6 9H9c-3.5-1.5-6-5-6-9a9 9 0 0 1 9-9z"/><line x1="9" y1="2.5" x2="9" y2="5"/><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="15" y1="2.5" x2="15" y2="5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="9" y1="23" x2="15" y2="23"/></svg>
+              </div>
+            </div>
+            <p class="sf-prod-card__label">PRODUCTOS<br>SALADOS</p>
+          </a>
+        </div>
+
+        <!-- Bebidas -->
+        <div class="col-12 col-md-4">
+          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+            <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
+              <img src="{% static 'img/onesynk/sopa3.png' %}" alt="Bebidas" class="sf-prod-card__img" />
+              <div class="sf-prod-card__overlay"></div>
+              <div class="sf-prod-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              </div>
+            </div>
+            <p class="sf-prod-card__label">BEBIDAS</p>
+          </a>
+        </div>
+
+      </div>
+      <div class="text-center mt-5">
+        <a href="{% url 'shop:product_list' %}" class="sf-btn sf-btn--dark sf-btn--wide">VER TODOS LOS PRODUCTOS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECETAS ===== -->
+  <section class="sf-recetas" id="recetas">
+    <div class="sf-recetas__inner">
+      <!-- Video / imagen izquierda -->
+      <div class="sf-recetas__media">
+        <div class="sf-recetas__video-wrap">
+          <img src="{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}" alt="Recetas" class="sf-recetas__img" />
+          <button class="sf-recetas__play" aria-label="Reproducir">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Info derecha -->
+      <div class="sf-recetas__info">
+        <div class="sf-recetas__card">
+          <div class="sf-recetas__icon-row">
+            <img src="{% static 'img/onesynk/07.png' %}" alt="" class="sf-recetas__icon" />
+            <h3 class="sf-recetas__title">RECETAS</h3>
+          </div>
+          <p class="sf-recetas__subtitle">ENCUENTRA NUESTRAS<br>SALADOS A BASE DE JOPFJSNOGB -<br>NVOSDBNVCOSNCSINGVOSJNVCJ -<br>SODNCLKSDNMVLSNDKMVSIKN -<br>VOSNVLSDNVLNSLVNSDLVNSDLKN</p>
+          <a href="#" class="sf-btn sf-btn--dark sf-btn--sm">VER MÁS</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIOS ===== -->
+  <section class="sf-testimonios">
+    <div class="sf-testimonios__grid">
+
+      <div class="sf-testimonios__card">
+        <div class="sf-testimonios__avatar">
+          <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Romina G." class="sf-testimonios__avatar-img" />
+        </div>
+        <blockquote>"ME SORPRENDIÓ<br>SU SABOR,<br>ES DELICIOSO"</blockquote>
+        <p class="sf-testimonios__name">ROMINA G.</p>
+      </div>
+
+      <div class="sf-testimonios__card">
+        <div class="sf-testimonios__avatar">
+          <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Carlos F." class="sf-testimonios__avatar-img" />
+        </div>
+        <blockquote>"GRAN COMPRA,<br>LLEGÓ EN TIEMPO<br>Y FORMA"</blockquote>
+        <p class="sf-testimonios__name">CARLOS F.</p>
+      </div>
+
+      <div class="sf-testimonios__card">
+        <div class="sf-testimonios__avatar">
+          <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Rafael B." class="sf-testimonios__avatar-img" />
+        </div>
+        <blockquote>"ME GUSTÓ<br>DEMASIADO<br>SU SABOR, SE<br>AGOTÓ RÁPIDO"</blockquote>
+        <p class="sf-testimonios__name">RAFAEL B.</p>
+      </div>
+
+    </div>
+    <div class="sf-testimonios__cta">
+      <a href="{% url 'shop:form_mayorista' %}" class="sf-btn sf-btn--outline-light sf-btn--wide">CONTACTO</a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="sf-footer">
+    <div class="sf-footer__inner">
+      <div class="sf-footer__col sf-footer__col--brand">
+        <a href="{% url 'shop:home' %}" class="sf-footer__logo">
+          <img src="{% static 'img/onesynk/logo-sinfood.svg' %}" alt="Synk Food" class="sf-footer__logo-img" />
+        </a>
+        <div class="sf-footer__contact">
+          <p class="sf-footer__contact-title">CONTACTO</p>
+          <p><span class="sf-footer__contact-label">MARCA</span> 000 234 4567</p>
+          <p><span class="sf-footer__contact-label">WHATSAPP</span> 000 234 4567</p>
+        </div>
+        <div class="sf-footer__social">
+          <p class="sf-footer__social-label">SÍGUENOS EN REDES:</p>
+          <img src="{% static 'img/onesynk/11.png' %}" alt="Redes" class="sf-footer__social-img" />
+        </div>
+      </div>
+
+      <div class="sf-footer__col">
+        <h4>CATEGORÍAS</h4>
+        <ul>
+          <li>FALCON PROTEIN</li>
+          <li>FALCON PERFORMANCE</li>
+          <li>FITMINGO</li>
+          <li>CREATINA</li>
+          <li>SUPLEMENTOS WELLNESS</li>
+        </ul>
+      </div>
+
+      <div class="sf-footer__col">
+        <h4>CENTRO DE AYUDA</h4>
+        <ul>
+          <li>FALCON PROTEIN</li>
+          <li>FALCON PERFORMANCE</li>
+          <li>FITMINGO</li>
+          <li>CREATINA</li>
+          <li>SUPLEMENTOS WELLNESS</li>
+        </ul>
+      </div>
+
+      <div class="sf-footer__col">
+        <h4>NEWSLETTER</h4>
+        <ul>
+          <li>FALCON PROTEIN</li>
+          <li>FALCON PERFORMANCE</li>
+          <li>FITMINGO</li>
+          <li>CREATINA</li>
+          <li>SUPLEMENTOS WELLNESS</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sf-footer__bottom">
+      <span>© SYNK FOOD, 2026</span>
+      <span>AVISO DE PRIVACIDAD</span>
+      <span>TÉRMINOS Y CONDICIONES</span>
+    </div>
+  </footer>
+
+  <!-- ===== JS ===== -->
+  <script src="{% static 'js/interactions.js' %}"></script>
+  <script>
+    // ── Carousel ──────────────────────────────────────────
+    const slides  = document.querySelectorAll('.sf-carousel__slide');
+    const dots    = document.querySelectorAll('.sf-carousel__dot');
+    let current   = 0;
+    let autoTimer;
+
+    function goTo(idx) {
+      slides[current].classList.remove('sf-carousel__slide--active');
+      dots[current].classList.remove('sf-carousel__dot--active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('sf-carousel__slide--active');
+      dots[current].classList.add('sf-carousel__dot--active');
+    }
+
+    function startAuto() {
+      autoTimer = setInterval(() => goTo(current + 1), 4500);
+    }
+
+    function resetAuto() {
+      clearInterval(autoTimer);
+      startAuto();
+    }
+
+    document.getElementById('sfPrev').addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+    document.getElementById('sfNext').addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => { goTo(+dot.dataset.index); resetAuto(); });
+    });
+
+    // Swipe touch
+    let touchStartX = 0;
+    const carousel = document.getElementById('sfCarousel');
+    carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    carousel.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) { goTo(diff > 0 ? current + 1 : current - 1); resetAuto(); }
+    });
+
+    startAuto();
+
+    // ── Mobile nav toggle ──────────────────────────────────
+    const sfToggle   = document.getElementById('sfNavToggle');
+    const sfNavLinks = document.getElementById('sfNavLinks');
+    sfToggle.addEventListener('click', () => {
+      sfNavLinks.classList.toggle('sf-nav__links--open');
+      sfToggle.classList.toggle('sf-nav__toggle--open');
+    });
+  </script>
+</body>
+</html>

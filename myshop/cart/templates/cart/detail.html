@@ -2,202 +2,193 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}
-  {% trans "Your shopping cart" %}
+{% block title %}Tu Carrito — Synk Food{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container my-4">
-    <h1 class="mb-4">{% trans "Your shopping cart" %}</h1>
+<div class="ct-wrap">
 
-    {% if request.session.reordered_from %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        <strong>{% trans "Order reordered:" %}</strong> 
-        {% trans "Products from order" %} #{{ request.session.reordered_from }} {% trans "have been added to your cart." %}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endif %}
+  <h1 class="ct-title">TU CARRITO</h1>
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">{% trans "Image" %}</th>
-                    <th scope="col">{% trans "Product" %}</th>
-                    <th scope="col">{% trans "Quantity" %}</th>
-                    <th scope="col">{% trans "Remove" %}</th>
-                    <th scope="col" class="text-end">{% trans "Unit price" %}</th>
-                    <th scope="col" class="text-end">{% trans "Total" %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                    {% with product=item.product %}
-                    <tr>
-                        <td>
-                            <a href="{{ product.get_absolute_url }}">
-                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/corena.jpg' %}{% endif %}" 
-                                     alt="{{ product.name }}" 
-                                     class="img-fluid rounded" 
-                                     style="max-width: 80px; height: auto;">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark fw-bold">
-                                {{ product.name }}
-                            </a>
-                        </td>
-                        <td>
-                            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex align-items-center gap-2">
-                                <div class="qty-control d-flex align-items-center">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-btn qty-minus" aria-label="{% trans 'Decrease quantity' %}">
-                                        <i class="bi bi-dash"></i>
-                                    </button>
-                                    <span class="qty-display mx-2 fw-bold">{{ item.quantity }}</span>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary qty-btn qty-plus" aria-label="{% trans 'Increase quantity' %}">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                </div>
-                                {{ item.update_quantity_form.quantity }}
-                                {{ item.update_quantity_form.override }}
-                                {% csrf_token %}
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{% url 'cart:cart_remove' product.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="{% trans 'Remove product' %}">
-                                    <i class="bi bi-trash"></i> {% trans "Remove" %}
-                                </button>
-                            </form>
-                        </td>
-                        <td class="text-end">${{ item.price }}</td>
-                        <td class="text-end fw-bold">${{ item.total_price }}</td>
-                    </tr>
-                    {% endwith %}
-                {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center py-5">
-                            <p class="text-muted mb-0">{% trans "Your cart is empty." %}</p>
-                            <a href="{% url 'shop:product_list' %}" class="btn btn-primary mt-3">
-                                {% trans "Start Shopping" %}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+  {% if request.session.reordered_from %}
+  <div class="ct-alert">
+    Productos del pedido #{{ request.session.reordered_from }} agregados al carrito.
+    <button onclick="this.parentElement.remove()" class="ct-alert__close">✕</button>
+  </div>
+  {% endif %}
 
-                {% if cart.coupon %}
-                <tr class="table-info">
-                    <td colspan="4" class="text-end"><strong>{% trans "Subtotal" %}</strong></td>
-                    <td colspan="2" class="text-end">${{ cart.get_total_price|floatformat:2 }}</td>
-                </tr>
-                <tr class="text-success">
-                    <td colspan="4" class="text-end">
-                        <i class="bi bi-tag-fill"></i> "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% {% trans "off" %})
-                    </td>
-                    <td colspan="2" class="text-end fw-bold">
-                        - ${{ cart.get_discount|floatformat:2 }}
-                    </td>
-                </tr>
-                {% endif %}
-                
-                {% if cart_items %}
-                <tr class="table-group-divider">
-                    <td colspan="4" class="text-end"><h4 class="m-0">{% trans "Total" %}</h4></td>
-                    <td colspan="2" class="text-end"><h4 class="m-0">${{ cart.get_total_price_after_discount|floatformat:2 }}</h4></td>
-                </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+  {% if cart_items %}
+  <div class="ct-layout">
 
-    <div class="row mt-4 align-items-center">
-        <div class="col-md-6 mb-3 mb-md-0">
-<div class="row mt-4">
-    <div class="col-md-6">
-        <h5 class="fw-bold">{% trans "Have a coupon?" %}</h5>
-        <form action="{% url 'coupons:apply' %}" method="post" class="d-flex">
+    <!-- ── Tabla de productos ── -->
+    <div class="ct-items">
+
+      <div class="ct-items__head">
+        <span>PRODUCTO</span>
+        <span class="ct-items__head--center">CANTIDAD</span>
+        <span class="ct-items__head--right">PRECIO</span>
+        <span></span>
+      </div>
+
+      {% for item in cart_items %}
+      {% with product=item.product %}
+      <div class="ct-row">
+
+        <!-- Imagen + nombre -->
+        <div class="ct-row__product">
+          <a href="{{ product.get_absolute_url }}" class="ct-row__img-wrap">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                 alt="{{ product.name }}" class="ct-row__img">
+          </a>
+          <div class="ct-row__meta">
+            <a href="{{ product.get_absolute_url }}" class="ct-row__name">{{ product.name }}</a>
+            <span class="ct-row__cat">{{ product.category.name }}</span>
+            <span class="ct-row__unit">$\{{ item.price }} c/u</span>
+          </div>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="ct-row__qty">
+          <form action="{% url 'cart:cart_add' product.id %}" method="post" class="ct-qty-form">
             {% csrf_token %}
-            {{ coupon_apply_form.code }}
-            <button type="submit" class="btn btn-outline-primary ms-2">
-                {% trans "Apply" %}
+            <button type="button" class="ct-qty__btn qty-minus">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
+            <span class="ct-qty__num">{{ item.quantity }}</span>
+            <button type="button" class="ct-qty__btn qty-plus">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            {{ item.update_quantity_form.quantity }}
+            {{ item.update_quantity_form.override }}
+          </form>
+        </div>
+
+        <!-- Total fila -->
+        <div class="ct-row__total">${{ item.total_price }}</div>
+
+        <!-- Eliminar -->
+        <div class="ct-row__remove">
+          <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="ct-remove-btn" title="Eliminar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            </button>
+          </form>
+        </div>
+
+      </div>
+      {% endwith %}
+      {% endfor %}
+
+      <!-- Continuar comprando -->
+      <div class="ct-continue">
+        <a href="{% url 'shop:product_list' %}" class="ct-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Seguir comprando
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Resumen lateral ── -->
+    <aside class="ct-summary">
+
+      <h2 class="ct-summary__title">RESUMEN</h2>
+
+      <!-- Cupón -->
+      <div class="ct-coupon">
+        <label class="ct-coupon__label">CÓDIGO DE DESCUENTO</label>
+        <form action="{% url 'coupons:apply' %}" method="post" class="ct-coupon__form">
+          {% csrf_token %}
+          {{ coupon_apply_form.code }}
+          <button type="submit" class="ct-coupon__btn">APLICAR</button>
         </form>
-    </div>
-    
-    <div class="col-md-6 text-end">
-        <p class="mb-1 text-muted">{% trans "Subtotal" %}: ${{ cart.get_total_price|floatformat:2 }}</p>
+      </div>
+
+      <div class="ct-summary__lines">
+        <div class="ct-summary__line">
+          <span>Subtotal</span>
+          <span>${{ cart.get_total_price|floatformat:2 }}</span>
+        </div>
         {% if cart.coupon %}
-            <p class="mb-1 text-success">
-                {% trans "Discount" %} ({{ cart.coupon.code }}): -${{ cart.get_discount|floatformat:2 }}
-            </p>
+        <div class="ct-summary__line ct-summary__line--discount">
+          <span>Descuento ({{ cart.coupon.code }} {{ cart.coupon.discount }}%)</span>
+          <span>−${{ cart.get_discount|floatformat:2 }}</span>
+        </div>
         {% endif %}
-        <h3 class="fw-bold">{% trans "Total" %}: ${{ cart.get_total_price_after_discount|floatformat:2 }}</h3>
-    </div>
-</div>
+        <div class="ct-summary__line">
+          <span>Envío</span>
+          <span class="ct-summary__free">A calcular</span>
         </div>
-        <div class="col-md-6 text-md-end text-center">
-            <a href="{% url 'shop:product_list' %}" class="btn btn-secondary me-2">{% trans "Continue shopping" %}</a>
-            {% if cart_items %}
-                <a href="{% url 'orders:order_create' %}" class="btn btn-success btn-lg">
-                    {% trans "Checkout" %} <i class="bi bi-arrow-right-circle ms-1"></i>
-                </a>
-            {% endif %}
-        </div>
-    </div>
+      </div>
 
-    {% if recommended_products %}
-    <div class="recommendations mt-5">
-        <h3 class="border-bottom pb-2 mb-4">{% trans "People who bought this also bought" %}</h3>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-            {% for p in recommended_products %}
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <a href="{{ p.get_absolute_url }}">
-                        <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" 
-                          class="card-img-top p-3" alt="{{ p.name }}" style="object-fit: contain; height: 200px;">
-                    </a>
-                    <div class="card-body text-center">
-                        <h5 class="card-title fs-6">
-                            <a href="{{ p.get_absolute_url }}" class="text-decoration-none text-dark stretched-link">
-                                {{ p.name }}
-                            </a>
-                        </h5>
-                        <p class="card-text fw-bold text-primary">${{ p.price }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-</div>
-{% endblock %}
+      <div class="ct-summary__total">
+        <span>TOTAL</span>
+        <span>${{ cart.get_total_price_after_discount|floatformat:2 }}</span>
+      </div>
 
-{% block extra_css %}
-<style>
-    .qty-btn { width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-    .qty-display { min-width: 20px; text-align: center; user-select: none; }
-</style>
+      <a href="{% url 'orders:order_create' %}" class="ct-checkout-btn">
+        PAGAR AHORA
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+
+      <div class="ct-secure">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pago seguro con Stripe
+      </div>
+
+    </aside>
+  </div>
+
+  {% else %}
+  <!-- Carrito vacío -->
+  <div class="ct-empty">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <h2 class="ct-empty__title">Tu carrito está vacío</h2>
+    <p class="ct-empty__sub">Explora nuestros productos y agrega algo que te guste.</p>
+    <a href="{% url 'shop:product_list' %}" class="ct-checkout-btn ct-checkout-btn--sm">VER PRODUCTOS</a>
+  </div>
+  {% endif %}
+
+  <!-- Recomendados -->
+  {% if recommended_products %}
+  <div class="ct-recommended">
+    <h3 class="ct-recommended__title">TAMBIÉN TE PUEDE GUSTAR</h3>
+    <div class="ct-recommended__grid">
+      {% for p in recommended_products %}
+      <a href="{{ p.get_absolute_url }}" class="ct-rec-card">
+        <div class="ct-rec-card__img-wrap">
+          <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+               alt="{{ p.name }}" class="ct-rec-card__img">
+        </div>
+        <p class="ct-rec-card__name">{{ p.name }}</p>
+        <p class="ct-rec-card__price">${{ p.price }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.qty-control').forEach(function (control) {
-        var form = control.closest('form');
-        var input = form.querySelector('.quantity-input');
-        var display = control.querySelector('.qty-display');
-        var qty = parseInt(input.value) || 1;
+  document.querySelectorAll('.ct-qty-form').forEach(function (form) {
+    var input   = form.querySelector('input[name="quantity"]');
+    var display = form.querySelector('.ct-qty__num');
+    var qty     = parseInt(input ? input.value : display.textContent) || 1;
 
-        control.querySelector('.qty-minus').addEventListener('click', function () {
-            if (qty > 1) { qty--; input.value = qty; display.textContent = qty; form.submit(); }
-        });
-        control.querySelector('.qty-plus').addEventListener('click', function () {
-            if (qty < 20) { qty++; input.value = qty; display.textContent = qty; form.submit(); }
-        });
+    form.querySelector('.qty-minus').addEventListener('click', function () {
+      if (qty > 1) { qty--; display.textContent = qty; if (input) input.value = qty; form.submit(); }
     });
+    form.querySelector('.qty-plus').addEventListener('click', function () {
+      if (qty < 20) { qty++; display.textContent = qty; if (input) input.value = qty; form.submit(); }
+    });
+  });
 });
 </script>
 {% endblock %}

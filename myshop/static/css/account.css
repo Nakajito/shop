@@ -1,0 +1,607 @@
+/* ============================================================
+   ACCOUNT — Diseño coherente con Synk Food
+   Fuente: Montserrat | Paleta: #1a1a1a · #f7f7f7 · #ffffff
+   ============================================================ */
+
+/* ── Tokens globales ─────────────────────────────────────── */
+:root {
+  --sk-dark:    #1a1a1a;
+  --sk-mid:     #555555;
+  --sk-light:   #f7f7f7;
+  --sk-border:  #e8e8e8;
+  --sk-white:   #ffffff;
+  --sk-radius:  18px;
+  --sk-shadow:  0 4px 24px rgba(0,0,0,0.07);
+  --sk-font:    'Montserrat', sans-serif;
+}
+
+/* ── Override Bootstrap primary ──────────────────────────── */
+.btn-primary,
+.bg-primary { background-color: var(--sk-dark) !important; border-color: var(--sk-dark) !important; }
+.btn-primary:hover { background-color: #333 !important; border-color: #333 !important; }
+
+.btn-outline-primary { color: var(--sk-dark) !important; border-color: var(--sk-dark) !important; }
+.btn-outline-primary:hover { background-color: var(--sk-dark) !important; color: #fff !important; }
+
+.text-primary { color: var(--sk-dark) !important; }
+a.text-primary:hover { color: #444 !important; }
+
+.badge.bg-primary { background-color: var(--sk-dark) !important; }
+
+.table-dark { background-color: var(--sk-dark) !important; }
+.table-dark th { background-color: var(--sk-dark) !important; }
+
+.btn-outline-success { color: #2a2a2a !important; border-color: var(--sk-border) !important; }
+.btn-outline-success:hover { background-color: var(--sk-dark) !important; border-color: var(--sk-dark) !important; color: #fff !important; }
+
+.btn-outline-danger { color: var(--sk-mid) !important; border-color: var(--sk-border) !important; }
+.btn-outline-danger:hover { background-color: #c0392b !important; border-color: #c0392b !important; color: #fff !important; }
+
+.btn-outline-secondary { color: var(--sk-mid) !important; border-color: var(--sk-border) !important; }
+.btn-outline-secondary:hover { background-color: var(--sk-dark) !important; border-color: var(--sk-dark) !important; color: #fff !important; }
+
+/* ── Layout general de la sección account ────────────────── */
+.container.my-5 {
+  padding-top: 40px !important;
+  padding-bottom: 80px !important;
+  max-width: 1100px;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────── */
+.card.border-0.shadow-sm {
+  border-radius: var(--sk-radius) !important;
+  box-shadow: var(--sk-shadow) !important;
+  border: 1px solid var(--sk-border) !important;
+  overflow: hidden;
+}
+
+/* sidebar card header */
+.card-header.bg-white {
+  background: var(--sk-white) !important;
+  border-bottom: 1px solid var(--sk-border) !important;
+  padding: 20px 20px 16px !important;
+}
+
+.card-header.bg-white h6 {
+  font-family: var(--sk-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #999 !important;
+}
+
+/* sidebar links */
+.list-group-item {
+  font-family: var(--sk-font) !important;
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em !important;
+  color: var(--sk-mid) !important;
+  padding: 14px 20px !important;
+  border: none !important;
+  border-left: 3px solid transparent !important;
+  transition: background 0.15s, color 0.15s, border-color 0.15s !important;
+  background: transparent !important;
+}
+
+.list-group-item i { margin-right: 10px; font-size: 0.9rem; }
+
+.list-group-item:hover {
+  background: var(--sk-light) !important;
+  color: var(--sk-dark) !important;
+}
+
+.list-group-item.active {
+  background: var(--sk-light) !important;
+  color: var(--sk-dark) !important;
+  font-weight: 700 !important;
+  border-left: 3px solid var(--sk-dark) !important;
+}
+
+.card-footer.bg-white {
+  background: var(--sk-white) !important;
+  border-top: 1px solid var(--sk-border) !important;
+  padding: 16px 20px !important;
+}
+
+.card-footer .btn-link {
+  font-family: var(--sk-font) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  color: #999 !important;
+  text-decoration: none !important;
+}
+
+.card-footer .btn-link:hover { color: #c0392b !important; }
+
+/* ── Encabezados de sección ───────────────────────────────── */
+.d-flex.justify-content-between.align-items-center.mb-4.pb-2.border-bottom {
+  border-bottom: 1px solid var(--sk-border) !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 28px !important;
+}
+
+.h3.fw-bold.mb-0.text-dark,
+h2.h3 {
+  font-family: var(--sk-font) !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  color: var(--sk-dark) !important;
+  text-transform: uppercase;
+}
+
+/* ── Cards de contenido ───────────────────────────────────── */
+.card {
+  border-radius: var(--sk-radius) !important;
+  border: 1px solid var(--sk-border) !important;
+  box-shadow: var(--sk-shadow) !important;
+  overflow: hidden;
+}
+
+.card-header {
+  font-family: var(--sk-font) !important;
+  border-bottom: 1px solid var(--sk-border) !important;
+}
+
+.card-header.bg-primary {
+  background: var(--sk-dark) !important;
+  border-bottom: none !important;
+  padding: 18px 24px !important;
+}
+
+.card-header.bg-primary h4 {
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+}
+
+.card-body { padding: 28px 28px !important; }
+
+/* ── Formularios ──────────────────────────────────────────── */
+.form-label {
+  font-family: var(--sk-font) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  color: var(--sk-mid) !important;
+  text-transform: uppercase !important;
+  margin-bottom: 6px !important;
+}
+
+.form-control,
+.form-select {
+  font-family: var(--sk-font) !important;
+  font-size: 0.82rem !important;
+  border: 1px solid var(--sk-border) !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+  color: var(--sk-dark) !important;
+  background: var(--sk-white) !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--sk-dark) !important;
+  box-shadow: 0 0 0 3px rgba(26,26,26,0.08) !important;
+  outline: none !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background: var(--sk-light) !important;
+  color: #999 !important;
+}
+
+.form-text {
+  font-family: var(--sk-font) !important;
+  font-size: 0.68rem !important;
+  color: #aaa !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ── Botones generales ────────────────────────────────────── */
+.btn {
+  font-family: var(--sk-font) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  border-radius: 50px !important;
+  transition: all 0.2s !important;
+}
+
+.btn-lg { padding: 12px 40px !important; font-size: 0.78rem !important; }
+.btn-sm { padding: 7px 18px !important; font-size: 0.68rem !important; }
+
+/* ── Stats cards (profile) ────────────────────────────────── */
+.card.text-center.h-100.border-0.shadow-sm {
+  background: var(--sk-white) !important;
+  border: 1px solid var(--sk-border) !important;
+  border-radius: var(--sk-radius) !important;
+  transition: transform 0.25s, box-shadow 0.25s !important;
+}
+
+.card.text-center:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.1) !important;
+}
+
+.card-title.fw-bold {
+  font-family: var(--sk-font) !important;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  color: var(--sk-dark) !important;
+}
+
+.card-text.text-muted.small.text-uppercase {
+  font-family: var(--sk-font) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.18em !important;
+  color: #aaa !important;
+}
+
+/* Replace colored stat cards */
+.card.border-0.shadow-sm.text-center.h-100.bg-primary,
+.card.border-0.shadow-sm.text-center.h-100.bg-success,
+.card.border-0.shadow-sm.text-center.h-100.bg-info,
+.card.border-0.shadow-sm.text-center.h-100.bg-danger {
+  background: var(--sk-dark) !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.card.border-0.shadow-sm.text-center.h-100.bg-primary h4,
+.card.border-0.shadow-sm.text-center.h-100.bg-success h4,
+.card.border-0.shadow-sm.text-center.h-100.bg-info h4,
+.card.border-0.shadow-sm.text-center.h-100.bg-danger h4 {
+  font-family: var(--sk-font) !important;
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+}
+
+.card.border-0.shadow-sm.text-center.h-100.bg-primary p,
+.card.border-0.shadow-sm.text-center.h-100.bg-success p,
+.card.border-0.shadow-sm.text-center.h-100.bg-info p,
+.card.border-0.shadow-sm.text-center.h-100.bg-danger p {
+  font-size: 0.6rem !important;
+  letter-spacing: 0.16em !important;
+  opacity: 0.65;
+}
+
+/* ── Tabla de pedidos ─────────────────────────────────────── */
+.table {
+  font-family: var(--sk-font) !important;
+  font-size: 0.78rem !important;
+}
+
+.table thead th {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.16em !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  padding: 14px 16px !important;
+  border: none !important;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--sk-border) !important;
+  transition: background 0.15s !important;
+}
+
+.table tbody tr:hover { background: var(--sk-light) !important; }
+
+.table tbody td {
+  padding: 14px 16px !important;
+  vertical-align: middle !important;
+  border: none !important;
+  color: var(--sk-dark) !important;
+}
+
+.table-responsive {
+  border-radius: var(--sk-radius) !important;
+  border: 1px solid var(--sk-border) !important;
+  overflow: hidden !important;
+}
+
+/* ── Filtros / buscador ───────────────────────────────────── */
+.card-body.bg-light.rounded {
+  background: var(--sk-light) !important;
+  border-radius: 14px !important;
+  padding: 20px !important;
+}
+
+.input-group-text {
+  background: var(--sk-white) !important;
+  border: 1px solid var(--sk-border) !important;
+  color: #aaa !important;
+  border-radius: 10px 0 0 10px !important;
+}
+
+/* ── Badges ───────────────────────────────────────────────── */
+.badge {
+  font-family: var(--sk-font) !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  padding: 5px 10px !important;
+  border-radius: 50px !important;
+}
+
+.badge.bg-secondary { background: #e0e0e0 !important; color: var(--sk-dark) !important; }
+.badge.rounded-pill.bg-secondary { background: var(--sk-dark) !important; color: #fff !important; }
+
+/* Paid / Pending badges */
+.badge.bg-success-subtle { background: #e8f5e9 !important; color: #2e7d32 !important; border-color: #c8e6c9 !important; }
+.badge.bg-warning-subtle { background: #fff8e1 !important; color: #f57f17 !important; border-color: #ffe082 !important; }
+
+/* ── Address cards ────────────────────────────────────────── */
+.card.h-100.border-0.shadow-sm {
+  border: 1px solid var(--sk-border) !important;
+}
+
+.card-header.bg-success {
+  background: var(--sk-dark) !important;
+  font-family: var(--sk-font) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.12em !important;
+  border: none !important;
+  padding: 10px 20px !important;
+}
+
+.ring-default { border: 2px solid var(--sk-dark) !important; }
+
+.card-title.fw-bold.mb-0.text-primary {
+  font-family: var(--sk-font) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  color: var(--sk-dark) !important;
+}
+
+.address-details { font-size: 0.78rem !important; line-height: 1.8 !important; }
+
+/* ── Empty states ─────────────────────────────────────────── */
+.text-center.py-5 {
+  font-family: var(--sk-font) !important;
+  border-radius: var(--sk-radius) !important;
+}
+
+.text-center.py-5 h4, .text-center.py-5 h5 {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: var(--sk-dark) !important;
+}
+
+.text-center.py-5 p {
+  font-size: 0.78rem !important;
+  color: #aaa !important;
+}
+
+/* ── Danger zone ──────────────────────────────────────────── */
+.card.border-danger {
+  border-color: #e8e8e8 !important;
+  border-radius: var(--sk-radius) !important;
+}
+
+.card.border-danger .card-header {
+  background: var(--sk-white) !important;
+  border-bottom: 1px solid var(--sk-border) !important;
+}
+
+.card.border-danger h5 {
+  font-family: var(--sk-font) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ── Avatar círculo (profile) ─────────────────────────────── */
+.rounded-circle.shadow-sm {
+  border: 3px solid var(--sk-dark) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+}
+
+.bg-light.rounded-circle {
+  background: var(--sk-light) !important;
+  border: 2px solid var(--sk-border) !important;
+}
+
+/* ── Newsletter check ─────────────────────────────────────── */
+.form-check.bg-light.p-3.rounded.border {
+  background: var(--sk-light) !important;
+  border: 1px solid var(--sk-border) !important;
+  border-radius: 12px !important;
+  font-family: var(--sk-font) !important;
+  font-size: 0.76rem !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--sk-dark) !important;
+  border-color: var(--sk-dark) !important;
+}
+
+/* ── Paginación ───────────────────────────────────────────── */
+.page-link {
+  font-family: var(--sk-font) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--sk-dark) !important;
+  border: 1px solid var(--sk-border) !important;
+  border-radius: 8px !important;
+  margin: 0 2px !important;
+  padding: 7px 13px !important;
+  transition: background 0.2s !important;
+}
+
+.page-link:hover { background: var(--sk-light) !important; }
+.page-item.active .page-link { background: var(--sk-dark) !important; border-color: var(--sk-dark) !important; color: #fff !important; }
+
+/* ── Alerts ───────────────────────────────────────────────── */
+.alert {
+  font-family: var(--sk-font) !important;
+  font-size: 0.78rem !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--sk-border) !important;
+}
+
+.alert-success { background: #f0faf0 !important; color: #2e7d32 !important; }
+.alert-danger  { background: #fff0f0 !important; color: #c0392b !important; }
+.alert-info    { background: var(--sk-light) !important; color: var(--sk-dark) !important; }
+
+/* ── Modal ────────────────────────────────────────────────── */
+.modal-content {
+  border-radius: 20px !important;
+  border: 1px solid var(--sk-border) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+
+.modal-header, .modal-footer {
+  border-color: var(--sk-border) !important;
+  padding: 20px 24px !important;
+}
+
+.modal-body { padding: 20px 24px !important; }
+
+.modal-title {
+  font-family: var(--sk-font) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ── Separador ────────────────────────────────────────────── */
+hr.my-4 { border-color: var(--sk-border) !important; opacity: 1 !important; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
+
+/* Tablet (≤ 991px) */
+@media (max-width: 991px) {
+  .container.my-5 {
+    padding-top: 28px !important;
+    padding-bottom: 60px !important;
+  }
+  .card-body { padding: 22px 20px !important; }
+  .card-header.bg-primary { padding: 14px 20px !important; }
+}
+
+/* Mobile (≤ 767px) */
+@media (max-width: 767px) {
+  .container.my-5 {
+    padding-top: 16px !important;
+    padding-bottom: 48px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    max-width: 100% !important;
+  }
+
+  /* Sidebar: horizontal pill nav */
+  .sk-sidebar {
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+  }
+  .sk-sidebar .card-header { display: none; }
+  .sk-sidebar .card-footer { display: none; }
+  .sk-sidebar .list-group-flush {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 4px;
+    padding: 10px 8px;
+  }
+  .sk-sidebar .list-group-flush::-webkit-scrollbar { display: none; }
+  .sk-sidebar .list-group-item {
+    flex-shrink: 0 !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 9px 18px !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap;
+    background: var(--sk-light) !important;
+    color: var(--sk-mid) !important;
+  }
+  .sk-sidebar .list-group-item svg { display: none; }
+  .sk-sidebar .list-group-item.active {
+    background: var(--sk-dark) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+  }
+  .sk-sidebar .list-group-item:hover {
+    background: #e0e0e0 !important;
+  }
+  .sk-sidebar .list-group-item.active:hover {
+    background: var(--sk-dark) !important;
+  }
+
+  /* Cards */
+  .card-body { padding: 16px !important; }
+  .card-header.bg-primary { padding: 12px 16px !important; }
+  .card-header.bg-primary h4 { font-size: 0.78rem !important; }
+
+  /* Foto de perfil */
+  .border-end-md { border-right: none !important; border-bottom: 1px solid var(--sk-border) !important; padding-bottom: 24px !important; margin-bottom: 20px !important; }
+
+  /* Formularios */
+  .form-label { margin-bottom: 4px !important; letter-spacing: 0.08em !important; }
+  .form-control, .form-select {
+    padding: 12px 14px !important;
+    font-size: 0.84rem !important;
+    border-radius: 12px !important;
+  }
+  .form-check.bg-light.p-3.rounded.border { padding: 12px !important; }
+
+  /* Botón guardar: ancho completo */
+  .d-grid.gap-2.d-md-flex { display: flex !important; flex-direction: column !important; }
+  .btn-lg {
+    width: 100% !important;
+    padding: 14px 20px !important;
+    font-size: 0.78rem !important;
+    border-radius: 14px !important;
+  }
+
+  /* Stats cards: 2 columnas */
+  .row.g-3 > .col-md-3 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;
+  }
+  .card.text-center .card-body { padding: 18px 10px !important; }
+  .card-title.fw-bold { font-size: 1.5rem !important; }
+  .card-text.text-muted.small.text-uppercase { font-size: 0.58rem !important; }
+  .btn-sm { padding: 7px 14px !important; font-size: 0.64rem !important; }
+
+  /* Tabla */
+  .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px !important;
+  }
+  .table { min-width: 480px; font-size: 0.74rem !important; }
+  .table thead th { padding: 10px 12px !important; font-size: 0.58rem !important; }
+  .table tbody td { padding: 10px 12px !important; }
+
+  /* Modal */
+  .modal-header, .modal-footer { padding: 16px !important; }
+  .modal-body { padding: 16px !important; }
+}
+
+/* Teléfonos pequeños (≤ 480px) */
+@media (max-width: 480px) {
+  .container.my-5 {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .card-body { padding: 14px !important; }
+  /* Stats: 1 columna en pantallas muy pequeñas */
+  .row.g-3 > .col-md-3 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .address-details { font-size: 0.74rem !important; }
+  .badge { font-size: 0.58rem !important; }
+}

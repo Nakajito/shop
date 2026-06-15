@@ -10,6 +10,14 @@ from django.views.decorators.vary import vary_on_cookie
 
 from cart.forms import CartAddProductForm
 
+
+def home(request):
+    return render(request, "shop/home.html")
+
+
+def synkfood(request):
+    return render(request, "shop/synkfood.html")
+
 from .models import Category, Product
 from .recommender import Recommender
 

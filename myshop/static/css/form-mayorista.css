@@ -18,6 +18,8 @@ body {
 /* ============================================
    NAVBAR
    ============================================ */
+.sf-nav { border-bottom: none !important; }
+
 .navbar-mayorista {
     display: flex;
     align-items: center;

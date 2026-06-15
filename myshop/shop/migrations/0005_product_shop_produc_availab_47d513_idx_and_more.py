@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="product",
             constraint=models.CheckConstraint(
-                check=models.Q(("price__gte", 0)), name="product_price_non_negative"
+                condition=models.Q(("price__gte", 0)), name="product_price_non_negative"
             ),
         ),
     ]

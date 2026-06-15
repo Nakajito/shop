@@ -17,8 +17,12 @@ Namespace:
 app_name = "shop"
 
 urlpatterns = [
+    # Landing page
+    path("", views.home, name="home"),
+    # Synk Food landing page
+    path("synkfood/", views.synkfood, name="synkfood"),
     # Catalog Index: Displays all available products.
-    path("", views.product_list, name="product_list"),
+    path("products/", views.product_list, name="product_list"),
     # Category Filter: Displays products belonging to a specific category.
     # Note: Placed before detail view to avoid slug collisions.
     path(
