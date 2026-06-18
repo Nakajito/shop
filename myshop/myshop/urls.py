@@ -24,7 +24,8 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 from payment import webhooks as payment_webhooks
 
@@ -53,4 +54,13 @@ urlpatterns += i18n_patterns(
     prefix_default_language=True,
 )
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += [
+        re_path(
+            r"^%s(?P<path>.*)$" % re.escape(settings.MEDIA_URL.lstrip("/")),
+            serve,
+            kwargs={"document_root": settings.MEDIA_ROOT},
+        ),
+    ]
