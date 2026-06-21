@@ -12,6 +12,9 @@ class Category(models.Model):
 
     name = models.CharField(_("name"), max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    image = models.ImageField(
+        _("image"), upload_to="categories/%Y/%m/%d", blank=True, null=True
+    )
 
     class Meta:
         ordering = ["name"]
@@ -81,3 +84,30 @@ class Product(models.Model):
         Return the canonical URL for the product detail view.
         """
         return reverse("shop:product_detail", args=[self.id, self.slug])
+
+
+class ProductImage(models.Model):
+    """
+    Additional image for a product, used to build the detail page carousel.
+    """
+
+    product = models.ForeignKey(
+        Product,
+        related_name="images",
+        on_delete=models.CASCADE,
+        verbose_name=_("product"),
+    )
+    image = models.ImageField(_("image"), upload_to="products/%Y/%m/%d")
+    alt_text = models.CharField(_("alt text"), max_length=200, blank=True)
+    order = models.PositiveIntegerField(_("order"), default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = _("product image")
+        verbose_name_plural = _("product images")
+        indexes = [
+            models.Index(fields=["product", "order"]),
+        ]
+
+    def __str__(self):
+        return f"{self.product.name} ({self.pk})"

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -21,6 +22,7 @@ def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     form = CartAddProductForm(request.POST)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
 
     if form.is_valid():
         cd = form.cleaned_data
@@ -29,8 +31,21 @@ def cart_add(request, product_id):
             quantity=cd["quantity"],
             override_quantity=cd["override"],
         )
+        if is_ajax:
+            return JsonResponse(
+                {
+                    "ok": True,
+                    "cart_len": len(cart),
+                    "product_name": product.name,
+                }
+            )
         messages.success(request, "Product added to cart.")
     else:
+        if is_ajax:
+            return JsonResponse(
+                {"ok": False, "error": "Error adding product to cart."},
+                status=400,
+            )
         messages.error(request, "Error adding product to cart.")
 
     return redirect("cart:cart_detail")

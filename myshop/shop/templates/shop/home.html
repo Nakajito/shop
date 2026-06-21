@@ -1,242 +1,307 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ONE SYNK — Empresa multimarca de productos coreanos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'css/onesynk.css' %}" />
-</head>
-<body>
-
-  <!-- ===== NAVBAR ===== -->
-  <nav class="os-nav" id="osNav">
-    <div class="os-nav__inner">
-      <a href="{% url 'shop:home' %}" class="os-nav__logo">
-        <img src="{% static 'img/onesynk/LOGO.png' %}" alt="One Synk" class="os-nav__logo-img" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ONE SYNK — Empresa multimarca de productos coreanos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/onesynk.css' %}" />
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="os-nav" id="osNav">
+      <div class="os-nav__inner">
+        <a href="{% url 'shop:home' %}" class="os-nav__logo">
+          <img src="{% static 'img/onesynk/LOGO.png' %}"
+               alt="One Synk"
+               class="os-nav__logo-img" />
+        </a>
+        <button class="os-nav__toggle" id="navToggle" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="os-nav__links" id="navLinks">
+          <li>
+            <a href="#nosotros">NOSOTROS</a>
+          </li>
+          <li>
+            <a href="#marcas">MARCAS</a>
+          </li>
+          <li>
+            <a href="#contacto">CONTACTO</a>
+          </li>
+        </ul>
+        <div class="os-nav__lang">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="30"
+               height="30"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="1.5"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+        </div>
+      </div>
+    </nav>
+    <!-- ===== HERO ===== -->
+    <section class="os-hero" id="inicio">
+      <div class="os-hero__bg"
+           style="background-image: url('{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}')"></div>
+      <div class="os-hero__overlay"></div>
+      <div class="os-hero__content">
+        <h1 class="os-hero__title">ONE SYNK</h1>
+        <p class="os-hero__subtitle">
+          Empresa multimarca de
+          <br>
+          productos coreanos de calidad
+        </p>
+        <a href="#nosotros" class="os-btn os-btn--outline">CONOCE MÁS</a>
+      </div>
+      <a href="#cita" class="os-hero__scroll" aria-label="Scroll">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="28"
+             height="28"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
       </a>
-      <button class="os-nav__toggle" id="navToggle" aria-label="Menú">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="os-nav__links" id="navLinks">
-        <li><a href="#nosotros">NOSOTROS</a></li>
-        <li><a href="#marcas">MARCAS</a></li>
-        <li><a href="#novedades">NOVEDADES</a></li>
-        <li><a href="#contacto">CONTACTO</a></li>
-      </ul>
-      <div class="os-nav__lang">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </section>
+    <!-- ===== CITA ===== -->
+    <section class="os-quote" id="cita">
+      <div class="os-quote__bg"
+           style="background-image: url('{% static 'img/onesynk/SEGUNDA-01.png' %}')"></div>
+      <div class="os-quote__content">
+        <img src="{% static 'img/onesynk/01.png' %}"
+             alt=""
+             class="os-quote__mark-img" />
+        <p class="os-quote__text">
+          <strong>One Synk</strong> es una empresa
+          <br>
+          multimarcas especializada en la
+          <br>
+          <strong>importación y comercialización</strong> de
+          <br>
+          productos coreanos, enfocados en
+          <br>
+          <strong>calidad, innovación y tendencias globales</strong>
+        </p>
       </div>
-    </div>
-  </nav>
-
-  <!-- ===== HERO ===== -->
-  <section class="os-hero" id="inicio">
-    <div class="os-hero__bg" style="background-image: url('{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}');"></div>
-    <div class="os-hero__overlay"></div>
-    <div class="os-hero__content">
-      <h1 class="os-hero__title">ONE SYNK</h1>
-      <p class="os-hero__subtitle">Empresa multimarca de<br>productos coreanos de calidad</p>
-      <a href="#nosotros" class="os-btn os-btn--outline">CONOCE MÁS</a>
-    </div>
-    <a href="#cita" class="os-hero__scroll" aria-label="Scroll">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </a>
-  </section>
-
-  <!-- ===== CITA ===== -->
-  <section class="os-quote" id="cita">
-    <div class="os-quote__bg" style="background-image: url('{% static 'img/onesynk/SEGUNDA-01.png' %}');"></div>
-    <div class="os-quote__content">
-      <img src="{% static 'img/onesynk/01.png' %}" alt="" class="os-quote__mark-img" />
-      <p class="os-quote__text">
-        <strong>One Synk</strong> es una empresa<br>
-        multimarcas especializada en la<br>
-        <strong>importación y comercialización</strong> de<br>
-        productos coreanos, enfocados en<br>
-        <strong>calidad, innovación y tendencias globales</strong>
+    </section>
+    <!-- ===== NUESTRAS MARCAS ===== -->
+    <section class="os-marcas" id="marcas">
+      <h2 class="os-section-title">NUESTRAS MARCAS</h2>
+      <div class="os-marcas__grid">
+        <div class="os-marcas__card">
+          <div class="os-marcas__visual">
+            <img src="{% static 'img/onesynk/FOODSYNK.png' %}"
+                 alt="Synk Food"
+                 class="os-marcas__img" />
+            <div class="os-marcas__badge os-marcas__badge--food">
+              <span>SYNK</span>
+              <span>FO<em>O</em>D</span>
+            </div>
+          </div>
+          <p class="os-marcas__desc">
+            Productos alimenticios
+            <br>
+            alineados a experiencias
+          </p>
+          <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">COMPRAR</a>
+        </div>
+        <div class="os-marcas__card">
+          <div class="os-marcas__visual">
+            <img src="{% static 'img/onesynk/SYNKBEAUTY.png' %}"
+                 alt="Synk Beauty"
+                 class="os-marcas__img" />
+            <div class="os-marcas__badge os-marcas__badge--beauty">
+              <span>SYNK</span>
+              <span>BEAUTY</span>
+            </div>
+          </div>
+          <p class="os-marcas__desc">
+            Belleza y cuidado
+            <br>
+            personal de calidad
+          </p>
+          <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">COMPRAR</a>
+        </div>
+      </div>
+    </section>
+    <!-- ===== SOBRE NOSOTROS ===== -->
+    <section class="os-nosotros" id="nosotros">
+      <div class="os-nosotros__bg"
+           style="background-image: url('{% static 'img/onesynk/TERCERA.png' %}')"></div>
+      <div class="os-nosotros__overlay"></div>
+      <div class="os-nosotros__content">
+        <div class="os-nosotros__text-block">
+          <h2 class="os-nosotros__title">
+            SOBRE
+            <br>
+            NOSOTROS
+          </h2>
+          <p>One Synk nace con la idea de crear un punto único de conexión entre Corea y nuevos mercados.</p>
+          <p>
+            One representa el origen y lo esencial, mientras que Synk simboliza la sincronización entre cultura, innovación y consumo.
+          </p>
+          <p>
+            Somos una empresa dedicada a la importación y comercialización de productos coreanos, estructurada a través de marcas especializadas que comparten una misma visión de calidad y desarrollo.
+          </p>
+          <p>
+            A través de Synk Foods y Synk Beauty, transformamos tendencias coreanas en propuestas auténticas, accesibles y alineadas al mercado actual.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- ===== FILOSOFÍA ===== -->
+    <section class="os-filosofia">
+      <div class="os-filosofia__wheel">
+        <!-- Líneas cruzadas -->
+        <div class="os-filosofia__line os-filosofia__line--h"></div>
+        <div class="os-filosofia__line os-filosofia__line--v"></div>
+        <!-- Esquina superior izquierda: Misión -->
+        <div class="os-filosofia__item os-filosofia__item--tl">
+          <img src="{% static 'img/onesynk/07.png' %}" alt="Misión" />
+          <span>MISIÓN</span>
+        </div>
+        <!-- Esquina superior derecha: Visión -->
+        <div class="os-filosofia__item os-filosofia__item--tr">
+          <img src="{% static 'img/onesynk/06.png' %}" alt="Visión" />
+          <span>VISIÓN</span>
+        </div>
+        <!-- Centro: logo -->
+        <div class="os-filosofia__center">
+          <img src="{% static 'img/onesynk/LOGO.png' %}"
+               alt="One Synk"
+               class="os-filosofia__logo-img" />
+        </div>
+        <!-- Esquina inferior izquierda: Filosofía -->
+        <div class="os-filosofia__item os-filosofia__item--bl">
+          <img src="{% static 'img/onesynk/04.png' %}" alt="Filosofía" />
+          <span>FILOSOFÍA</span>
+        </div>
+        <!-- Esquina inferior derecha: Valores -->
+        <div class="os-filosofia__item os-filosofia__item--br">
+          <img src="{% static 'img/onesynk/05.png' %}" alt="Valores" />
+          <span>VALORES</span>
+        </div>
+      </div>
+    </section>
+    <!-- ===== MAYORISTAS & MINORISTAS ===== -->
+    <section class="os-canales" id="mayoristas">
+      <div class="os-canales__grid">
+        <div class="os-canales__card">
+          <div class="os-canales__icon-wrap">
+            <img src="{% static 'img/onesynk/08.png' %}"
+                 alt="Mayorista"
+                 class="os-canales__icon" />
+          </div>
+          <h3>MAYORISTA</h3>
+          <p>
+            One Synk se especializa en la comercialización mayorista y distribución de productos coreanos, ofreciendo soluciones confiables para empresas y socios comerciales.
+          </p>
+        </div>
+        <div class="os-canales__card">
+          <div class="os-canales__icon-wrap">
+            <img src="{% static 'img/onesynk/09.png' %}"
+                 alt="Minoristas"
+                 class="os-canales__icon" />
+          </div>
+          <h3>MINORISTAS</h3>
+          <p>
+            One Synk se especializa en la comercialización minorista de productos coreanos, ofreciendo soluciones retail enfocadas en calidad, innovación y experiencia de consumo.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- ===== CONTACTO ===== -->
+    <section class="os-contacto" id="contacto">
+      <h2 class="os-section-title">CONTACTO</h2>
+      <p class="os-contacto__subtitle">
+        Ponte en contacto con One Synk y descubre oportunidades comerciales dentro de nuestro ecosistema multimarcas de productos coreanos.
       </p>
-    </div>
-  </section>
-
-  <!-- ===== NUESTRAS MARCAS ===== -->
-  <section class="os-marcas" id="marcas">
-    <h2 class="os-section-title">NUESTRAS MARCAS</h2>
-    <div class="os-marcas__grid">
-
-      <div class="os-marcas__card">
-        <div class="os-marcas__visual">
-          <img src="{% static 'img/onesynk/FOODSYNK.png' %}" alt="Synk Food" class="os-marcas__img" />
-          <div class="os-marcas__badge os-marcas__badge--food">
-            <span>SYNK</span>
-            <span>FO<em>O</em>D</span>
+      <div class="os-contacto__email-row">
+        <img src="{% static 'img/onesynk/10.png' %}"
+             alt="Email"
+             class="os-contacto__email-icon" />
+        <a href="mailto:hello@onesynk.com" class="os-contacto__email-link">hello@onesynk.com</a>
+      </div>
+    </section>
+    <!-- ===== FOOTER ===== -->
+    <footer class="os-footer">
+      <div class="os-footer__inner">
+        <div class="os-footer__col os-footer__col--brand">
+          <div class="os-footer__logo">
+            <a href="{% url 'shop:home' %}">
+              <img src="{% static 'img/onesynk/LOGO.png' %}"
+                   alt="One Synk"
+                   class="os-footer__logo-img" />
+            </a>
+          </div>
+          <div class="os-footer__contact-info">
+            <p>
+              <strong>CONTACTO</strong>
+            </p>
+            <p>MARCA &nbsp; 000 234 4567</p>
+            <p>WHATSAPP &nbsp; 000 234 4567</p>
+          </div>
+          <div class="os-footer__social">
+            <p class="os-footer__social-label">SÍGUENOS EN REDES:</p>
+            <img src="{% static 'img/onesynk/11.png' %}"
+                 alt="Redes sociales"
+                 class="os-footer__social-img" />
           </div>
         </div>
-        <p class="os-marcas__desc">Productos alimenticios<br>alineados a experiencias</p>
-        <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">COMPRAR</a>
-      </div>
-
-      <div class="os-marcas__card">
-        <div class="os-marcas__visual">
-          <img src="{% static 'img/onesynk/SYNKBEAUTY.png' %}" alt="Synk Beauty" class="os-marcas__img" />
-          <div class="os-marcas__badge os-marcas__badge--beauty">
-            <span>SYNK</span>
-            <span>BEAUTY</span>
-          </div>
+        <div class="os-footer__col">
+          <h4>CATEGORÍAS</h4>
+          <ul>
+            <li>FALCON PROTEIN</li>
+            <li>FALCON PERFORMANCE</li>
+            <li>FITMINGO</li>
+            <li>CREATINA</li>
+            <li>SUPLEMENTOS WELLNESS</li>
+          </ul>
         </div>
-        <p class="os-marcas__desc">Belleza y cuidado<br>personal de calidad</p>
-        <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">COMPRAR</a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ===== SOBRE NOSOTROS ===== -->
-  <section class="os-nosotros" id="nosotros">
-    <div class="os-nosotros__bg" style="background-image: url('{% static 'img/onesynk/TERCERA.png' %}');"></div>
-    <div class="os-nosotros__overlay"></div>
-    <div class="os-nosotros__content">
-      <div class="os-nosotros__text-block">
-        <h2 class="os-nosotros__title">SOBRE<br>NOSOTROS</h2>
-        <p>One Synk nace con la idea de crear un punto único de conexión entre Corea y nuevos mercados.</p>
-        <p>One representa el origen y lo esencial, mientras que Synk simboliza la sincronización entre cultura, innovación y consumo.</p>
-        <p>Somos una empresa dedicada a la importación y comercialización de productos coreanos, estructurada a través de marcas especializadas que comparten una misma visión de calidad y desarrollo.</p>
-        <p>A través de Synk Foods y Synk Beauty, transformamos tendencias coreanas en propuestas auténticas, accesibles y alineadas al mercado actual.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FILOSOFÍA ===== -->
-  <section class="os-filosofia">
-    <div class="os-filosofia__wheel">
-      <!-- Líneas cruzadas -->
-      <div class="os-filosofia__line os-filosofia__line--h"></div>
-      <div class="os-filosofia__line os-filosofia__line--v"></div>
-
-      <!-- Esquina superior izquierda: Misión -->
-      <div class="os-filosofia__item os-filosofia__item--tl">
-        <img src="{% static 'img/onesynk/07.png' %}" alt="Misión" />
-        <span>MISIÓN</span>
-      </div>
-      <!-- Esquina superior derecha: Visión -->
-      <div class="os-filosofia__item os-filosofia__item--tr">
-        <img src="{% static 'img/onesynk/06.png' %}" alt="Visión" />
-        <span>VISIÓN</span>
-      </div>
-      <!-- Centro: logo -->
-      <div class="os-filosofia__center">
-        <img src="{% static 'img/onesynk/LOGO.png' %}" alt="One Synk" class="os-filosofia__logo-img" />
-      </div>
-      <!-- Esquina inferior izquierda: Filosofía -->
-      <div class="os-filosofia__item os-filosofia__item--bl">
-        <img src="{% static 'img/onesynk/04.png' %}" alt="Filosofía" />
-        <span>FILOSOFÍA</span>
-      </div>
-      <!-- Esquina inferior derecha: Valores -->
-      <div class="os-filosofia__item os-filosofia__item--br">
-        <img src="{% static 'img/onesynk/05.png' %}" alt="Valores" />
-        <span>VALORES</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== MAYORISTAS & MINORISTAS ===== -->
-  <section class="os-canales" id="mayoristas">
-    <div class="os-canales__grid">
-      <div class="os-canales__card">
-        <div class="os-canales__icon-wrap">
-          <img src="{% static 'img/onesynk/08.png' %}" alt="Mayorista" class="os-canales__icon" />
+        <div class="os-footer__col">
+          <h4>CENTRO DE AYUDA</h4>
+          <ul>
+            <li>FALCON PROTEIN</li>
+            <li>FALCON PERFORMANCE</li>
+            <li>FITMINGO</li>
+            <li>CREATINA</li>
+            <li>SUPLEMENTOS WELLNESS</li>
+          </ul>
         </div>
-        <h3>MAYORISTA</h3>
-        <p>One Synk se especializa en la comercialización mayorista y distribución de productos coreanos, ofreciendo soluciones confiables para empresas y socios comerciales.</p>
-      </div>
-      <div class="os-canales__card">
-        <div class="os-canales__icon-wrap">
-          <img src="{% static 'img/onesynk/09.png' %}" alt="Minoristas" class="os-canales__icon" />
-        </div>
-        <h3>MINORISTAS</h3>
-        <p>One Synk se especializa en la comercialización minorista de productos coreanos, ofreciendo soluciones retail enfocadas en calidad, innovación y experiencia de consumo.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CONTACTO ===== -->
-  <section class="os-contacto" id="contacto">
-    <h2 class="os-section-title">CONTACTO</h2>
-    <p class="os-contacto__subtitle">Ponte en contacto con One Synk y descubre oportunidades comerciales dentro de nuestro ecosistema multimarcas de productos coreanos.</p>
-    <div class="os-contacto__email-row">
-      <img src="{% static 'img/onesynk/10.png' %}" alt="Email" class="os-contacto__email-icon" />
-      <a href="mailto:hello@onesynk.com" class="os-contacto__email-link">hello@onesynk.com</a>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="os-footer">
-    <div class="os-footer__inner">
-      <div class="os-footer__col os-footer__col--brand">
-        <div class="os-footer__logo">
-          <a href="{% url 'shop:home' %}">
-            <img src="{% static 'img/onesynk/LOGO.png' %}" alt="One Synk" class="os-footer__logo-img" />
-          </a>
-        </div>
-        <div class="os-footer__contact-info">
-          <p><strong>CONTACTO</strong></p>
-          <p>MARCA &nbsp; 000 234 4567</p>
-          <p>WHATSAPP &nbsp; 000 234 4567</p>
-        </div>
-        <div class="os-footer__social">
-          <p class="os-footer__social-label">SÍGUENOS EN REDES:</p>
-          <img src="{% static 'img/onesynk/11.png' %}" alt="Redes sociales" class="os-footer__social-img" />
+        <div class="os-footer__col">
+          <h4>NEWSLETTER</h4>
+          <ul>
+            <li>FALCON PROTEIN</li>
+            <li>FALCON PERFORMANCE</li>
+            <li>FITMINGO</li>
+            <li>CREATINA</li>
+            <li>SUPLEMENTOS WELLNESS</li>
+          </ul>
         </div>
       </div>
-
-      <div class="os-footer__col">
-        <h4>CATEGORÍAS</h4>
-        <ul>
-          <li>FALCON PROTEIN</li>
-          <li>FALCON PERFORMANCE</li>
-          <li>FITMINGO</li>
-          <li>CREATINA</li>
-          <li>SUPLEMENTOS WELLNESS</li>
-        </ul>
+      <div class="os-footer__bottom">
+        <span>© SYNK FOOD, 2026</span>
+        <span>AVISO DE PRIVACIDAD</span>
+        <span>TÉRMINOS Y CONDICIONES</span>
       </div>
-
-      <div class="os-footer__col">
-        <h4>CENTRO DE AYUDA</h4>
-        <ul>
-          <li>FALCON PROTEIN</li>
-          <li>FALCON PERFORMANCE</li>
-          <li>FITMINGO</li>
-          <li>CREATINA</li>
-          <li>SUPLEMENTOS WELLNESS</li>
-        </ul>
-      </div>
-
-      <div class="os-footer__col">
-        <h4>NEWSLETTER</h4>
-        <ul>
-          <li>FALCON PROTEIN</li>
-          <li>FALCON PERFORMANCE</li>
-          <li>FITMINGO</li>
-          <li>CREATINA</li>
-          <li>SUPLEMENTOS WELLNESS</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="os-footer__bottom">
-      <span>© SYNK FOOD, 2026</span>
-      <span>AVISO DE PRIVACIDAD</span>
-      <span>TÉRMINOS Y CONDICIONES</span>
-    </div>
-  </footer>
-
-  <!-- ===== JS: Navbar scroll + mobile toggle + carrusel ===== -->
-  <script>
+    </footer>
+    <!-- ===== JS: Navbar scroll + mobile toggle + carrusel ===== -->
+    <script>
     // Navbar scroll effect
     const nav = document.getElementById('osNav');
     window.addEventListener('scroll', () => {
@@ -282,6 +347,6 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.os-animate').forEach(el => observer.observe(el));
-  </script>
-</body>
+    </script>
+  </body>
 </html>

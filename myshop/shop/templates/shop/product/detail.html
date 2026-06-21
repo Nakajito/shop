@@ -33,20 +33,17 @@
                  alt="{{ product.name }}" class="pd-carousel__img">
           </div>
 
-          {% if product.image2 %}
+          {% for img in product.images.all %}
           <div class="carousel-item pd-carousel__slide">
-            <img src="{{ product.image2.url }}" alt="{{ product.name }}" class="pd-carousel__img">
+            <img src="{{ img.image.url }}"
+                 alt="{% if img.alt_text %}{{ img.alt_text }}{% else %}{{ product.name }}{% endif %}"
+                 class="pd-carousel__img">
           </div>
-          {% endif %}
-
-          {% if product.image3 %}
-          <div class="carousel-item pd-carousel__slide">
-            <img src="{{ product.image3.url }}" alt="{{ product.name }}" class="pd-carousel__img">
-          </div>
-          {% endif %}
+          {% endfor %}
 
         </div>
 
+        {% if product.images.all %}
         <!-- Flechas -->
         <button class="pd-carousel__arrow pd-carousel__arrow--prev"
                 type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
@@ -64,11 +61,11 @@
         </button>
 
         <!-- Dots -->
-        {% if product.image2 or product.image3 %}
         <div class="pd-carousel__dots carousel-indicators">
           <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
-          {% if product.image2 %}<button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>{% endif %}
-          {% if product.image3 %}<button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>{% endif %}
+          {% for img in product.images.all %}
+          <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="{{ forloop.counter }}"></button>
+          {% endfor %}
         </div>
         {% endif %}
       </div>

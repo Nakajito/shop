@@ -118,7 +118,7 @@ html.sk-loaded { opacity: 1; }
   flex-shrink: 0;
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; font-size: 16px; }
 
 body {
   font-family: 'Montserrat', sans-serif;
@@ -899,6 +899,17 @@ em { font-style: normal; }
   color: #1a1a1a;
   line-height: 1.5;
   margin-top: 18px;
+}
+
+/* ============================================================
+   RECETARIO (BLOG) — reutiliza estilos de .sf-prod-card
+   ============================================================ */
+.sf-recetario { background: #ffffff; }
+
+.sf-recetario__empty {
+  font-size: 1rem;
+  color: #777;
+  letter-spacing: 0.05em;
 }
 
 /* ============================================================

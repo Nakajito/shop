@@ -50,23 +50,45 @@
     <div class="row row-cols-2 row-cols-md-4 g-4">
       {% for product in group.list %}
       <div class="col">
-        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
-          <div class="prod-card">
-            <div class="prod-img-wrapper">
+        <div class="prod-card">
+          <div class="prod-img-wrapper">
+            <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-card__link">
               <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
                    alt="{{ product.name }}"
                    class="prod-img">
               <div class="prod-overlay">
                 <span class="prod-overlay-label">Ver producto</span>
               </div>
-            </div>
-            <div class="prod-info mt-2">
+            </a>
+            <button type="button"
+                    class="prod-fav-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
+                    data-url="{% url 'shop:toggle_favorite' product.id %}"
+                    data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
+                    aria-label="Agregar a favoritos">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                   fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                   class="prod-fav-icon">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="prod-info mt-2">
+            <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-info__link">
               <p class="prod-name">{{ product.name }}</p>
               {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
               <p class="prod-price">${{ product.price }}</p>
-            </div>
+            </a>
+            <button type="button"
+                    class="prod-add-btn js-add-cart-btn"
+                    data-url="{% url 'cart:cart_add' product.id %}"
+                    data-product-name="{{ product.name }}"
+                    aria-label="Agregar al carrito">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span class="prod-add-btn__label">Agregar</span>
+            </button>
           </div>
-        </a>
+        </div>
       </div>
       {% endfor %}
     </div>

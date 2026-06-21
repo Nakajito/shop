@@ -26,7 +26,7 @@
       <!-- Links centrados -->
       <ul class="sf-nav__links" id="sfNavLinks">
         <li><a href="#productos" class="sf-nav__link sf-nav__link--active">PRODUCTOS</a></li>
-        <li><a href="#recetas" class="sf-nav__link">RECETARIO</a></li>
+        <li><a href="{% url 'blog:post_list' %}" class="sf-nav__link">RECETARIO</a></li>
         <li><a href="{% url 'shop:form_mayorista' %}" class="sf-nav__link">MAYORISTAS</a></li>
       </ul>
 
@@ -138,53 +138,66 @@
   <section class="sf-productos py-5" id="productos">
     <div class="container">
       <h2 class="sf-section-title mb-5">PRODUCTOS</h2>
-      <div class="row g-4">
+      <div class="row g-4 justify-content-center">
 
-        <!-- Productos Dulces -->
+        {% for cat in categories %}
         <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+          <a href="{{ cat.get_absolute_url }}" class="sf-prod-card">
             <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
-              <img src="{% static 'img/onesynk/sopa1.png' %}" alt="Dulces" class="sf-prod-card__img" />
+              {% if cat.image %}
+              <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="sf-prod-card__img" />
+              {% else %}
+              <img src="{% static 'img/onesynk/sopa1.png' %}" alt="{{ cat.name }}" class="sf-prod-card__img" />
+              {% endif %}
               <div class="sf-prod-card__overlay"></div>
               <div class="sf-prod-card__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="6" r="3"/><circle cx="17" cy="6" r="3"/><circle cx="8" cy="12" r="3"/><ellipse cx="12" cy="19" rx="7" ry="2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
               </div>
             </div>
-            <p class="sf-prod-card__label">PRODUCTOS<br>DULCES</p>
+            <p class="sf-prod-card__label">{{ cat.name }}</p>
           </a>
         </div>
-
-        <!-- Productos Salados — centro, más alto -->
-        <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
-            <div class="sf-prod-card__wrap sf-prod-card__wrap--lg">
-              <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Salados" class="sf-prod-card__img" />
-              <div class="sf-prod-card__overlay"></div>
-              <div class="sf-prod-card__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a9 9 0 0 1 9 9c0 4-2.5 7.5-6 9H9c-3.5-1.5-6-5-6-9a9 9 0 0 1 9-9z"/><line x1="9" y1="2.5" x2="9" y2="5"/><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="15" y1="2.5" x2="15" y2="5"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="9" y1="23" x2="15" y2="23"/></svg>
-              </div>
-            </div>
-            <p class="sf-prod-card__label">PRODUCTOS<br>SALADOS</p>
-          </a>
-        </div>
-
-        <!-- Bebidas -->
-        <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
-            <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
-              <img src="{% static 'img/onesynk/sopa3.png' %}" alt="Bebidas" class="sf-prod-card__img" />
-              <div class="sf-prod-card__overlay"></div>
-              <div class="sf-prod-card__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-              </div>
-            </div>
-            <p class="sf-prod-card__label">BEBIDAS</p>
-          </a>
-        </div>
+        {% endfor %}
 
       </div>
       <div class="text-center mt-5">
         <a href="{% url 'shop:product_list' %}" class="sf-btn sf-btn--dark sf-btn--wide">VER TODOS LOS PRODUCTOS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RECETARIO (BLOG) ===== -->
+  <section class="sf-recetario py-5" id="recetario">
+    <div class="container">
+      <h2 class="sf-section-title mb-5">RECETARIO</h2>
+      <div class="row g-4 justify-content-center">
+
+        {% for post in posts %}
+        <div class="col-12 col-md-4">
+          <a href="{{ post.get_absolute_url }}" class="sf-prod-card">
+            <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
+              {% if post.cover_image %}
+              <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="sf-prod-card__img" />
+              {% else %}
+              <img src="{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}" alt="{{ post.title }}" class="sf-prod-card__img" />
+              {% endif %}
+              <div class="sf-prod-card__overlay"></div>
+              <div class="sf-prod-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+            </div>
+            <p class="sf-prod-card__label">{{ post.title }}</p>
+          </a>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+          <p class="sf-recetario__empty">Pronto publicaremos nuevas recetas.</p>
+        </div>
+        {% endfor %}
+
+      </div>
+      <div class="text-center mt-5">
+        <a href="{% url 'blog:post_list' %}" class="sf-btn sf-btn--dark sf-btn--wide">VER TODO EL RECETARIO</a>
       </div>
     </div>
   </section>
