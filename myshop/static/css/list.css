@@ -49,51 +49,75 @@ body {
 }
 
 /* ===========================
-   CATEGORÍAS
+   CATEGORÍAS — PILLS
    =========================== */
 .categories-section {
   background: var(--white);
+  border-bottom: 1px solid var(--mid-gray);
 }
 
-.category-card {
-  background: var(--light-gray);
-  border-radius: var(--radius);
-  aspect-ratio: 1 / 1;
-  position: relative;
+.cat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1.5px solid var(--mid-gray);
+  background: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.cat-pill:hover {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.cat-pill--active {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+.cat-pill__img-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s;
+  flex-shrink: 0;
+  border: 2px solid var(--mid-gray);
+  transition: border-color 0.2s;
 }
 
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.11);
-}
-
-.category-bg-img {
-  position: absolute;
-  inset: 0;
+.cat-pill__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.35;
-  transition: opacity 0.3s;
+  display: block;
 }
 
-.category-card:hover .category-bg-img {
-  opacity: 0.55;
+.cat-pill--active .cat-pill__img-wrap,
+.cat-pill:hover .cat-pill__img-wrap {
+  border-color: var(--white);
 }
 
-.category-name {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(12px, 1.5vw, 14px);
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--black);
-  text-align: center;
-  padding: 0 16px;
+@media (max-width: 480px) {
+  .cat-pill { padding: 7px 14px; font-size: 11px; gap: 7px; }
+  .cat-pill__img-wrap { width: 26px; height: 26px; }
 }
 
 /* ===========================
@@ -146,40 +170,66 @@ body {
   transform: scale(1.06);
 }
 
-/* Overlay "ver producto" en hover */
-.prod-overlay {
+/* Botones flotantes: corazón + carrito */
+.prod-actions {
   position: absolute;
-  inset: 0;
-  background: rgba(17,17,17,0);
+  top: 10px;
+  right: 10px;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 14px;
-  transition: background 0.3s;
-  border-radius: var(--radius);
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 2;
 }
 
-.prod-card:hover .prod-overlay {
-  background: rgba(17,17,17,0.14);
+.prod-img-wrapper:hover .prod-actions {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-.prod-overlay-label {
+.prod-action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
   background: var(--white);
   color: var(--black);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 7px 16px;
-  border-radius: 20px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s, transform 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.14);
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  padding: 0;
 }
 
-.prod-card:hover .prod-overlay-label {
-  opacity: 1;
-  transform: translateY(0);
+.prod-action-btn:hover {
+  background: var(--black);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.prod-cart-form { margin: 0; }
+
+.prod-fav-btn--active {
+  color: #e53e3e;
+}
+
+.prod-fav-btn--active svg {
+  fill: #e53e3e;
+  stroke: #e53e3e;
+}
+
+.prod-fav-btn--active:hover {
+  background: #e53e3e;
+  color: var(--white);
+}
+
+.prod-fav-btn--active:hover svg {
+  fill: var(--white);
+  stroke: var(--white);
 }
 
 .prod-info {

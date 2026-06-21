@@ -20,59 +20,237 @@
 
 <!-- CATEGORÍAS -->
 <section class="categories-section">
-  <div class="container py-5">
-    <div class="row g-4 justify-content-center">
+  <div class="container py-4">
+    <div class="cat-pills">
+      <!-- "Todos" pill -->
+      <a href="{% url 'shop:product_list' %}"
+         class="cat-pill {% if not category %}cat-pill--active{% endif %}">
+        <span class="cat-pill__img-wrap">
+          <img src="{% static 'img/onesynk/FOODSYNK.png' %}" alt="Todos" class="cat-pill__img" />
+        </span>
+        <span class="cat-pill__label">Todos</span>
+      </a>
+
       {% for cat in categories %}
-      <div class="col-6 col-md-4">
-        <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">
-          <div class="category-card d-flex align-items-center justify-content-center">
-            {% if cat.image %}
-            <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="category-bg-img">
-            {% endif %}
-            <span class="category-name">{{ cat.name }}</span>
-          </div>
-        </a>
-      </div>
+      <a href="{{ cat.get_absolute_url }}"
+         class="cat-pill {% if category.slug == cat.slug %}cat-pill--active{% endif %}">
+        <span class="cat-pill__img-wrap">
+          {% if cat.slug == 'dulces' %}
+            <img src="{% static 'img/onesynk/sopa1.png' %}" alt="Dulces" class="cat-pill__img" />
+          {% elif cat.slug == 'bebidas' %}
+            <img src="{% static 'img/onesynk/sopa3.png' %}" alt="Bebidas" class="cat-pill__img" />
+          {% else %}
+            <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Salados" class="cat-pill__img" />
+          {% endif %}
+        </span>
+        <span class="cat-pill__label">
+          {% if cat.slug == 'dulces' %}Productos Dulces
+          {% elif cat.slug == 'bebidas' %}Bebidas
+          {% elif cat.slug == 'snacks' %}Productos Salados
+          {% else %}{{ cat.name }}
+          {% endif %}
+        </span>
+      </a>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- PRODUCTOS POR CATEGORÍA -->
-{% regroup products by category as products_by_category %}
-
-{% for group in products_by_category %}
+<!-- PRODUCTOS -->
 <section class="products-section">
   <div class="container py-4">
 
-    <h2 class="category-section-title mb-4">{{ group.grouper.name }}</h2>
-
-    <div class="row row-cols-2 row-cols-md-4 g-4">
-      {% for product in group.list %}
-      <div class="col">
-        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+    {% if category %}
+      <h2 class="category-section-title mb-4">
+        {% if category.slug == 'dulces' %}Productos Dulces
+        {% elif category.slug == 'bebidas' %}Bebidas
+        {% elif category.slug == 'snacks' %}Productos Salados
+        {% else %}{{ category.name }}
+        {% endif %}
+      </h2>
+      <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for product in products %}
+        <div class="col">
           <div class="prod-card">
             <div class="prod-img-wrapper">
-              <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                   alt="{{ product.name }}"
-                   class="prod-img">
-              <div class="prod-overlay">
-                <span class="prod-overlay-label">Ver producto</span>
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                     alt="{{ product.name }}" class="prod-img">
+              </a>
+              <!-- Botones flotantes -->
+              <div class="prod-actions">
+                {% if user.is_authenticated %}
+                <button class="prod-action-btn prod-fav-btn {% if product.id in user_favorites %}prod-fav-btn--active{% endif %}"
+                        data-product-id="{{ product.id }}"
+                        data-url="{% url 'shop:toggle_favorite' product.id %}"
+                        aria-label="Favorito">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+                {% endif %}
+                <form method="post" action="{% url 'cart:cart_add' product.id %}" class="prod-cart-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="quantity" value="1">
+                  <input type="hidden" name="override" value="False">
+                  <button type="submit" class="prod-action-btn prod-cart-btn" aria-label="Agregar al carrito">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                  </button>
+                </form>
               </div>
             </div>
-            <div class="prod-info mt-2">
-              <p class="prod-name">{{ product.name }}</p>
-              {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
-              <p class="prod-price">${{ product.price }}</p>
-            </div>
+            <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+              <div class="prod-info mt-2">
+                <p class="prod-name">{{ product.name }}</p>
+                {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
+                <p class="prod-price">${{ product.price }}</p>
+              </div>
+            </a>
           </div>
-        </a>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <p class="text-center text-muted py-5">No hay productos en esta categoría aún.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      {% regroup products by category as products_by_category %}
+      {% for group in products_by_category %}
+      <h2 class="category-section-title mb-4 {% if not forloop.first %}mt-5{% endif %}">
+        {% if group.grouper.slug == 'dulces' %}Productos Dulces
+        {% elif group.grouper.slug == 'bebidas' %}Bebidas
+        {% elif group.grouper.slug == 'snacks' %}Productos Salados
+        {% else %}{{ group.grouper.name }}
+        {% endif %}
+      </h2>
+      <div class="row row-cols-2 row-cols-md-4 g-4 mb-3">
+        {% for product in group.list %}
+        <div class="col">
+          <div class="prod-card">
+            <div class="prod-img-wrapper">
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                     alt="{{ product.name }}" class="prod-img">
+              </a>
+              <div class="prod-actions">
+                {% if user.is_authenticated %}
+                <button class="prod-action-btn prod-fav-btn {% if product.id in user_favorites %}prod-fav-btn--active{% endif %}"
+                        data-product-id="{{ product.id }}"
+                        data-url="{% url 'shop:toggle_favorite' product.id %}"
+                        aria-label="Favorito">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+                {% endif %}
+                <form method="post" action="{% url 'cart:cart_add' product.id %}" class="prod-cart-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="quantity" value="1">
+                  <input type="hidden" name="override" value="False">
+                  <button type="submit" class="prod-action-btn prod-cart-btn" aria-label="Agregar al carrito">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+              <div class="prod-info mt-2">
+                <p class="prod-name">{{ product.name }}</p>
+                {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
+                <p class="prod-price">${{ product.price }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
       </div>
       {% endfor %}
-    </div>
+    {% endif %}
 
   </div>
 </section>
-{% endfor %}
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Toast helper ──────────────────────────────────────────
+function showToast(icon, message) {
+  let toast = document.getElementById('skToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'skToast';
+    toast.className = 'sk-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<span class="sk-toast__icon">${icon}</span><span>${message}</span>`;
+  toast.classList.add('sk-toast--show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('sk-toast--show'), 2800);
+}
+
+// ── Favoritos AJAX ────────────────────────────────────────
+document.querySelectorAll('.prod-fav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const url = this.dataset.url;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const svg = this.querySelector('svg');
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.is_favorite) {
+        this.classList.add('prod-fav-btn--active');
+        svg.setAttribute('fill', 'currentColor');
+        showToast('❤️', 'Añadido a favoritos');
+      } else {
+        this.classList.remove('prod-fav-btn--active');
+        svg.setAttribute('fill', 'none');
+        showToast('🤍', 'Eliminado de favoritos');
+      }
+      // Actualiza badge del corazón en navbar
+      const badge = document.getElementById('sfFavBadge');
+      if (badge) {
+        badge.textContent = data.count;
+        badge.style.display = data.count > 0 ? 'flex' : 'none';
+      }
+    });
+  });
+});
+
+// ── Carrito AJAX ──────────────────────────────────────────
+document.querySelectorAll('.prod-cart-form').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const url = this.action;
+    const data = new FormData(this);
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body: data,
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        showToast('🛍️', `"${data.product_name}" añadido al carrito`);
+        // Actualiza badge del carrito en navbar
+        const cartBadge = document.querySelector('.sf-nav__cart-badge');
+        if (cartBadge) {
+          cartBadge.textContent = data.cart_count;
+        } else if (data.cart_count > 0) {
+          const cartBtn = document.querySelector('.sf-nav__cart');
+          if (cartBtn) {
+            const span = document.createElement('span');
+            span.className = 'sf-nav__cart-badge';
+            span.textContent = data.cart_count;
+            cartBtn.appendChild(span);
+          }
+        }
+      }
+    });
+  });
+});
+</script>
 {% endblock %}

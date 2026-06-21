@@ -38,6 +38,11 @@ def product_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
 
+    # Text search filter
+    query = request.GET.get("q", "").strip()
+    if query:
+        products = products.filter(name__icontains=query)
+
     # Price range filter via GET params: min_price, max_price
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
@@ -68,6 +73,7 @@ def product_list(request, category_slug=None):
         "max_price": max_price,
         "price_filter_applied": price_filter_applied,
         "user_favorites": user_favorites,
+        "query": query,
         "page_title": category.name if category else _("All Products"),
     }
 

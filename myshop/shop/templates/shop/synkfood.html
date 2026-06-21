@@ -25,28 +25,76 @@
 
       <!-- Links centrados -->
       <ul class="sf-nav__links" id="sfNavLinks">
-        <li><a href="#productos" class="sf-nav__link sf-nav__link--active">PRODUCTOS</a></li>
-        <li><a href="#recetas" class="sf-nav__link">RECETARIO</a></li>
+        <li><a href="/en/products/" class="sf-nav__link sf-nav__link--active">PRODUCTOS</a></li>
+        <li><a href="/en/blog/" class="sf-nav__link">RECETARIO</a></li>
         <li><a href="{% url 'shop:form_mayorista' %}" class="sf-nav__link">MAYORISTAS</a></li>
       </ul>
 
       <!-- Iconos derecha -->
       <div class="sf-nav__actions">
-        <a href="{% url 'cart:cart_detail' %}" class="sf-nav__action-btn">
+        {% if user.is_authenticated %}
+        <a href="{% url 'shop:favorite_list' %}" class="sf-nav__action-btn" aria-label="Mis favoritos">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </a>
+        {% endif %}
+        <a href="{% url 'cart:cart_detail' %}" class="sf-nav__action-btn sf-nav__cart">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         </a>
-        <a href="#" class="sf-nav__action-btn">
+        {% if user.is_authenticated %}
+        <div class="sf-nav__user-wrap" id="sfUserWrap">
+          <button class="sf-nav__action-btn" id="sfUserBtn" aria-label="Mi cuenta" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+          <div class="sf-nav__dropdown" id="sfDropdown" role="menu">
+            <a href="{% url 'accounts:profile' %}" role="menuitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Mi perfil
+            </a>
+            <a href="{% url 'orders:order_history' %}" role="menuitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Mis pedidos
+            </a>
+            <a href="{% url 'payment:payment_method_list' %}" role="menuitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Métodos de pago
+            </a>
+            <hr class="sf-nav__divider">
+            <form action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="sf-nav__logout" role="menuitem">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Cerrar sesión
+              </button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="sf-nav__action-btn" title="Iniciar sesión">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </a>
-        <a href="#" class="sf-nav__action-btn">
+        {% endif %}
+        <button class="sf-nav__action-btn" id="sfSearchToggle" aria-label="Buscar">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </a>
+        </button>
         <button class="sf-nav__toggle" id="sfNavToggle" aria-label="Menú">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
   </nav>
+
+  <!-- ===== SEARCH OVERLAY ===== -->
+  <div class="sf-search-overlay" id="sfSearchOverlay">
+    <form class="sf-search-form" action="{% url 'shop:product_list' %}" method="get">
+      <input class="sf-search-input" type="text" name="q" placeholder="Buscar productos..." autocomplete="off" autofocus />
+      <button type="submit" class="sf-search-btn" aria-label="Buscar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button type="button" class="sf-search-close" id="sfSearchClose" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </form>
+  </div>
 
   <!-- ===== HERO CAROUSEL ===== -->
   <section class="sf-hero" id="inicio">
@@ -142,7 +190,7 @@
 
         <!-- Productos Dulces -->
         <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+          <a href="{% url 'shop:product_list_by_category' 'dulces' %}" class="sf-prod-card">
             <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
               <img src="{% static 'img/onesynk/sopa1.png' %}" alt="Dulces" class="sf-prod-card__img" />
               <div class="sf-prod-card__overlay"></div>
@@ -156,7 +204,7 @@
 
         <!-- Productos Salados — centro, más alto -->
         <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+          <a href="{% url 'shop:product_list_by_category' 'snacks' %}" class="sf-prod-card">
             <div class="sf-prod-card__wrap sf-prod-card__wrap--lg">
               <img src="{% static 'img/onesynk/sopa2.png' %}" alt="Salados" class="sf-prod-card__img" />
               <div class="sf-prod-card__overlay"></div>
@@ -170,7 +218,7 @@
 
         <!-- Bebidas -->
         <div class="col-12 col-md-4">
-          <a href="{% url 'shop:product_list' %}" class="sf-prod-card">
+          <a href="{% url 'shop:product_list_by_category' 'bebidas' %}" class="sf-prod-card">
             <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
               <img src="{% static 'img/onesynk/sopa3.png' %}" alt="Bebidas" class="sf-prod-card__img" />
               <div class="sf-prod-card__overlay"></div>
@@ -209,7 +257,7 @@
             <h3 class="sf-recetas__title">RECETAS</h3>
           </div>
           <p class="sf-recetas__subtitle">ENCUENTRA NUESTRAS<br>SALADOS A BASE DE JOPFJSNOGB -<br>NVOSDBNVCOSNCSINGVOSJNVCJ -<br>SODNCLKSDNMVLSNDKMVSIKN -<br>VOSNVLSDNVLNSLVNSDLVNSDLKN</p>
-          <a href="#" class="sf-btn sf-btn--dark sf-btn--sm">VER MÁS</a>
+          <a href="/en/blog/" class="sf-btn sf-btn--dark sf-btn--sm">VER MÁS</a>
         </div>
       </div>
     </div>
@@ -358,6 +406,23 @@
     sfToggle.addEventListener('click', () => {
       sfNavLinks.classList.toggle('sf-nav__links--open');
       sfToggle.classList.toggle('sf-nav__toggle--open');
+    });
+
+    // Search overlay
+    const sfSearchToggle  = document.getElementById('sfSearchToggle');
+    const sfSearchOverlay = document.getElementById('sfSearchOverlay');
+    const sfSearchClose   = document.getElementById('sfSearchClose');
+    const sfSearchInput   = sfSearchOverlay ? sfSearchOverlay.querySelector('.sf-search-input') : null;
+
+    sfSearchToggle.addEventListener('click', () => {
+      sfSearchOverlay.classList.add('sf-search-overlay--open');
+      sfSearchInput && sfSearchInput.focus();
+    });
+    sfSearchClose.addEventListener('click', () => {
+      sfSearchOverlay.classList.remove('sf-search-overlay--open');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') sfSearchOverlay.classList.remove('sf-search-overlay--open');
     });
   </script>
 </body>

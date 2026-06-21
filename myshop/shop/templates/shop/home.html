@@ -24,7 +24,6 @@
       <ul class="os-nav__links" id="navLinks">
         <li><a href="#nosotros">NOSOTROS</a></li>
         <li><a href="#marcas">MARCAS</a></li>
-        <li><a href="#novedades">NOVEDADES</a></li>
         <li><a href="#contacto">CONTACTO</a></li>
       </ul>
       <div class="os-nav__lang">
@@ -69,26 +68,24 @@
 
       <div class="os-marcas__card">
         <div class="os-marcas__visual">
-          <img src="{% static 'img/onesynk/FOODSYNK.png' %}" alt="Synk Food" class="os-marcas__img" />
-          <div class="os-marcas__badge os-marcas__badge--food">
-            <span>SYNK</span>
-            <span>FO<em>O</em>D</span>
-          </div>
+          <a href="{% url 'shop:synkfood' %}"><img src="{% static 'img/onesynk/FOODSYNK.png' %}" alt="Synk Food" class="os-marcas__img" /></a>
+          <a href="{% url 'shop:synkfood' %}" class="os-marcas__badge os-marcas__badge--food">
+            <img src="{% static 'img/onesynk/logo-sinfood.svg' %}" alt="Synk Food" class="os-marcas__food-logo" />
+          </a>
         </div>
         <p class="os-marcas__desc">Productos alimenticios<br>alineados a experiencias</p>
-        <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">COMPRAR</a>
+        <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">CONOCER MÁS</a>
       </div>
 
       <div class="os-marcas__card">
         <div class="os-marcas__visual">
-          <img src="{% static 'img/onesynk/SYNKBEAUTY.png' %}" alt="Synk Beauty" class="os-marcas__img" />
-          <div class="os-marcas__badge os-marcas__badge--beauty">
-            <span>SYNK</span>
-            <span>BEAUTY</span>
-          </div>
+          <a href="https://synkbeauty.dabg.dev/" target="_blank" rel="noopener"><img src="{% static 'img/mac_bueno.png' %}" alt="Synk Beauty" class="os-marcas__img os-marcas__img--beauty" /></a>
+          <a href="https://synkbeauty.dabg.dev/" target="_blank" rel="noopener" class="os-marcas__badge os-marcas__badge--beauty">
+            <img src="{% static 'img/LOGOTIPO-ROSA.png' %}" alt="Synk Beauty" class="os-marcas__beauty-logo" />
+          </a>
         </div>
         <p class="os-marcas__desc">Belleza y cuidado<br>personal de calidad</p>
-        <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">COMPRAR</a>
+        <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">CONOCER MÁS</a>
       </div>
 
     </div>
@@ -117,15 +114,23 @@
       <div class="os-filosofia__line os-filosofia__line--h"></div>
       <div class="os-filosofia__line os-filosofia__line--v"></div>
 
+      <!-- Líneas cruzadas -->
+
       <!-- Esquina superior izquierda: Misión -->
       <div class="os-filosofia__item os-filosofia__item--tl">
         <img src="{% static 'img/onesynk/07.png' %}" alt="Misión" />
         <span>MISIÓN</span>
+        <div class="os-filosofia__tooltip">
+          Nuestra misión es facilitar el acceso a los mejores productos importados de Corea, acercando la innovación, la cultura y el estilo de vida coreano a consumidores globales que buscan calidad y tendencia.
+        </div>
       </div>
       <!-- Esquina superior derecha: Visión -->
       <div class="os-filosofia__item os-filosofia__item--tr">
         <img src="{% static 'img/onesynk/06.png' %}" alt="Visión" />
         <span>VISIÓN</span>
+        <div class="os-filosofia__tooltip">
+          Nuestra visión es liderar el mercado internacional como la tienda de productos coreanos referente, expandiendo la influencia y la innovación asiática en cada hogar.
+        </div>
       </div>
       <!-- Centro: logo -->
       <div class="os-filosofia__center">
@@ -135,11 +140,22 @@
       <div class="os-filosofia__item os-filosofia__item--bl">
         <img src="{% static 'img/onesynk/04.png' %}" alt="Filosofía" />
         <span>FILOSOFÍA</span>
+        <div class="os-filosofia__tooltip">
+          Ser el puente cultural entre Corea y el mundo, conectando a las personas con experiencias de consumo auténticas e innovadoras.
+        </div>
       </div>
       <!-- Esquina inferior derecha: Valores -->
       <div class="os-filosofia__item os-filosofia__item--br">
         <img src="{% static 'img/onesynk/05.png' %}" alt="Valores" />
         <span>VALORES</span>
+        <div class="os-filosofia__tooltip os-filosofia__tooltip--valores">
+          <ul>
+            <li>Respeto</li>
+            <li>Igualdad</li>
+            <li>Honestidad</li>
+            <li>Pasión</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

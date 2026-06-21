@@ -185,3 +185,25 @@
   }
 
 })();
+
+/* ── Search Overlay (shared navbar) ── */
+(function() {
+  const sfSearchToggle  = document.getElementById('sfSearchToggle');
+  const sfSearchOverlay = document.getElementById('sfSearchOverlay');
+  const sfSearchClose   = document.getElementById('sfSearchClose');
+
+  if (!sfSearchToggle || !sfSearchOverlay) return;
+
+  const sfSearchInput = sfSearchOverlay.querySelector('.sf-search-input');
+
+  sfSearchToggle.addEventListener('click', () => {
+    sfSearchOverlay.classList.add('sf-search-overlay--open');
+    sfSearchInput && sfSearchInput.focus();
+  });
+  sfSearchClose.addEventListener('click', () => {
+    sfSearchOverlay.classList.remove('sf-search-overlay--open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') sfSearchOverlay.classList.remove('sf-search-overlay--open');
+  });
+})();

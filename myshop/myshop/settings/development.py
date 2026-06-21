@@ -24,3 +24,6 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
+
+# Sessions en caché (mucho más rápido que DB)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
