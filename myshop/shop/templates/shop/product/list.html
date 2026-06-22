@@ -1,20 +1,21 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
-{% block title %}Productos - Synk Food{% endblock %}
+{% block title %}{% trans "Productos" %} - Synk Food{% endblock %}
 
 {% block content %}
 
 <!-- HERO BANNER -->
 <section class="hero-banner">
   <div class="container text-center py-5">
-    <h1 class="hero-title">NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:</h1>
-    <p class="hero-subtitle">SNACKS, BEBIDAS Y DULCES CON CALIDAD PREMIUM,<br>LISTOS PARA ACOMPAÑARTE DONDE SEA</p>
+    <h1 class="hero-title">{% blocktrans %}NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:{% endblocktrans %}</h1>
+    <p class="hero-subtitle">{% blocktrans %}SNACKS, BEBIDAS Y DULCES CON CALIDAD PREMIUM,<br>LISTOS PARA ACOMPAÑARTE DONDE SEA{% endblocktrans %}</p>
   </div>
 </section>
 
@@ -27,9 +28,9 @@
         <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">
           <div class="category-card d-flex align-items-center justify-content-center">
             {% if cat.image %}
-            <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="category-bg-img">
+            <img src="{{ cat.image.url }}" alt="{{ cat.name|tr }}" class="category-bg-img">
             {% endif %}
-            <span class="category-name">{{ cat.name }}</span>
+            <span class="category-name">{{ cat.name|tr }}</span>
           </div>
         </a>
       </div>
@@ -45,7 +46,7 @@
 <section class="products-section">
   <div class="container py-4">
 
-    <h2 class="category-section-title mb-4">{{ group.grouper.name }}</h2>
+    <h2 class="category-section-title mb-4">{{ group.grouper.name|tr }}</h2>
 
     <div class="row row-cols-2 row-cols-md-4 g-4">
       {% for product in group.list %}
@@ -54,17 +55,17 @@
           <div class="prod-img-wrapper">
             <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-card__link">
               <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                   alt="{{ product.name }}"
+                   alt="{{ product.name|tr }}"
                    class="prod-img">
               <div class="prod-overlay">
-                <span class="prod-overlay-label">Ver producto</span>
+                <span class="prod-overlay-label">{% trans "Ver producto" %}</span>
               </div>
             </a>
             <button type="button"
                     class="prod-fav-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
                     data-url="{% url 'shop:toggle_favorite' product.id %}"
                     data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
-                    aria-label="Agregar a favoritos">
+                    aria-label="{% trans 'Agregar a favoritos' %}">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                    fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -75,17 +76,17 @@
           </div>
           <div class="prod-info mt-2">
             <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-info__link">
-              <p class="prod-name">{{ product.name }}</p>
+              <p class="prod-name">{{ product.name|tr }}</p>
               {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
               <p class="prod-price">${{ product.price }}</p>
             </a>
             <button type="button"
                     class="prod-add-btn js-add-cart-btn"
                     data-url="{% url 'cart:cart_add' product.id %}"
-                    data-product-name="{{ product.name }}"
-                    aria-label="Agregar al carrito">
+                    data-product-name="{{ product.name|tr }}"
+                    aria-label="{% trans 'Agregar al carrito' %}">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              <span class="prod-add-btn__label">Agregar</span>
+              <span class="prod-add-btn__label">{% trans "Agregar" %}</span>
             </button>
           </div>
         </div>

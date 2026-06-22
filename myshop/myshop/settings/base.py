@@ -143,6 +143,10 @@ STRIPE_API_VERSION = config("STRIPE_API_VERSION")
 STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 
 
+# DeepL translation settings
+DEEPL_API_KEY = config("DEEPL_API_KEY", default="")
+
+
 # Email settings
 EMAIL_HOST = "smtp.zoho.com"
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")

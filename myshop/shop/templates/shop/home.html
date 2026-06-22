@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -25,28 +26,17 @@
         </button>
         <ul class="os-nav__links" id="navLinks">
           <li>
-            <a href="#nosotros">NOSOTROS</a>
+            <a href="#nosotros">{% trans "NOSOTROS" %}</a>
           </li>
           <li>
-            <a href="#marcas">MARCAS</a>
+            <a href="#marcas">{% trans "MARCAS" %}</a>
           </li>
           <li>
-            <a href="#contacto">CONTACTO</a>
+            <a href="#contacto">{% trans "CONTACTO" %}</a>
           </li>
         </ul>
         <div class="os-nav__lang">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               width="30"
-               height="30"
-               viewBox="0 0 24 24"
-               fill="none"
-               stroke="currentColor"
-               stroke-width="1.5"
-               stroke-linecap="round"
-               stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-          </svg>
+          {% include 'includes/lang_toggle.html' with css_class='os-nav__lang-form' %}
         </div>
       </div>
     </nav>
@@ -58,11 +48,11 @@
       <div class="os-hero__content">
         <h1 class="os-hero__title">ONE SYNK</h1>
         <p class="os-hero__subtitle">
-          Empresa multimarca de
+          {% blocktrans %}Empresa multimarca de
           <br>
-          productos coreanos de calidad
+          productos coreanos de calidad{% endblocktrans %}
         </p>
-        <a href="#nosotros" class="os-btn os-btn--outline">CONOCE MÁS</a>
+        <a href="#nosotros" class="os-btn os-btn--outline">{% trans "CONOCE MÁS" %}</a>
       </div>
       <a href="#cita" class="os-hero__scroll" aria-label="Scroll">
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +77,7 @@
              alt=""
              class="os-quote__mark-img" />
         <p class="os-quote__text">
-          <strong>One Synk</strong> es una empresa
+          {% blocktrans %}<strong>One Synk</strong> es una empresa
           <br>
           multimarcas especializada en la
           <br>
@@ -95,13 +85,13 @@
           <br>
           productos coreanos, enfocados en
           <br>
-          <strong>calidad, innovación y tendencias globales</strong>
+          <strong>calidad, innovación y tendencias globales</strong>{% endblocktrans %}
         </p>
       </div>
     </section>
     <!-- ===== NUESTRAS MARCAS ===== -->
     <section class="os-marcas" id="marcas">
-      <h2 class="os-section-title">NUESTRAS MARCAS</h2>
+      <h2 class="os-section-title">{% trans "NUESTRAS MARCAS" %}</h2>
       <div class="os-marcas__grid">
         <div class="os-marcas__card">
           <div class="os-marcas__visual">
@@ -114,11 +104,11 @@
             </div>
           </div>
           <p class="os-marcas__desc">
-            Productos alimenticios
+            {% blocktrans %}Productos alimenticios
             <br>
-            alineados a experiencias
+            alineados a experiencias{% endblocktrans %}
           </p>
-          <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">COMPRAR</a>
+          <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">{% trans "COMPRAR" %}</a>
         </div>
         <div class="os-marcas__card">
           <div class="os-marcas__visual">
@@ -131,11 +121,11 @@
             </div>
           </div>
           <p class="os-marcas__desc">
-            Belleza y cuidado
+            {% blocktrans %}Belleza y cuidado
             <br>
-            personal de calidad
+            personal de calidad{% endblocktrans %}
           </p>
-          <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">COMPRAR</a>
+          <a href="{% url 'shop:product_list' %}" class="os-btn os-btn--dark">{% trans "COMPRAR" %}</a>
         </div>
       </div>
     </section>
@@ -147,19 +137,19 @@
       <div class="os-nosotros__content">
         <div class="os-nosotros__text-block">
           <h2 class="os-nosotros__title">
-            SOBRE
+            {% blocktrans %}SOBRE
             <br>
-            NOSOTROS
+            NOSOTROS{% endblocktrans %}
           </h2>
-          <p>One Synk nace con la idea de crear un punto único de conexión entre Corea y nuevos mercados.</p>
+          <p>{% trans "One Synk nace con la idea de crear un punto único de conexión entre Corea y nuevos mercados." %}</p>
           <p>
-            One representa el origen y lo esencial, mientras que Synk simboliza la sincronización entre cultura, innovación y consumo.
+            {% trans "One representa el origen y lo esencial, mientras que Synk simboliza la sincronización entre cultura, innovación y consumo." %}
           </p>
           <p>
-            Somos una empresa dedicada a la importación y comercialización de productos coreanos, estructurada a través de marcas especializadas que comparten una misma visión de calidad y desarrollo.
+            {% trans "Somos una empresa dedicada a la importación y comercialización de productos coreanos, estructurada a través de marcas especializadas que comparten una misma visión de calidad y desarrollo." %}
           </p>
           <p>
-            A través de Synk Foods y Synk Beauty, transformamos tendencias coreanas en propuestas auténticas, accesibles y alineadas al mercado actual.
+            {% trans "A través de Synk Foods y Synk Beauty, transformamos tendencias coreanas en propuestas auténticas, accesibles y alineadas al mercado actual." %}
           </p>
         </div>
       </div>
@@ -173,12 +163,12 @@
         <!-- Esquina superior izquierda: Misión -->
         <div class="os-filosofia__item os-filosofia__item--tl">
           <img src="{% static 'img/onesynk/07.png' %}" alt="Misión" />
-          <span>MISIÓN</span>
+          <span>{% trans "MISIÓN" %}</span>
         </div>
         <!-- Esquina superior derecha: Visión -->
         <div class="os-filosofia__item os-filosofia__item--tr">
           <img src="{% static 'img/onesynk/06.png' %}" alt="Visión" />
-          <span>VISIÓN</span>
+          <span>{% trans "VISIÓN" %}</span>
         </div>
         <!-- Centro: logo -->
         <div class="os-filosofia__center">
@@ -189,12 +179,12 @@
         <!-- Esquina inferior izquierda: Filosofía -->
         <div class="os-filosofia__item os-filosofia__item--bl">
           <img src="{% static 'img/onesynk/04.png' %}" alt="Filosofía" />
-          <span>FILOSOFÍA</span>
+          <span>{% trans "FILOSOFÍA" %}</span>
         </div>
         <!-- Esquina inferior derecha: Valores -->
         <div class="os-filosofia__item os-filosofia__item--br">
           <img src="{% static 'img/onesynk/05.png' %}" alt="Valores" />
-          <span>VALORES</span>
+          <span>{% trans "VALORES" %}</span>
         </div>
       </div>
     </section>
@@ -207,9 +197,9 @@
                  alt="Mayorista"
                  class="os-canales__icon" />
           </div>
-          <h3>MAYORISTA</h3>
+          <h3>{% trans "MAYORISTA" %}</h3>
           <p>
-            One Synk se especializa en la comercialización mayorista y distribución de productos coreanos, ofreciendo soluciones confiables para empresas y socios comerciales.
+            {% trans "One Synk se especializa en la comercialización mayorista y distribución de productos coreanos, ofreciendo soluciones confiables para empresas y socios comerciales." %}
           </p>
         </div>
         <div class="os-canales__card">
@@ -218,18 +208,18 @@
                  alt="Minoristas"
                  class="os-canales__icon" />
           </div>
-          <h3>MINORISTAS</h3>
+          <h3>{% trans "MINORISTAS" %}</h3>
           <p>
-            One Synk se especializa en la comercialización minorista de productos coreanos, ofreciendo soluciones retail enfocadas en calidad, innovación y experiencia de consumo.
+            {% trans "One Synk se especializa en la comercialización minorista de productos coreanos, ofreciendo soluciones retail enfocadas en calidad, innovación y experiencia de consumo." %}
           </p>
         </div>
       </div>
     </section>
     <!-- ===== CONTACTO ===== -->
     <section class="os-contacto" id="contacto">
-      <h2 class="os-section-title">CONTACTO</h2>
+      <h2 class="os-section-title">{% trans "CONTACTO" %}</h2>
       <p class="os-contacto__subtitle">
-        Ponte en contacto con One Synk y descubre oportunidades comerciales dentro de nuestro ecosistema multimarcas de productos coreanos.
+        {% trans "Ponte en contacto con One Synk y descubre oportunidades comerciales dentro de nuestro ecosistema multimarcas de productos coreanos." %}
       </p>
       <div class="os-contacto__email-row">
         <img src="{% static 'img/onesynk/10.png' %}"
@@ -251,20 +241,20 @@
           </div>
           <div class="os-footer__contact-info">
             <p>
-              <strong>CONTACTO</strong>
+              <strong>{% trans "CONTACTO" %}</strong>
             </p>
             <p>MARCA &nbsp; 000 234 4567</p>
             <p>WHATSAPP &nbsp; 000 234 4567</p>
           </div>
           <div class="os-footer__social">
-            <p class="os-footer__social-label">SÍGUENOS EN REDES:</p>
+            <p class="os-footer__social-label">{% trans "SÍGUENOS EN REDES:" %}</p>
             <img src="{% static 'img/onesynk/11.png' %}"
                  alt="Redes sociales"
                  class="os-footer__social-img" />
           </div>
         </div>
         <div class="os-footer__col">
-          <h4>CATEGORÍAS</h4>
+          <h4>{% trans "CATEGORÍAS" %}</h4>
           <ul>
             <li>FALCON PROTEIN</li>
             <li>FALCON PERFORMANCE</li>
@@ -274,7 +264,7 @@
           </ul>
         </div>
         <div class="os-footer__col">
-          <h4>CENTRO DE AYUDA</h4>
+          <h4>{% trans "CENTRO DE AYUDA" %}</h4>
           <ul>
             <li>FALCON PROTEIN</li>
             <li>FALCON PERFORMANCE</li>
@@ -284,7 +274,7 @@
           </ul>
         </div>
         <div class="os-footer__col">
-          <h4>NEWSLETTER</h4>
+          <h4>{% trans "NEWSLETTER" %}</h4>
           <ul>
             <li>FALCON PROTEIN</li>
             <li>FALCON PERFORMANCE</li>
@@ -296,8 +286,8 @@
       </div>
       <div class="os-footer__bottom">
         <span>© SYNK FOOD, 2026</span>
-        <span>AVISO DE PRIVACIDAD</span>
-        <span>TÉRMINOS Y CONDICIONES</span>
+        <span>{% trans "AVISO DE PRIVACIDAD" %}</span>
+        <span>{% trans "TÉRMINOS Y CONDICIONES" %}</span>
       </div>
     </footer>
     <!-- ===== JS: Navbar scroll + mobile toggle + carrusel ===== -->

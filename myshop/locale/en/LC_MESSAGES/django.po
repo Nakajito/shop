@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 02:11+0000\n"
+"POT-Creation-Date: 2026-06-21 16:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: accounts/adapter.py:21 accounts/adapter.py:22 accounts/forms.py:179
 msgid "The account doesn't exist."
-msgstr ""
+msgstr "The account does not exist."
 
 #: accounts/admin.py:19
 msgid "Profile"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: accounts/admin.py:76 accounts/admin.py:84
 msgid "Extra Information"
-msgstr ""
+msgstr "Additional Information"
 
 #: accounts/admin.py:130
 msgid "Profile Info"
@@ -99,7 +100,7 @@ msgstr ""
 
 #: accounts/forms.py:193
 msgid "Invalid email/username or password."
-msgstr ""
+msgstr "Invalid email address, username, or password."
 
 #: accounts/forms.py:217
 msgid "Tell us about yourself (optional)"
@@ -115,7 +116,7 @@ msgstr ""
 
 #: accounts/forms.py:229
 msgid "Subscribe to newsletter"
-msgstr ""
+msgstr "Subscribe to the newsletter"
 
 #: accounts/forms.py:238 accounts/templates/accounts/profile.html:223
 msgid "Enter your password"
@@ -131,7 +132,7 @@ msgstr ""
 
 #: accounts/models.py:20
 msgid "Phone number must be exactly 10 digits (e.g., 5522445104)."
-msgstr ""
+msgstr "The phone number must be exactly 10 digits long (e.g., 5522445104)."
 
 #: accounts/models.py:31
 msgid "Regular User"
@@ -151,7 +152,7 @@ msgstr ""
 
 #: accounts/models.py:49
 msgid "Designates whether the user is a regular customer or a wholesaler."
-msgstr ""
+msgstr "Indicates whether the user is a regular customer or a wholesaler."
 
 #: accounts/models.py:55
 msgid "Stripe Customer ID"
@@ -175,11 +176,11 @@ msgstr ""
 
 #: accounts/models.py:78 accounts/models.py:150 orders/models.py:182
 msgid "created at"
-msgstr ""
+msgstr "created on"
 
 #: accounts/models.py:79 accounts/models.py:151 orders/models.py:183
 msgid "updated at"
-msgstr ""
+msgstr "updated on"
 
 #: accounts/models.py:82
 msgid "User"
@@ -243,7 +244,6 @@ msgid "User Profiles"
 msgstr ""
 
 #: accounts/templates/accounts/profile.html:9 accounts/views.py:179
-#: shop/templates/includes/sidebar.html:10 shop/templates/shop/base.html:64
 msgid "My Profile"
 msgstr ""
 
@@ -300,7 +300,6 @@ msgid "Manage Addresses"
 msgstr ""
 
 #: accounts/templates/accounts/profile.html:169 payment/models.py:68
-#: shop/templates/includes/sidebar.html:30
 msgid "Payment Methods"
 msgstr ""
 
@@ -407,7 +406,7 @@ msgstr ""
 msgid "Incorrect password. Account was not deleted."
 msgstr ""
 
-#: blog/apps.py:8 blog/views.py:69 shop/templates/shop/base.html:33
+#: blog/apps.py:8 blog/views.py:69
 msgid "Blog"
 msgstr ""
 
@@ -447,7 +446,7 @@ msgstr ""
 msgid "Video title"
 msgstr ""
 
-#: blog/models.py:13 blog/models.py:36 shop/models.py:13 shop/models.py:45
+#: blog/models.py:13 blog/models.py:36 shop/models.py:15 shop/models.py:50
 msgid "name"
 msgstr ""
 
@@ -455,7 +454,7 @@ msgstr ""
 msgid "slug"
 msgstr ""
 
-#: blog/models.py:15 shop/models.py:50
+#: blog/models.py:15 shop/models.py:55
 msgid "description"
 msgstr ""
 
@@ -509,7 +508,7 @@ msgstr ""
 msgid "author"
 msgstr ""
 
-#: blog/models.py:84 shop/models.py:21 shop/models.py:43
+#: blog/models.py:84 shop/models.py:26 shop/models.py:48
 msgid "category"
 msgstr ""
 
@@ -537,7 +536,7 @@ msgstr ""
 msgid "posts"
 msgstr ""
 
-#: blog/models.py:160 shop/models.py:48
+#: blog/models.py:160 shop/models.py:18 shop/models.py:53 shop/models.py:102
 msgid "image"
 msgstr ""
 
@@ -545,7 +544,7 @@ msgstr ""
 msgid "caption"
 msgstr ""
 
-#: blog/models.py:164 blog/models.py:207
+#: blog/models.py:164 blog/models.py:207 shop/models.py:104
 msgid "order"
 msgstr ""
 
@@ -687,8 +686,7 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                            Are you sure you want to delete the post "
-"\"<strong>%(title)s</strong>\"?\n"
+"                            Are you sure you want to delete the post \"<strong>%(title)s</strong>\"?\n"
 "                            This action cannot be undone.\n"
 "                        "
 msgstr ""
@@ -715,7 +713,6 @@ msgstr ""
 #: blog/templates/blog/manage/post_form.html:51
 #: blog/templates/blog/manage/post_form.html:158
 #: blog/templates/blog/manage/post_form.html:189
-#: cart/templates/cart/detail.html:26
 msgid "Image"
 msgstr ""
 
@@ -788,7 +785,6 @@ msgstr ""
 #: blog/templates/blog/manage/post_form.html:201
 #: blog/templates/blog/manage/post_form.html:237
 #: blog/templates/blog/manage/post_form.html:278
-#: cart/templates/cart/detail.html:29 cart/templates/cart/detail.html:71
 msgid "Remove"
 msgstr ""
 
@@ -877,48 +873,50 @@ msgstr ""
 msgid "Pagination"
 msgstr ""
 
-#: blog/templates/blog/post_detail.html:28
-#: shop/templates/includes/navbar.html:16
+#: blog/templates/blog/post_detail.html:29
+#: shop/templates/includes/navbar.html:133
 msgid "Recetario"
 msgstr "Recipes"
 
-#: blog/templates/blog/post_detail.html:130
+#: blog/templates/blog/post_detail.html:131
 msgid "ALGUNAS RECETAS"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:16
+#: blog/templates/blog/post_list.html:17
+#: shop/templates/includes/navbar.html:28 shop/templates/shop/synkfood.html:31
+#: shop/templates/shop/synkfood.html:175
 msgid "RECETARIO"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:19
+#: blog/templates/blog/post_list.html:20
 msgid "Categoría"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:21
+#: blog/templates/blog/post_list.html:22
 msgid "Tag"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:23
+#: blog/templates/blog/post_list.html:24
 msgid "Resultados para"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:33
+#: blog/templates/blog/post_list.html:34
 msgid "Todas"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:48
+#: blog/templates/blog/post_list.html:49
 msgid "Buscar recetas..."
 msgstr ""
 
-#: blog/templates/blog/post_list.html:97
+#: blog/templates/blog/post_list.html:98
 msgid "Paginación"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:129
+#: blog/templates/blog/post_list.html:130
 msgid "No se encontraron recetas."
 msgstr ""
 
-#: blog/templates/blog/post_list.html:131
+#: blog/templates/blog/post_list.html:132
 msgid "Ver todas las recetas"
 msgstr ""
 
@@ -957,120 +955,10 @@ msgstr ""
 msgid "Name is required."
 msgstr ""
 
-#: cart/forms.py:21 cart/templates/cart/detail.html:28
-#: orders/templates/admin/orders/order/detail.html:128
+#: cart/forms.py:21 orders/templates/admin/orders/order/detail.html:128
 #: orders/templates/orders/order/create.html:150
 #: orders/templates/orders/order/pdf.html:124
-#: shop/templates/shop/product/detail.html:56
 msgid "Quantity"
-msgstr ""
-
-#: cart/templates/cart/detail.html:6 cart/templates/cart/detail.html:11
-msgid "Your shopping cart"
-msgstr ""
-
-#: cart/templates/cart/detail.html:16
-msgid "Order reordered:"
-msgstr ""
-
-#: cart/templates/cart/detail.html:17
-msgid "Products from order"
-msgstr ""
-
-#: cart/templates/cart/detail.html:17
-msgid "have been added to your cart."
-msgstr ""
-
-#: cart/templates/cart/detail.html:27
-#: orders/templates/admin/orders/order/detail.html:126
-#: orders/templates/orders/order/order_detail.html:44
-#: payment/templates/payment/process.html:42
-msgid "Product"
-msgstr ""
-
-#: cart/templates/cart/detail.html:30
-msgid "Unit price"
-msgstr ""
-
-#: cart/templates/cart/detail.html:31 cart/templates/cart/detail.html:107
-#: cart/templates/cart/detail.html:136
-#: orders/templates/admin/orders/order/detail.html:129
-#: orders/templates/admin/orders/order/detail.html:158
-#: orders/templates/orders/emails/order_status_update.html:73
-#: orders/templates/orders/emails/order_status_update.html:113
-#: orders/templates/orders/emails/order_status_update.txt:17
-#: orders/templates/orders/emails/order_status_update.txt:23
-#: orders/templates/orders/order/cancel_order.html:43
-#: orders/templates/orders/order/order_detail.html:97
-#: orders/templates/orders/order/order_history.html:97
-#: orders/templates/orders/order/pdf.html:125
-#: orders/templates/orders/order/pdf.html:154
-#: payment/templates/payment/process.html:45
-#: payment/templates/payment/process.html:108
-msgid "Total"
-msgstr ""
-
-#: cart/templates/cart/detail.html:54
-msgid "Decrease quantity"
-msgstr ""
-
-#: cart/templates/cart/detail.html:58
-msgid "Increase quantity"
-msgstr ""
-
-#: cart/templates/cart/detail.html:70
-msgid "Remove product"
-msgstr ""
-
-#: cart/templates/cart/detail.html:82
-msgid "Your cart is empty."
-msgstr ""
-
-#: cart/templates/cart/detail.html:84
-msgid "Start Shopping"
-msgstr ""
-
-#: cart/templates/cart/detail.html:92 cart/templates/cart/detail.html:130
-#: orders/templates/admin/orders/order/detail.html:144
-#: orders/templates/orders/order/order_detail.html:47
-#: orders/templates/orders/order/order_detail.html:87
-#: orders/templates/orders/order/pdf.html:142
-#: payment/templates/payment/process.html:95
-msgid "Subtotal"
-msgstr ""
-
-#: cart/templates/cart/detail.html:97
-msgid "off"
-msgstr ""
-
-#: cart/templates/cart/detail.html:119
-msgid "Have a coupon?"
-msgstr ""
-
-#: cart/templates/cart/detail.html:124
-msgid "Apply"
-msgstr ""
-
-#: cart/templates/cart/detail.html:133
-#: orders/templates/orders/emails/order_status_update.html:104
-#: orders/templates/orders/emails/order_status_update.txt:22
-#: orders/templates/orders/order/order_detail.html:92
-#: orders/templates/orders/order/pdf.html:148
-#: payment/templates/payment/process.html:101
-msgid "Discount"
-msgstr ""
-
-#: cart/templates/cart/detail.html:141
-msgid "Continue shopping"
-msgstr ""
-
-#: cart/templates/cart/detail.html:144
-#: orders/templates/orders/order/create.html:5
-msgid "Checkout"
-msgstr ""
-
-#: cart/templates/cart/detail.html:152
-msgid "People who bought this also bought"
 msgstr ""
 
 #: coupons/admin.py:31
@@ -1432,7 +1320,7 @@ msgstr ""
 
 #: orders/models.py:170
 msgid "shipping address reference"
-msgstr ""
+msgstr "Shipping Address Reference"
 
 #: orders/models.py:179
 msgid "billing address reference"
@@ -1471,7 +1359,6 @@ msgid "discount percentage"
 msgstr ""
 
 #: orders/models.py:233 orders/templates/admin/orders/order/detail.html:31
-#: shop/templates/shop/base.html:67
 msgid "Orders"
 msgstr ""
 
@@ -1493,15 +1380,15 @@ msgstr ""
 
 #: orders/models.py:447
 msgid "Order Trackings"
-msgstr ""
+msgstr "Order Tracking"
 
 #: orders/services.py:40 orders/views/order.py:283
 msgid "This order can no longer be cancelled."
-msgstr ""
+msgstr "This order can no longer be canceled."
 
 #: orders/tasks.py:27
 msgid "Order Confirmation - Order nr. {}"
-msgstr ""
+msgstr "Order Confirmation - Order No. {}"
 
 #: orders/tasks.py:29
 #, python-brace-format
@@ -1529,11 +1416,11 @@ msgstr ""
 
 #: orders/tasks.py:73
 msgid "Your order has been cancelled."
-msgstr ""
+msgstr "Your order has been canceled."
 
 #: orders/tasks.py:77
 msgid "Update on order #{}"
-msgstr ""
+msgstr "Update on Order #{}"
 
 #: orders/tasks.py:102
 msgid "You can track your shipment at: {}"
@@ -1606,7 +1493,7 @@ msgstr ""
 
 #: orders/templates/admin/orders/order/detail.html:76
 msgid "E-mail"
-msgstr ""
+msgstr "Email"
 
 #: orders/templates/admin/orders/order/detail.html:101
 msgid "Shipping Information"
@@ -1631,6 +1518,12 @@ msgstr ""
 
 #: orders/templates/admin/orders/order/detail.html:122
 msgid "Items Bought"
+msgstr "Items Purchased"
+
+#: orders/templates/admin/orders/order/detail.html:126
+#: orders/templates/orders/order/order_detail.html:44
+#: payment/templates/payment/process.html:42
+msgid "Product"
 msgstr ""
 
 #: orders/templates/admin/orders/order/detail.html:127
@@ -1640,6 +1533,30 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
+#: orders/templates/admin/orders/order/detail.html:129
+#: orders/templates/admin/orders/order/detail.html:158
+#: orders/templates/orders/emails/order_status_update.html:73
+#: orders/templates/orders/emails/order_status_update.html:113
+#: orders/templates/orders/emails/order_status_update.txt:17
+#: orders/templates/orders/emails/order_status_update.txt:23
+#: orders/templates/orders/order/cancel_order.html:43
+#: orders/templates/orders/order/order_detail.html:97
+#: orders/templates/orders/order/order_history.html:97
+#: orders/templates/orders/order/pdf.html:125
+#: orders/templates/orders/order/pdf.html:154
+#: payment/templates/payment/process.html:45
+#: payment/templates/payment/process.html:108
+msgid "Total"
+msgstr ""
+
+#: orders/templates/admin/orders/order/detail.html:144
+#: orders/templates/orders/order/order_detail.html:47
+#: orders/templates/orders/order/order_detail.html:87
+#: orders/templates/orders/order/pdf.html:142
+#: payment/templates/payment/process.html:95
+msgid "Subtotal"
+msgstr ""
+
 #: orders/templates/admin/orders/order/detail.html:149
 #, python-format
 msgid ""
@@ -1647,6 +1564,9 @@ msgid ""
 "                            Coupon \"%(code)s\" (%(discount)s%% off)\n"
 "                        "
 msgstr ""
+"\n"
+"                            Coupon \"%(code)s\" (%(discount)s%% off)\n"
+" "
 
 #: orders/templates/orders/addresses/confirm_delete.html:5
 #: orders/templates/orders/addresses/confirm_delete.html:14
@@ -1675,6 +1595,8 @@ msgid ""
 "This is your default address. Please ensure you set a new default after "
 "deletion."
 msgstr ""
+"This is your default address. Please be sure to set a new default after "
+"deleting it."
 
 #: orders/templates/orders/addresses/confirm_delete.html:61
 #: payment/templates/payment/payment_methods/confirm_delete.html:23
@@ -1683,7 +1605,7 @@ msgstr ""
 
 #: orders/templates/orders/addresses/confirm_delete.html:64
 msgid "Nevermind, go back"
-msgstr ""
+msgstr "Never mind, go back"
 
 #: orders/templates/orders/addresses/form.html:15
 #: orders/templates/orders/addresses/list.html:18
@@ -1700,11 +1622,11 @@ msgstr ""
 
 #: orders/templates/orders/addresses/form.html:73
 msgid "Street, Number, and Suite/Apt"
-msgstr ""
+msgstr "Street, Number, and Suite/Apartment"
 
 #: orders/templates/orders/addresses/form.html:81
 msgid "Additional Info (Optional)"
-msgstr ""
+msgstr "Additional Information (Optional)"
 
 #: orders/templates/orders/addresses/form.html:82
 msgid "e.g., Floor, landmarks, gate code"
@@ -1731,7 +1653,6 @@ msgid "My Addresses"
 msgstr ""
 
 #: orders/templates/orders/addresses/list.html:16
-#: shop/templates/includes/sidebar.html:25
 msgid "Shipping Addresses"
 msgstr ""
 
@@ -1775,7 +1696,7 @@ msgstr ""
 
 #: orders/templates/orders/emails/order_status_update.html:30
 msgid "Order Cancelled"
-msgstr ""
+msgstr "Order Canceled"
 
 #: orders/templates/orders/emails/order_status_update.html:31
 msgid "Order Update"
@@ -1813,6 +1734,8 @@ msgid ""
 "Your order has been cancelled. If you have any questions, please contact "
 "support."
 msgstr ""
+"Your order has been canceled. If you have any questions, please contact "
+"support."
 
 #: orders/templates/orders/emails/order_status_update.html:65
 #: orders/templates/orders/order/cancel_order.html:35
@@ -1826,6 +1749,14 @@ msgstr ""
 msgid "Order Summary"
 msgstr ""
 
+#: orders/templates/orders/emails/order_status_update.html:104
+#: orders/templates/orders/emails/order_status_update.txt:22
+#: orders/templates/orders/order/order_detail.html:92
+#: orders/templates/orders/order/pdf.html:148
+#: payment/templates/payment/process.html:101
+msgid "Discount"
+msgstr ""
+
 #: orders/templates/orders/emails/order_status_update.html:129
 msgid "Track My Order"
 msgstr ""
@@ -1835,11 +1766,11 @@ msgstr ""
 #: orders/templates/orders/emails/order_tracking.html:109
 #: orders/templates/orders/emails/order_tracking.txt:22
 msgid "Thank you for shopping with One Synk."
-msgstr ""
+msgstr "Thank you for shopping at One Synk."
 
 #: orders/templates/orders/emails/order_status_update.html:140
 msgid "If you have questions, contact us at support@onesynk.com"
-msgstr ""
+msgstr "If you have any questions, please contact us at support@onesynk.com"
 
 #: orders/templates/orders/emails/order_status_update.txt:2
 #: orders/templates/orders/emails/order_tracking.txt:2
@@ -1848,7 +1779,7 @@ msgstr ""
 
 #: orders/templates/orders/emails/order_status_update.txt:25
 msgid "Track your order"
-msgstr ""
+msgstr "Track Your Order"
 
 #: orders/templates/orders/emails/order_status_update.txt:29
 #: orders/templates/orders/emails/order_tracking.html:110
@@ -1867,6 +1798,9 @@ msgid ""
 "                  Hello %(name)s, your order #%(id)s is on its way.\n"
 "                "
 msgstr ""
+"\n"
+"                  Hello %(name)s, your order #%(id)s is on its way.\n"
+" "
 
 #: orders/templates/orders/emails/order_tracking.html:40
 #: orders/templates/orders/emails/order_tracking.txt:8
@@ -1895,7 +1829,7 @@ msgstr ""
 
 #: orders/templates/orders/emails/order_tracking.txt:15
 msgid "Track your package"
-msgstr ""
+msgstr "Track Your Package"
 
 #: orders/templates/orders/order/cancel_order.html:5
 #: orders/templates/orders/order/cancel_order.html:14
@@ -1938,6 +1872,8 @@ msgid ""
 "will be initiated. Please allow 5-10 business days for the funds to reflect "
 "in your account."
 msgstr ""
+"will be initiated. Please allow 5–10 business days for the funds to appear "
+"in your account."
 
 #: orders/templates/orders/order/cancel_order.html:74
 msgid "Reason for Cancellation (Optional)"
@@ -1945,7 +1881,7 @@ msgstr ""
 
 #: orders/templates/orders/order/cancel_order.html:81
 msgid "Please tell us why you are cancelling..."
-msgstr ""
+msgstr "Please tell us why you are canceling..."
 
 #: orders/templates/orders/order/cancel_order.html:83
 msgid "Your feedback helps us improve our service."
@@ -1957,6 +1893,10 @@ msgstr ""
 
 #: orders/templates/orders/order/cancel_order.html:91
 msgid "No, keep my order"
+msgstr ""
+
+#: orders/templates/orders/order/create.html:5
+msgid "Checkout"
 msgstr ""
 
 #: orders/templates/orders/order/create.html:16
@@ -1979,7 +1919,7 @@ msgstr ""
 
 #: orders/templates/orders/order/create.html:119
 msgid "Add new card during next step"
-msgstr ""
+msgstr "Add a new card in the next step"
 
 #: orders/templates/orders/order/create.html:125
 msgid ""
@@ -1988,7 +1928,7 @@ msgstr ""
 
 #: orders/templates/orders/order/create.html:130
 msgid "Continue to Payment"
-msgstr ""
+msgstr "Proceed to Payment"
 
 #: orders/templates/orders/order/create.html:140
 msgid "Your Order"
@@ -2004,7 +1944,7 @@ msgstr ""
 
 #: orders/templates/orders/order/create.html:172
 msgid "Edit cart"
-msgstr ""
+msgstr "Edit Cart"
 
 #: orders/templates/orders/order/created.html:17
 msgid "Thank You for Your Purchase!"
@@ -2014,6 +1954,8 @@ msgstr ""
 msgid ""
 "Your order has been successfully placed. We've sent a confirmation email to"
 msgstr ""
+"Your order has been successfully placed. We have sent a confirmation email "
+"to"
 
 #: orders/templates/orders/order/created.html:25
 msgid "Order Number"
@@ -2043,7 +1985,7 @@ msgstr ""
 
 #: orders/templates/orders/order/created.html:59
 msgid "We'll notify you once it's on the way."
-msgstr ""
+msgstr "We'll let you know as soon as it's on its way."
 
 #: orders/templates/orders/order/created.html:67
 msgid "Need Help?"
@@ -2084,7 +2026,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_detail.html:70
 msgid "Buy again"
-msgstr ""
+msgstr "Buy Again"
 
 #: orders/templates/orders/order/order_detail.html:127
 msgid "Logistics Tracking"
@@ -2101,6 +2043,7 @@ msgstr ""
 #: orders/templates/orders/order/order_detail.html:150
 msgid "Tracking info will be available once shipped."
 msgstr ""
+"Tracking information will be available once the item has been shipped."
 
 #: orders/templates/orders/order/order_detail.html:162
 msgid "Action Center"
@@ -2145,10 +2088,9 @@ msgstr ""
 
 #: orders/templates/orders/order/order_detail.html:223
 msgid "Complete via Stripe"
-msgstr ""
+msgstr "Pay via Stripe"
 
 #: orders/templates/orders/order/order_history.html:8
-#: shop/templates/includes/sidebar.html:15
 msgid "My Orders"
 msgstr ""
 
@@ -2230,7 +2172,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_status_history.html:52
 msgid "Updated By"
-msgstr ""
+msgstr "Updated by"
 
 #: orders/templates/orders/order/order_status_history.html:90
 msgid "System"
@@ -2266,11 +2208,11 @@ msgstr ""
 
 #: orders/templates/orders/order/order_tracking.html:160
 msgid "No activity recorded yet."
-msgstr ""
+msgstr "No activity has been recorded yet."
 
 #: orders/templates/orders/order/order_tracking.html:170
 msgid "Shipping Info"
-msgstr ""
+msgstr "Shipping Information"
 
 #: orders/templates/orders/order/order_tracking.html:172
 msgid "Manage"
@@ -2298,7 +2240,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_tracking.html:229
 msgid "Tracking number copied to clipboard!"
-msgstr ""
+msgstr "Tracking number copied to the clipboard!"
 
 #: orders/templates/orders/order/order_tracking_info.html:33
 msgid "Copy to clipboard"
@@ -2314,7 +2256,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_tracking_info.html:59
 msgid "Awaiting carrier update..."
-msgstr ""
+msgstr "Waiting for a carrier update..."
 
 #: orders/templates/orders/order/order_tracking_info.html:69
 msgid "Track on"
@@ -2338,7 +2280,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_tracking_info.html:110
 msgid "Actual Arrival"
-msgstr ""
+msgstr "Current Arrival"
 
 #: orders/templates/orders/order/order_tracking_info.html:116
 msgid "In Transit"
@@ -2366,7 +2308,7 @@ msgstr ""
 
 #: orders/templates/orders/order/order_tracking_info.html:153
 msgid "Tracking ID copied to clipboard!"
-msgstr ""
+msgstr "Tracking ID copied to the clipboard!"
 
 #: orders/templates/orders/order/pdf.html:104
 msgid "Invoice No."
@@ -2412,7 +2354,7 @@ msgstr ""
 
 #: orders/views/address.py:80
 msgid "Could not update default address."
-msgstr ""
+msgstr "Could not update the default address."
 
 #: orders/views/order.py:184
 msgid "Order Tracking #{}"
@@ -2428,35 +2370,35 @@ msgstr ""
 
 #: orders/views/order.py:238 orders/views/order.py:260
 msgid "This order is not eligible for reordering."
-msgstr ""
+msgstr "This order cannot be reordered."
 
 #: orders/views/order.py:245
 msgid "Items successfully added to your cart."
-msgstr ""
+msgstr "Items have been successfully added to your cart."
 
 #: orders/views/order.py:249 orders/views/order.py:268
 msgid "None of the products from this order are currently available."
-msgstr ""
+msgstr "None of the products in this order are currently available."
 
 #: orders/views/order.py:272
 msgid "Items added to cart — continue to payment."
-msgstr ""
+msgstr "Items added to cart — proceed to checkout."
 
 #: orders/views/order.py:287
 msgid "Cancelled by customer."
-msgstr ""
+msgstr "Cancelled by the customer."
 
 #: orders/views/order.py:291
 msgid "Order cancelled and refund initiated."
-msgstr ""
+msgstr "Order canceled and refund processed."
 
 #: orders/views/order.py:293
 msgid "Order cancelled successfully."
-msgstr ""
+msgstr "The order was successfully canceled."
 
 #: orders/views/order.py:299
 msgid "Refund failed. Please contact support to complete cancellation."
-msgstr ""
+msgstr "Refund failed. Please contact support to complete the cancellation."
 
 #: orders/views/pdf.py:80
 msgid "Error generating the receipt PDF."
@@ -2488,7 +2430,7 @@ msgstr ""
 
 #: payment/forms.py:20
 msgid "Name as it appears on card"
-msgstr ""
+msgstr "Name as it appears on the card"
 
 #: payment/forms.py:24
 msgid "Cardholder Name"
@@ -2540,11 +2482,12 @@ msgstr ""
 
 #: payment/models.py:60
 msgid "Uncheck to manually disable this payment method."
-msgstr ""
+msgstr "Uncheck this box to manually disable this payment method."
 
 #: payment/stripe_handler.py:56
 msgid "Could not verify customer identity with payment provider."
 msgstr ""
+"We were unable to verify the customer's identity with the payment provider."
 
 #: payment/stripe_handler.py:109
 msgid "Failed to link payment method. Please try again."
@@ -2552,17 +2495,19 @@ msgstr ""
 
 #: payment/stripe_handler.py:158
 msgid "Could not update default payment method."
-msgstr ""
+msgstr "Could not update the default payment method."
 
 #: payment/tasks.py:30
 msgid "One Synk - Invoice nr. {}"
-msgstr ""
+msgstr "One Synk - Invoice No. {}"
 
 #: payment/tasks.py:32
 msgid ""
 "Thank you for your purchase! Please find attached the invoice for your "
 "recent order."
 msgstr ""
+"Thank you for your purchase! Please find the invoice for your recent order "
+"attached."
 
 #: payment/tasks.py:50
 msgid "invoice_order_{}.pdf"
@@ -2581,6 +2526,8 @@ msgid ""
 "We encountered a problem while processing your transaction, or the session "
 "was cancelled."
 msgstr ""
+"We encountered a problem while processing your transaction, or the session "
+"was canceled."
 
 #: payment/templates/payment/canceled.html:27
 msgid "Common reasons for this:"
@@ -2628,7 +2575,8 @@ msgstr ""
 
 #: payment/templates/payment/completed.html:21
 msgid ""
-"Your transaction was processed successfully. Thank you for choosing One Synk."
+"Your transaction was processed successfully. Thank you for choosing One "
+"Synk."
 msgstr ""
 
 #: payment/templates/payment/completed.html:27
@@ -2636,7 +2584,8 @@ msgid "What's next?"
 msgstr ""
 
 #: payment/templates/payment/completed.html:32
-msgid "You will receive an email confirmation with your order details shortly."
+msgid ""
+"You will receive an email confirmation with your order details shortly."
 msgstr ""
 
 #: payment/templates/payment/completed.html:38
@@ -2665,6 +2614,8 @@ msgid ""
 "Your card data is sent directly to Stripe. We never store sensitive numbers "
 "on our servers."
 msgstr ""
+"Your card information is sent directly to Stripe. We never store sensitive "
+"numbers on our servers."
 
 #: payment/templates/payment/payment_methods/add.html:54
 msgid "Cardholder Information"
@@ -2716,6 +2667,8 @@ msgid ""
 "This is your primary card. If deleted, another saved method will be set as "
 "default."
 msgstr ""
+"This is your primary card. If it is deleted, another saved method will be "
+"set as the default."
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:63
 msgid "Delete Permanently"
@@ -2767,7 +2720,7 @@ msgstr ""
 
 #: payment/templates/payment/payment_methods/list.html:109
 msgid "Securely save your payment methods for a faster checkout experience."
-msgstr ""
+msgstr "Save your payment methods securely for a faster checkout experience."
 
 #: payment/templates/payment/payment_methods/list.html:111
 msgid "Add your first card"
@@ -2777,7 +2730,7 @@ msgstr ""
 msgid "Confirm Payment"
 msgstr ""
 
-#: payment/templates/payment/process.html:14 shop/templates/shop/base.html:47
+#: payment/templates/payment/process.html:14
 msgid "Cart"
 msgstr ""
 
@@ -2810,14 +2763,16 @@ msgid ""
 "By clicking 'Pay now', you agree to our terms of service. You will be "
 "redirected to Stripe for secure processing."
 msgstr ""
+"By clicking \"Pay now,\" you agree to our terms of service. You will be "
+"redirected to Stripe for secure processing."
 
 #: payment/views.py:48
 msgid "Payment gateway is currently unavailable."
-msgstr ""
+msgstr "The payment gateway is currently unavailable."
 
 #: payment/views.py:62
 msgid "Payment Cancelled"
-msgstr ""
+msgstr "Payment Canceled"
 
 #: payment/views.py:96
 msgid "Card {} added successfully."
@@ -2825,7 +2780,7 @@ msgstr ""
 
 #: payment/views.py:108
 msgid "Please provide valid card details."
-msgstr ""
+msgstr "Please provide valid card information."
 
 #: payment/views.py:130
 msgid "Payment method removed."
@@ -2833,7 +2788,7 @@ msgstr ""
 
 #: payment/views.py:133
 msgid "Could not delete card. Please contact support."
-msgstr ""
+msgstr "Unable to delete the card. Please contact support."
 
 #: payment/views.py:145
 msgid "Default payment method updated."
@@ -2849,112 +2804,401 @@ msgstr ""
 
 #: payment/views.py:202
 msgid "Payment successful"
-msgstr ""
+msgstr "Payment Successful"
 
 #: payment/webhooks.py:72
 msgid "Payment confirmed via Stripe Checkout."
 msgstr ""
 
-#: shop/admin.py:18
-msgid "Total Products"
-msgstr ""
-
-#: shop/admin.py:55
-msgid "Basic Information"
-msgstr ""
-
-#: shop/admin.py:58
-msgid "Pricing & Availability"
-msgstr ""
-
-#: shop/admin.py:60
-msgid "Media"
-msgstr ""
-
-#: shop/admin.py:69
+#: shop/admin.py:18 shop/admin.py:42 shop/admin.py:106
 msgid "Preview"
 msgstr ""
 
-#: shop/models.py:22
+#: shop/admin.py:53
+msgid "Total Products"
+msgstr ""
+
+#: shop/admin.py:92
+msgid "Basic Information"
+msgstr ""
+
+#: shop/admin.py:95
+msgid "Pricing & Availability"
+msgstr ""
+
+#: shop/admin.py:97
+msgid "Media"
+msgstr ""
+
+#: shop/models.py:27
 msgid "categories"
 msgstr ""
 
-#: shop/models.py:51
+#: shop/models.py:56
 msgid "price"
 msgstr ""
 
-#: shop/models.py:52
+#: shop/models.py:57
 msgid "available"
 msgstr ""
 
-#: shop/models.py:60
+#: shop/models.py:65 shop/models.py:100
 msgid "product"
 msgstr ""
 
-#: shop/models.py:61
+#: shop/models.py:66
 msgid "products"
 msgstr ""
 
-#: shop/templates/includes/navbar.html:13
-msgid "Productos"
+#: shop/models.py:103
+msgid "alt text"
+msgstr ""
+
+#: shop/models.py:108
+msgid "product image"
+msgstr ""
+
+#: shop/models.py:109
+#, fuzzy
+#| msgid "Productos"
+msgid "product images"
 msgstr "Products"
 
-#: shop/templates/includes/navbar.html:19 shop/templates/shop/base.html:38
-msgid "Mayoristas"
-msgstr "Wholesale"
+#: shop/models.py:130 shop/models.py:131
+msgid "translation cache"
+msgstr ""
 
-#: shop/templates/includes/navbar.html:23
-msgid "Carrito"
-msgstr "Cart"
+#: shop/templates/includes/footer.html:11 shop/templates/shop/home.html:35
+#: shop/templates/shop/home.html:220 shop/templates/shop/home.html:244
+#: shop/templates/shop/synkfood.html:264 shop/templates/shop/synkfood.html:276
+msgid "CONTACTO"
+msgstr "CONTACT"
 
-#: shop/templates/includes/navbar.html:26
+#: shop/templates/includes/footer.html:12
+msgid "MARCA"
+msgstr "BRAND"
+
+#: shop/templates/includes/footer.html:16 shop/templates/shop/home.html:250
+#: shop/templates/shop/synkfood.html:281
+msgid "SÍGUENOS EN REDES:"
+msgstr "FOLLOW US ON SOCIAL MEDIA:"
+
+#: shop/templates/includes/footer.html:22 shop/templates/shop/home.html:257
+#: shop/templates/shop/synkfood.html:287
+msgid "CATEGORÍAS"
+msgstr "CATEGORIES"
+
+#: shop/templates/includes/footer.html:33 shop/templates/shop/home.html:267
+#: shop/templates/shop/synkfood.html:298
+msgid "CENTRO DE AYUDA"
+msgstr "HELP CENTER"
+
+#: shop/templates/includes/footer.html:57 shop/templates/shop/home.html:289
+#: shop/templates/shop/synkfood.html:322
+msgid "AVISO DE PRIVACIDAD"
+msgstr "PRIVACY NOTICE"
+
+#: shop/templates/includes/footer.html:58 shop/templates/shop/home.html:290
+#: shop/templates/shop/synkfood.html:323
+msgid "TÉRMINOS Y CONDICIONES"
+msgstr "TERMS AND CONDITIONS"
+
+#: shop/templates/includes/lang_toggle.html:13
+#: shop/templates/includes/lang_toggle.html:14
+msgid "Change language"
+msgstr ""
+
+#: shop/templates/includes/navbar.html:22 shop/templates/shop/synkfood.html:30
+#: shop/templates/shop/synkfood.html:143
+msgid "PRODUCTOS"
+msgstr "PRODUCTS"
+
+#: shop/templates/includes/navbar.html:34 shop/templates/shop/synkfood.html:32
+msgid "MAYORISTAS"
+msgstr "WHOLESALERS"
+
+#: shop/templates/includes/navbar.html:60
 msgid "Mi cuenta"
 msgstr "My account"
 
-#: shop/templates/includes/navbar.html:29
-msgid "Buscar"
-msgstr "Search"
+#: shop/templates/includes/navbar.html:69
+#: shop/templates/includes/navbar.html:149
+msgid "Mi perfil"
+msgstr "My Profile"
 
-#: shop/templates/includes/navbar.html:37
-msgid "Idioma"
-msgstr "Language"
+#: shop/templates/includes/navbar.html:73
+msgid "Mis pedidos"
+msgstr "My Orders"
 
-#: shop/templates/includes/sidebar.html:5
-msgid "Account Settings"
-msgstr ""
+#: shop/templates/includes/navbar.html:77
+msgid "Métodos de pago"
+msgstr "Payment Methods"
+
+#: shop/templates/includes/navbar.html:84
+msgid "Cerrar sesión"
+msgstr "Log Out"
+
+#: shop/templates/includes/navbar.html:90
+#: shop/templates/includes/navbar.html:158
+msgid "Iniciar sesión"
+msgstr "Log in"
+
+#: shop/templates/includes/navbar.html:124
+msgid "EXPLORAR"
+msgstr "EXPLORE"
+
+#: shop/templates/includes/navbar.html:128
+#: shop/templates/shop/product/list.html:10
+msgid "Productos"
+msgstr "Products"
+
+#: shop/templates/includes/navbar.html:138
+msgid "Mayoristas"
+msgstr "Wholesale"
+
+#: shop/templates/includes/navbar.html:144
+msgid "ACCESO"
+msgstr "ACCESS"
+
+#: shop/templates/includes/navbar.html:153
+#, fuzzy
+#| msgid "Carrito"
+msgid "Mi carrito"
+msgstr "Cart"
+
+#: shop/templates/includes/navbar.html:162
+msgid "Registrarse"
+msgstr "Sign Up"
+
+#: shop/templates/includes/navbar.html:169
+msgid "Snacks coreanos de alta calidad"
+msgstr "High-quality Korean snacks"
+
+#: shop/templates/includes/sidebar.html:6
+#, fuzzy
+#| msgid "Mi cuenta"
+msgid "Mi Cuenta"
+msgstr "My account"
+
+#: shop/templates/includes/sidebar.html:14
+msgid "Mi Perfil"
+msgstr "My Profile"
 
 #: shop/templates/includes/sidebar.html:20
+msgid "Mis Pedidos"
+msgstr "My Orders"
+
+#: shop/templates/includes/sidebar.html:26
+msgid "Mis Favoritos"
+msgstr "My Favorites"
+
+#: shop/templates/includes/sidebar.html:32
+msgid "Direcciones"
+msgstr "Addresses"
+
+#: shop/templates/includes/sidebar.html:38
+msgid "Métodos de Pago"
+msgstr "Payment Methods"
+
+#: shop/templates/includes/sidebar.html:44
+msgid "Soporte"
+msgstr "Support"
+
+#: shop/templates/includes/sidebar.html:54
+msgid "Cerrar Sesión"
+msgstr "Log Out"
+
+#: shop/templates/shop/home.html:29
+msgid "NOSOTROS"
+msgstr "ABOUT US"
+
+#: shop/templates/shop/home.html:32
+msgid "MARCAS"
+msgstr "BRANDS"
+
+#: shop/templates/shop/home.html:51
+msgid ""
+"Empresa multimarca de\n"
+"          <br>\n"
+"          productos coreanos de calidad"
+msgstr ""
+"Multi-brand retailer of\n"
+"          <br>\n"
+"          high-quality Korean products"
+
+#: shop/templates/shop/home.html:55
+msgid "CONOCE MÁS"
+msgstr "LEARN MORE"
+
+#: shop/templates/shop/home.html:80
+msgid ""
+"<strong>One Synk</strong> es una empresa\n"
+"          <br>\n"
+"          multimarcas especializada en la\n"
+"          <br>\n"
+"          <strong>importación y comercialización</strong> de\n"
+"          <br>\n"
+"          productos coreanos, enfocados en\n"
+"          <br>\n"
+"          <strong>calidad, innovación y tendencias globales</strong>"
+msgstr ""
+"<br><strong>One Synk</strong>\n"
+"          is a\n"
+"          <br>\n"
+"          multi-brand company specializing in the\n"
+"          <br>\n"
+"          \n"
+"          <strong>import and sale</strong>\n"
+"          of\n"
+"          Korean products, with a focus on\n"
+"          <br>\n"
+"          \n"
+"          <strong>quality, innovation, and global trends</strong>"
+
+#: shop/templates/shop/home.html:94
+msgid "NUESTRAS MARCAS"
+msgstr "OUR BRANDS"
+
+#: shop/templates/shop/home.html:107
+msgid ""
+"Productos alimenticios\n"
+"            <br>\n"
+"            alineados a experiencias"
+msgstr ""
+"Food\n"
+"            <br>\n"
+"            products designed around experiences"
+
+#: shop/templates/shop/home.html:111 shop/templates/shop/home.html:128
+#: shop/templates/shop/synkfood.html:71 shop/templates/shop/synkfood.html:85
+#: shop/templates/shop/synkfood.html:98
+msgid "COMPRAR"
+msgstr "BUY"
+
+#: shop/templates/shop/home.html:124
+msgid ""
+"Belleza y cuidado\n"
+"            <br>\n"
+"            personal de calidad"
+msgstr ""
+"Quality Beauty and Personal Care\n"
+"            <br>"
+
+#: shop/templates/shop/home.html:140
+msgid ""
+"SOBRE\n"
+"            <br>\n"
+"            NOSOTROS"
+msgstr ""
+"ABOUT\n"
+"            <br>\n"
+"            US"
+
+#: shop/templates/shop/home.html:144
+msgid ""
+"One Synk nace con la idea de crear un punto único de conexión entre Corea y "
+"nuevos mercados."
+msgstr ""
+"One Synk was founded with the goal of creating a single point of connection "
+"between Korea and new markets."
+
+#: shop/templates/shop/home.html:146
+msgid ""
+"One representa el origen y lo esencial, mientras que Synk simboliza la "
+"sincronización entre cultura, innovación y consumo."
+msgstr ""
+"One represents the origin and the essence, while Synk symbolizes the "
+"synchronization between culture, innovation, and consumption."
+
+#: shop/templates/shop/home.html:149
+msgid ""
+"Somos una empresa dedicada a la importación y comercialización de productos "
+"coreanos, estructurada a través de marcas especializadas que comparten una "
+"misma visión de calidad y desarrollo."
+msgstr ""
+"We are a company dedicated to importing and marketing Korean products, "
+"organized around specialized brands that share a common vision of quality "
+"and development."
+
+#: shop/templates/shop/home.html:152
+msgid ""
+"A través de Synk Foods y Synk Beauty, transformamos tendencias coreanas en "
+"propuestas auténticas, accesibles y alineadas al mercado actual."
+msgstr ""
+"Through Synk Foods and Synk Beauty, we transform Korean trends into "
+"authentic, accessible offerings that are tailored to today's market."
+
+#: shop/templates/shop/home.html:166
+msgid "MISIÓN"
+msgstr "MISSION"
+
+#: shop/templates/shop/home.html:171
+msgid "VISIÓN"
+msgstr "VISION"
+
+#: shop/templates/shop/home.html:182
+msgid "FILOSOFÍA"
+msgstr "PHILOSOPHY"
+
+#: shop/templates/shop/home.html:187
+msgid "VALORES"
+msgstr "VALUES"
+
+#: shop/templates/shop/home.html:200
+msgid "MAYORISTA"
+msgstr "WHOLESALER"
+
+#: shop/templates/shop/home.html:202
+msgid ""
+"One Synk se especializa en la comercialización mayorista y distribución de "
+"productos coreanos, ofreciendo soluciones confiables para empresas y socios "
+"comerciales."
+msgstr ""
+"One Synk specializes in the wholesale marketing and distribution of Korean "
+"products, offering reliable solutions for businesses and commercial "
+"partners."
+
+#: shop/templates/shop/home.html:211
+msgid "MINORISTAS"
+msgstr "RETAILERS"
+
+#: shop/templates/shop/home.html:213
+msgid ""
+"One Synk se especializa en la comercialización minorista de productos "
+"coreanos, ofreciendo soluciones retail enfocadas en calidad, innovación y "
+"experiencia de consumo."
+msgstr ""
+"One Synk specializes in the retail distribution of Korean products, offering"
+" retail solutions focused on quality, innovation, and the consumer "
+"experience."
+
+#: shop/templates/shop/home.html:222
+msgid ""
+"Ponte en contacto con One Synk y descubre oportunidades comerciales dentro "
+"de nuestro ecosistema multimarcas de productos coreanos."
+msgstr ""
+"Contact One Synk and discover business opportunities within our multi-brand "
+"ecosystem of Korean products."
+
+#: shop/templates/shop/home.html:277 shop/templates/shop/synkfood.html:309
+msgid "NEWSLETTER"
+msgstr ""
+
+#: shop/templates/shop/product/detail.html:90
+msgid "Cantidad"
+msgstr "Quantity"
+
+#: shop/templates/shop/product/detail.html:108
+msgid "Agregar al Carrito"
+msgstr "Add to Cart"
+
+#: shop/templates/shop/product/detail.html:124
+msgid "Compartir"
+msgstr "Share"
+
 #: shop/templates/shop/product/favorites.html:5
-#: shop/templates/shop/product/favorites.html:17 shop/views.py:137
+#: shop/templates/shop/product/favorites.html:17 shop/views.py:156
 msgid "My Favorites"
-msgstr ""
-
-#: shop/templates/includes/sidebar.html:35
-msgid "Customer Support"
-msgstr ""
-
-#: shop/templates/includes/sidebar.html:43 shop/templates/shop/base.html:77
-msgid "Sign Out"
-msgstr ""
-
-#: shop/templates/shop/base.html:70
-msgid "Payments"
-msgstr ""
-
-#: shop/templates/shop/base.html:85
-msgid "Log In"
-msgstr ""
-
-#: shop/templates/shop/base.html:89
-msgid "Register"
-msgstr ""
-
-#: shop/templates/shop/base.html:104
-msgid "All rights reserved."
-msgstr ""
-
-#: shop/templates/shop/product/detail.html:71
-msgid "Add to Cart"
 msgstr ""
 
 #: shop/templates/shop/product/favorites.html:19
@@ -2973,7 +3217,92 @@ msgstr ""
 msgid "Browse Products"
 msgstr ""
 
-#: shop/views.py:63
+#: shop/templates/shop/product/list.html:17
+msgid "NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:"
+msgstr "OUR SELECTION IS DESIGNED<br>TO SURPRISE YOU:"
+
+#: shop/templates/shop/product/list.html:18
+msgid ""
+"SNACKS, BEBIDAS Y DULCES CON CALIDAD PREMIUM,<br>LISTOS PARA ACOMPAÑARTE "
+"DONDE SEA"
+msgstr ""
+"PREMIUM-QUALITY SNACKS, DRINKS, AND SWEETS,<br>READY TO GO WITH YOU WHEREVER"
+" YOU GO"
+
+#: shop/templates/shop/product/list.html:61
+#, fuzzy
+#| msgid "Productos"
+msgid "Ver producto"
+msgstr "Products"
+
+#: shop/templates/shop/product/list.html:68
+msgid "Agregar a favoritos"
+msgstr "Add to Favorites"
+
+#: shop/templates/shop/product/list.html:87
+msgid "Agregar al carrito"
+msgstr "Add to Cart"
+
+#: shop/templates/shop/product/list.html:89
+msgid "Agregar"
+msgstr "Add"
+
+#: shop/templates/shop/synkfood.html:70 shop/templates/shop/synkfood.html:84
+#: shop/templates/shop/synkfood.html:97
+msgid "¿LISTO PARA<br>PROBAR?"
+msgstr "READY TO<br>TRY IT?"
+
+#: shop/templates/shop/synkfood.html:126
+msgid "SOBRE<br>NOSOTROS"
+msgstr "ABOUT<br>US"
+
+#: shop/templates/shop/synkfood.html:127
+msgid ""
+"Synk Food nace con la idea de crear un punto único de conexión entre Corea y"
+" nuevos mercados, enfocado en productos alimenticios de calidad, innovación "
+"y tendencias globales."
+msgstr ""
+"Synk Food was founded with the goal of creating a unique bridge between "
+"Korea and new markets, focusing on high-quality food products, innovation, "
+"and global trends."
+
+#: shop/templates/shop/synkfood.html:128
+msgid ""
+"A través de nuestras marcas, transformamos tendencias coreanas en propuestas"
+" auténticas, accesibles y alineadas al mercado actual."
+msgstr ""
+"Through our brands, we transform Korean trends into authentic, accessible "
+"offerings that are in line with today's market."
+
+#: shop/templates/shop/synkfood.html:129
+msgid ""
+"Nos especializamos en la importación y comercialización de snacks, bebidas y"
+" alimentos coreanos con los más altos estándares de calidad y sabor."
+msgstr ""
+"We specialize in importing and selling Korean snacks, beverages, and food "
+"products that meet the highest standards of quality and taste."
+
+#: shop/templates/shop/synkfood.html:167
+msgid "VER TODOS LOS PRODUCTOS"
+msgstr "VIEW ALL PRODUCTS"
+
+#: shop/templates/shop/synkfood.html:197
+msgid "Pronto publicaremos nuevas recetas."
+msgstr "We'll be posting new recipes soon."
+
+#: shop/templates/shop/synkfood.html:203
+msgid "VER TODO EL RECETARIO"
+msgstr "VIEW THE ENTIRE RECIPE COLLECTION"
+
+#: shop/templates/shop/synkfood.html:225
+msgid "RECETAS"
+msgstr "RECIPES"
+
+#: shop/templates/shop/synkfood.html:228
+msgid "VER MÁS"
+msgstr "SEE MORE"
+
+#: shop/views.py:79
 msgid "All Products"
 msgstr ""
 
@@ -3023,7 +3352,7 @@ msgstr ""
 
 #: support/models.py:20
 msgid "Request Refund"
-msgstr ""
+msgstr "Request a Refund"
 
 #: support/models.py:24
 msgid "Open"
@@ -3035,7 +3364,7 @@ msgstr ""
 
 #: support/models.py:26
 msgid "Waiting for Customer"
-msgstr ""
+msgstr "Waiting for a Customer"
 
 #: support/models.py:27
 msgid "Resolved"
@@ -3115,7 +3444,7 @@ msgstr ""
 
 #: support/models.py:149
 msgid "Staff only. Hidden from the customer."
-msgstr ""
+msgstr "For staff only. Hidden from customers."
 
 #: support/models.py:155
 msgid "Ticket Message"
@@ -3144,7 +3473,7 @@ msgstr ""
 
 #: support/views.py:95
 msgid "Create Support Ticket"
-msgstr ""
+msgstr "Create a Support Ticket"
 
 #: support/views.py:115
 #, python-format
@@ -3165,11 +3494,11 @@ msgstr ""
 
 #: support/views.py:165
 msgid "Ticket closed successfully."
-msgstr ""
+msgstr "The ticket was closed successfully."
 
 #: support/views.py:167
 msgid "This ticket is already closed."
-msgstr ""
+msgstr "This ticket has already been closed."
 
 #: templates/404.html:5 templates/404.html:15
 msgid "Page Not Found"
@@ -3205,3 +3534,9 @@ msgstr ""
 msgid ""
 "The server received an invalid response. Please try again in a few moments."
 msgstr ""
+
+#~ msgid "Buscar"
+#~ msgstr "Search"
+
+#~ msgid "Idioma"
+#~ msgstr "Language"
