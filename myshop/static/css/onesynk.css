@@ -1065,6 +1065,8 @@ a {
     align-items: center;
     text-align: center;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
   .os-filosofia__item img,
   .os-filosofia__item span { transition: none; }
