@@ -369,20 +369,26 @@
     overlay.addEventListener('click', closeMenu);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
-
+    // Smooth scroll — cierra el menú si el link está dentro del drawer
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
+        const isNavLink = !!this.closest('#navLinks');
+        if (isNavLink) closeMenu();
         if (target) {
-          const offset = 70;
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
+          const delay = isNavLink ? 120 : 0;
+          setTimeout(() => {
+            const offset = 70;
+            const top = target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }, delay);
         }
       });
+    });
+    // Links no-anchor dentro del menú (ej: tienda): solo cerrar
+    navLinks.querySelectorAll('a:not([href^="#"])').forEach(link => {
+      link.addEventListener('click', closeMenu);
     });
 
     const observer = new IntersectionObserver((entries) => {

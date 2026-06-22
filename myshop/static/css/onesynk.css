@@ -1018,7 +1018,22 @@ a {
     overflow-y: auto;
   }
   .os-nav__links--open { display: flex; }
-  .os-nav__links a { font-size: 1rem; letter-spacing: 0.1em; }
+  .os-nav__links a {
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 10px;
+    border-left: 3px solid transparent;
+    transition: color 0.22s, background 0.22s, border-color 0.22s, padding-left 0.22s;
+  }
+  .os-nav__links a:hover,
+  .os-nav__links a:active {
+    color: #ffffff;
+    background: rgba(255,255,255,0.1);
+    border-left-color: #7dd3fc;
+    padding-left: 24px;
+  }
 
   /* Hero */
   .os-hero__title { font-size: clamp(2.4rem, 8vw, 4rem); }
@@ -1073,6 +1088,7 @@ a {
   .os-filosofia__item:hover img  { transform: none; }
   .os-filosofia__item:hover span { transform: none; }
   .os-filosofia__item img { width: 46px; height: 46px; }
+  .os-filosofia__item span { font-size: 0.9rem; font-weight: 700; }
 
   /* Descripción siempre visible */
   .os-filosofia__tooltip {
@@ -1086,8 +1102,8 @@ a {
     box-shadow: none;
     border-radius: 0;
     padding: 0;
-    font-size: 0.68rem;
-    line-height: 1.65;
+    font-size: 0.82rem;
+    line-height: 1.7;
     text-align: center;
     transition: none;
     top: auto;
@@ -1139,7 +1155,8 @@ a {
   .os-filosofia__logo-img { width: 58px; }
   .os-filosofia__item { padding: 18px 16px; gap: 8px; }
   .os-filosofia__item img { width: 40px; height: 40px; }
-  .os-filosofia__tooltip { font-size: 0.7rem; }
+  .os-filosofia__item span { font-size: 0.85rem; }
+  .os-filosofia__tooltip { font-size: 0.78rem; }
 
   .os-canales { padding: 60px 16px; }
   .os-canales__grid { max-width: 300px; }
