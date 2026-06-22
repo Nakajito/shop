@@ -135,6 +135,11 @@ em { font-style: normal; }
 /* ============================================================
    NAVBAR
    ============================================================ */
+/* Offset del main para compensar navbar fija */
+.sf-main { padding-top: 72px; }
+@media (max-width: 768px) { .sf-main { padding-top: 64px; } }
+@media (max-width: 480px)  { .sf-main { padding-top: 58px; } }
+
 .sf-nav {
   position: fixed;
   top: 0; left: 0;
@@ -232,6 +237,45 @@ em { font-style: normal; }
 }
 
 .sf-nav__action-btn:hover { background: #f0f0f0; }
+
+/* ── Lang toggle — mismo tamaño que action-btn ── */
+.sf-nav__lang {
+  margin: 0;
+  padding: 0;
+}
+
+.lang-toggle__btn {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #333;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1;
+}
+
+.lang-toggle__btn:hover { background: #f0f0f0; }
+
+.lang-toggle__btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.lang-toggle__code {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
 
 /* Mobile toggle */
 .sf-nav__toggle {
@@ -1258,80 +1302,87 @@ em { font-style: normal; }
   .sf-carousel__product { height: 280px; }
 }
 
-/* Mobile/Tablet (≤ 768px): hamburger aparece */
+/* Mobile/Tablet (≤ 768px): hamburger activo, drawer como menú */
 @media (max-width: 768px) {
-  .sf-nav__inner { padding: 0 16px; }
-  .sf-nav__logo-img { height: 90px; }
-
-  .sf-nav__toggle { display: flex; }
-
-  .sf-nav__links {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    top: 0; right: 0;
-    width: 72vw;
-    max-width: 280px;
-    height: 100dvh;
-    background: #1a1a1a;
-    padding: 80px 28px 40px;
-    gap: 24px;
-    align-items: flex-start;
-    z-index: 999;
-    box-shadow: -4px 0 30px rgba(0,0,0,0.3);
+  .sf-nav__inner {
+    padding: 0 16px;
+    height: 64px;
   }
-
-  .sf-nav__links--open { display: flex; }
-  .sf-nav__link { color: #ffffff; font-size: 0.92rem; }
-  .sf-nav__link--active { background: #ffffff; color: #1a1a1a; }
+  .sf-nav__logo-img { height: 84px; }
+  .sf-nav__toggle { display: flex; }
+  .sf-nav__links { display: none; }
 
   /* Carousel */
   .sf-carousel, .sf-carousel__track, .sf-carousel__slide { min-height: auto; }
   .sf-carousel__container {
-    padding: 40px 20px;
+    padding: 36px 20px;
     flex-direction: column;
     gap: 20px;
     min-height: auto;
     align-items: center;
   }
   .sf-carousel__left { flex: none; align-items: center; text-align: center; gap: 20px; width: 100%; }
-  .sf-carousel__center { min-height: 200px; }
+  .sf-carousel__center { min-height: 200px; width: 100%; }
   .sf-carousel__product { height: 200px; }
   .sf-carousel__question { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+  .sf-carousel__arrow { display: none; }
 
-  /* Botón COMPRAR: ancho completo en móvil */
+  /* Botón COMPRAR ancho completo en móvil */
   .sf-btn--carousel {
     width: 100%;
     max-width: 320px;
-    padding: 16px 28px;
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
+    padding: 14px 28px;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
     text-align: center;
     justify-content: center;
     align-self: center;
   }
 
+  /* Secciones */
+  .sf-sobre__left  { padding: 48px 24px; }
+  .sf-productos    { padding: 56px 0; }
+  .sf-recetas      { padding: 56px 20px; }
+  .sf-recetas__card { padding: 28px 22px; }
+  .sf-testimonios  { padding: 60px 20px 48px; }
+  .sf-testimonios__grid { margin-top: 52px; }
+
   /* Footer */
-  .sf-sobre__left { padding: 40px 20px; }
-  .sf-productos { padding: 56px 20px; }
-  .sf-recetas { padding: 56px 20px; }
-  .sf-testimonios { padding: 56px 20px; }
-  .sf-footer__inner { grid-template-columns: 1fr; gap: 36px; }
+  .sf-footer       { padding: 56px 24px 0; }
+  .sf-footer__inner { grid-template-columns: 1fr; gap: 32px; }
   .sf-footer__bottom { justify-content: center; flex-direction: column; align-items: center; gap: 8px; }
+}
+
+/* Tablet intermedio: testimonios 2 columnas (640-900px) */
+@media (min-width: 640px) and (max-width: 900px) {
+  .sf-testimonios__grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 680px;
+  }
 }
 
 /* Teléfonos pequeños (≤ 480px) */
 @media (max-width: 480px) {
-  .sf-nav__logo-img { height: 72px; }
-  .sf-nav__action-btn { width: 40px; height: 40px; }
+  .sf-nav__inner       { height: 58px; }
+  .sf-nav__logo-img    { height: 68px; }
+  .sf-nav__action-btn  { width: 38px; height: 38px; }
   .sf-nav__action-btn svg { width: 20px; height: 20px; }
+  .lang-toggle__btn    { width: 38px; height: 38px; }
+  .lang-toggle__btn svg { width: 18px; height: 18px; }
+  .lang-toggle__code   { display: none; }
 
-  .sf-carousel__question { font-size: 1.7rem; }
-  .sf-carousel__product { height: 160px; }
-  .sf-carousel__container { padding: 28px 16px; }
+  .sf-carousel__question  { font-size: clamp(1.5rem, 7vw, 1.9rem); }
+  .sf-carousel__product   { height: 150px; }
+  .sf-carousel__container { padding: 24px 16px; gap: 16px; }
 
-  .sf-productos__grid { grid-template-columns: 1fr; max-width: 320px; }
-  .sf-footer__logo-img { width: 50%; }
+  .sf-sobre__left { padding: 36px 16px; }
+  .sf-recetas     { padding: 40px 16px; }
+  .sf-recetas__card { padding: 24px 18px; }
+  .sf-testimonios { padding: 48px 16px 36px; }
+  .sf-testimonios__card { margin-top: 52px; }
+  .sf-footer      { padding: 40px 16px 0; }
+  .sf-footer__logo-img { width: 55%; }
+  .sf-footer__inner { gap: 28px; }
 }
 
 /* ── Logo SynkFood en footer (productos / recetario / mayoristas) ── */

@@ -58,7 +58,7 @@
 
     {% if category %}
       <h2 class="category-section-title mb-4">{{ category.name|tr }}</h2>
-      <div class="row row-cols-2 row-cols-md-4 g-4">
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4">
         {% for product in products %}
         <div class="col">
           <div class="prod-card">
@@ -112,7 +112,7 @@
       {% regroup products by category as products_by_category %}
       {% for group in products_by_category %}
       <h2 class="category-section-title mb-4 {% if not forloop.first %}mt-5{% endif %}">{{ group.grouper.name|tr }}</h2>
-      <div class="row row-cols-2 row-cols-md-4 g-4 mb-3">
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4 mb-3">
         {% for product in group.list %}
         <div class="col">
           <div class="prod-card">
