@@ -17,6 +17,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
@@ -909,123 +910,158 @@ a {
 }
 
 /* ============================================================
-   RESPONSIVE — Tablet (≤ 900px)
+   LANG TOGGLE (estilos para este CSS)
+   ============================================================ */
+.lang-toggle__btn {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: rgba(255,255,255,0.9);
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1;
+}
+.lang-toggle__btn:hover { background: rgba(255,255,255,0.12); }
+.lang-toggle__btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+.lang-toggle__code { font-size: 8px; font-weight: 700; letter-spacing: 0.5px; line-height: 1; }
+
+/* ============================================================
+   RESPONSIVE — Tablet amplio (≤ 900px)
    ============================================================ */
 @media (max-width: 900px) {
-  .os-footer__inner {
-    grid-template-columns: 1fr 1fr;
+  .os-footer__inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .os-marcas__grid  { gap: 32px; }
+  .os-canales__grid { gap: 28px; }
+  .os-filosofia     { padding: 100px 24px; }
+  .os-filosofia__wheel {
+    grid-template-columns: 1fr 180px 1fr;
+    max-width: 640px;
   }
-
-  .os-showcase {
-    grid-template-columns: 1fr;
-  }
+  .os-filosofia__center { width: 180px; height: 180px; }
+  .os-filosofia__logo-img { width: 110px; }
+  .os-filosofia__item img { width: 58px; height: 58px; }
 }
 
 /* ============================================================
-   RESPONSIVE — Mobile (≤ 640px)
+   RESPONSIVE — Tablet (≤ 768px): hamburger activo
    ============================================================ */
-@media (max-width: 640px) {
-  /* Navbar */
+@media (max-width: 768px) {
+  /* Navbar: flex en lugar de grid, hamburguesa visible */
+  .os-nav__inner {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+  }
+  .os-nav__logo-img { height: 44px; }
   .os-nav__toggle {
     display: flex;
+    margin-left: auto;
   }
+  .os-nav__lang { margin-left: 8px; }
 
+  /* Links → panel drawer lateral */
   .os-nav__links {
     display: none;
     flex-direction: column;
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 0; right: 0;
     width: 75vw;
     max-width: 300px;
     height: 100dvh;
     background: #1e2545;
     padding: 80px 32px 40px;
     gap: 28px;
-    box-shadow: -4px 0 30px rgba(0,0,0,0.35);
+    box-shadow: -4px 0 30px rgba(0,0,0,0.45);
     align-items: flex-start;
-    z-index: 999;
+    z-index: 1200;
+    overflow-y: auto;
   }
-
-  .os-nav__links--open {
-    display: flex;
-  }
-
-  .os-nav__links a {
-    font-size: 1rem;
-  }
+  .os-nav__links--open { display: flex; }
+  .os-nav__links a { font-size: 1rem; letter-spacing: 0.1em; }
 
   /* Hero */
-  .os-hero__title {
-    font-size: 3rem;
-  }
+  .os-hero__title { font-size: clamp(2.4rem, 8vw, 4rem); }
 
   /* Quote */
-  .os-quote {
-    padding: 70px 20px;
-  }
+  .os-quote { padding: 72px 20px; }
 
   /* Marcas */
-  .os-marcas__grid {
-    grid-template-columns: 1fr;
-    max-width: 360px;
-  }
+  .os-marcas { padding: 64px 20px 72px; }
+  .os-marcas__grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+  .os-marcas__visual { height: 260px; }
+  .os-marcas__badge span { font-size: 1.7rem; }
+  .os-marcas__badge em { width: 1.6rem; height: 1.6rem; font-size: 1.6rem; }
 
-  .os-marcas__visual {
-    height: 240px;
-  }
-
-  .os-marcas__badge span {
-    font-size: 1.6rem;
-  }
-
-  .os-marcas__badge em {
-    width: 1.55rem;
-    height: 1.55rem;
-    font-size: 1.5rem;
-  }
-
-  /* Showcase */
-  .os-showcase__half {
-    padding: 50px 20px;
-  }
-
-  .os-showcase__icons-grid {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .os-showcase__product {
-    height: 150px;
-  }
-
-  /* Filosofía */
+  /* Filosofía — columnas más pequeñas para que quepan los items */
+  .os-filosofia { padding: 72px 20px; }
   .os-filosofia__wheel {
-    grid-template-areas:
-      "top"
-      "left"
-      "center"
-      "right"
-      "bottom";
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 140px 1fr;
+    max-width: 100%;
+    min-height: 420px;
   }
+  .os-filosofia__center { width: 140px; height: 140px; }
+  .os-filosofia__logo-img { width: 86px; }
+  .os-filosofia__item img { width: 48px; height: 48px; }
+  .os-filosofia__tooltip { display: none; }
 
   /* Canales */
-  .os-canales__grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-  }
+  .os-canales { padding: 72px 20px; }
+  .os-canales__grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+  /* Contacto */
+  .os-contacto { padding: 64px 20px; }
 
   /* Footer */
-  .os-footer__inner {
-    grid-template-columns: 1fr;
-  }
+  .os-footer { padding: 48px 20px 0; }
+  .os-footer__inner { grid-template-columns: 1fr; gap: 32px; }
+  .os-footer__bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
 
-  .os-footer__bottom {
+/* ============================================================
+   RESPONSIVE — Mobile pequeño (≤ 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .os-nav__inner { padding: 0 16px; height: 54px; }
+  .os-nav__logo-img { height: 38px; }
+  .lang-toggle__btn { width: 38px; height: 38px; }
+  .lang-toggle__code { display: none; }
+
+  .os-hero__title { font-size: clamp(2rem, 9vw, 3rem); }
+  .os-quote { padding: 56px 16px; }
+  .os-marcas { padding: 52px 16px 60px; }
+  .os-marcas__grid { max-width: 300px; }
+  .os-marcas__visual { height: 220px; }
+  .os-nosotros__content { padding: 56px 16px; }
+
+  /* Filosofía: layout de columna única para pantallas muy pequeñas */
+  .os-filosofia { padding: 56px 16px; }
+  .os-filosofia__wheel {
+    display: flex;
     flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    align-items: center;
+    gap: 32px;
+    min-height: unset;
   }
+  .os-filosofia__center { order: -1; width: 140px; height: 140px; }
+  .os-filosofia__logo-img { width: 86px; }
+  .os-filosofia__line--h,
+  .os-filosofia__line--v { display: none; }
+  .os-filosofia__item img { width: 52px; height: 52px; }
+
+  .os-canales { padding: 60px 16px; }
+  .os-canales__grid { max-width: 300px; }
+  .os-contacto { padding: 52px 16px; }
+  .os-footer { padding: 40px 16px 0; }
+  .os-footer__inner { gap: 24px; }
 }
 
 /* ── Search Overlay (shared navbar) ── */

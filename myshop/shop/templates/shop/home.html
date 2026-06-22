@@ -336,16 +336,33 @@
 
     const toggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
+
+    // Overlay para cerrar el menú tocando fuera
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1100;backdrop-filter:blur(2px);transition:opacity .3s';
+    document.body.appendChild(overlay);
+
+    function openMenu() {
+      navLinks.classList.add('os-nav__links--open');
+      toggle.classList.add('os-nav__toggle--open');
+      overlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      navLinks.classList.remove('os-nav__links--open');
+      toggle.classList.remove('os-nav__toggle--open');
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
     toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('os-nav__links--open');
-      toggle.classList.toggle('os-nav__toggle--open');
+      navLinks.classList.contains('os-nav__links--open') ? closeMenu() : openMenu();
     });
+    overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('os-nav__links--open');
-        toggle.classList.remove('os-nav__toggle--open');
-      });
+      link.addEventListener('click', closeMenu);
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
