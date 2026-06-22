@@ -123,6 +123,11 @@ a {
   position: absolute;
   top: 20px;
   right: 20px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .os-nav__close-item { display: block; }
 }
 
 .os-nav__close {
