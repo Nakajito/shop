@@ -184,6 +184,116 @@
     badge.style.animation = 'sk-badge-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both';
   }
 
+  /* ── 13. Catálogo: favorito + agregar al carrito (AJAX) ──── */
+  function skGetCookie(name) {
+    let v = null;
+    if (document.cookie) {
+      document.cookie.split(';').forEach(c => {
+        c = c.trim();
+        if (c.startsWith(name + '=')) v = decodeURIComponent(c.slice(name.length + 1));
+      });
+    }
+    return v;
+  }
+
+  function skUpdateCartBadge(count) {
+    let b = document.querySelector('.sf-nav__cart-badge');
+    if (count > 0) {
+      if (!b) {
+        const cartLink = document.querySelector('.sf-nav__cart');
+        if (cartLink) {
+          b = document.createElement('span');
+          b.className = 'sf-nav__cart-badge';
+          cartLink.appendChild(b);
+        }
+      }
+      if (b) {
+        b.textContent = count;
+        b.style.animation = 'none';
+        // force reflow to restart animation
+        void b.offsetWidth;
+        b.style.animation = 'sk-badge-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both';
+      }
+    } else if (b) {
+      b.remove();
+    }
+  }
+
+  /* Agregar al carrito */
+  document.querySelectorAll('.js-add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const body = new URLSearchParams();
+      body.append('quantity', '1');
+      body.append('override', 'false');
+      fetch(this.dataset.url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': skGetCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data || !data.ok) {
+          if (window.skToast) window.skToast('No se pudo agregar el producto', 'error');
+          return;
+        }
+        if (window.skToast) window.skToast('Producto agregado al carrito');
+        skUpdateCartBadge(data.cart_len);
+        const label = this.querySelector('.prod-add-btn__label');
+        const original = label ? label.textContent : null;
+        this.classList.add('is-added');
+        if (label) label.textContent = '✓ Agregado';
+        setTimeout(() => {
+          this.classList.remove('is-added');
+          if (label && original !== null) label.textContent = original;
+        }, 1800);
+      })
+      .catch(() => {
+        if (window.skToast) window.skToast('No se pudo agregar el producto', 'error');
+      });
+    });
+  });
+
+  /* Favorito */
+  document.querySelectorAll('.js-fav-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      fetch(this.dataset.url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': skGetCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      })
+      .then(r => {
+        // login_required redirects (302) unauthenticated users to the login page;
+        // fetch follows it, so detect the redirect / non-JSON response.
+        if (r.status === 401 || r.status === 403 || r.redirected ||
+            !(r.headers.get('content-type') || '').includes('application/json')) {
+          window.location.href = this.dataset.loginUrl || '/accounts/login/';
+          return null;
+        }
+        return r.json();
+      })
+      .then(data => {
+        if (!data) return;
+        const svg = this.querySelector('.prod-fav-icon');
+        if (data.is_favorite) {
+          this.classList.add('is-active');
+          if (svg) svg.setAttribute('fill', 'currentColor');
+          if (window.skToast) window.skToast('Agregado a favoritos');
+        } else {
+          this.classList.remove('is-active');
+          if (svg) svg.setAttribute('fill', 'none');
+          if (window.skToast) window.skToast('Eliminado de favoritos', 'info');
+        }
+      })
+      .catch(() => {});
+    });
+  });
+
 })();
 
 /* ── Search Overlay (shared navbar) ── */

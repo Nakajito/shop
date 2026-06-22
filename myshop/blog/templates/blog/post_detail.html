@@ -1,8 +1,9 @@
  {% extends 'shop/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
-{% block title %}{{ post.title }} - Synk Food{% endblock %}
+{% block title %}{{ post.title|tr }} - Synk Food{% endblock %}
 
 {% block extra_css %}
 <link href="{% static 'blog/css/detalle.css' %}" rel="stylesheet">
@@ -17,7 +18,7 @@
     ═══════════════════════════════════════════════ -->
     <div class="rd-hero">
         {% if post.cover_image %}
-            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="rd-hero__img">
+            <img src="{{ post.cover_image.url }}" alt="{{ post.title|tr }}" class="rd-hero__img">
         {% else %}
             <div class="rd-hero__placeholder"></div>
         {% endif %}
@@ -29,10 +30,10 @@
             </a>
             {% if post.category %}
                 <a href="{% url 'blog:post_list_by_category' post.category.slug %}" class="rd-hero__cat">
-                    {{ post.category.name }}
+                    {{ post.category.name|tr }}
                 </a>
             {% endif %}
-            <h1 class="rd-hero__title">{{ post.title|upper }}</h1>
+            <h1 class="rd-hero__title">{{ post.title|tr|upper }}</h1>
         </div>
     </div>
 
@@ -41,9 +42,9 @@
     ═══════════════════════════════════════════════ -->
     {% if post.subtitle %}
     <div class="rd-intro">
-        <p class="rd-intro__tagline">{{ post.subtitle|upper }}</p>
+        <p class="rd-intro__tagline">{{ post.subtitle|tr|upper }}</p>
         <div class="rd-intro__body">
-            {{ post.body|safe }}
+            {{ post.body|tr_safe }}
         </div>
     </div>
     {% else %}
@@ -69,7 +70,7 @@
         <div class="rd-media-row__images">
             {% for image in post.images.all %}
                 <img src="{{ image.image.url }}"
-                     alt="{{ image.caption|default:post.title }}"
+                     alt="{{ image.caption|default:post.title|tr }}"
                      class="rd-product-img"
                      data-caption="{{ image.caption }}"
                      onclick="openLightbox(this)">
@@ -82,7 +83,7 @@
         <div class="rd-media-row__videos">
             {% for video in post.videos.all %}
                 {% if video.title %}
-                    <p class="rd-video-label">{{ video.title }}</p>
+                    <p class="rd-video-label">{{ video.title|tr }}</p>
                 {% endif %}
                 {% if video.video_type == 'file' and video.file %}
                     <div class="rd-video-wrap">
@@ -112,7 +113,7 @@
     {% if post.tags.all %}
     <div class="rd-tags">
         {% for tag in post.tags.all %}
-            <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="rd-tag">{{ tag.name }}</a>
+            <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="rd-tag">{{ tag.name|tr }}</a>
         {% endfor %}
     </div>
     {% endif %}
@@ -134,14 +135,14 @@
                     <div class="recipe-card__image-wrap">
                         {% if related.cover_image %}
                             <img src="{{ related.cover_image.url }}"
-                                 alt="{{ related.title }}"
+                                 alt="{{ related.title|tr }}"
                                  class="recipe-card__image">
                         {% else %}
                             <div class="recipe-card__placeholder"></div>
                         {% endif %}
                     </div>
                     <div class="recipe-card__info">
-                        <h3 class="recipe-card__title">{{ related.title|upper }}</h3>
+                        <h3 class="recipe-card__title">{{ related.title|tr|upper }}</h3>
                     </div>
                 </a>
             {% endfor %}

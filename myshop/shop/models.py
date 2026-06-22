@@ -1,3 +1,5 @@
+import hashlib
+
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +14,9 @@ class Category(models.Model):
 
     name = models.CharField(_("name"), max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    image = models.ImageField(
+        _("image"), upload_to="categories/%Y/%m/%d", blank=True, null=True
+    )
 
     class Meta:
         ordering = ["name"]
@@ -81,3 +86,83 @@ class Product(models.Model):
         Return the canonical URL for the product detail view.
         """
         return reverse("shop:product_detail", args=[self.id, self.slug])
+
+
+class ProductImage(models.Model):
+    """
+    Additional image for a product, used to build the detail page carousel.
+    """
+
+    product = models.ForeignKey(
+        Product,
+        related_name="images",
+        on_delete=models.CASCADE,
+        verbose_name=_("product"),
+    )
+    image = models.ImageField(_("image"), upload_to="products/%Y/%m/%d")
+    alt_text = models.CharField(_("alt text"), max_length=200, blank=True)
+    order = models.PositiveIntegerField(_("order"), default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = _("product image")
+        verbose_name_plural = _("product images")
+        indexes = [
+            models.Index(fields=["product", "order"]),
+        ]
+
+    def __str__(self):
+        return f"{self.product.name} ({self.pk})"
+
+
+class TranslationCache(models.Model):
+    """Persistent cache of dynamic (database) content translations."""
+
+    source_hash = models.CharField(max_length=64, db_index=True)
+    source_lang = models.CharField(max_length=5)
+    target_lang = models.CharField(max_length=5)
+    source_text = models.TextField()
+    translated_text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("translation cache")
+        verbose_name_plural = _("translation cache")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["source_hash", "source_lang", "target_lang"],
+                name="unique_translation_entry",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["source_hash", "source_lang", "target_lang"]),
+        ]
+
+    def __str__(self):
+        return f"{self.source_lang}->{self.target_lang}: {self.source_text[:30]}"
+
+    @staticmethod
+    def make_hash(text):
+        return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    @classmethod
+    def get_cached(cls, text, source_lang, target_lang):
+        entry = cls.objects.filter(
+            source_hash=cls.make_hash(text),
+            source_lang=source_lang.lower(),
+            target_lang=target_lang.lower(),
+        ).first()
+        return entry.translated_text if entry else None
+
+    @classmethod
+    def store(cls, text, source_lang, target_lang, translated_text):
+        return cls.objects.update_or_create(
+            source_hash=cls.make_hash(text),
+            source_lang=source_lang.lower(),
+            target_lang=target_lang.lower(),
+            defaults={
+                "source_text": text,
+                "translated_text": translated_text,
+            },
+        )[0]

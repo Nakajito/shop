@@ -1,6 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block title %}{{ page_title }} - Synk Food{% endblock %}
 
@@ -16,9 +17,9 @@
         <h1 class="recetario-title">{% trans "RECETARIO" %}</h1>
 
         {% if current_category %}
-            <p class="recetario-subtitle">{% trans "Categoría" %}: <strong>{{ current_category.name }}</strong></p>
+            <p class="recetario-subtitle">{% trans "Categoría" %}: <strong>{{ current_category.name|tr }}</strong></p>
         {% elif current_tag %}
-            <p class="recetario-subtitle">{% trans "Tag" %}: <strong>{{ current_tag.name }}</strong></p>
+            <p class="recetario-subtitle">{% trans "Tag" %}: <strong>{{ current_tag.name|tr }}</strong></p>
         {% elif search_query %}
             <p class="recetario-subtitle">{% trans "Resultados para" %}: <strong>"{{ search_query }}"</strong></p>
         {% endif %}
@@ -35,7 +36,7 @@
             {% for cat in categories %}
                 <a href="{% url 'blog:post_list_by_category' cat.slug %}"
                    class="filter-pill {% if current_category.slug == cat.slug %}filter-pill--active{% endif %}">
-                    {{ cat.name }}
+                    {{ cat.name|tr }}
                     <span class="filter-pill__count">{{ cat.post_count }}</span>
                 </a>
             {% endfor %}
@@ -64,7 +65,7 @@
                     <div class="recipe-card__image-wrap">
                         {% if post.cover_image %}
                             <img src="{{ post.cover_image.url }}"
-                                 alt="{{ post.title }}"
+                                 alt="{{ post.title|tr }}"
                                  class="recipe-card__image">
                         {% else %}
                             <div class="recipe-card__placeholder">
@@ -77,15 +78,15 @@
                         {% endif %}
 
                         {% if post.category %}
-                            <span class="recipe-card__category">{{ post.category.name }}</span>
+                            <span class="recipe-card__category">{{ post.category.name|tr }}</span>
                         {% endif %}
                     </div>
 
                     <!-- Info overlay -->
                     <div class="recipe-card__info">
-                        <h2 class="recipe-card__title">{{ post.title|upper }}</h2>
+                        <h2 class="recipe-card__title">{{ post.title|tr|upper }}</h2>
                         {% if post.subtitle %}
-                            <p class="recipe-card__sub">{{ post.subtitle|truncatewords:10 }}</p>
+                            <p class="recipe-card__sub">{{ post.subtitle|tr|truncatewords:10 }}</p>
                         {% endif %}
                     </div>
                 </a>

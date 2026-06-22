@@ -170,6 +170,40 @@ body {
   transform: scale(1.06);
 }
 
+.prod-card__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.prod-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 17, 17, 0.42);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.prod-img-wrapper:hover .prod-overlay {
+  opacity: 1;
+}
+
+.prod-overlay-label {
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--black);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  line-height: 1;
+  padding: 8px 14px;
+  text-transform: uppercase;
+}
+
 /* Botones flotantes: corazón + carrito */
 .prod-actions {
   position: absolute;
@@ -259,6 +293,80 @@ body {
   font-weight: 600;
   color: var(--black);
   margin-bottom: 0;
+}
+
+/* Botón favorito flotante sobre la imagen */
+.prod-fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--black);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+
+.prod-fav-btn:hover {
+  transform: scale(1.1);
+  background: var(--white);
+}
+
+.prod-fav-btn.is-active {
+  color: #e0245e;
+}
+
+.prod-fav-btn .prod-fav-icon {
+  pointer-events: none;
+}
+
+/* Botón agregar al carrito */
+.prod-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.prod-info__link {
+  display: block;
+}
+
+.prod-add-btn {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--black);
+  border-radius: 24px;
+  background: var(--white);
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.prod-add-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.prod-add-btn.is-added {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: var(--white);
 }
 
 /* ===========================

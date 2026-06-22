@@ -22,6 +22,7 @@ def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     form = CartAddProductForm(request.POST)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
 
     if form.is_valid():
         cd = form.cleaned_data
@@ -30,12 +31,21 @@ def cart_add(request, product_id):
             quantity=cd["quantity"],
             override_quantity=cd["override"],
         )
-        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-            return JsonResponse({"success": True, "cart_count": len(cart), "product_name": product.name})
+        if is_ajax:
+            return JsonResponse(
+                {
+                    "ok": True,
+                    "cart_len": len(cart),
+                    "product_name": product.name,
+                }
+            )
         messages.success(request, "Product added to cart.")
     else:
-        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-            return JsonResponse({"success": False}, status=400)
+        if is_ajax:
+            return JsonResponse(
+                {"ok": False, "error": "Error adding product to cart."},
+                status=400,
+            )
         messages.error(request, "Error adding product to cart.")
 
     return redirect("cart:cart_detail")

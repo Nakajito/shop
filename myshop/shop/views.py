@@ -16,7 +16,15 @@ def home(request):
 
 
 def synkfood(request):
-    return render(request, "shop/synkfood.html")
+    from blog.models import Post
+
+    categories = Category.objects.all()
+    posts = Post.objects.published()[:3]
+    return render(
+        request,
+        "shop/synkfood.html",
+        {"categories": categories, "posts": posts},
+    )
 
 from .models import Category, Product
 from .recommender import Recommender
@@ -88,7 +96,10 @@ def product_detail(request, id, slug):
     """
     # select_related here ensures category data is available for breadcrumbs/UI
     product = get_object_or_404(
-        Product.objects.select_related("category"), id=id, slug=slug, available=True
+        Product.objects.select_related("category").prefetch_related("images"),
+        id=id,
+        slug=slug,
+        available=True,
     )
 
     # Initialize the Add to Cart form

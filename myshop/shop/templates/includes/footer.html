@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <footer class="sf-footer">
   <div class="sf-footer__inner">
@@ -7,18 +8,18 @@
         <img src="{% static 'img/onesynk/logo-sinfood.svg' %}" alt="Synk Food" class="sf-footer__synkfood-logo" />
       </a>
       <div class="sf-footer__contact">
-        <p class="sf-footer__contact-title">CONTACTO</p>
-        <p><span class="sf-footer__contact-label">MARCA</span> 000 234 4567</p>
+        <p class="sf-footer__contact-title">{% trans "CONTACTO" %}</p>
+        <p><span class="sf-footer__contact-label">{% trans "MARCA" %}</span> 000 234 4567</p>
         <p><span class="sf-footer__contact-label">WHATSAPP</span> 000 234 4567</p>
       </div>
       <div class="sf-footer__social">
-        <p class="sf-footer__social-label">SÍGUENOS EN REDES:</p>
+        <p class="sf-footer__social-label">{% trans "SÍGUENOS EN REDES:" %}</p>
         <img src="{% static 'img/onesynk/11.png' %}" alt="Redes" class="sf-footer__social-img" />
       </div>
     </div>
 
     <div class="sf-footer__col">
-      <h4>CATEGORÍAS</h4>
+      <h4>{% trans "CATEGORÍAS" %}</h4>
       <ul>
         <li>FALCON PROTEIN</li>
         <li>FALCON PERFORMANCE</li>
@@ -29,7 +30,7 @@
     </div>
 
     <div class="sf-footer__col">
-      <h4>CENTRO DE AYUDA</h4>
+      <h4>{% trans "CENTRO DE AYUDA" %}</h4>
       <ul>
         <li>FALCON PROTEIN</li>
         <li>FALCON PERFORMANCE</li>
@@ -53,7 +54,7 @@
 
   <div class="sf-footer__bottom">
     <span>© SYNK FOOD, 2026</span>
-    <span>AVISO DE PRIVACIDAD</span>
-    <span>TÉRMINOS Y CONDICIONES</span>
+    <span>{% trans "AVISO DE PRIVACIDAD" %}</span>
+    <span>{% trans "TÉRMINOS Y CONDICIONES" %}</span>
   </div>
 </footer>
