@@ -10,6 +10,9 @@ from django.views.decorators.vary import vary_on_cookie
 
 from cart.forms import CartAddProductForm
 
+from .models import Category, Product
+from .recommender import Recommender
+
 
 def home(request):
     return render(request, "shop/home.html")
@@ -25,9 +28,6 @@ def synkfood(request):
         "shop/synkfood.html",
         {"categories": categories, "posts": posts},
     )
-
-from .models import Category, Product
-from .recommender import Recommender
 
 
 @vary_on_cookie
