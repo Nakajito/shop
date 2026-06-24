@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block title %}Tu Carrito — Synk Food{% endblock %}
 
@@ -41,11 +42,11 @@
         <div class="ct-row__product">
           <a href="{{ product.get_absolute_url }}" class="ct-row__img-wrap">
             <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                 alt="{{ product.name }}" class="ct-row__img">
+                 alt="{{ product.name|tr }}" class="ct-row__img">
           </a>
           <div class="ct-row__meta">
-            <a href="{{ product.get_absolute_url }}" class="ct-row__name">{{ product.name }}</a>
-            <span class="ct-row__cat">{{ product.category.name }}</span>
+            <a href="{{ product.get_absolute_url }}" class="ct-row__name">{{ product.name|tr }}</a>
+            <span class="ct-row__cat">{{ product.category.name|tr }}</span>
             <span class="ct-row__unit">$\{{ item.price }} c/u</span>
           </div>
         </div>

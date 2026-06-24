@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
 {% load i18n %}
 {% load static %}
+{% load i18n_extras %}
 {% block title %}
     {% trans "Checkout" %} - One Synk
 {% endblock %}
@@ -146,7 +147,7 @@
                             {% for item in cart %}
                                 <li class="list-group-item d-flex justify-content-between lh-sm px-0">
                                     <div>
-                                        <h6 class="my-0 fw-bold text-dark">{{ item.product.name }}</h6>
+                                        <h6 class="my-0 fw-bold text-dark">{{ item.product.name|tr }}</h6>
                                         <small class="text-muted">{% trans "Quantity" %}: {{ item.quantity }}</small>
                                     </div>
                                     <span class="text-muted">${{ item.total_price }}</span>

@@ -1,6 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block title %}{% trans "Order" %} #{{ order.id }} - One Synk{% endblock %}
 
@@ -52,7 +53,7 @@
                                     <tr>
                                         <td>
                                             {% if item.product.image %}
-                                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="rounded" style="width:64px;height:64px;object-fit:cover;"/>
+                                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name|tr }}" class="rounded" style="width:64px;height:64px;object-fit:cover;"/>
                                             {% else %}
                                                 <div class="d-flex align-items-center justify-content-center bg-light border rounded" style="width:64px;height:64px;">
                                                     <i class="bi bi-card-image text-muted fs-4"></i>
@@ -60,7 +61,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <div class="fw-bold text-dark">{{ item.product.name }}</div>
+                                            <div class="fw-bold text-dark">{{ item.product.name|tr }}</div>
                                             <small class="text-muted">SKU: {{ item.product.id }}</small>
                                             <div class="mt-2">
                                                 <form action="{% url 'cart:cart_add' item.product.id %}" method="post" class="d-inline-block">

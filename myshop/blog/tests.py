@@ -182,25 +182,25 @@ class BlogPublicViewTests(TestCase):
 
     def test_post_list_shows_published(self):
         response = self.client.get(reverse("blog:post_list"))
-        self.assertContains(response, "Public Post")
-        self.assertNotContains(response, "Draft Post")
+        self.assertContains(response, "PUBLIC POST")
+        self.assertNotContains(response, "DRAFT POST")
 
     def test_post_list_by_category(self):
         response = self.client.get(
             reverse("blog:post_list_by_category", args=["tech"])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Public Post")
+        self.assertContains(response, "PUBLIC POST")
 
     def test_post_list_by_tag(self):
         response = self.client.get(reverse("blog:post_list_by_tag", args=["django"]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Public Post")
+        self.assertContains(response, "PUBLIC POST")
 
     def test_post_list_search(self):
         response = self.client.get(reverse("blog:post_list") + "?q=Public")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Public Post")
+        self.assertContains(response, "PUBLIC POST")
 
     def test_post_detail_published(self):
         response = self.client.get(
