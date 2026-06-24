@@ -83,7 +83,7 @@
       <hr class="pd-divider">
 
       <!-- Formulario carrito -->
-      <form action="{% url 'cart:cart_add' product.id %}" method="post">
+      <form action="{% url 'cart:cart_add' product.id %}" method="post" data-ajax-add>
         {% csrf_token %}
 
         <!-- Cantidad -->

@@ -116,22 +116,44 @@
     }, 3000);
   };
 
-  /* ── 7. Add to cart: feedback visual ────────────────────── */
-  const addCartForm = document.querySelector('form[action*="cart/add"]');
-  if (addCartForm) {
-    addCartForm.addEventListener('submit', function () {
+  /* ── 7. Add to cart: AJAX (product detail) ─────────────── */
+  document.querySelectorAll('form[data-ajax-add]').forEach(form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       const btn = this.querySelector('.pd-btn--add, .add-cart-btn');
-      if (btn) {
-        const original = btn.innerHTML;
-        btn.innerHTML = '✓ Agregado';
-        btn.style.background = '#2e7d32';
-        setTimeout(() => {
-          btn.innerHTML = original;
-          btn.style.background = '';
-        }, 1800);
-      }
+      const body = new URLSearchParams(new FormData(this));
+      fetch(this.getAttribute('action'), {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': skGetCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body.toString(),
+      })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data || !data.ok) {
+          if (window.skToast) window.skToast('No se pudo agregar el producto', 'error');
+          return;
+        }
+        if (window.skToast) window.skToast('Producto agregado al carrito');
+        skUpdateCartBadge(data.cart_len);
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = '✓ Agregado';
+          btn.style.background = '#2e7d32';
+          setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.background = '';
+          }, 1800);
+        }
+      })
+      .catch(() => {
+        if (window.skToast) window.skToast('No se pudo agregar el producto', 'error');
+      });
     });
-  }
+  });
 
   /* ── 8. Smooth scroll para anchors ──────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
