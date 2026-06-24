@@ -50,7 +50,7 @@
     {% else %}
     <div class="rd-intro">
         <div class="rd-intro__body rd-intro__body--full">
-            {{ post.body|safe }}
+            {{ post.body|tr_safe }}
         </div>
     </div>
     {% endif %}

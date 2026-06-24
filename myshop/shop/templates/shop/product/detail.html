@@ -16,7 +16,7 @@
   <nav class="pd-breadcrumb">
     <a href="{% url 'shop:product_list' %}">{% trans "PRODUCTOS" %}</a>
     <span>/</span>
-    <a href="{{ product.category.get_absolute_url }}">{{ product.category.name|upper }}</a>
+    <a href="{{ product.category.get_absolute_url }}">{{ product.category.name|tr|upper }}</a>
     <span>/</span>
     <span>{{ product.name|tr|upper }}</span>
   </nav>
