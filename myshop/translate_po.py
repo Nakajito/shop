@@ -3,7 +3,6 @@
 
 import os
 import re
-import sys
 import time
 
 # Django setup — must happen before any Django imports
