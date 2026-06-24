@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/recetario.css' %}">
@@ -24,11 +25,11 @@
         <div class="recipe-card">
           <div class="recipe-img-wrapper">
             <img src="{% if recipe.image %}{{ recipe.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                 alt="{{ recipe.title }}"
+                 alt="{{ recipe.title|tr }}"
                  class="recipe-img">
           </div>
           <div class="recipe-label">
-            <span class="recipe-name">{{ recipe.title }}</span>
+            <span class="recipe-name">{{ recipe.title|tr }}</span>
           </div>
         </div>
       </a>

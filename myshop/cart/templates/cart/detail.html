@@ -162,9 +162,9 @@
       <a href="{{ p.get_absolute_url }}" class="ct-rec-card">
         <div class="ct-rec-card__img-wrap">
           <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-               alt="{{ p.name }}" class="ct-rec-card__img">
-        </div>
-        <p class="ct-rec-card__name">{{ p.name }}</p>
+               alt="{{ p.name|tr }}" class="ct-rec-card__img">
+          </div>
+          <p class="ct-rec-card__name">{{ p.name|tr }}</p>
         <p class="ct-rec-card__price">${{ p.price }}</p>
       </a>
       {% endfor %}
