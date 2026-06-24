@@ -132,41 +132,6 @@
     </div>
   </section>
 
-  <!-- ===== RECETARIO (BLOG) ===== -->
-  <section class="sf-recetario py-5" id="recetario">
-    <div class="container">
-      <h2 class="sf-section-title mb-5">{% trans "RECETARIO" %}</h2>
-      <div class="row g-4 justify-content-center">
-
-        {% for post in posts %}
-        <div class="col-12 col-md-4">
-          <a href="{{ post.get_absolute_url }}" class="sf-prod-card">
-            <div class="sf-prod-card__wrap sf-prod-card__wrap--sm">
-              {% if post.cover_image %}
-              <img src="{{ post.cover_image.url }}" alt="{{ post.title|tr }}" class="sf-prod-card__img" />
-              {% else %}
-              <img src="{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}" alt="{{ post.title|tr }}" class="sf-prod-card__img" />
-              {% endif %}
-              <div class="sf-prod-card__overlay"></div>
-              <div class="sf-prod-card__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              </div>
-            </div>
-            <p class="sf-prod-card__label">{{ post.title|tr }}</p>
-          </a>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center">
-          <p class="sf-recetario__empty">{% trans "Pronto publicaremos nuevas recetas." %}</p>
-        </div>
-        {% endfor %}
-
-      </div>
-      <div class="text-center mt-5">
-        <a href="{% url 'blog:post_list' %}" class="sf-btn sf-btn--dark sf-btn--wide">{% trans "VER TODO EL RECETARIO" %}</a>
-      </div>
-    </div>
-  </section>
 
   <!-- ===== RECETAS ===== -->
   <section class="sf-recetas" id="recetas">

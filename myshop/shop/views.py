@@ -19,14 +19,11 @@ def home(request):
 
 
 def synkfood(request):
-    from blog.models import Post
-
     categories = Category.objects.all()
-    posts = Post.objects.published()[:3]
     return render(
         request,
         "shop/synkfood.html",
-        {"categories": categories, "posts": posts},
+        {"categories": categories},
     )
 
 

@@ -26,9 +26,19 @@
         </button>
         <ul class="os-nav__links" id="navLinks">
           <li class="os-nav__close-item">
-            <button class="os-nav__close" id="navClose" aria-label="{% trans 'Cerrar menú' %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            <button class="os-nav__close"
+                    id="navClose"
+                    aria-label="{% trans 'Cerrar menú' %}">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   width="22"
+                   height="22"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
           </li>
@@ -42,16 +52,13 @@
             <a href="#contacto">{% trans "CONTACTO" %}</a>
           </li>
         </ul>
-        <div class="os-nav__lang">
-          {% include 'includes/lang_toggle.html' with css_class='os-nav__lang-form' %}
-        </div>
+        <div class="os-nav__lang">{% include 'includes/lang_toggle.html' with css_class='os-nav__lang-form' %}</div>
       </div>
     </nav>
-
     <!-- ===== HERO ===== -->
     <section class="os-hero" id="inicio">
       <div class="os-hero__bg"
-           style="background-image: url('{% static 'img/onesynk/PRIMERA-PANTALLA-01.png' %}')"></div>
+           style="background-image: url('{% static 'img/onesynk/cocinando.jpeg' %}')"></div>
       <div class="os-hero__overlay"></div>
       <div class="os-hero__content">
         <h1 class="os-hero__title">ONE SYNK</h1>
@@ -76,7 +83,6 @@
         </svg>
       </a>
     </section>
-
     <!-- ===== CITA ===== -->
     <section class="os-quote" id="cita">
       <div class="os-quote__bg"
@@ -98,7 +104,6 @@
         </p>
       </div>
     </section>
-
     <!-- ===== NUESTRAS MARCAS ===== -->
     <section class="os-marcas" id="marcas">
       <h2 class="os-section-title">{% trans "NUESTRAS MARCAS" %}</h2>
@@ -110,7 +115,8 @@
                    alt="Synk Food"
                    class="os-marcas__img" />
             </a>
-            <a href="{% url 'shop:synkfood' %}" class="os-marcas__badge os-marcas__badge--food">
+            <a href="{% url 'shop:synkfood' %}"
+               class="os-marcas__badge os-marcas__badge--food">
               <img src="{% static 'img/onesynk/logo-sinfood.svg' %}"
                    alt="Synk Food"
                    class="os-marcas__food-logo" />
@@ -123,7 +129,6 @@
           </p>
           <a href="{% url 'shop:synkfood' %}" class="os-btn os-btn--dark">{% trans "CONOCER MÁS" %}</a>
         </div>
-
         <div class="os-marcas__card">
           <div class="os-marcas__visual">
             <a href="https://synkbeauty.dabg.dev/" target="_blank" rel="noopener">
@@ -152,7 +157,6 @@
         </div>
       </div>
     </section>
-
     <!-- ===== SOBRE NOSOTROS ===== -->
     <section class="os-nosotros" id="nosotros">
       <div class="os-nosotros__bg"
@@ -178,13 +182,11 @@
         </div>
       </div>
     </section>
-
     <!-- ===== FILOSOFÍA ===== -->
     <section class="os-filosofia">
       <div class="os-filosofia__wheel">
         <div class="os-filosofia__line os-filosofia__line--h"></div>
         <div class="os-filosofia__line os-filosofia__line--v"></div>
-
         <div class="os-filosofia__item os-filosofia__item--tl">
           <img src="{% static 'img/onesynk/07.png' %}" alt="{% trans 'Misión' %}" />
           <span>{% trans "MISIÓN" %}</span>
@@ -192,7 +194,6 @@
             {% trans "Nuestra misión es facilitar el acceso a los mejores productos importados de Corea, acercando la innovación, la cultura y el estilo de vida coreano a consumidores globales que buscan calidad y tendencia." %}
           </div>
         </div>
-
         <div class="os-filosofia__item os-filosofia__item--tr">
           <img src="{% static 'img/onesynk/06.png' %}" alt="{% trans 'Visión' %}" />
           <span>{% trans "VISIÓN" %}</span>
@@ -200,13 +201,11 @@
             {% trans "Nuestra visión es liderar el mercado internacional como la tienda de productos coreanos referente, expandiendo la influencia y la innovación asiática en cada hogar." %}
           </div>
         </div>
-
         <div class="os-filosofia__center">
           <img src="{% static 'img/onesynk/LOGO.png' %}"
                alt="One Synk"
                class="os-filosofia__logo-img" />
         </div>
-
         <div class="os-filosofia__item os-filosofia__item--bl">
           <img src="{% static 'img/onesynk/04.png' %}" alt="{% trans 'Filosofía' %}" />
           <span>{% trans "FILOSOFÍA" %}</span>
@@ -214,7 +213,6 @@
             {% trans "Ser el puente cultural entre Corea y el mundo, conectando a las personas con experiencias de consumo auténticas e innovadoras." %}
           </div>
         </div>
-
         <div class="os-filosofia__item os-filosofia__item--br">
           <img src="{% static 'img/onesynk/05.png' %}" alt="{% trans 'Valores' %}" />
           <span>{% trans "VALORES" %}</span>
@@ -229,7 +227,6 @@
         </div>
       </div>
     </section>
-
     <!-- ===== MAYORISTAS & MINORISTAS ===== -->
     <section class="os-canales" id="mayoristas">
       <div class="os-canales__grid">
@@ -257,7 +254,6 @@
         </div>
       </div>
     </section>
-
     <!-- ===== CONTACTO ===== -->
     <section class="os-contacto" id="contacto">
       <h2 class="os-section-title">{% trans "CONTACTO" %}</h2>
@@ -271,7 +267,6 @@
         <a href="mailto:hello@onesynk.com" class="os-contacto__email-link">hello@onesynk.com</a>
       </div>
     </section>
-
     <!-- ===== FOOTER ===== -->
     <footer class="os-footer">
       <div class="os-footer__inner">
@@ -334,7 +329,6 @@
         <span>{% trans "TÉRMINOS Y CONDICIONES" %}</span>
       </div>
     </footer>
-
     <script>
     const nav = document.getElementById('osNav');
     window.addEventListener('scroll', () => {
