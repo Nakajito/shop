@@ -44,8 +44,12 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.alert.alert-dismissible').forEach(function (alert) {
             setTimeout(function () {
-                var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-                if (bsAlert) bsAlert.close();
+                if (typeof bootstrap !== 'undefined' && bootstrap.Alert) {
+                    var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                    if (bsAlert) bsAlert.close();
+                } else {
+                    alert.remove();
+                }
             }, 5000);
         });
     });

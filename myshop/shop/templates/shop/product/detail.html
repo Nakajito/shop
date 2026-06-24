@@ -245,6 +245,7 @@
         if (data) {
           const svg = this.querySelector('.favorite-icon');
           svg.setAttribute('fill', data.is_favorite ? 'currentColor' : 'none');
+          if (window.skUpdateFavBadge) window.skUpdateFavBadge(data.count);
         }
       });
     });

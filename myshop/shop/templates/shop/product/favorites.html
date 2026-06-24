@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(function(response) { return response.json(); })
             .then(function(data) {
+                if (window.skUpdateFavBadge) window.skUpdateFavBadge(data.count);
                 if (!data.is_favorite) {
                     var card = document.getElementById('fav-' + productId);
                     card.style.transition = 'opacity 0.3s ease';

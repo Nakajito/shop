@@ -8,6 +8,17 @@
   /* ── 1. Page load fade-in ────────────────────────────────── */
   document.documentElement.classList.add('sk-loaded');
 
+  /* ── Live favorites badge (navbar + drawer) ──────────────── */
+  window.skUpdateFavBadge = function (count) {
+    if (typeof count !== 'number') return;
+    ['sfFavBadge', 'sfFavDrawerBadge'].forEach(function (id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = count;
+      el.style.display = count > 0 ? '' : 'none';
+    });
+  };
+
   /* ── 2. Navbar: scroll shrink + hide/show ────────────────── */
   const nav = document.querySelector('.sf-nav');
   if (nav) {
@@ -297,6 +308,7 @@
       })
       .then(data => {
         if (!data) return;
+        window.skUpdateFavBadge(data.count);
         const svg = this.querySelector('.prod-fav-icon');
         if (data.is_favorite) {
           this.classList.add('is-active');
