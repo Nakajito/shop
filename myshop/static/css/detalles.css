@@ -45,10 +45,11 @@
   align-items: start;
 }
 
-/* ── Carrusel ────────────────────────────────────────────── */
+/* ── Galería manual ──────────────────────────────────────── */
 .pd-gallery { position: relative; }
 
 .pd-carousel {
+  position: relative;
   background: var(--pd-light);
   border-radius: var(--pd-radius);
   overflow: hidden;
@@ -56,18 +57,28 @@
   box-shadow: 0 12px 48px rgba(0,0,0,0.1);
 }
 
-.pd-carousel__inner { height: 100%; }
+.pd-carousel__slides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
 
 .pd-carousel__slide {
-  height: 100%;
-  display: flex !important;
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px;
   background: var(--pd-light);
 }
 
-.pd-carousel__slide.active { display: flex !important; }
+.pd-carousel__slide--active {
+  visibility: visible;
+  pointer-events: auto;
+}
 
 .pd-carousel__img {
   max-height: 420px;
@@ -118,7 +129,7 @@
   padding: 0;
 }
 
-.pd-carousel__dots button {
+.pd-carousel__dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -126,9 +137,10 @@
   border: none;
   padding: 0;
   transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
 }
 
-.pd-carousel__dots button.active {
+.pd-carousel__dot--active {
   background: var(--pd-dark);
   transform: scale(1.3);
 }

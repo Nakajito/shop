@@ -264,13 +264,9 @@
         }
         if (window.skToast) window.skToast('Producto agregado al carrito');
         skUpdateCartBadge(data.cart_len);
-        const label = this.querySelector('.prod-add-btn__label');
-        const original = label ? label.textContent : null;
         this.classList.add('is-added');
-        if (label) label.textContent = '✓ Agregado';
         setTimeout(() => {
           this.classList.remove('is-added');
-          if (label && original !== null) label.textContent = original;
         }, 1800);
       })
       .catch(() => {

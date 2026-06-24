@@ -1,9 +1,10 @@
 from decimal import Decimal
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from shop.models import Category, Product
+from shop.models import Category, Product, ProductImage
 
 
 class CategoryModelTest(TestCase):
@@ -145,3 +146,35 @@ class ProductDetailViewTest(TestCase):
             reverse("shop:product_detail", args=[self.product.id, "chess-set"])
         )
         self.assertEqual(response.status_code, 404)
+
+    def test_product_detail_gallery_single_image(self):
+        """Gallery renders one slide (active) and no arrows/dots."""
+        response = self.client.get(
+            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+        )
+        self.assertContains(response, 'pd-carousel__slide--active')
+        self.assertContains(response, 'pd-carousel__slides')
+        # Arrows should NOT be rendered in HTML (no images)
+        self.assertNotContains(response, 'aria-label="Anterior"')
+        self.assertNotContains(response, 'aria-label="Siguiente"')
+        # Gallery JS should exist
+        self.assertContains(response, 'function goTo(')
+
+    def test_product_detail_gallery_multi_image(self):
+        """Gallery renders slides, arrows, and dots when images exist."""
+        img = SimpleUploadedFile("test.png", b"fake-image-data", content_type="image/png")
+        ProductImage.objects.create(product=self.product, image=img, order=0)
+        ProductImage.objects.create(product=self.product, image=img, order=1)
+        response = self.client.get(
+            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+        )
+        self.assertContains(response, 'pd-carousel__slide--active')
+        self.assertContains(response, 'aria-label="Anterior"')
+        self.assertContains(response, 'aria-label="Siguiente"')
+        self.assertContains(response, 'function goTo(')
+        # Arrows rendered as HTML buttons (not just JS references)
+        self.assertContains(response, '<button class="pd-carousel__arrow pd-carousel__arrow--prev"')
+        self.assertContains(response, '<button class="pd-carousel__arrow pd-carousel__arrow--next"')
+        # Dots rendered
+        self.assertContains(response, 'data-index="1"')
+        self.assertContains(response, 'data-index="2"')
