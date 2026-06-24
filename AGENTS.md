@@ -68,6 +68,51 @@ Database content (product names, descriptions, category names, blog posts) uses 
 
 The product detail form uses `data-ajax-add` attribute and submits via AJAX (instead of redirecting to cart). Shows a toast notification and updates the cart badge. Behavior defined in `interactions.js` section 7. The catalog list buttons use class `.js-add-cart-btn` (section 13).
 
+## Error pages — custom handlers + 502 limitation
+
+Django natively supports `handler400`, `handler403`, `handler404`, and `handler500`. These are configured in `myshop/urls.py` and render branded templates from `templates/{400,403,404,500}.html`.
+
+### The 502 problem
+
+Django has NO `handler502`. A **true 502 Bad Gateway** happens when the reverse proxy (Caddy/nginx) cannot reach the Django upstream — so Django is **not running** and cannot serve any template.
+
+### Solution implemented
+
+- `myshop/views.py` contains `bad_gateway()` (502) and `maintenance()` (503) views
+- Both routes are mounted at `/502/` and `/maintenance/` (inside and outside i18n_patterns)
+- In Coolify, configure **Caddy** to rewrite a failed health check to `/502/` so the proxy renders the branded template **only when Django is still running**:
+
+```caddyfile
+# Coolify Caddyfile fragment — serve branded 502 when upstream fails
+handle_errors {
+    @502 {
+        expression {http.error.status_code} == 502
+    }
+    rewrite @502 /502/
+    reverse_proxy @502 django:8000
+}
+```
+
+For **true 502s** (Django completely down, container crashed), the reverse proxy must serve a **static file**:
+
+```caddyfile
+handle_errors {
+    @502_static {
+        expression {http.error.status_code} == 502
+    }
+    handle @502_static {
+        respond * 502 {
+            body "Site temporarily unavailable — please try again later."
+        }
+    }
+}
+```
+
+### Key files
+- `myshop/views.py` — `bad_gateway()`, `maintenance()`, `page_not_found()`, `server_error()`, etc.
+- `myshop/urls.py` — variable assignments: `handler400`, `handler403`, `handler404`, `handler500`
+- `templates/502.html`, `templates/500.html`, `templates/404.html`, `templates/403.html`, `templates/400.html`
+
 ## Debugging media files in production
 
 Inside the Coolify container, verify `MEDIA_ROOT` and file existence:
