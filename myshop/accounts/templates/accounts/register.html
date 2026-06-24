@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{% static 'css/register.css' %}">
 {% endblock %}
 {% block content %}
-  <div class="auth-top w-100 text-center">CREA UNA CUENTA</div>
+  <div class="auth-top w-100 text-center">{% trans "CREA UNA CUENTA" %}</div>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-5 col-md-7">
@@ -15,46 +15,46 @@
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-              <label class="form-label fw-semibold">Nombre:</label>
+              <label class="form-label fw-semibold">{% trans "Nombre:" %}</label>
               {{ form.first_name|add_class:"form-control form-control-lg" }}
             </div>
             <div class="mb-3">
-              <label class="form-label fw-semibold">Correo electrónico:</label>
+              <label class="form-label fw-semibold">{% trans "Correo electrónico:" %}</label>
               {{ form.email|add_class:"form-control form-control-lg" }}
             </div>
             <div class="mb-3">
-              <label class="form-label fw-semibold">Contraseña:</label>
+              <label class="form-label fw-semibold">{% trans "Contraseña:" %}</label>
               {{ form.password1|add_class:"form-control form-control-lg" }}
             </div>
             <div class="mb-3">
-              <label class="form-label fw-semibold">Confirmar contraseña:</label>
+              <label class="form-label fw-semibold">{% trans "Confirmar contraseña:" %}</label>
               {{ form.password2|add_class:"form-control form-control-lg" }}
             </div>
             <div class="form-check mb-4">
               {{ form.terms_accepted|add_class:"form-check-input" }}
-              <label class="form-check-label">He leído y acepto el Aviso de Privacidad</label>
+              <label class="form-check-label">{% trans "He leído y acepto el Aviso de Privacidad" %}</label>
             </div>
             <div class="captcha-box my-4">
               <div class="d-flex align-items-center justify-content-between p-3 border rounded bg-white">
                 <label class="d-flex align-items-center mb-0 captcha-label">
                   <input type="checkbox" class="captcha-check me-3">
-                  <span>No soy un robot</span>
+                  <span>{% trans "No soy un robot" %}</span>
                 </label>
                 <i class="bi bi-arrow-repeat text-primary fs-4"></i>
               </div>
             </div>
             <div class="d-grid gap-3">
-              <button type="submit" class="btn btn-dark btn-lg rounded-pill register-btn">REGISTRARME</button>
+              <button type="submit" class="btn btn-dark btn-lg rounded-pill register-btn">{% trans "REGISTRARME" %}</button>
               <a href="{% provider_login_url 'google' %}"
                  class="btn btn-outline-dark btn-lg rounded-pill d-flex align-items-center justify-content-center gap-2 text-decoration-none">
                 <i class="bi bi-google"></i>
-                Registrarme con Google
+                {% trans "Registrarme con Google" %}
               </a>
             </div>
           </form>
           <div class="text-center mt-4 login-link">
-            ¿Ya tienes una cuenta?
-            <a href="{% url 'accounts:login' %}">Accede aquí</a>
+            {% trans "¿Ya tienes una cuenta?" %}
+            <a href="{% url 'accounts:login' %}">{% trans "Accede aquí" %}</a>
           </div>
         </div>
       </div>

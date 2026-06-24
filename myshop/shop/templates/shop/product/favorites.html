@@ -1,6 +1,7 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block title %}{% trans "My Favorites" %} - One Synk{% endblock %}
 
@@ -26,7 +27,7 @@
                             <div class="position-relative overflow-hidden">
                                 <a href="{{ product.get_absolute_url }}">
                                     <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                                         class="card-img-top p-3" alt="{{ product.name }}"
+                                         class="card-img-top p-3" alt="{{ product.name|tr }}"
                                          style="height: 220px; object-fit: contain;">
                                 </a>
                                 <button type="button" class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 rounded-circle remove-favorite-btn shadow-sm"
@@ -39,10 +40,10 @@
                             </div>
 
                             <div class="card-body text-center pt-0">
-                                <p class="text-muted x-small mb-1 text-uppercase">{{ product.category.name }}</p>
+                                <p class="text-muted x-small mb-1 text-uppercase">{{ product.category.name|tr }}</p>
                                 <h6 class="card-title mb-2">
                                     <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark fw-bold">
-                                        {{ product.name }}
+                                        {{ product.name|tr }}
                                     </a>
                                 </h6>
                                 <p class="h5 text-primary fw-bold mb-3">${{ product.price }}</p>

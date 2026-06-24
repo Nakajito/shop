@@ -1,7 +1,8 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Crear Ticket de Soporte{% endblock %}
+{% block title %}{% trans "Crear Ticket de Soporte" %}{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -9,8 +10,8 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow">
                 <div class="card-body p-4">
-                    <h1 class="card-title mb-1">Crear Ticket de Soporte</h1>
-                    <p class="text-muted mb-4">Describe tu problema detalladamente para que podamos ayudarte mejor</p>
+                    <h1 class="card-title mb-1">{% trans "Crear Ticket de Soporte" %}</h1>
+                    <p class="text-muted mb-4">{% trans "Describe tu problema detalladamente para que podamos ayudarte mejor" %}</p>
 
                     <form method="post" novalidate>
                         {% csrf_token %}
@@ -18,7 +19,7 @@
                         <!-- Pedido Relacionado (si aplica) -->
                         {% if not order %}
                             <div class="mb-3">
-                                <label for="id_order" class="form-label">Pedido Relacionado (Opcional)</label>
+                                <label for="id_order" class="form-label">{% trans "Pedido Relacionado (Opcional)" %}</label>
                                 {{ form.order }}
                                 {% if form.order.errors %}
                                     <div class="invalid-feedback d-block">
@@ -28,14 +29,14 @@
                             </div>
                         {% else %}
                             <div class="alert alert-info mb-3">
-                                <strong>Pedido relacionado:</strong> #{{ order.id }}
+                                <strong>{% trans "Pedido relacionado:" %}</strong> #{{ order.id }}
                                 <input type="hidden" name="order" value="{{ order.id }}">
                             </div>
                         {% endif %}
 
                         <!-- Tipo de Problema -->
                         <div class="mb-3">
-                            <label for="id_issue_type" class="form-label">Tipo de Problema <span class="text-danger">*</span></label>
+                            <label for="id_issue_type" class="form-label">{% trans "Tipo de Problema" %} <span class="text-danger">*</span></label>
                             {{ form.issue_type }}
                             {% if form.issue_type.errors %}
                                 <div class="invalid-feedback d-block">
@@ -46,7 +47,7 @@
 
                         <!-- Asunto -->
                         <div class="mb-3">
-                            <label for="id_subject" class="form-label">Asunto <span class="text-danger">*</span></label>
+                            <label for="id_subject" class="form-label">{% trans "Asunto" %} <span class="text-danger">*</span></label>
                             {{ form.subject }}
                             {% if form.subject.errors %}
                                 <div class="invalid-feedback d-block">
@@ -57,9 +58,9 @@
 
                         <!-- Mensaje -->
                         <div class="mb-3">
-                            <label for="id_message" class="form-label">Descripción <span class="text-danger">*</span></label>
+                            <label for="id_message" class="form-label">{% trans "Descripción" %} <span class="text-danger">*</span></label>
                             {{ form.message }}
-                            <small class="form-text text-muted">Mínimo 10 caracteres</small>
+                            <small class="form-text text-muted">{% trans "Mínimo 10 caracteres" %}</small>
                             {% if form.message.errors %}
                                 <div class="invalid-feedback d-block">
                                     {{ form.message.errors.0 }}
@@ -69,7 +70,7 @@
 
                         <!-- Prioridad -->
                         <div class="mb-3">
-                            <label for="id_priority" class="form-label">Prioridad <span class="text-danger">*</span></label>
+                            <label for="id_priority" class="form-label">{% trans "Prioridad" %} <span class="text-danger">*</span></label>
                             {{ form.priority }}
                             {% if form.priority.errors %}
                                 <div class="invalid-feedback d-block">
@@ -81,10 +82,10 @@
                         <!-- Botones -->
                         <div class="d-flex gap-2 mt-4">
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle"></i> Crear Ticket
+                                <i class="bi bi-check-circle"></i> {% trans "Crear Ticket" %}
                             </button>
                             <a href="{% url 'support:ticket_list' %}" class="btn btn-outline-secondary">
-                                Cancelar
+                                {% trans "Cancelar" %}
                             </a>
                         </div>
                     </form>
@@ -95,13 +96,13 @@
             <div class="card border-0 shadow-sm mt-4">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <i class="bi bi-lightbulb"></i> Consejos para reportar un problema
+                        <i class="bi bi-lightbulb"></i> {% trans "Consejos para reportar un problema" %}
                     </h5>
                     <ul class="small mb-0">
-                        <li>Sé lo más específico posible</li>
-                        <li>Incluye el número de pedido si está relacionado</li>
-                        <li>Describe los pasos que seguiste cuando ocurrió el problema</li>
-                        <li>Responde en el menor tiempo posible para que podamos resolver</li>
+                        <li>{% trans "Sé lo más específico posible" %}</li>
+                        <li>{% trans "Incluye el número de pedido si está relacionado" %}</li>
+                        <li>{% trans "Describe los pasos que seguiste cuando ocurrió el problema" %}</li>
+                        <li>{% trans "Responde en el menor tiempo posible para que podamos resolver" %}</li>
                     </ul>
                 </div>
             </div>

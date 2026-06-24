@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Ticket #{{ ticket.id }} - {{ ticket.subject }}{% endblock %}
 
@@ -8,7 +9,7 @@
     <div class="row mb-4">
         <div class="col-md-8">
             <a href="{% url 'support:ticket_list' %}" class="btn btn-sm btn-outline-secondary mb-3">
-                <i class="bi bi-arrow-left"></i> Volver
+                <i class="bi bi-arrow-left"></i> {% trans "Volver" %}
             </a>
             <h1 class="mb-2">{{ ticket.subject }}</h1>
             <p class="text-muted">Ticket #{{ ticket.id }} creado el {{ ticket.created_at|date:"d/m/Y H:i" }}</p>
@@ -16,7 +17,7 @@
         <div class="col-md-4 text-end">
             {% if ticket.status != 'closed' %}
                 <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#closeModal">
-                    <i class="bi bi-x-circle"></i> Cerrar Ticket
+                        <i class="bi bi-x-circle"></i> {% trans "Cerrar Ticket" %}
                 </button>
             {% endif %}
         </div>
@@ -27,17 +28,17 @@
         <div class="col-md-3 mb-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-title text-muted">ESTADO</h6>
+                    <h6 class="card-title text-muted">{% trans "ESTADO" %}</h6>
                     <p class="mb-3">
                         <span class="badge bg-{{ ticket.get_status_color }} fs-6">
                             {{ ticket.get_status_display }}
                         </span>
                     </p>
 
-                    <h6 class="card-title text-muted">TIPO</h6>
+                    <h6 class="card-title text-muted">{% trans "TIPO" %}</h6>
                     <p class="mb-3">{{ ticket.get_issue_type_display }}</p>
 
-                    <h6 class="card-title text-muted">PRIORIDAD</h6>
+                    <h6 class="card-title text-muted">{% trans "PRIORIDAD" %}</h6>
                     <p class="mb-3">
                         {% if ticket.priority == 'urgent' %}
                             <span class="badge bg-danger">{{ ticket.get_priority_display }}</span>
@@ -51,7 +52,7 @@
                     </p>
 
                     {% if ticket.order %}
-                        <h6 class="card-title text-muted">PEDIDO</h6>
+                        <h6 class="card-title text-muted">{% trans "PEDIDO" %}</h6>
                         <p class="mb-3">
                             <a href="{% url 'orders:order_detail' ticket.order.id %}" class="text-decoration-none">
                                 #{{ ticket.order.id }}
@@ -60,13 +61,13 @@
                     {% endif %}
 
                     {% if ticket.assigned_to %}
-                        <h6 class="card-title text-muted">ASIGNADO A</h6>
+                        <h6 class="card-title text-muted">{% trans "ASIGNADO A" %}</h6>
                         <p class="mb-0">{{ ticket.assigned_to.get_full_name|default:ticket.assigned_to.email }}</p>
                     {% endif %}
 
                     {% if ticket.resolved_at %}
                         <hr>
-                        <h6 class="card-title text-muted">RESUELTO EL</h6>
+                        <h6 class="card-title text-muted">{% trans "RESUELTO EL" %}</h6>
                         <p class="small mb-0">{{ ticket.resolved_at|date:"d/m/Y H:i" }}</p>
                     {% endif %}
                 </div>
@@ -91,7 +92,7 @@
 
             <!-- Hilo de Mensajes -->
             {% if ticket.messages.all %}
-                <h5 class="mb-3">Conversación</h5>
+                <h5 class="mb-3">{% trans "Conversación" %}</h5>
 
                 <div class="message-thread mb-4">
                     {% for message in ticket.messages.all %}
@@ -103,7 +104,7 @@
                                             {% if message.sender %}
                                                 {{ message.sender.get_full_name|default:message.sender.email }}
                                             {% else %}
-                                                <span class="text-muted">Usuario Eliminado</span>
+                                                <span class="text-muted">{% trans "Usuario Eliminado" %}</span>
                                             {% endif %}
                                         </h6>
                                         <small class="text-muted">{{ message.created_at|date:"d/m/Y H:i" }}</small>
@@ -111,13 +112,13 @@
                                     <div>
                                         {% if message.sender %}
                                             {% if message.sender.is_staff %}
-                                                <span class="badge bg-primary">Soporte</span>
+                                                <span class="badge bg-primary">{% trans "Soporte" %}</span>
                                             {% else %}
-                                                <span class="badge bg-light text-dark">Cliente</span>
+                                                <span class="badge bg-light text-dark">{% trans "Cliente" %}</span>
                                             {% endif %}
                                         {% endif %}
                                         {% if message.is_internal %}
-                                            <span class="badge bg-warning">Interno</span>
+                                            <span class="badge bg-warning">{% trans "Interno" %}</span>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -132,7 +133,7 @@
             {% if ticket.status != 'closed' %}
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Agregar Respuesta</h5>
+                        <h5 class="card-title mb-3">{% trans "Agregar Respuesta" %}</h5>
                         <form method="post" action="{% url 'support:ticket_reply' ticket.id %}">
                             {% csrf_token %}
                             <div class="mb-3">
@@ -140,11 +141,11 @@
                             </div>
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-send"></i> Enviar Respuesta
+                                    <i class="bi bi-send"></i> {% trans "Enviar Respuesta" %}
                                 </button>
                                 {% if ticket.status == 'waiting_customer' %}
                                     <small class="text-muted align-self-center">
-                                        El estado cambiará a "En Progreso"
+                                        {% trans 'El estado cambiará a "En Progreso"' %}
                                     </small>
                                 {% endif %}
                             </div>
@@ -154,9 +155,9 @@
             {% else %}
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle"></i>
-                    Este ticket está cerrado. No puedes agregar más respuestas.
+                    {% trans "Este ticket está cerrado. No puedes agregar más respuestas." %}
                     {% if not ticket.messages.all %}
-                        <a href="{% url 'support:ticket_create' %}" class="alert-link">Crear un nuevo ticket</a>
+                        <a href="{% url 'support:ticket_create' %}" class="alert-link">{% trans "Crear un nuevo ticket" %}</a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -169,23 +170,23 @@
     <div class="modal-dialog">
         <div class="modal-content border-0">
             <div class="modal-header border-bottom">
-                <h5 class="modal-title">Cerrar Ticket</h5>
+                <h5 class="modal-title">{% trans "Cerrar Ticket" %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="post" action="{% url 'support:ticket_close' ticket.id %}">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <p class="mb-3">¿Estás seguro de que deseas cerrar este ticket?</p>
+                    <p class="mb-3">{% trans "¿Estás seguro de que deseas cerrar este ticket?" %}</p>
                     <p class="text-muted small">
-                        Una vez cerrado, no podrás agregar más respuestas. Siempre puedes crear un nuevo ticket si necesitas continuar.
+                        {% trans "Una vez cerrado, no podrás agregar más respuestas. Siempre puedes crear un nuevo ticket si necesitas continuar." %}
                     </p>
                 </div>
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        Cancelar
+                        {% trans "Cancelar" %}
                     </button>
                     <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-x-circle"></i> Cerrar Ticket
+                    <i class="bi bi-x-circle"></i> {% trans "Cerrar Ticket" %}
                     </button>
                 </div>
             </form>

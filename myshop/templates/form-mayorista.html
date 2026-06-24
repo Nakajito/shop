@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Mayoristas - Synk Food</title>
+        <title>{% trans "Mayoristas" %} - Synk Food</title>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/synkfood.css' %}">
         <link rel="stylesheet" href="{% static 'css/form-mayorista.css' %}">
@@ -16,23 +16,23 @@
         <!-- HERO -->
         <section class="hero-mayorista">
             <h1>
-                ¿Tienes tienda,
+                {% trans "¿Tienes tienda," %}
                 <br>
-                restaurante o negocio?
+                {% trans "restaurante o negocio?" %}
             </h1>
             <p class="hero-subtitle">
-                Lleva productos de alta rotación, buen margen
+                {% trans "Lleva productos de alta rotación, buen margen" %}
                 <br>
-                y excelente calidad.
+                {% trans "y excelente calidad." %}
                 <br>
-                Sé distribuidor Soho y sorprende a tus clientes.
+                {% trans "Sé distribuidor Soho y sorprende a tus clientes." %}
             </p>
             <p class="hero-cta">
-                Llena el formulario para una propuesta personalizada
+                {% trans "Llena el formulario para una propuesta personalizada" %}
                 <br>
-                te daremos asesoría, precios especiales y apoyo visual para
+                {% trans "te daremos asesoría, precios especiales y apoyo visual para" %}
                 <br>
-                tu punto de venta.
+                {% trans "tu punto de venta." %}
             </p>
         </section>
         <!-- FORMULARIO -->
@@ -42,36 +42,36 @@
                     {% csrf_token %}
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
+                            <label for="nombre">{% trans "Nombre:" %}</label>
                             <input type="text" id="nombre" name="nombre" required>
                         </div>
                         <div class="form-group">
-                            <label for="apellidos">Apellidos:</label>
+                            <label for="apellidos">{% trans "Apellidos:" %}</label>
                             <input type="text" id="apellidos" name="apellidos" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Correo electrónico:</label>
+                            <label for="email">{% trans "Correo electrónico:" %}</label>
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="telefono">Teléfono:</label>
+                            <label for="telefono">{% trans "Teléfono:" %}</label>
                             <input type="tel" id="telefono" name="telefono" required>
                         </div>
                         <div class="form-group">
-                            <label for="estado">Estado:</label>
+                            <label for="estado">{% trans "Estado:" %}</label>
                             <input type="text" id="estado" name="estado" required>
                         </div>
                         <div class="form-group">
-                            <label for="ciudad">Ciudad:</label>
+                            <label for="ciudad">{% trans "Ciudad:" %}</label>
                             <input type="text" id="ciudad" name="ciudad" required>
                         </div>
                         <div class="form-group full-width">
-                            <label for="comentarios">Comentarios:</label>
+                            <label for="comentarios">{% trans "Comentarios:" %}</label>
                             <textarea id="comentarios" name="comentarios"></textarea>
                         </div>
                     </div>
                     <div class="form-submit">
-                        <button type="submit">Enviar</button>
+                        <button type="submit">{% trans "Enviar" %}</button>
                     </div>
                 </form>
             </div>

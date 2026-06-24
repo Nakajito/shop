@@ -1,23 +1,24 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/detalles.css' %}">
 {% endblock %}
 
-{% block title %}{{ product.name }} - Synk Food{% endblock %}
+{% block title %}{{ product.name|tr }} - Synk Food{% endblock %}
 
 {% block content %}
 <div class="pd-wrap">
 
   <!-- Breadcrumb -->
   <nav class="pd-breadcrumb">
-    <a href="{% url 'shop:product_list' %}">PRODUCTOS</a>
+    <a href="{% url 'shop:product_list' %}">{% trans "PRODUCTOS" %}</a>
     <span>/</span>
     <a href="{{ product.category.get_absolute_url }}">{{ product.category.name|upper }}</a>
     <span>/</span>
-    <span>{{ product.name|upper }}</span>
+    <span>{{ product.name|tr|upper }}</span>
   </nav>
 
   <!-- Main grid -->
@@ -30,13 +31,13 @@
 
           <div class="carousel-item active pd-carousel__slide">
             <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                 alt="{{ product.name }}" class="pd-carousel__img">
+                 alt="{{ product.name|tr }}" class="pd-carousel__img">
           </div>
 
           {% for img in product.images.all %}
           <div class="carousel-item pd-carousel__slide">
             <img src="{{ img.image.url }}"
-                 alt="{% if img.alt_text %}{{ img.alt_text }}{% else %}{{ product.name }}{% endif %}"
+                 alt="{% if img.alt_text %}{{ img.alt_text }}{% else %}{{ product.name|tr }}{% endif %}"
                  class="pd-carousel__img">
           </div>
           {% endfor %}
@@ -74,11 +75,11 @@
     <!-- ── Info ── -->
     <div class="pd-info">
 
-      <span class="pd-badge">{{ product.category.name }}</span>
-      <h1 class="pd-title">{{ product.name }}</h1>
+      <span class="pd-badge">{{ product.category.name|tr }}</span>
+      <h1 class="pd-title">{{ product.name|tr }}</h1>
       <p class="pd-price">${{ product.price }}</p>
 
-      <div class="pd-description">{{ product.description|linebreaks }}</div>
+      <div class="pd-description">{{ product.description|tr_safe|linebreaks }}</div>
 
       <hr class="pd-divider">
 
@@ -144,8 +145,8 @@
       <div class="pd-secure">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <div>
-          <p class="pd-secure__title">Pago Seguro</p>
-          <p class="pd-secure__sub">Procesamos pagos con encriptación Stripe</p>
+          <p class="pd-secure__title">{% trans "Pago Seguro" %}</p>
+          <p class="pd-secure__sub">{% trans "Procesamos pagos con encriptación Stripe" %}</p>
         </div>
       </div>
 
@@ -155,15 +156,15 @@
   <!-- Productos recomendados -->
   {% if recommended_products %}
   <div class="pd-recommended">
-    <h2 class="pd-recommended__title">TAMBIÉN TE PUEDE GUSTAR</h2>
+    <h2 class="pd-recommended__title">{% trans "TAMBIÉN TE PUEDE GUSTAR" %}</h2>
     <div class="pd-recommended__grid">
       {% for rp in recommended_products %}
       <a href="{{ rp.get_absolute_url }}" class="pd-rec-card">
         <div class="pd-rec-card__img-wrap">
           <img src="{% if rp.image %}{{ rp.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-               alt="{{ rp.name }}" class="pd-rec-card__img">
+               alt="{{ rp.name|tr }}" class="pd-rec-card__img">
         </div>
-        <p class="pd-rec-card__name">{{ rp.name }}</p>
+        <p class="pd-rec-card__name">{{ rp.name|tr }}</p>
         <p class="pd-rec-card__price">${{ rp.price }}</p>
       </a>
       {% endfor %}
