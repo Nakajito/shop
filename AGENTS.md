@@ -68,6 +68,10 @@ Database content (product names, descriptions, category names, blog posts) uses 
 
 The product detail form uses `data-ajax-add` attribute and submits via AJAX (instead of redirecting to cart). Shows a toast notification and updates the cart badge. Behavior defined in `interactions.js` section 7. The catalog list buttons use class `.js-add-cart-btn` (section 13).
 
+## AJAX favorites — live navbar badge
+
+Toggling a favorite updates the navbar heart badge in real time (no reload). The `toggle_favorite` view returns JSON `{is_favorite, count}`. A global helper `window.skUpdateFavBadge(count)` (defined near the top of `interactions.js`) writes that count into both navbar badges (`#sfFavBadge` and the drawer's `#sfFavDrawerBadge`), hiding them at 0. The badge is always set from the server `count` — never DOM math — so it can't drift. Three handlers call it: catalog/list `.js-fav-btn` (`interactions.js`), the product-detail heart (inline script in `detail.html`), and the favorites-page remove button (inline script in `favorites.html`). Both navbar badges are rendered unconditionally (hidden when 0) so they can appear/update live.
+
 ## Error pages — custom handlers + 502 limitation
 
 Django natively supports `handler400`, `handler403`, `handler404`, and `handler500`. These are configured in `myshop/urls.py` and render branded templates from `templates/{400,403,404,500}.html`.
