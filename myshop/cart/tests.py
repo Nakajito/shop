@@ -87,6 +87,23 @@ class CartTest(TestCase):
             self.assertIn("total_price", item)
             self.assertIn("quantity", item)
 
+    def test_iter_prunes_deleted_product(self):
+        request = self._get_request()
+        cart = Cart(request)
+        cart.add(self.product1, quantity=2)
+        cart.add(self.product2, quantity=1)
+        # Product deleted from the DB while still referenced in the session cart
+        self.product1.delete()
+        items = list(cart)
+        # Only the surviving product is yielded, and it carries a product object
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["product"], self.product2)
+        for item in items:
+            self.assertIn("product", item)
+        # Orphaned entry pruned -> length and total no longer inflated
+        self.assertEqual(len(cart), 1)
+        self.assertEqual(cart.get_total_price(), Decimal("25.50"))
+
     def test_clear(self):
         request = self._get_request()
         cart = Cart(request)
