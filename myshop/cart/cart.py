@@ -33,9 +33,19 @@ class Cart:
         """
         Iterate over the items in the cart and get the products from the database.
         """
-        product_ids = self.cart.keys()
+        product_ids = list(self.cart.keys())
         # Get the product objects and add them to the cart
         products = Product.objects.filter(id__in=product_ids)
+        found_ids = {str(product.id) for product in products}
+
+        # Prune entries whose product was deleted from the DB. Leaving them in
+        # the session yields items without a "product" key (breaking templates
+        # that reverse 'cart_add' with an empty id) and inflates len()/totals.
+        orphaned_ids = [pid for pid in product_ids if pid not in found_ids]
+        if orphaned_ids:
+            for pid in orphaned_ids:
+                del self.cart[pid]
+            self.save()
 
         cart = self.cart.copy()
         for product in products:
