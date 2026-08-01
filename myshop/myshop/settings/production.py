@@ -64,3 +64,8 @@ CELERY_BROKER_URL = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
 CELERY_RESULT_BACKEND = config("REDIS_CACHE_URL", default="redis://redis:6379/0")
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
+# Transactional email via Resend
+INSTALLED_APPS.append("anymail")  # noqa: F405
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+ANYMAIL = {"RESEND_API_KEY": config("RESEND_API_KEY")}

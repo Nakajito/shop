@@ -47,3 +47,21 @@ def maintenance(request: HttpRequest) -> HttpResponse:
     mode through a load-balancer health check.
     """
     return render(request, "502.html", status=503)
+
+
+@require_GET
+def healthz(request: HttpRequest) -> HttpResponse:
+    """Liveness/readiness probe for Coolify. 200 if the DB is reachable.
+
+    Doesn't check Redis: sessions use cached_db (SESSION_ENGINE), so a Redis
+    outage degrades gracefully rather than being a hard failure — treating
+    it as one here would make routine Redis blips look like a full outage.
+    """
+    from django.db import connection
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+    except Exception:
+        return HttpResponse(status=503)
+    return HttpResponse("ok")

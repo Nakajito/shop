@@ -15,6 +15,7 @@ Mounted apps:
     - /             shop catalog (root)
     - 502/          explicit Bad Gateway (maintenance / proxy fallback)
     - maintenance/  maintenance-mode page (503)
+    - healthz/      container liveness/readiness probe (200)
 
 Static & media:
     Media files served by Django via static() helper in all environments.
@@ -59,6 +60,8 @@ urlpatterns = [
     # Explicit 502 for proxy fallback / maintenance rewrites (outside i18n)
     path("502/", myshop_views.bad_gateway, name="bad_gateway"),
     path("maintenance/", myshop_views.maintenance, name="maintenance"),
+    # Container liveness/readiness probe (outside i18n — no redirect games)
+    path("healthz/", myshop_views.healthz, name="healthz"),
 ]
 
 urlpatterns += i18n_patterns(

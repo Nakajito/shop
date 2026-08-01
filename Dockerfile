@@ -1,5 +1,5 @@
 # Usamos una imagen oficial de Python ligera
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 # Evita que Python cree archivos .pyc y fuerza la salida de logs
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -26,6 +26,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiamos el resto de tu código
 COPY . /app/
 
+EXPOSE 8000
+
 # El comando maestro que arrancará todo
 CMD python myshop/manage.py migrate --noinput && \
     python myshop/manage.py collectstatic --noinput && \
@@ -34,5 +36,6 @@ CMD python myshop/manage.py migrate --noinput && \
     --bind 0.0.0.0:8000 \
     --workers 3 \
     --threads 2 \
+    --timeout 60 \
     --access-logfile - \
     --error-logfile -

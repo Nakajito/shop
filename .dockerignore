@@ -1,0 +1,15 @@
+.git
+.venv
+__pycache__/
+*.pyc
+.env
+myshop/db.sqlite3
+myshop/media
+myshop/staticfiles
+myshop/logs/*.log
+!myshop/logs/.gitkeep
+graphify-out/
+.codegraph/
+.claude/
+.agents/
+.abacusai/
