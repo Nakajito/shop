@@ -2,7 +2,7 @@ from .base import *  # noqa: F401, F403
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "synkfood.dabg.dev", "134.199.229.33"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 # Database
 # myproject/settings.py
