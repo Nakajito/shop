@@ -38,9 +38,9 @@
           {% if cat.image %}
             <img src="{{ cat.image.url }}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
           {% elif cat.slug == 'dulces' %}
-            <img src="{% static 'img/onesynk/sopa1.png' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
+            <img src="{% static 'img/onesynk/churros1.1.jpg' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
           {% elif cat.slug == 'bebidas' %}
-            <img src="{% static 'img/onesynk/sopa3.png' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
+            <img src="{% static 'img/onesynk/sobre.jpg' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
           {% else %}
             <img src="{% static 'img/onesynk/sopa2.png' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
           {% endif %}
