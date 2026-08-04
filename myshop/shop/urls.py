@@ -17,8 +17,8 @@ Namespace:
 app_name = "shop"
 
 urlpatterns = [
-    # Landing page
-    path("", views.home, name="home"),
+    # Landing page (Synk Food skin — the multibrand corporate landing lives at onesynk.com.mx)
+    path("", views.synkfood, name="home"),
     # Synk Food landing page
     path("synkfood/", views.synkfood, name="synkfood"),
     # Catalog Index: Displays all available products.

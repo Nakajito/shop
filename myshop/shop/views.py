@@ -14,10 +14,6 @@ from .models import Category, Product
 from .recommender import Recommender
 
 
-def home(request):
-    return render(request, "shop/home.html")
-
-
 def synkfood(request):
     categories = Category.objects.all()
     return render(
