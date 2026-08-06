@@ -1,7 +1,13 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from accounts.models import CustomUser, UserProfile
+from myshop.utils import replace_with_webp
+
+
+@receiver(pre_save, sender=UserProfile)
+def compress_profile_picture(sender, instance, **kwargs):
+    replace_with_webp(instance, "profile_picture")
 
 
 @receiver(post_save, sender=CustomUser)
