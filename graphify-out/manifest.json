@@ -1,0 +1,1177 @@
+{
+  "myshop/accounts/__init__.py": {
+    "mtime": 1785560382.0674422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/accounts/adapter.py": {
+    "mtime": 1785560382.0674422,
+    "ast_hash": "43bf2cd140bf74f7de8873deb2c4de49",
+    "semantic_hash": "43bf2cd140bf74f7de8873deb2c4de49"
+  },
+  "myshop/accounts/admin.py": {
+    "mtime": 1785560382.0674422,
+    "ast_hash": "24f15b8ab1625e25b9b1d6ccfc9a8f5f",
+    "semantic_hash": "24f15b8ab1625e25b9b1d6ccfc9a8f5f"
+  },
+  "myshop/accounts/apps.py": {
+    "mtime": 1785560382.0674422,
+    "ast_hash": "eeebb22c2e96d0b395d7aa3f6208143b",
+    "semantic_hash": "eeebb22c2e96d0b395d7aa3f6208143b"
+  },
+  "myshop/accounts/forms.py": {
+    "mtime": 1785560382.068442,
+    "ast_hash": "5c9c3697c64be0981b3977abf31cb0df",
+    "semantic_hash": "5c9c3697c64be0981b3977abf31cb0df"
+  },
+  "myshop/accounts/management/__init__.py": {
+    "mtime": 1785560382.068442,
+    "ast_hash": "7bbb9ecc2282b054ac934d0e5ae486cc",
+    "semantic_hash": "7bbb9ecc2282b054ac934d0e5ae486cc"
+  },
+  "myshop/accounts/management/commands/__init__.py": {
+    "mtime": 1785560382.0694423,
+    "ast_hash": "22fe0ca2a55c5b4b90108bfb7330e0a4",
+    "semantic_hash": "22fe0ca2a55c5b4b90108bfb7330e0a4"
+  },
+  "myshop/accounts/management/commands/setup_google_oauth.py": {
+    "mtime": 1785560382.0694423,
+    "ast_hash": "66193e7601433924d3c40dea2259094c",
+    "semantic_hash": "66193e7601433924d3c40dea2259094c"
+  },
+  "myshop/accounts/migrations/0001_initial.py": {
+    "mtime": 1785560382.0704422,
+    "ast_hash": "941b896aaecffe8301918223c659d17b",
+    "semantic_hash": "941b896aaecffe8301918223c659d17b"
+  },
+  "myshop/accounts/migrations/0002_alter_userprofile_options_alter_customuser_phone_and_more.py": {
+    "mtime": 1785560382.0714421,
+    "ast_hash": "49ef06ea54198fa473eeca1dc41e24ab",
+    "semantic_hash": "49ef06ea54198fa473eeca1dc41e24ab"
+  },
+  "myshop/accounts/migrations/0003_customuser_stripe_customer_id.py": {
+    "mtime": 1785560382.0714421,
+    "ast_hash": "fbba340cd5856ae0e9592a2d5f8c6235",
+    "semantic_hash": "fbba340cd5856ae0e9592a2d5f8c6235"
+  },
+  "myshop/accounts/migrations/0004_customuser_payment_method.py": {
+    "mtime": 1785560382.0724423,
+    "ast_hash": "f01d8d1209a2ecc70aa76f1c401e9c8c",
+    "semantic_hash": "f01d8d1209a2ecc70aa76f1c401e9c8c"
+  },
+  "myshop/accounts/migrations/0005_remove_customuser_updated_customuser_updated_at_and_more.py": {
+    "mtime": 1785560382.0724423,
+    "ast_hash": "6f0ff68596b4b9df3a6a0fe3f125c0f6",
+    "semantic_hash": "6f0ff68596b4b9df3a6a0fe3f125c0f6"
+  },
+  "myshop/accounts/migrations/0006_alter_customuser_user_type.py": {
+    "mtime": 1785560382.0734422,
+    "ast_hash": "ae2b665c1a0ec11ba1e176aa4b7a1643",
+    "semantic_hash": "ae2b665c1a0ec11ba1e176aa4b7a1643"
+  },
+  "myshop/accounts/migrations/0007_customuser_favorites.py": {
+    "mtime": 1785560382.0734422,
+    "ast_hash": "3a6bb282101c3c842f29a6e2cc8c7f58",
+    "semantic_hash": "3a6bb282101c3c842f29a6e2cc8c7f58"
+  },
+  "myshop/accounts/migrations/__init__.py": {
+    "mtime": 1785560382.0734422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/accounts/models.py": {
+    "mtime": 1785560382.0744421,
+    "ast_hash": "4bfdeca1efa874bb342769eba256e595",
+    "semantic_hash": "4bfdeca1efa874bb342769eba256e595"
+  },
+  "myshop/accounts/signals.py": {
+    "mtime": 1785560382.0744421,
+    "ast_hash": "b371da83ad2e33a47de74bb8387503a6",
+    "semantic_hash": "b371da83ad2e33a47de74bb8387503a6"
+  },
+  "myshop/accounts/tests.py": {
+    "mtime": 1785560382.0904422,
+    "ast_hash": "d5abff55aa36fea5bdf50390af34c14f",
+    "semantic_hash": "d5abff55aa36fea5bdf50390af34c14f"
+  },
+  "myshop/accounts/urls.py": {
+    "mtime": 1785560382.0904422,
+    "ast_hash": "983c638e68b453225d492bbb7b05f83e",
+    "semantic_hash": "983c638e68b453225d492bbb7b05f83e"
+  },
+  "myshop/accounts/views.py": {
+    "mtime": 1785560382.0904422,
+    "ast_hash": "afd55d62ab102c41f62bfb759e163e75",
+    "semantic_hash": "afd55d62ab102c41f62bfb759e163e75"
+  },
+  "myshop/blog/__init__.py": {
+    "mtime": 1785560382.0904422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/blog/admin.py": {
+    "mtime": 1785560382.0904422,
+    "ast_hash": "18acf1d567bffe527b9cfa5f73af21b5",
+    "semantic_hash": "18acf1d567bffe527b9cfa5f73af21b5"
+  },
+  "myshop/blog/apps.py": {
+    "mtime": 1785560382.091442,
+    "ast_hash": "2ef061dcbf0f82b72e81cb6684303249",
+    "semantic_hash": "2ef061dcbf0f82b72e81cb6684303249"
+  },
+  "myshop/blog/forms.py": {
+    "mtime": 1785560382.091442,
+    "ast_hash": "aed74dc887532eef38eea6391c1410c9",
+    "semantic_hash": "aed74dc887532eef38eea6391c1410c9"
+  },
+  "myshop/blog/managers.py": {
+    "mtime": 1785560382.091442,
+    "ast_hash": "4e03e96e9f38bd0d2484e218498a22b4",
+    "semantic_hash": "4e03e96e9f38bd0d2484e218498a22b4"
+  },
+  "myshop/blog/migrations/0001_initial.py": {
+    "mtime": 1785560382.091442,
+    "ast_hash": "b4149c7ba55ee1d9ba85bd4b4a624318",
+    "semantic_hash": "b4149c7ba55ee1d9ba85bd4b4a624318"
+  },
+  "myshop/blog/migrations/__init__.py": {
+    "mtime": 1785560382.0924423,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/blog/models.py": {
+    "mtime": 1785560382.0924423,
+    "ast_hash": "4fcd47e10d6b3c531cf0d6230a1c815d",
+    "semantic_hash": "4fcd47e10d6b3c531cf0d6230a1c815d"
+  },
+  "myshop/blog/static/blog/js/blog.js": {
+    "mtime": 1785560382.0934422,
+    "ast_hash": "9436fa4f767414a6e62ef42e9788a118",
+    "semantic_hash": "9436fa4f767414a6e62ef42e9788a118"
+  },
+  "myshop/blog/templatetags/__init__.py": {
+    "mtime": 1785560382.0954423,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/blog/templatetags/blog_tags.py": {
+    "mtime": 1785560382.0954423,
+    "ast_hash": "e84e0418294f667680ac527fff33c471",
+    "semantic_hash": "e84e0418294f667680ac527fff33c471"
+  },
+  "myshop/blog/tests.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "5affa7acff7bc91c236001e1805270af",
+    "semantic_hash": "5affa7acff7bc91c236001e1805270af"
+  },
+  "myshop/blog/urls.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "325a8e7d2da4458b9cef4433bb766910",
+    "semantic_hash": "325a8e7d2da4458b9cef4433bb766910"
+  },
+  "myshop/blog/views.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "6261287773fcdcdc4ea07bf14b9c85ae",
+    "semantic_hash": "6261287773fcdcdc4ea07bf14b9c85ae"
+  },
+  "myshop/cart/__init__.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/cart/admin.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "77ce68073ee4433f0469d361f3cfe875",
+    "semantic_hash": "77ce68073ee4433f0469d361f3cfe875"
+  },
+  "myshop/cart/apps.py": {
+    "mtime": 1785560382.0964422,
+    "ast_hash": "289dfbc6fcde8d6146acc3aa169b31a1",
+    "semantic_hash": "289dfbc6fcde8d6146acc3aa169b31a1"
+  },
+  "myshop/cart/cart.py": {
+    "mtime": 1785560382.0974422,
+    "ast_hash": "004c3ccfcbc8a0a879b244799993fedc",
+    "semantic_hash": "004c3ccfcbc8a0a879b244799993fedc"
+  },
+  "myshop/cart/context_processors.py": {
+    "mtime": 1785560382.0974422,
+    "ast_hash": "fd02f16886fad5e3ca91e76e05448b92",
+    "semantic_hash": "fd02f16886fad5e3ca91e76e05448b92"
+  },
+  "myshop/cart/forms.py": {
+    "mtime": 1785560382.0974422,
+    "ast_hash": "e5172320eae1ac3eea7ae10d2506807a",
+    "semantic_hash": "e5172320eae1ac3eea7ae10d2506807a"
+  },
+  "myshop/cart/migrations/__init__.py": {
+    "mtime": 1785560382.0974422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/cart/models.py": {
+    "mtime": 1785560382.0984423,
+    "ast_hash": "38946f889cf891fa0b911bdfae8fdba9",
+    "semantic_hash": "38946f889cf891fa0b911bdfae8fdba9"
+  },
+  "myshop/cart/tests.py": {
+    "mtime": 1785560382.0984423,
+    "ast_hash": "65fa51136d56916c197af2555bb3d7ff",
+    "semantic_hash": "65fa51136d56916c197af2555bb3d7ff"
+  },
+  "myshop/cart/urls.py": {
+    "mtime": 1785560382.0984423,
+    "ast_hash": "6a463f13163b30ca86e81c656f5743e4",
+    "semantic_hash": "6a463f13163b30ca86e81c656f5743e4"
+  },
+  "myshop/cart/views.py": {
+    "mtime": 1785560382.0994422,
+    "ast_hash": "80cbdcf95c41b696a9d7d261d35581a3",
+    "semantic_hash": "80cbdcf95c41b696a9d7d261d35581a3"
+  },
+  "myshop/coupons/__init__.py": {
+    "mtime": 1785560382.0994422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/coupons/admin.py": {
+    "mtime": 1785560382.0994422,
+    "ast_hash": "c43bd2599641c11e0a39c6952474a0a9",
+    "semantic_hash": "c43bd2599641c11e0a39c6952474a0a9"
+  },
+  "myshop/coupons/apps.py": {
+    "mtime": 1785560382.0994422,
+    "ast_hash": "2e555f69871153aa5dc0c155acf02eac",
+    "semantic_hash": "2e555f69871153aa5dc0c155acf02eac"
+  },
+  "myshop/coupons/forms.py": {
+    "mtime": 1785560382.0994422,
+    "ast_hash": "e72bfe33a06cc651fd06f28dff705e99",
+    "semantic_hash": "e72bfe33a06cc651fd06f28dff705e99"
+  },
+  "myshop/coupons/migrations/0001_initial.py": {
+    "mtime": 1785560382.1004422,
+    "ast_hash": "11f55e2213efaf9e1dd8581f0b0e3b2d",
+    "semantic_hash": "11f55e2213efaf9e1dd8581f0b0e3b2d"
+  },
+  "myshop/coupons/migrations/0002_alter_coupon_options.py": {
+    "mtime": 1785560382.1004422,
+    "ast_hash": "912c619f8cda40e14415610e4302fecf",
+    "semantic_hash": "912c619f8cda40e14415610e4302fecf"
+  },
+  "myshop/coupons/migrations/0003_alter_coupon_active_alter_coupon_code_and_more.py": {
+    "mtime": 1785560382.1004422,
+    "ast_hash": "e403cc458fa1ca6441b38db2bd82175b",
+    "semantic_hash": "e403cc458fa1ca6441b38db2bd82175b"
+  },
+  "myshop/coupons/migrations/0004_coupon_coupons_cou_active_9d348c_idx_and_more.py": {
+    "mtime": 1785560382.1004422,
+    "ast_hash": "952c250d87a8184e17ab2e48080e0087",
+    "semantic_hash": "952c250d87a8184e17ab2e48080e0087"
+  },
+  "myshop/coupons/migrations/__init__.py": {
+    "mtime": 1785560382.1004422,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/coupons/models.py": {
+    "mtime": 1785560382.101442,
+    "ast_hash": "aa6ee875ef44c4c4cabe86f6df57a247",
+    "semantic_hash": "aa6ee875ef44c4c4cabe86f6df57a247"
+  },
+  "myshop/coupons/tests.py": {
+    "mtime": 1785560382.101442,
+    "ast_hash": "c15cc8e7454f76085a4cb1e65c3d2b77",
+    "semantic_hash": "c15cc8e7454f76085a4cb1e65c3d2b77"
+  },
+  "myshop/coupons/urls.py": {
+    "mtime": 1785560382.101442,
+    "ast_hash": "d330154fb32ebb24e8d63a223c602d1f",
+    "semantic_hash": "d330154fb32ebb24e8d63a223c602d1f"
+  },
+  "myshop/coupons/views.py": {
+    "mtime": 1785560382.101442,
+    "ast_hash": "b447d237b3f9a77785ff21fb754b2748",
+    "semantic_hash": "b447d237b3f9a77785ff21fb754b2748"
+  },
+  "myshop/manage.py": {
+    "mtime": 1785560382.2444425,
+    "ast_hash": "a591490b7bd3bc0bd92680eae96f75c3",
+    "semantic_hash": "a591490b7bd3bc0bd92680eae96f75c3"
+  },
+  "myshop/myshop/__init__.py": {
+    "mtime": 1785560382.2464426,
+    "ast_hash": "ea9c37e4918c464bccc3c71ecd571599",
+    "semantic_hash": "ea9c37e4918c464bccc3c71ecd571599"
+  },
+  "myshop/myshop/asgi.py": {
+    "mtime": 1785560382.2464426,
+    "ast_hash": "c572a70ad4dcbe9b6f4bdafbe5afb698",
+    "semantic_hash": "c572a70ad4dcbe9b6f4bdafbe5afb698"
+  },
+  "myshop/myshop/celery.py": {
+    "mtime": 1785560382.2464426,
+    "ast_hash": "060f1fe69537ef46aed1974e99574ce0",
+    "semantic_hash": "060f1fe69537ef46aed1974e99574ce0"
+  },
+  "myshop/myshop/settings/__init__.py": {
+    "mtime": 1785560382.2464426,
+    "ast_hash": "e6b0e106ca25ce945a28367817a33933",
+    "semantic_hash": "e6b0e106ca25ce945a28367817a33933"
+  },
+  "myshop/myshop/settings/base.py": {
+    "mtime": 1785560382.2464426,
+    "ast_hash": "be0cd658fc10f6a207174c82f9f5d557",
+    "semantic_hash": "be0cd658fc10f6a207174c82f9f5d557"
+  },
+  "myshop/myshop/settings/development.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "e596f9324f6fecc938dc87b2c19e2b9d",
+    "semantic_hash": "e596f9324f6fecc938dc87b2c19e2b9d"
+  },
+  "myshop/myshop/settings/production.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "ed49e600e8c013ba38cae7eb7d6a8059",
+    "semantic_hash": "ed49e600e8c013ba38cae7eb7d6a8059"
+  },
+  "myshop/myshop/settings/testing.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "08b265185ab11d6ac6df4f4810a44678",
+    "semantic_hash": "08b265185ab11d6ac6df4f4810a44678"
+  },
+  "myshop/myshop/tests_utils.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "9cefb1ae9feeb2d818ab12beb2ca23d6",
+    "semantic_hash": "9cefb1ae9feeb2d818ab12beb2ca23d6"
+  },
+  "myshop/myshop/urls.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "fdb74712f53a91ad7b6e5185f561f006",
+    "semantic_hash": "fdb74712f53a91ad7b6e5185f561f006"
+  },
+  "myshop/myshop/utils.py": {
+    "mtime": 1785560382.2474425,
+    "ast_hash": "dbfce4b7234e22bc4d6847e69feef541",
+    "semantic_hash": "dbfce4b7234e22bc4d6847e69feef541"
+  },
+  "myshop/myshop/views.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "4f5458cd576ae4822e3344fce324d9c2",
+    "semantic_hash": "4f5458cd576ae4822e3344fce324d9c2"
+  },
+  "myshop/myshop/wsgi.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "33142cbb8672860569a79e3cb2134740",
+    "semantic_hash": "33142cbb8672860569a79e3cb2134740"
+  },
+  "myshop/orders/__init__.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/orders/admin.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "93177c2cb042d7f380376f6585269ca8",
+    "semantic_hash": "93177c2cb042d7f380376f6585269ca8"
+  },
+  "myshop/orders/apps.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "469f3e0b77553744377c471d344ee7b1",
+    "semantic_hash": "469f3e0b77553744377c471d344ee7b1"
+  },
+  "myshop/orders/forms.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "34e293ffde740f03a511635031c2844f",
+    "semantic_hash": "34e293ffde740f03a511635031c2844f"
+  },
+  "myshop/orders/managers.py": {
+    "mtime": 1785560382.2484424,
+    "ast_hash": "70438b357a525980136d2acfc0a29b55",
+    "semantic_hash": "70438b357a525980136d2acfc0a29b55"
+  },
+  "myshop/orders/migrations/0001_initial.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "615e0979c1c5038a2bd204e4940eb2bf",
+    "semantic_hash": "615e0979c1c5038a2bd204e4940eb2bf"
+  },
+  "myshop/orders/migrations/0002_order_stripe_id.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "a7039b595ebe01ae594e82ca6b706d0a",
+    "semantic_hash": "a7039b595ebe01ae594e82ca6b706d0a"
+  },
+  "myshop/orders/migrations/0003_order_coupon_order_discount.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "a92af50954961a519d58ce979de3d262",
+    "semantic_hash": "a92af50954961a519d58ce979de3d262"
+  },
+  "myshop/orders/migrations/0004_alter_order_discount_address.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "73e205862636a8b17a6eee6c9ddd5dbf",
+    "semantic_hash": "73e205862636a8b17a6eee6c9ddd5dbf"
+  },
+  "myshop/orders/migrations/0005_order_billing_address_order_shipping_address.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "988ca02e1aa7f35adc33da05241894df",
+    "semantic_hash": "988ca02e1aa7f35adc33da05241894df"
+  },
+  "myshop/orders/migrations/0006_order_user.py": {
+    "mtime": 1785560382.2494426,
+    "ast_hash": "02943edee7ac79059303770eb18c800e",
+    "semantic_hash": "02943edee7ac79059303770eb18c800e"
+  },
+  "myshop/orders/migrations/0007_order_payment_method.py": {
+    "mtime": 1785560382.2504425,
+    "ast_hash": "4db5ecdbeef11a3f0b6c6884749781fa",
+    "semantic_hash": "4db5ecdbeef11a3f0b6c6884749781fa"
+  },
+  "myshop/orders/migrations/0008_order_customer_notes_order_estimated_delivery_date_and_more.py": {
+    "mtime": 1785560382.2504425,
+    "ast_hash": "8fc55865ba5137075ba14d541efffe5f",
+    "semantic_hash": "8fc55865ba5137075ba14d541efffe5f"
+  },
+  "myshop/orders/migrations/0009_alter_orderstatusupdate_order.py": {
+    "mtime": 1785560382.2504425,
+    "ast_hash": "d85484bedf44d1a96981bcce272a2738",
+    "semantic_hash": "d85484bedf44d1a96981bcce272a2738"
+  },
+  "myshop/orders/migrations/0010_alter_order_options_alter_orderstatusupdate_options_and_more.py": {
+    "mtime": 1785560382.2504425,
+    "ast_hash": "853017ac6905c28d21c213a3871f0df4",
+    "semantic_hash": "853017ac6905c28d21c213a3871f0df4"
+  },
+  "myshop/orders/migrations/0011_alter_ordertracking_options_ordertracking_created_and_more.py": {
+    "mtime": 1785560382.2504425,
+    "ast_hash": "50e8ea208ef1f763572bc521fd77421e",
+    "semantic_hash": "50e8ea208ef1f763572bc521fd77421e"
+  },
+  "myshop/orders/migrations/0012_alter_ordertracking_options.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "7a00af116270dc117e2aaab0b699081f",
+    "semantic_hash": "7a00af116270dc117e2aaab0b699081f"
+  },
+  "myshop/orders/migrations/0013_order_orders_orde_status_c6dd84_idx_and_more.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "cd9426e5a8aad3725dad5ae22215307f",
+    "semantic_hash": "cd9426e5a8aad3725dad5ae22215307f"
+  },
+  "myshop/orders/migrations/0014_alter_ordertracking_status.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "c21fec0481c3d4ef0a204fd885f78c29",
+    "semantic_hash": "c21fec0481c3d4ef0a204fd885f78c29"
+  },
+  "myshop/orders/migrations/0015_alter_ordertracking_status.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "10e41470b240028d8a9f86ac633cfe52",
+    "semantic_hash": "10e41470b240028d8a9f86ac633cfe52"
+  },
+  "myshop/orders/migrations/__init__.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/orders/models.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "1a314977a9a217279f4bb47db8ba1950",
+    "semantic_hash": "1a314977a9a217279f4bb47db8ba1950"
+  },
+  "myshop/orders/services.py": {
+    "mtime": 1785560382.2514424,
+    "ast_hash": "20734434843f16d6a80d7d7f5f03444f",
+    "semantic_hash": "20734434843f16d6a80d7d7f5f03444f"
+  },
+  "myshop/orders/signals.py": {
+    "mtime": 1785560382.2524426,
+    "ast_hash": "5218548e6bc55b17c98102ee53066088",
+    "semantic_hash": "5218548e6bc55b17c98102ee53066088"
+  },
+  "myshop/orders/tasks.py": {
+    "mtime": 1785560382.2524426,
+    "ast_hash": "285e78d33fea543a8435550c3af199a6",
+    "semantic_hash": "285e78d33fea543a8435550c3af199a6"
+  },
+  "myshop/orders/tests/__init__.py": {
+    "mtime": 1785560382.2574425,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/orders/tests/test_integration.py": {
+    "mtime": 1785560382.2574425,
+    "ast_hash": "615eddfd997d398b671a8d71122df36f",
+    "semantic_hash": "615eddfd997d398b671a8d71122df36f"
+  },
+  "myshop/orders/tests/test_models_views.py": {
+    "mtime": 1785560382.2574425,
+    "ast_hash": "976829a88f5245665778975b263c5320",
+    "semantic_hash": "976829a88f5245665778975b263c5320"
+  },
+  "myshop/orders/tests/test_services.py": {
+    "mtime": 1785560382.2574425,
+    "ast_hash": "1c3cba73177038439b6063e09a48d3f7",
+    "semantic_hash": "1c3cba73177038439b6063e09a48d3f7"
+  },
+  "myshop/orders/urls.py": {
+    "mtime": 1785560382.2574425,
+    "ast_hash": "4a844470abdd1e993ef079a0aee625a4",
+    "semantic_hash": "4a844470abdd1e993ef079a0aee625a4"
+  },
+  "myshop/orders/views/__init__.py": {
+    "mtime": 1785560382.2584424,
+    "ast_hash": "9303ba9cfe01b8e37039e0f5ca703d02",
+    "semantic_hash": "9303ba9cfe01b8e37039e0f5ca703d02"
+  },
+  "myshop/orders/views/_helpers.py": {
+    "mtime": 1785560382.2584424,
+    "ast_hash": "863a1d853748174a540c3c0943a7e459",
+    "semantic_hash": "863a1d853748174a540c3c0943a7e459"
+  },
+  "myshop/orders/views/address.py": {
+    "mtime": 1785560382.2584424,
+    "ast_hash": "820c88cc948c15e41bda6a0aba456f50",
+    "semantic_hash": "820c88cc948c15e41bda6a0aba456f50"
+  },
+  "myshop/orders/views/order.py": {
+    "mtime": 1785560382.2584424,
+    "ast_hash": "b1dc50d28bcc074f1d55819ff2091277",
+    "semantic_hash": "b1dc50d28bcc074f1d55819ff2091277"
+  },
+  "myshop/orders/views/pdf.py": {
+    "mtime": 1785560382.2584424,
+    "ast_hash": "43617bf0b6a5ff993f66660b307a59e8",
+    "semantic_hash": "43617bf0b6a5ff993f66660b307a59e8"
+  },
+  "myshop/payment/__init__.py": {
+    "mtime": 1785560382.2594426,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/payment/admin.py": {
+    "mtime": 1785560382.2594426,
+    "ast_hash": "740afd55bc48a005d3ec67845444a493",
+    "semantic_hash": "740afd55bc48a005d3ec67845444a493"
+  },
+  "myshop/payment/apps.py": {
+    "mtime": 1785560382.2594426,
+    "ast_hash": "080612ec1d0ef7fa28d523c28549957d",
+    "semantic_hash": "080612ec1d0ef7fa28d523c28549957d"
+  },
+  "myshop/payment/forms.py": {
+    "mtime": 1785560382.2594426,
+    "ast_hash": "8f0b365ef449d590bcbd034f7d715707",
+    "semantic_hash": "8f0b365ef449d590bcbd034f7d715707"
+  },
+  "myshop/payment/migrations/0001_initial.py": {
+    "mtime": 1785560382.2594426,
+    "ast_hash": "850e1a81537d0b0a64a42455956ec17e",
+    "semantic_hash": "850e1a81537d0b0a64a42455956ec17e"
+  },
+  "myshop/payment/migrations/0002_alter_paymentmethod_card_holder_name_and_more.py": {
+    "mtime": 1785560382.2604425,
+    "ast_hash": "da65e49df861cf59b511e5434815d94c",
+    "semantic_hash": "da65e49df861cf59b511e5434815d94c"
+  },
+  "myshop/payment/migrations/__init__.py": {
+    "mtime": 1785560382.2604425,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/payment/models.py": {
+    "mtime": 1785560382.2604425,
+    "ast_hash": "58aba4033c84a0162d8772114082bd21",
+    "semantic_hash": "58aba4033c84a0162d8772114082bd21"
+  },
+  "myshop/payment/services.py": {
+    "mtime": 1785560382.2604425,
+    "ast_hash": "b33453133f5d8c56ef9ca571686c7ce8",
+    "semantic_hash": "b33453133f5d8c56ef9ca571686c7ce8"
+  },
+  "myshop/payment/static/js/stripe_script.js": {
+    "mtime": 1785560382.2604425,
+    "ast_hash": "ef2fcdbbe6ee97c8afa6ffab496c0ff7",
+    "semantic_hash": "ef2fcdbbe6ee97c8afa6ffab496c0ff7"
+  },
+  "myshop/payment/stripe_handler.py": {
+    "mtime": 1785560382.2614424,
+    "ast_hash": "92f46f6754eac1155aaa5abc1739a487",
+    "semantic_hash": "92f46f6754eac1155aaa5abc1739a487"
+  },
+  "myshop/payment/tasks.py": {
+    "mtime": 1785560382.2614424,
+    "ast_hash": "c406138fd50a027cb1df492235e2c850",
+    "semantic_hash": "c406138fd50a027cb1df492235e2c850"
+  },
+  "myshop/payment/tests.py": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "816454786ff8abda93e4319bbd66764e",
+    "semantic_hash": "816454786ff8abda93e4319bbd66764e"
+  },
+  "myshop/payment/urls.py": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "6437a35581fc32e5bf969effcf0804da",
+    "semantic_hash": "6437a35581fc32e5bf969effcf0804da"
+  },
+  "myshop/payment/views.py": {
+    "mtime": 1785560382.2634425,
+    "ast_hash": "8976c548b8e7fb1a869a1d967d367cd4",
+    "semantic_hash": "8976c548b8e7fb1a869a1d967d367cd4"
+  },
+  "myshop/payment/webhooks.py": {
+    "mtime": 1785560382.2634425,
+    "ast_hash": "418a98ee5bcc44fd9293898297946e5a",
+    "semantic_hash": "418a98ee5bcc44fd9293898297946e5a"
+  },
+  "myshop/pyproject.toml": {
+    "mtime": 1785560382.2634425,
+    "ast_hash": "9ca441ed09d1600b78a18b0790746d78",
+    "semantic_hash": "9ca441ed09d1600b78a18b0790746d78"
+  },
+  "myshop/shop/__init__.py": {
+    "mtime": 1785560382.2634425,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/shop/admin.py": {
+    "mtime": 1785560382.2634425,
+    "ast_hash": "4c25e06285f5b1d1af4318bda5d54a98",
+    "semantic_hash": "4c25e06285f5b1d1af4318bda5d54a98"
+  },
+  "myshop/shop/apps.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "09fb6e07e886d831f013264f74abbc54",
+    "semantic_hash": "09fb6e07e886d831f013264f74abbc54"
+  },
+  "myshop/shop/management/__init__.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/shop/management/commands/__init__.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/shop/management/commands/load_recommendations.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "43e0549ba93ed526bec6283e2e85082d",
+    "semantic_hash": "43e0549ba93ed526bec6283e2e85082d"
+  },
+  "myshop/shop/management/commands/seed_demo.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "020d36e91f855f300ef5870d7558540a",
+    "semantic_hash": "020d36e91f855f300ef5870d7558540a"
+  },
+  "myshop/shop/management/commands/translate_po.py": {
+    "mtime": 1785560382.2644424,
+    "ast_hash": "89d2ae239e552aae4f58507b9e2c8ce9",
+    "semantic_hash": "89d2ae239e552aae4f58507b9e2c8ce9"
+  },
+  "myshop/shop/managers.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "3f04cc84870991435673e52f71b87824",
+    "semantic_hash": "3f04cc84870991435673e52f71b87824"
+  },
+  "myshop/shop/migrations/0001_initial.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "70be88566860a49826b08ce84a4af590",
+    "semantic_hash": "70be88566860a49826b08ce84a4af590"
+  },
+  "myshop/shop/migrations/0002_rename_aviable_product_available.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "14a51958163f4803db58f6f65306d5dc",
+    "semantic_hash": "14a51958163f4803db58f6f65306d5dc"
+  },
+  "myshop/shop/migrations/0003_rename_category_product_category_alter_category_name_and_more.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "2f0c33a7b3da566e2148acced6b8e19b",
+    "semantic_hash": "2f0c33a7b3da566e2148acced6b8e19b"
+  },
+  "myshop/shop/migrations/0004_alter_product_options_alter_category_name_and_more.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "9a5a67d499a09f4bb2a675d9aeb79e41",
+    "semantic_hash": "9a5a67d499a09f4bb2a675d9aeb79e41"
+  },
+  "myshop/shop/migrations/0005_product_shop_produc_availab_47d513_idx_and_more.py": {
+    "mtime": 1785560382.2654426,
+    "ast_hash": "f9be73b8b883f5981d2b31fdf41e92be",
+    "semantic_hash": "f9be73b8b883f5981d2b31fdf41e92be"
+  },
+  "myshop/shop/migrations/0006_productimage.py": {
+    "mtime": 1785560382.2664425,
+    "ast_hash": "ea632234dcc6a18693bb703f3ff79857",
+    "semantic_hash": "ea632234dcc6a18693bb703f3ff79857"
+  },
+  "myshop/shop/migrations/0007_category_image.py": {
+    "mtime": 1785560382.2664425,
+    "ast_hash": "7493fd126e02d136a0fcc06831fd2060",
+    "semantic_hash": "7493fd126e02d136a0fcc06831fd2060"
+  },
+  "myshop/shop/migrations/0008_translationcache_and_more.py": {
+    "mtime": 1785560382.2664425,
+    "ast_hash": "035b8da5dccaeb5e00fbc8793bc76441",
+    "semantic_hash": "035b8da5dccaeb5e00fbc8793bc76441"
+  },
+  "myshop/shop/migrations/__init__.py": {
+    "mtime": 1785560382.2664425,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/shop/models.py": {
+    "mtime": 1785560382.2664425,
+    "ast_hash": "053bf3bd5d4385aa7034883b50bb1493",
+    "semantic_hash": "053bf3bd5d4385aa7034883b50bb1493"
+  },
+  "myshop/shop/recommender.py": {
+    "mtime": 1785560382.2674425,
+    "ast_hash": "33edb8b9ec436601d2d0bb3cc6f18953",
+    "semantic_hash": "33edb8b9ec436601d2d0bb3cc6f18953"
+  },
+  "myshop/shop/signals.py": {
+    "mtime": 1785560382.2674425,
+    "ast_hash": "dc74fc3644beda42c8d4e60743ba45e9",
+    "semantic_hash": "dc74fc3644beda42c8d4e60743ba45e9"
+  },
+  "myshop/shop/templatetags/__init__.py": {
+    "mtime": 1785560382.2704425,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/shop/templatetags/i18n_extras.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "05fc2d39b1d8b8635ff441529883390f",
+    "semantic_hash": "05fc2d39b1d8b8635ff441529883390f"
+  },
+  "myshop/shop/test_translation.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "3b49a270afeb54a04175e721cea2639e",
+    "semantic_hash": "3b49a270afeb54a04175e721cea2639e"
+  },
+  "myshop/shop/tests.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "c1f4057659d3ff33929672ffa0df7881",
+    "semantic_hash": "c1f4057659d3ff33929672ffa0df7881"
+  },
+  "myshop/shop/translation.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "1f4fa6675769165a9840b7c6d7b588c8",
+    "semantic_hash": "1f4fa6675769165a9840b7c6d7b588c8"
+  },
+  "myshop/shop/urls.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "b964477c6049510147f14c2599803c39",
+    "semantic_hash": "b964477c6049510147f14c2599803c39"
+  },
+  "myshop/shop/views.py": {
+    "mtime": 1785560382.2714424,
+    "ast_hash": "4bdf994468aaa0708ec2f006981d7e1c",
+    "semantic_hash": "4bdf994468aaa0708ec2f006981d7e1c"
+  },
+  "myshop/static/blog/js/blog.js": {
+    "mtime": 1785560382.2724426,
+    "ast_hash": "9436fa4f767414a6e62ef42e9788a118",
+    "semantic_hash": "9436fa4f767414a6e62ef42e9788a118"
+  },
+  "myshop/static/js/interactions.js": {
+    "mtime": 1785560382.4894428,
+    "ast_hash": "a1c68faa0ae4322c7929b87e1831bdaa",
+    "semantic_hash": "a1c68faa0ae4322c7929b87e1831bdaa"
+  },
+  "myshop/static/js/stripe_script.js": {
+    "mtime": 1785560382.490443,
+    "ast_hash": "ef2fcdbbe6ee97c8afa6ffab496c0ff7",
+    "semantic_hash": "ef2fcdbbe6ee97c8afa6ffab496c0ff7"
+  },
+  "myshop/support/__init__.py": {
+    "mtime": 1785560382.491443,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/support/admin.py": {
+    "mtime": 1785560382.491443,
+    "ast_hash": "91fa2ea62cdedc92b234659203f31786",
+    "semantic_hash": "91fa2ea62cdedc92b234659203f31786"
+  },
+  "myshop/support/apps.py": {
+    "mtime": 1785560382.491443,
+    "ast_hash": "80caf10c14ecc3d7c30749e9b4aba16f",
+    "semantic_hash": "80caf10c14ecc3d7c30749e9b4aba16f"
+  },
+  "myshop/support/forms.py": {
+    "mtime": 1785560382.491443,
+    "ast_hash": "dc0fd7a224db3b4522038380048749f1",
+    "semantic_hash": "dc0fd7a224db3b4522038380048749f1"
+  },
+  "myshop/support/managers.py": {
+    "mtime": 1785560382.4924428,
+    "ast_hash": "50fc9a6006d98d4681cf8a88f8b1f2ac",
+    "semantic_hash": "50fc9a6006d98d4681cf8a88f8b1f2ac"
+  },
+  "myshop/support/migrations/0001_initial.py": {
+    "mtime": 1785560382.4924428,
+    "ast_hash": "81e49abfcd7a78ef4f567d05d203ed1a",
+    "semantic_hash": "81e49abfcd7a78ef4f567d05d203ed1a"
+  },
+  "myshop/support/migrations/0002_alter_supportticket_options_and_more.py": {
+    "mtime": 1785560382.493443,
+    "ast_hash": "850c273fc9c3013fb591848a3ffc2194",
+    "semantic_hash": "850c273fc9c3013fb591848a3ffc2194"
+  },
+  "myshop/support/migrations/__init__.py": {
+    "mtime": 1785560382.493443,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "myshop/support/models.py": {
+    "mtime": 1785560382.493443,
+    "ast_hash": "eb94e8147335d561cdcd902ddd8b1fb5",
+    "semantic_hash": "eb94e8147335d561cdcd902ddd8b1fb5"
+  },
+  "myshop/support/tests.py": {
+    "mtime": 1785560382.494443,
+    "ast_hash": "7d359af8c40c5f2a92d5a79bab41c66d",
+    "semantic_hash": "7d359af8c40c5f2a92d5a79bab41c66d"
+  },
+  "myshop/support/urls.py": {
+    "mtime": 1785560382.494443,
+    "ast_hash": "3df3c45aff8d6c7ab881d9b7eb00d14b",
+    "semantic_hash": "3df3c45aff8d6c7ab881d9b7eb00d14b"
+  },
+  "myshop/support/views.py": {
+    "mtime": 1785560382.494443,
+    "ast_hash": "cc3b4e49fa560dbe736a10a1a59fe56c",
+    "semantic_hash": "cc3b4e49fa560dbe736a10a1a59fe56c"
+  },
+  "myshop/translate_po.py": {
+    "mtime": 1785560382.4964428,
+    "ast_hash": "94f2b60f9cbf86aafd20fc8eebc843b1",
+    "semantic_hash": "94f2b60f9cbf86aafd20fc8eebc843b1"
+  },
+  "skills-lock.json": {
+    "mtime": 1785560676.483958,
+    "ast_hash": "683946f24b8534bcb85a19547cd48b90",
+    "semantic_hash": "683946f24b8534bcb85a19547cd48b90"
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1785560382.0514421,
+    "ast_hash": "6ecd945f820e9789839e6bdc09d7c2cf",
+    "semantic_hash": "6ecd945f820e9789839e6bdc09d7c2cf"
+  },
+  ".pre-commit-config.yaml": {
+    "mtime": 1785560382.0634422,
+    "ast_hash": "c5a644ee5758293571c241d53d34c2ea",
+    "semantic_hash": "c5a644ee5758293571c241d53d34c2ea"
+  },
+  "AGENTS.md": {
+    "mtime": 1785560382.0644422,
+    "ast_hash": "e1f3819f0e3fdef516a7eafe6c9de7cc",
+    "semantic_hash": "e1f3819f0e3fdef516a7eafe6c9de7cc"
+  },
+  "BASELINE.md": {
+    "mtime": 1785560382.0644422,
+    "ast_hash": "31248bf8491015e2c094faccc9cf4f90",
+    "semantic_hash": "31248bf8491015e2c094faccc9cf4f90"
+  },
+  "CLAUDE.md": {
+    "mtime": 1785560614.334849,
+    "ast_hash": "f4d6134405019822d2b585fb69a56c27",
+    "semantic_hash": "f4d6134405019822d2b585fb69a56c27"
+  },
+  "README.md": {
+    "mtime": 1785560382.065442,
+    "ast_hash": "ac4286fd51b0a00aab2ea801bb7b1c7d",
+    "semantic_hash": "ac4286fd51b0a00aab2ea801bb7b1c7d"
+  },
+  "REFACTORING_PLAN.md": {
+    "mtime": 1785560382.065442,
+    "ast_hash": "94a7c2913ffb14292ff87034542641ae",
+    "semantic_hash": "94a7c2913ffb14292ff87034542641ae"
+  },
+  "myshop/README.md": {
+    "mtime": 1785560382.0664423,
+    "ast_hash": "ffc3dccf01634bf60c906bface21fc89",
+    "semantic_hash": "ffc3dccf01634bf60c906bface21fc89"
+  },
+  "myshop/accounts/templates/accounts/login.html": {
+    "mtime": 1785560382.0894423,
+    "ast_hash": "b6b2568b36a4e6fa529fb1ca443bea38",
+    "semantic_hash": "b6b2568b36a4e6fa529fb1ca443bea38"
+  },
+  "myshop/accounts/templates/accounts/profile.html": {
+    "mtime": 1785560382.0894423,
+    "ast_hash": "a5d09d5b081d87624b9cc95f6700d754",
+    "semantic_hash": "a5d09d5b081d87624b9cc95f6700d754"
+  },
+  "myshop/accounts/templates/accounts/register.html": {
+    "mtime": 1785560382.0894423,
+    "ast_hash": "8ed9ccc9abe2bebc757028a05c8b0042",
+    "semantic_hash": "8ed9ccc9abe2bebc757028a05c8b0042"
+  },
+  "myshop/blog/templates/blog/manage/dashboard.html": {
+    "mtime": 1785560382.0944421,
+    "ast_hash": "3b5e2490396d687c56697f0ff2a3bf3a",
+    "semantic_hash": "3b5e2490396d687c56697f0ff2a3bf3a"
+  },
+  "myshop/blog/templates/blog/manage/post_confirm_delete.html": {
+    "mtime": 1785560382.0944421,
+    "ast_hash": "9149c08fab42bad845f9582fb56a3c62",
+    "semantic_hash": "9149c08fab42bad845f9582fb56a3c62"
+  },
+  "myshop/blog/templates/blog/manage/post_form.html": {
+    "mtime": 1785560382.0944421,
+    "ast_hash": "2ff963b4230a42889cad1bae0c7b0995",
+    "semantic_hash": "2ff963b4230a42889cad1bae0c7b0995"
+  },
+  "myshop/blog/templates/blog/manage/post_list.html": {
+    "mtime": 1785560382.0944421,
+    "ast_hash": "4eab6bad6ba0b7eb2869346e01bf2530",
+    "semantic_hash": "4eab6bad6ba0b7eb2869346e01bf2530"
+  },
+  "myshop/blog/templates/blog/post_detail.html": {
+    "mtime": 1785560382.0954423,
+    "ast_hash": "253ed918f6d697cb04cc96338fce5fc9",
+    "semantic_hash": "253ed918f6d697cb04cc96338fce5fc9"
+  },
+  "myshop/blog/templates/blog/post_list.html": {
+    "mtime": 1785560382.0954423,
+    "ast_hash": "75d51b0f69d071112cf9fbbf6152cd50",
+    "semantic_hash": "75d51b0f69d071112cf9fbbf6152cd50"
+  },
+  "myshop/cart/templates/cart/detail.html": {
+    "mtime": 1785560382.0984423,
+    "ast_hash": "aa01c0bd289162e0363f30f59dca6dd1",
+    "semantic_hash": "aa01c0bd289162e0363f30f59dca6dd1"
+  },
+  "myshop/orders/templates/admin/orders/order/detail.html": {
+    "mtime": 1785560382.2534425,
+    "ast_hash": "680ca946999b6f5fff8aa8b34e5afbcd",
+    "semantic_hash": "680ca946999b6f5fff8aa8b34e5afbcd"
+  },
+  "myshop/orders/templates/orders/addresses/confirm_delete.html": {
+    "mtime": 1785560382.2534425,
+    "ast_hash": "40dcda2df407659fc137aea61a560db3",
+    "semantic_hash": "40dcda2df407659fc137aea61a560db3"
+  },
+  "myshop/orders/templates/orders/addresses/form.html": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "876581db1f1c69a86e4003158842e0f0",
+    "semantic_hash": "876581db1f1c69a86e4003158842e0f0"
+  },
+  "myshop/orders/templates/orders/addresses/list.html": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "beb9865fd38379f6a9b03bba0e22a4a5",
+    "semantic_hash": "beb9865fd38379f6a9b03bba0e22a4a5"
+  },
+  "myshop/orders/templates/orders/emails/order_status_update.html": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "a0c8229fa1befa835b332d9902849718",
+    "semantic_hash": "a0c8229fa1befa835b332d9902849718"
+  },
+  "myshop/orders/templates/orders/emails/order_status_update.txt": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "830e08c3a220b52b85e1126dc71ebc53",
+    "semantic_hash": "830e08c3a220b52b85e1126dc71ebc53"
+  },
+  "myshop/orders/templates/orders/emails/order_tracking.html": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "1e9f759e882fce92aa97c39be481eba0",
+    "semantic_hash": "1e9f759e882fce92aa97c39be481eba0"
+  },
+  "myshop/orders/templates/orders/emails/order_tracking.txt": {
+    "mtime": 1785560382.2544425,
+    "ast_hash": "dd5090f300581f8ff78035800c8662e0",
+    "semantic_hash": "dd5090f300581f8ff78035800c8662e0"
+  },
+  "myshop/orders/templates/orders/order/cancel_order.html": {
+    "mtime": 1785560382.2554424,
+    "ast_hash": "3703509d3cb0965334e979bcd848132e",
+    "semantic_hash": "3703509d3cb0965334e979bcd848132e"
+  },
+  "myshop/orders/templates/orders/order/create.html": {
+    "mtime": 1785560382.2554424,
+    "ast_hash": "361efbcf455694868ccc4d3a1d761d94",
+    "semantic_hash": "361efbcf455694868ccc4d3a1d761d94"
+  },
+  "myshop/orders/templates/orders/order/created.html": {
+    "mtime": 1785560382.2554424,
+    "ast_hash": "4c8cf648ab17024359dd29218b5cd467",
+    "semantic_hash": "4c8cf648ab17024359dd29218b5cd467"
+  },
+  "myshop/orders/templates/orders/order/order_detail.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "5e6836baf25cc4b5fc173cbbd65aef4e",
+    "semantic_hash": "5e6836baf25cc4b5fc173cbbd65aef4e"
+  },
+  "myshop/orders/templates/orders/order/order_history.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "58cfd51a0df6a92551397b9ae3c291e4",
+    "semantic_hash": "58cfd51a0df6a92551397b9ae3c291e4"
+  },
+  "myshop/orders/templates/orders/order/order_status_history.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "3c1fb1ff18a8447a9fb2d09aef82b5ed",
+    "semantic_hash": "3c1fb1ff18a8447a9fb2d09aef82b5ed"
+  },
+  "myshop/orders/templates/orders/order/order_tracking.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "30f0f4f755c216fb61263fe362201821",
+    "semantic_hash": "30f0f4f755c216fb61263fe362201821"
+  },
+  "myshop/orders/templates/orders/order/order_tracking_info.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "7c29ca233a90b7a5a9ec0c33b02275b4",
+    "semantic_hash": "7c29ca233a90b7a5a9ec0c33b02275b4"
+  },
+  "myshop/orders/templates/orders/order/pdf.html": {
+    "mtime": 1785560382.2564425,
+    "ast_hash": "e5075758b92b8bfe282bb962006f5bfd",
+    "semantic_hash": "e5075758b92b8bfe282bb962006f5bfd"
+  },
+  "myshop/payment/templates/payment/canceled.html": {
+    "mtime": 1785560382.2614424,
+    "ast_hash": "abbf05f8104b225fe5798cf8df4f2dec",
+    "semantic_hash": "abbf05f8104b225fe5798cf8df4f2dec"
+  },
+  "myshop/payment/templates/payment/completed.html": {
+    "mtime": 1785560382.2614424,
+    "ast_hash": "ff52b83da2b957bbf0270e0b8dab980c",
+    "semantic_hash": "ff52b83da2b957bbf0270e0b8dab980c"
+  },
+  "myshop/payment/templates/payment/payment_methods/add.html": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "c1b3e2a20e013987cf049a07bff9dfe2",
+    "semantic_hash": "c1b3e2a20e013987cf049a07bff9dfe2"
+  },
+  "myshop/payment/templates/payment/payment_methods/confirm_delete.html": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "f2480483ffa154f6fb41f5a6b926dbac",
+    "semantic_hash": "f2480483ffa154f6fb41f5a6b926dbac"
+  },
+  "myshop/payment/templates/payment/payment_methods/list.html": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "c07526cf3879a7a29582dc11b95431ea",
+    "semantic_hash": "c07526cf3879a7a29582dc11b95431ea"
+  },
+  "myshop/payment/templates/payment/process.html": {
+    "mtime": 1785560382.2624426,
+    "ast_hash": "a21c5362f9f9ece81dff0fc48add4fec",
+    "semantic_hash": "a21c5362f9f9ece81dff0fc48add4fec"
+  },
+  "myshop/shop/templates/includes/footer.html": {
+    "mtime": 1785560382.2674425,
+    "ast_hash": "c6cfd515d63ba562c17f31db154c19df",
+    "semantic_hash": "c6cfd515d63ba562c17f31db154c19df"
+  },
+  "myshop/shop/templates/includes/lang_toggle.html": {
+    "mtime": 1785560382.2684424,
+    "ast_hash": "b5bbcfc16a156acf1f5a286903b4f7d0",
+    "semantic_hash": "b5bbcfc16a156acf1f5a286903b4f7d0"
+  },
+  "myshop/shop/templates/includes/navbar.html": {
+    "mtime": 1785560382.2684424,
+    "ast_hash": "88bf3fd9aaf85d4688d6a3544f896eb6",
+    "semantic_hash": "88bf3fd9aaf85d4688d6a3544f896eb6"
+  },
+  "myshop/shop/templates/includes/sidebar.html": {
+    "mtime": 1785560382.2684424,
+    "ast_hash": "2c052255c19d9cb9d464805df66e7554",
+    "semantic_hash": "2c052255c19d9cb9d464805df66e7554"
+  },
+  "myshop/shop/templates/shop/base.html": {
+    "mtime": 1785560382.2694426,
+    "ast_hash": "4914589df127ed0a0cd07e29292e78f7",
+    "semantic_hash": "4914589df127ed0a0cd07e29292e78f7"
+  },
+  "myshop/shop/templates/shop/home.html": {
+    "mtime": 1785560382.2694426,
+    "ast_hash": "60b852294021e9207487d17860e54d19",
+    "semantic_hash": "60b852294021e9207487d17860e54d19"
+  },
+  "myshop/shop/templates/shop/product/detail.html": {
+    "mtime": 1785560382.2694426,
+    "ast_hash": "993e6b6d696bfe07871df4db613394ee",
+    "semantic_hash": "993e6b6d696bfe07871df4db613394ee"
+  },
+  "myshop/shop/templates/shop/product/favorites.html": {
+    "mtime": 1785560382.2694426,
+    "ast_hash": "38acb36c5d6b02898e8b7c4173a28ad2",
+    "semantic_hash": "38acb36c5d6b02898e8b7c4173a28ad2"
+  },
+  "myshop/shop/templates/shop/product/list.html": {
+    "mtime": 1785560382.2704425,
+    "ast_hash": "d73488bfd5c0e89d26b3a1dd334c4b73",
+    "semantic_hash": "d73488bfd5c0e89d26b3a1dd334c4b73"
+  },
+  "myshop/shop/templates/shop/product/recetario.html": {
+    "mtime": 1785560382.2704425,
+    "ast_hash": "207886ccb30a861d5697fd18a1caf513",
+    "semantic_hash": "207886ccb30a861d5697fd18a1caf513"
+  },
+  "myshop/shop/templates/shop/synkfood.html": {
+    "mtime": 1785560382.2704425,
+    "ast_hash": "94da12c85a3d42068f6eab1c4831abaf",
+    "semantic_hash": "94da12c85a3d42068f6eab1c4831abaf"
+  },
+  "myshop/support/templates/support/ticket_detail.html": {
+    "mtime": 1785560382.493443,
+    "ast_hash": "ca2b07e23bb71abd1938528971035152",
+    "semantic_hash": "ca2b07e23bb71abd1938528971035152"
+  },
+  "myshop/support/templates/support/ticket_form.html": {
+    "mtime": 1785560382.493443,
+    "ast_hash": "de4530a7f914412a8797702ff7c2a0e0",
+    "semantic_hash": "de4530a7f914412a8797702ff7c2a0e0"
+  },
+  "myshop/support/templates/support/ticket_list.html": {
+    "mtime": 1785560382.494443,
+    "ast_hash": "7dec68262da886ac4bb9fe07a82c6f85",
+    "semantic_hash": "7dec68262da886ac4bb9fe07a82c6f85"
+  },
+  "myshop/templates/400.html": {
+    "mtime": 1785560382.494443,
+    "ast_hash": "ead566ffba12b78cc8ae5ab068d45b79",
+    "semantic_hash": "ead566ffba12b78cc8ae5ab068d45b79"
+  },
+  "myshop/templates/403.html": {
+    "mtime": 1785560382.4954429,
+    "ast_hash": "714bb2625eb0d4a75d5ab60c4acdd283",
+    "semantic_hash": "714bb2625eb0d4a75d5ab60c4acdd283"
+  },
+  "myshop/templates/404.html": {
+    "mtime": 1785560382.4954429,
+    "ast_hash": "d820bb5cdf728892325e9187faf111fe",
+    "semantic_hash": "d820bb5cdf728892325e9187faf111fe"
+  },
+  "myshop/templates/500.html": {
+    "mtime": 1785560382.4954429,
+    "ast_hash": "03f076ca27c6638457b1ead8e8df3cb8",
+    "semantic_hash": "03f076ca27c6638457b1ead8e8df3cb8"
+  },
+  "myshop/templates/502.html": {
+    "mtime": 1785560382.4954429,
+    "ast_hash": "d219a0030258110cd3df6bcd9dca715f",
+    "semantic_hash": "d219a0030258110cd3df6bcd9dca715f"
+  },
+  "myshop/templates/form-mayorista.html": {
+    "mtime": 1785560382.4964428,
+    "ast_hash": "3f2926e52bb464a97d64467e245433b1",
+    "semantic_hash": "3f2926e52bb464a97d64467e245433b1"
+  },
+  "notes.txt": {
+    "mtime": 1785560382.497443,
+    "ast_hash": "6ebc6d4b4cbd5076adf6d627062cd679",
+    "semantic_hash": "6ebc6d4b4cbd5076adf6d627062cd679"
+  },
+  "requirements.txt": {
+    "mtime": 1785560382.497443,
+    "ast_hash": "1ed9dcbf777c3aa79e3f5556c91fba32",
+    "semantic_hash": "1ed9dcbf777c3aa79e3f5556c91fba32"
+  },
+  "tasks/lessons.md": {
+    "mtime": 1785560382.497443,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "tasks/todo.md": {
+    "mtime": 1785560382.497443,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  }
+}
