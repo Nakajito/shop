@@ -46,7 +46,7 @@ class Product(models.Model):
         verbose_name=_("category"),
     )
     name = models.CharField(_("name"), max_length=200)
-    slug = models.SlugField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField(_("sku"), max_length=64, unique=True, blank=True, null=True)
     image = models.ImageField(_("image"), upload_to="products/%Y/%m/%d", blank=True, null=True)
     description = models.TextField(_("description"), blank=True)
@@ -82,7 +82,7 @@ class Product(models.Model):
         """
         Return the canonical URL for the product detail view.
         """
-        return reverse("shop:product_detail", args=[self.id, self.slug])
+        return reverse("shop:product_detail", args=[self.slug])
 
 
 class ProductImage(models.Model):

@@ -36,7 +36,7 @@ class ProductModelTest(TestCase):
     def test_get_absolute_url(self):
         url = self.product.get_absolute_url()
         self.assertEqual(
-            url, reverse("shop:product_detail", args=[self.product.id, "django-book"])
+            url, reverse("shop:product_detail", args=["django-book"])
         )
 
     def test_price_non_negative_constraint(self):
@@ -134,7 +134,7 @@ class ProductDetailViewTest(TestCase):
 
     def test_product_detail(self):
         response = self.client.get(
-            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+            reverse("shop:product_detail", args=["chess-set"])
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Chess Set")
@@ -143,14 +143,14 @@ class ProductDetailViewTest(TestCase):
         self.product.available = False
         self.product.save()
         response = self.client.get(
-            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+            reverse("shop:product_detail", args=["chess-set"])
         )
         self.assertEqual(response.status_code, 404)
 
     def test_product_detail_gallery_single_image(self):
         """Gallery renders one slide (active) and no arrows/dots."""
         response = self.client.get(
-            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+            reverse("shop:product_detail", args=["chess-set"])
         )
         self.assertContains(response, 'pd-carousel__slide--active')
         self.assertContains(response, 'pd-carousel__slides')
@@ -166,7 +166,7 @@ class ProductDetailViewTest(TestCase):
         ProductImage.objects.create(product=self.product, image=img, order=0)
         ProductImage.objects.create(product=self.product, image=img, order=1)
         response = self.client.get(
-            reverse("shop:product_detail", args=[self.product.id, "chess-set"])
+            reverse("shop:product_detail", args=["chess-set"])
         )
         self.assertContains(response, 'pd-carousel__slide--active')
         self.assertContains(response, 'aria-label="Anterior"')

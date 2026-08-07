@@ -83,14 +83,13 @@ def product_list(request, category_slug=None):
 
 @vary_on_cookie
 @cache_control(private=True, no_cache=True)
-def product_detail(request, id, slug):
+def product_detail(request, slug):
     """
     Displays single product details, the cart form, and Redis recommendations.
     """
     # select_related here ensures category data is available for breadcrumbs/UI
     product = get_object_or_404(
         Product.objects.select_related("category").prefetch_related("images"),
-        id=id,
         slug=slug,
         available=True,
     )
