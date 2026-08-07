@@ -62,7 +62,7 @@ superuser: ## Create Django superuser
 	cd $(PROJECT_DIR) && uv run python manage.py createsuperuser
 
 deps-lock: ## Regenerate requirements.txt for Docker from pyproject.toml
-	uv pip compile $(PROJECT_DIR)/pyproject.toml -o requirements.txt
+	uv pip compile $(PROJECT_DIR)/pyproject.toml -o requirements.txt --python-platform linux
 
 docker-build: ## Build production Docker image
 	docker build -t myshop .
