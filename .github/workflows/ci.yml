@@ -101,6 +101,9 @@ jobs:
           else
             echo "tag=staging" >> "$GITHUB_OUTPUT"
           fi
+          # GHCR repository names must be lowercase; github.repository keeps
+          # the owner's actual casing (Nakajito/shop), which fails the build.
+          echo "repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -108,8 +111,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}
-            ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}-${{ github.sha }}
+            ghcr.io/${{ steps.tag.outputs.repo }}:${{ steps.tag.outputs.tag }}
+            ghcr.io/${{ steps.tag.outputs.repo }}:${{ steps.tag.outputs.tag }}-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
