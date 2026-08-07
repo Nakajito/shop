@@ -14,9 +14,7 @@ class Category(models.Model):
 
     name = models.CharField(_("name"), max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(
-        _("image"), upload_to="categories/%Y/%m/%d", blank=True, null=True
-    )
+    image = models.ImageField(_("image"), upload_to="categories/%Y/%m/%d", blank=True, null=True)
 
     class Meta:
         ordering = ["name"]
@@ -49,9 +47,8 @@ class Product(models.Model):
     )
     name = models.CharField(_("name"), max_length=200)
     slug = models.SlugField(max_length=200, db_index=True)
-    image = models.ImageField(
-        _("image"), upload_to="products/%Y/%m/%d", blank=True, null=True
-    )
+    sku = models.CharField(_("sku"), max_length=64, unique=True, blank=True, null=True)
+    image = models.ImageField(_("image"), upload_to="products/%Y/%m/%d", blank=True, null=True)
     description = models.TextField(_("description"), blank=True)
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
     available = models.BooleanField(_("available"), default=True)

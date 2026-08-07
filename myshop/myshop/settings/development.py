@@ -25,5 +25,8 @@ CACHES = {
     }
 }
 
-# Sessions en caché (mucho más rápido que DB)
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Session via cache with DB fallback — plain "cache" backend raises
+# SessionInterrupted if anything calls cache.clear() mid-request (e.g. the
+# post_save cache-invalidation signals in shop/signals.py) since it wipes the
+# in-flight request's own session out of the same LocMemCache store.
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"

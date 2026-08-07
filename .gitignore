@@ -377,10 +377,6 @@ $RECYCLE.BIN/
 !.github/workflows/
 !.github/workflows/*.yml
 
-# Cloud Code
-.cloudcode/
-.claude/
-CLAUDE.md
 
 # TestSrpite
 testsprite_tests/

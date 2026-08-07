@@ -1,0 +1,60 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans "Home" %}</a> &rsaquo;
+    <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_config.verbose_name }}</a> &rsaquo;
+    <a href="{% url 'admin:shop_product_changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+    {% trans "Resultado de la importación" %}
+  </div>
+{% endblock %}
+{% block content %}
+  <div id="content-main">
+    <div class="module">
+      <h1>
+        {% if dry_run %}
+          {% trans "Simulación de importación (no se guardó nada)" %}
+        {% else %}
+          {% trans "Importación completada" %}
+        {% endif %}
+      </h1>
+      <table>
+        <tr>
+          <th>{% trans "Creados" %}</th>
+          <td>{{ result.created }}</td>
+        </tr>
+        <tr>
+          <th>{% trans "Actualizados" %}</th>
+          <td>{{ result.updated }}</td>
+        </tr>
+        <tr>
+          <th>{% trans "Errores" %}</th>
+          <td>{{ result.errors|length }}</td>
+        </tr>
+      </table>
+      {% if result.errors %}
+        <h2>{% trans "Filas con errores" %}</h2>
+        <table style="width:100%">
+          <thead>
+            <tr>
+              <th>{% trans "Fila" %}</th>
+              <th>{% trans "Error" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row_label, message in result.errors %}
+              <tr class="row{% cycle '1' '2' %}">
+                <td>{{ row_label }}</td>
+                <td>{{ message }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      <p class="submit-row">
+        <a href="{% url 'admin:shop_product_import' %}" class="button">{% trans "Importar otro archivo" %}</a>
+        <a href="{% url 'admin:shop_product_changelist' %}">{% trans "Volver al listado de productos" %}</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans "Home" %}</a> &rsaquo;
+    <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_config.verbose_name }}</a> &rsaquo;
+    <a href="{% url 'admin:shop_product_changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+    {% trans "Importar productos" %}
+  </div>
+{% endblock %}
+{% block content %}
+  <div id="content-main">
+    <div class="module">
+      <h1>{% trans "Importar productos desde CSV/XLS/XLSX" %}</h1>
+      <p class="help">
+        {% blocktrans %}
+          Los productos se emparejan por SKU: si ya existe uno con ese SKU se
+          actualiza, si no, se crea. Las filas sin precio se importan como no
+          disponibles y no pisan el precio de un producto ya existente.
+        {% endblocktrans %}
+      </p>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="module aligned">
+          {% for field in form %}
+            <div class="form-row {% if field.errors %}errors{% endif %}">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+            </div>
+          {% endfor %}
+        </fieldset>
+        <div class="submit-row">
+          <input type="submit" value="{% trans 'Importar' %}" class="default">
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
