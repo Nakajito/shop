@@ -126,8 +126,18 @@ jobs:
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             URL="${{ secrets.COOLIFY_WEBHOOK_URL_PROD }}"
+            SECRET_NAME="COOLIFY_WEBHOOK_URL_PROD"
           else
             URL="${{ secrets.COOLIFY_WEBHOOK_URL_STAGING }}"
+            SECRET_NAME="COOLIFY_WEBHOOK_URL_STAGING"
+          fi
+          if [ -z "$URL" ]; then
+            echo "::error::Secret $SECRET_NAME is not set (repo Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          if [ -z "${{ secrets.COOLIFY_API_TOKEN }}" ]; then
+            echo "::error::Secret COOLIFY_API_TOKEN is not set (repo Settings > Secrets and variables > Actions)."
+            exit 1
           fi
           curl --fail-with-body -X POST "$URL" \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
