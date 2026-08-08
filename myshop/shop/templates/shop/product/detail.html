@@ -2,7 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% load i18n_extras %}
-{% load product_extras %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/detalles.css' %}">
@@ -77,26 +76,7 @@
       <h1 class="pd-title">{{ product.name|tr }}</h1>
       <p class="pd-price">${{ product.price }}</p>
 
-      {% with sections=product.description|tr_safe|split_description %}
-      <div class="pd-description">{{ sections.description|linebreaks }}</div>
-
-      {% if sections.ingredients or sections.nutrition %}
-      <div class="pd-accordion">
-        {% if sections.ingredients %}
-        <details class="pd-accordion__item">
-          <summary class="pd-accordion__summary">{% trans "Ingredientes" %}</summary>
-          <div class="pd-accordion__content">{{ sections.ingredients|linebreaks }}</div>
-        </details>
-        {% endif %}
-        {% if sections.nutrition %}
-        <details class="pd-accordion__item">
-          <summary class="pd-accordion__summary">{% trans "Declaración nutrimental" %}</summary>
-          <div class="pd-accordion__content">{{ sections.nutrition|linebreaks }}</div>
-        </details>
-        {% endif %}
-      </div>
-      {% endif %}
-      {% endwith %}
+      <div class="pd-description">{{ product.description|tr_safe|linebreaks }}</div>
 
       <hr class="pd-divider">
 

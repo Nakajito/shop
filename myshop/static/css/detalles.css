@@ -198,56 +198,6 @@
 
 .pd-description p { margin-bottom: 6px; }
 
-/* ── Acordeón (ingredientes / nutrición) ────────────────────── */
-.pd-accordion {
-  border-top: 1px solid var(--pd-border);
-  margin-top: 12px;
-}
-
-.pd-accordion__item {
-  border-bottom: 1px solid var(--pd-border);
-}
-
-.pd-accordion__summary {
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 2px;
-  font-family: var(--pd-font);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--pd-dark);
-}
-
-.pd-accordion__summary::-webkit-details-marker { display: none; }
-
-.pd-accordion__summary::after {
-  content: '+';
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--pd-mid);
-  transition: transform 0.2s ease;
-}
-
-.pd-accordion__item[open] > .pd-accordion__summary::after {
-  content: '−';
-}
-
-.pd-accordion__content {
-  font-family: var(--pd-font);
-  font-size: 0.78rem;
-  color: #666;
-  line-height: 1.8;
-  letter-spacing: 0.01em;
-  padding: 0 2px 16px;
-}
-
-.pd-accordion__content p { margin-bottom: 6px; }
-
 .pd-divider {
   border: none;
   border-top: 1px solid var(--pd-border);
