@@ -197,6 +197,97 @@
 }
 
 .pd-description p { margin-bottom: 6px; }
+.pd-description strong { color: var(--pd-dark); font-weight: 700; }
+
+/* ── Acordeón (ingredientes / nutrición) ────────────────────── */
+.pd-accordion {
+  border-top: 1px solid var(--pd-border);
+  margin-top: 12px;
+}
+
+.pd-accordion__item {
+  border-bottom: 1px solid var(--pd-border);
+}
+
+.pd-accordion__summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 2px;
+  font-family: var(--pd-font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pd-dark);
+}
+
+.pd-accordion__summary::-webkit-details-marker { display: none; }
+
+.pd-accordion__summary::after {
+  content: '+';
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--pd-mid);
+  transition: transform 0.2s ease;
+}
+
+.pd-accordion__item[open] > .pd-accordion__summary::after {
+  content: '−';
+}
+
+.pd-accordion__content {
+  font-family: var(--pd-font);
+  font-size: 0.78rem;
+  color: #666;
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+  padding: 0 2px 16px;
+}
+
+.pd-accordion__content p { margin-bottom: 6px; }
+
+/* ── Tabla de declaración nutrimental ───────────────────────── */
+.pd-nutrition {
+  margin: 0 2px 16px;
+  font-family: var(--pd-font);
+}
+
+.pd-nutrition__heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pd-dark);
+  padding: 10px 0 4px;
+}
+
+.pd-nutrition__heading:first-child { padding-top: 0; }
+
+.pd-nutrition__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--pd-border);
+  font-size: 0.78rem;
+}
+
+.pd-nutrition__row:last-child { border-bottom: none; }
+
+.pd-nutrition__row dt {
+  color: #666;
+}
+
+.pd-nutrition__row dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--pd-dark);
+  white-space: nowrap;
+}
 
 .pd-divider {
   border: none;
