@@ -24,7 +24,10 @@ def compress_product_image(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=Category)
 def compress_category_image(sender, instance, **kwargs):
-    replace_with_webp(instance, "image")
+    # Category images never render larger than ~356px (homepage cards,
+    # category pills) — no need for the 1600px default used for full-size
+    # product photos.
+    replace_with_webp(instance, "image", max_dimension=800)
 
 
 @receiver(pre_save, sender=ProductImage)

@@ -1,6 +1,8 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<form action="{% url 'set_language' %}" method="post" class="lang-toggle {{ css_class }}">
+<form action="{% url 'set_language' %}"
+      method="post"
+      class="lang-toggle {{ css_class }}">
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}" />
   {% if LANGUAGE_CODE == 'es' %}
@@ -10,7 +12,7 @@
   {% endif %}
   <button type="submit"
           class="lang-toggle__btn"
-          aria-label="{% trans 'Change language' %}"
+          aria-label="{% if LANGUAGE_CODE == 'es' %}EN{% else %}ES{% endif %} - {% trans 'Change language' %}"
           title="{% trans 'Change language' %}">
     <svg xmlns="http://www.w3.org/2000/svg"
          width="30"
@@ -24,6 +26,12 @@
       <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" />
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
     </svg>
-    <span class="lang-toggle__code">{% if LANGUAGE_CODE == 'es' %}EN{% else %}ES{% endif %}</span>
+    <span class="lang-toggle__code">
+      {% if LANGUAGE_CODE == 'es' %}
+        EN
+      {% else %}
+        ES
+      {% endif %}
+    </span>
   </button>
 </form>

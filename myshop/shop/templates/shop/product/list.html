@@ -2,167 +2,212 @@
 {% load static %}
 {% load i18n %}
 {% load i18n_extras %}
-
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
-
-{% block title %}{% trans "Productos" %} - Synk Food{% endblock %}
-
+{% block title %}
+  {% trans "Productos" %} - Synk Food
+{% endblock %}
 {% block content %}
-
-<!-- HERO BANNER -->
-<section class="hero-banner">
-  <div class="container text-center py-5">
-    <h1 class="hero-title">{% blocktrans %}NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:{% endblocktrans %}</h1>
-    <p class="hero-subtitle">{% blocktrans %}SNACKS, BEBIDAS Y DULCES CON CALIDAD PREMIUM,<br>LISTOS PARA ACOMPAÑARTE DONDE SEA{% endblocktrans %}</p>
-  </div>
-</section>
-
-<!-- CATEGORÍAS -->
-<section class="categories-section">
-  <div class="container py-4">
-    <div class="cat-pills">
-      <a href="{% url 'shop:product_list' %}"
-         class="cat-pill {% if not category %}cat-pill--active{% endif %}">
-        <span class="cat-pill__img-wrap">
-          <img src="{% static 'img/onesynk/FOODSYNK.png' %}" alt="{% trans 'Todos' %}" class="cat-pill__img" />
-        </span>
-        <span class="cat-pill__label">{% trans "Todos" %}</span>
-      </a>
-
-      {% for cat in categories %}
-      <a href="{{ cat.get_absolute_url }}"
-         class="cat-pill {% if category.slug == cat.slug %}cat-pill--active{% endif %}">
-        <span class="cat-pill__img-wrap">
-          {% if cat.image %}
-            <img src="{{ cat.image.url }}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
-          {% elif cat.slug == 'dulces' %}
-            <img src="{% static 'img/onesynk/churros1.1.jpg' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
-          {% elif cat.slug == 'bebidas' %}
-            <img src="{% static 'img/onesynk/sobre.jpg' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
-          {% else %}
-            <img src="{% static 'img/onesynk/sopa2.png' %}" alt="{{ cat.name|tr }}" class="cat-pill__img" />
-          {% endif %}
-        </span>
-        <span class="cat-pill__label">{{ cat.name|tr }}</span>
-      </a>
-      {% endfor %}
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <div class="container text-center py-5">
+      <h1 class="hero-title">
+        {% blocktrans %}NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:{% endblocktrans %}
+      </h1>
+      <p class="hero-subtitle">
+        {% blocktrans %}SNACKS, BEBIDAS Y DULCES CON CALIDAD PREMIUM,<br>LISTOS PARA ACOMPAÑARTE DONDE SEA{% endblocktrans %}
+      </p>
     </div>
-  </div>
-</section>
-
-<!-- PRODUCTOS -->
-<section class="products-section">
-  <div class="container py-4">
-
-    {% if category %}
-      <h2 class="category-section-title mb-4">{{ category.name|tr }}</h2>
-      <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4">
-        {% for product in products %}
-        <div class="col">
-          <div class="prod-card">
-            <div class="prod-img-wrapper">
-              <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-card__link">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                     alt="{{ product.name|tr }}"
-                     class="prod-img">
-                <div class="prod-overlay">
-                  <span class="prod-overlay-label">{% trans "Ver producto" %}</span>
+  </section>
+  <!-- CATEGORÍAS -->
+  <section class="categories-section">
+    <div class="container py-4">
+      <div class="cat-pills">
+        <a href="{% url 'shop:product_list' %}"
+           class="cat-pill {% if not category %}cat-pill--active{% endif %}">
+          <span class="cat-pill__img-wrap">
+            <img src="{% static 'img/onesynk/FOODSYNK.png' %}"
+                 alt="{% trans 'Todos' %}"
+                 class="cat-pill__img" />
+          </span>
+          <span class="cat-pill__label">{% trans "Todos" %}</span>
+        </a>
+        {% for cat in categories %}
+          <a href="{{ cat.get_absolute_url }}"
+             class="cat-pill {% if category.slug == cat.slug %}cat-pill--active{% endif %}">
+            <span class="cat-pill__img-wrap">
+              {% if cat.image %}
+                <img src="{{ cat.image.url }}"
+                     alt="{{ cat.name|tr }}"
+                     class="cat-pill__img" />
+              {% elif cat.slug == 'dulces' %}
+                <img src="{% static 'img/onesynk/churros1.1.webp' %}"
+                     alt="{{ cat.name|tr }}"
+                     class="cat-pill__img" />
+              {% elif cat.slug == 'bebidas' %}
+                <img src="{% static 'img/onesynk/sobre.jpg' %}"
+                     alt="{{ cat.name|tr }}"
+                     class="cat-pill__img" />
+              {% else %}
+                <img src="{% static 'img/onesynk/sopa2.png' %}"
+                     alt="{{ cat.name|tr }}"
+                     class="cat-pill__img" />
+              {% endif %}
+            </span>
+            <span class="cat-pill__label">{{ cat.name|tr }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <!-- PRODUCTOS -->
+  <section class="products-section">
+    <div class="container py-4">
+      {% if category %}
+        <h2 class="category-section-title mb-4">{{ category.name|tr }}</h2>
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4">
+          {% for product in products %}
+            <div class="col">
+              <div class="prod-card">
+                <div class="prod-img-wrapper">
+                  <a href="{{ product.get_absolute_url }}"
+                     class="text-decoration-none prod-card__link">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                         alt="{{ product.name|tr }}"
+                         class="prod-img">
+                    <div class="prod-overlay">
+                      <span class="prod-overlay-label">{% trans "Ver producto" %}</span>
+                    </div>
+                  </a>
+                  <div class="prod-actions">
+                    <button type="button"
+                            class="prod-action-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
+                            data-url="{% url 'shop:toggle_favorite' product.id %}"
+                            data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
+                            aria-label="{% trans 'Agregar a favoritos' %}">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           width="18"
+                           height="18"
+                           viewBox="0 0 24 24"
+                           fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
+                           stroke="currentColor"
+                           stroke-width="1.8"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <button type="button"
+                          class="prod-action-btn prod-cart-btn js-add-cart-btn"
+                          data-url="{% url 'cart:cart_add' product.id %}"
+                          data-product-name="{{ product.name|tr }}"
+                          aria-label="{% trans 'Agregar al carrito' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="18"
+                         height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.8"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                  </button>
                 </div>
-              </a>
-              <div class="prod-actions">
-                <button type="button"
-                        class="prod-action-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
-                        data-url="{% url 'shop:toggle_favorite' product.id %}"
-                        data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
-                        aria-label="{% trans 'Agregar a favoritos' %}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                       fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
-                       stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
+                <div class="prod-info mt-2">
+                  <a href="{{ product.get_absolute_url }}"
+                     class="text-decoration-none prod-info__link">
+                    <p class="prod-name">{{ product.name|tr }}</p>
+                    {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
+                    <p class="prod-price">${{ product.price }}</p>
+                  </a>
+                </div>
               </div>
-              <button type="button"
-                      class="prod-action-btn prod-cart-btn js-add-cart-btn"
-                      data-url="{% url 'cart:cart_add' product.id %}"
-                      data-product-name="{{ product.name|tr }}"
-                      aria-label="{% trans 'Agregar al carrito' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              </button>
             </div>
-            <div class="prod-info mt-2">
-              <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-info__link">
-                <p class="prod-name">{{ product.name|tr }}</p>
-                {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
-                <p class="prod-price">${{ product.price }}</p>
-              </a>
+          {% empty %}
+            <div class="col-12">
+              <p class="text-center text-muted py-5">{% trans "No hay productos en esta categoría aún." %}</p>
             </div>
-          </div>
+          {% endfor %}
         </div>
+      {% else %}
+        {% regroup products by category as products_by_category %}
+        {% for group in products_by_category %}
+          <h2 class="category-section-title mb-4 {% if not forloop.first %}mt-5{% endif %}">{{ group.grouper.name|tr }}</h2>
+          <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4 mb-3">
+            {% for product in group.list %}
+              <div class="col">
+                <div class="prod-card">
+                  <div class="prod-img-wrapper">
+                    <a href="{{ product.get_absolute_url }}"
+                       class="text-decoration-none prod-card__link">
+                      <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                           alt="{{ product.name|tr }}"
+                           class="prod-img">
+                      <div class="prod-overlay">
+                        <span class="prod-overlay-label">{% trans "Ver producto" %}</span>
+                      </div>
+                    </a>
+                    <div class="prod-actions">
+                      <button type="button"
+                              class="prod-action-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
+                              data-url="{% url 'shop:toggle_favorite' product.id %}"
+                              data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
+                              aria-label="{% trans 'Agregar a favoritos' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="18"
+                             height="18"
+                             viewBox="0 0 24 24"
+                             fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <button type="button"
+                            class="prod-action-btn prod-cart-btn js-add-cart-btn"
+                            data-url="{% url 'cart:cart_add' product.id %}"
+                            data-product-name="{{ product.name|tr }}"
+                            aria-label="{% trans 'Agregar al carrito' %}">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           width="18"
+                           height="18"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="1.8"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="prod-info mt-2">
+                    <a href="{{ product.get_absolute_url }}"
+                       class="text-decoration-none prod-info__link">
+                      <p class="prod-name">{{ product.name|tr }}</p>
+                      {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
+                      <p class="prod-price">${{ product.price }}</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         {% empty %}
-        <div class="col-12">
-          <p class="text-center text-muted py-5">{% trans "No hay productos en esta categoría aún." %}</p>
-        </div>
+          <p class="text-center text-muted py-5">{% trans "No hay productos disponibles." %}</p>
         {% endfor %}
-      </div>
-
-    {% else %}
-      {% regroup products by category as products_by_category %}
-      {% for group in products_by_category %}
-      <h2 class="category-section-title mb-4 {% if not forloop.first %}mt-5{% endif %}">{{ group.grouper.name|tr }}</h2>
-      <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4 mb-3">
-        {% for product in group.list %}
-        <div class="col">
-          <div class="prod-card">
-            <div class="prod-img-wrapper">
-              <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-card__link">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                     alt="{{ product.name|tr }}"
-                     class="prod-img">
-                <div class="prod-overlay">
-                  <span class="prod-overlay-label">{% trans "Ver producto" %}</span>
-                </div>
-              </a>
-              <div class="prod-actions">
-                <button type="button"
-                        class="prod-action-btn js-fav-btn{% if product.id in user_favorites %} is-active{% endif %}"
-                        data-url="{% url 'shop:toggle_favorite' product.id %}"
-                        data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}"
-                        aria-label="{% trans 'Agregar a favoritos' %}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                       fill="{% if product.id in user_favorites %}currentColor{% else %}none{% endif %}"
-                       stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-              </div>
-              <button type="button"
-                      class="prod-action-btn prod-cart-btn js-add-cart-btn"
-                      data-url="{% url 'cart:cart_add' product.id %}"
-                      data-product-name="{{ product.name|tr }}"
-                      aria-label="{% trans 'Agregar al carrito' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              </button>
-            </div>
-            <div class="prod-info mt-2">
-              <a href="{{ product.get_absolute_url }}" class="text-decoration-none prod-info__link">
-                <p class="prod-name">{{ product.name|tr }}</p>
-                {% if product.weight %}<p class="prod-weight">{{ product.weight }}</p>{% endif %}
-                <p class="prod-price">${{ product.price }}</p>
-              </a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% empty %}
-      <p class="text-center text-muted py-5">{% trans "No hay productos disponibles." %}</p>
-      {% endfor %}
-    {% endif %}
-
-  </div>
-</section>
-
+      {% endif %}
+    </div>
+  </section>
 {% endblock %}

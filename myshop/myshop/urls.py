@@ -35,6 +35,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.decorators.cache import cache_control
 from django.views.static import serve
 
 from payment import webhooks as payment_webhooks
@@ -82,10 +83,14 @@ urlpatterns += i18n_patterns(
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
+    # 1-year immutable cache: uploads never overwrite an existing filename
+    # (Storage.get_available_name() suffixes on collision), so a given
+    # /media/ URL's content never changes underneath it.
+    cached_serve = cache_control(max_age=31536000, public=True, immutable=True)(serve)
     urlpatterns += [
         re_path(
             rf"^{re.escape(settings.MEDIA_URL.lstrip('/'))}(?P<path>.*)$",
-            serve,
+            cached_serve,
             kwargs={"document_root": settings.MEDIA_ROOT},
         ),
     ]

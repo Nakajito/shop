@@ -3,24 +3,29 @@
 One-off backfill for the pre_save WebP hooks in shop/signals.py,
 blog/signals.py and accounts/signals.py, which only cover new uploads.
 Run once after deploying those hooks to normalize the existing media
-library; safe to re-run afterwards since already-``.webp`` files are
-skipped.
+library; safe to re-run afterwards — already-``.webp`` files are only
+reprocessed if they exceed their field's target ``max_dimension``.
 """
 
 from django.core.management.base import BaseCommand
+from PIL import Image
 
 from accounts.models import UserProfile
 from blog.models import Post, PostImage
 from myshop.utils import WEBP_MAX_DIMENSION, WEBP_QUALITY, compress_image_to_webp
 from shop.models import Category, Product, ProductImage
 
+# (model, field, max_dimension) — None means "use --max-dimension". Category
+# images never render above ~356px (homepage cards, category pills), so they
+# get a tighter cap than full-size product photos; keep this in sync with
+# the pre_save hooks in shop/signals.py.
 IMAGE_FIELDS = [
-    (Category, "image"),
-    (Product, "image"),
-    (ProductImage, "image"),
-    (Post, "cover_image"),
-    (PostImage, "image"),
-    (UserProfile, "profile_picture"),
+    (Category, "image", 800),
+    (Product, "image", None),
+    (ProductImage, "image", None),
+    (Post, "cover_image", None),
+    (PostImage, "image", None),
+    (UserProfile, "profile_picture", None),
 ]
 
 
@@ -48,21 +53,34 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         quality = options["quality"]
-        max_dimension = options["max_dimension"]
+        default_max_dimension = options["max_dimension"]
         dry_run = options["dry_run"]
         converted = skipped = failed = 0
 
-        for model, field_name in IMAGE_FIELDS:
+        for model, field_name, field_max_dimension in IMAGE_FIELDS:
+            max_dimension = field_max_dimension or default_max_dimension
             for obj in model.objects.all():
                 field_file = getattr(obj, field_name)
                 if not field_file or not field_file.name:
                     continue
-                if field_file.name.lower().endswith(".webp"):
-                    skipped += 1
-                    continue
 
                 label = f"{model.__name__}#{obj.pk}.{field_name}"
                 old_name = field_file.name
+
+                if old_name.lower().endswith(".webp"):
+                    try:
+                        field_file.open("rb")
+                        try:
+                            oversized = max(Image.open(field_file).size) > max_dimension
+                        finally:
+                            field_file.close()
+                    except Exception as exc:  # noqa: BLE001 - report and keep going
+                        failed += 1
+                        self.stderr.write(self.style.ERROR(f"{label}: FAILED ({exc})"))
+                        continue
+                    if not oversized:
+                        skipped += 1
+                        continue
 
                 try:
                     field_file.open("rb")
