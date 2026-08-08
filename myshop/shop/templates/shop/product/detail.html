@@ -78,7 +78,7 @@
       <p class="pd-price">${{ product.price }}</p>
 
       {% with sections=product.description|tr_safe|split_description %}
-      <div class="pd-description">{{ sections.description|bold_lead|linebreaks }}</div>
+      <div class="pd-description">{{ sections.description|linebreaks }}</div>
 
       {% if sections.ingredients or sections.nutrition %}
       <div class="pd-accordion">
