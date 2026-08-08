@@ -192,6 +192,9 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_SESSION_REMEMBER = True
 
 # Social account settings
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", default="")
+GOOGLE_CLIENT_SECRET = config("GOOGLE_CLIENT_SECRET", default="")
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [
@@ -202,6 +205,15 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
         "VERIFIED_EMAIL": True,
+        # Settings-based app: takes priority over any DB-configured SocialApp
+        # (see accounts/management/commands/setup_google_oauth.py, which is
+        # only needed if you'd rather manage credentials via /admin/ instead
+        # of env vars). Empty strings are harmless when unset — allauth just
+        # won't be able to complete the OAuth handshake until they're set.
+        "APP": {
+            "client_id": GOOGLE_CLIENT_ID,
+            "secret": GOOGLE_CLIENT_SECRET,
+        },
     }
 }
 

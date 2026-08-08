@@ -1,4 +1,3 @@
-from django.contrib.sites.models import Site
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -17,9 +16,7 @@ class CustomUserModelTest(TestCase):
         self.assertTrue(user.check_password("testpass123"))
 
     def test_default_user_type(self):
-        user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
+        user = CustomUser.objects.create_user(username="testuser", password="testpass123")
         self.assertEqual(user.user_type, "regular_user")
 
     def test_is_wholesaler(self):
@@ -37,38 +34,24 @@ class CustomUserModelTest(TestCase):
         self.assertFalse(user.is_wholesaler)
 
     def test_str(self):
-        user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
+        user = CustomUser.objects.create_user(username="testuser", password="testpass123")
         self.assertIn("testuser", str(user))
 
     def test_profile_auto_created(self):
-        user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
+        user = CustomUser.objects.create_user(username="testuser", password="testpass123")
         self.assertTrue(hasattr(user, "profile"))
         self.assertIsInstance(user.profile, UserProfile)
 
 
 class UserProfileModelTest(TestCase):
     def test_str(self):
-        user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
+        user = CustomUser.objects.create_user(username="testuser", password="testpass123")
         self.assertIn("testuser", str(user.profile))
 
 
 class RegisterViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        # Ensure Site and SocialApp exist for allauth template tags
-        site, _ = Site.objects.get_or_create(id=1, defaults={"domain": "testserver", "name": "testserver"})
-        from allauth.socialaccount.models import SocialApp
-        app, _ = SocialApp.objects.get_or_create(
-            provider="google",
-            defaults={"name": "Google", "client_id": "test", "secret": "test"},
-        )
-        app.sites.add(site)
 
     def test_register_get(self):
         response = self.client.get(reverse("accounts:register"))
@@ -101,13 +84,6 @@ class RegisterViewTest(TestCase):
 class LoginViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        site, _ = Site.objects.get_or_create(id=1, defaults={"domain": "testserver", "name": "testserver"})
-        from allauth.socialaccount.models import SocialApp
-        app, _ = SocialApp.objects.get_or_create(
-            provider="google",
-            defaults={"name": "Google", "client_id": "test", "secret": "test"},
-        )
-        app.sites.add(site)
         self.user = CustomUser.objects.create_user(
             username="testuser",
             email="test@example.com",
@@ -161,9 +137,7 @@ class LoginViewTest(TestCase):
 class LogoutViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass123"
-        )
+        self.user = CustomUser.objects.create_user(username="testuser", password="testpass123")
 
     def test_logout(self):
         self.client.force_login(self.user)

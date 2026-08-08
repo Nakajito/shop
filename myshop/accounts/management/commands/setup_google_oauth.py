@@ -2,14 +2,17 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Create or update Site and Google SocialApp for local development (allauth)."
+    help = (
+        "Create or update Site and Google SocialApp for local development (allauth). "
+        "Alternative to setting GOOGLE_CLIENT_ID/GOOGLE_CLIENT_SECRET in .env — don't "
+        "use both, since allauth will see two apps for the same provider and raise "
+        "MultipleObjectsReturned."
+    )
 
     def add_arguments(self, parser):
         parser.add_argument("--client-id", dest="client_id", required=True)
         parser.add_argument("--secret", dest="secret", required=True)
-        parser.add_argument(
-            "--site-domain", dest="site_domain", default="127.0.0.1:8000"
-        )
+        parser.add_argument("--site-domain", dest="site_domain", default="127.0.0.1:8000")
         parser.add_argument("--site-name", dest="site_name", default="Local")
         parser.add_argument("--site-id", dest="site_id", type=int, default=1)
 
@@ -54,5 +57,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write("Updated SocialApp for provider 'google'.")
 
-        self.stdout.write("Done. Make sure your Google Cloud redirect URI includes:")
-        self.stdout.write("  http://127.0.0.1:8000/accounts/google/login/callback/")
+        self.stdout.write("Done. Make sure your Google Cloud redirect URIs include (both")
+        self.stdout.write("locales — accounts/ is inside i18n_patterns):")
+        self.stdout.write(f"  http://{site_domain}/es/accounts/google/login/callback/")
+        self.stdout.write(f"  http://{site_domain}/en/accounts/google/login/callback/")
