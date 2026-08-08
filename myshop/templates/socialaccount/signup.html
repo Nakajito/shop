@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="auth-top w-100 text-center">{% trans "CASI LISTO" %}</div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card register-card border-0">
+          <p class="text-center text-muted mb-4">
+            {% blocktrans with provider_name=account.get_provider.name %}
+              Vas a usar tu cuenta de {{ provider_name }} para entrar. Completa estos datos para terminar.
+            {% endblocktrans %}
+          </p>
+          <form method="post" action="{% url 'socialaccount_signup' %}">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              <div class="mb-3">
+                {% if field.label %}
+                  <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% endif %}
+                {{ field|add_class:"form-control form-control-lg" }}
+                {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors|striptags }}</div>{% endif %}
+                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+              </div>
+            {% endfor %}
+            {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+            {{ redirect_field }}
+            <div class="d-grid gap-3">
+              <button type="submit" class="btn btn-dark btn-lg rounded-pill register-btn">{% trans "CONTINUAR" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
