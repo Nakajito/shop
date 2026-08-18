@@ -1232,14 +1232,28 @@ em { font-style: normal; }
   text-transform: uppercase;
 }
 
-.sf-footer__social-img {
-  width: 140px;
-  filter: brightness(0) invert(1);
-  opacity: 0.75;
-  transition: opacity 0.2s;
+.sf-footer__social-links {
+  display: flex;
+  gap: 12px;
 }
 
-.sf-footer__social-img:hover { opacity: 1; }
+.sf-footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  opacity: 0.75;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.sf-footer__social-link:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.1);
+}
 
 /* Columnas de links */
 .sf-footer__col h4 {
