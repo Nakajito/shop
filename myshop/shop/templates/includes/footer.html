@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load i18n_extras %}
 <footer class="sf-footer">
   <div class="sf-footer__inner">
     <div class="sf-footer__col sf-footer__col--brand">
@@ -8,15 +9,6 @@
              alt="Synk Food"
              class="sf-footer__synkfood-logo" />
       </a>
-      <div class="sf-footer__contact">
-        <p class="sf-footer__contact-title">{% trans "CONTACTO" %}</p>
-        <p>
-          <span class="sf-footer__contact-label">{% trans "MARCA" %}</span> 000 234 4567
-        </p>
-        <p>
-          <span class="sf-footer__contact-label">WHATSAPP</span> 000 234 4567
-        </p>
-      </div>
       <div class="sf-footer__social">
         <p class="sf-footer__social-label">{% trans "SÍGUENOS EN REDES:" %}</p>
         <div class="sf-footer__social-links">
@@ -38,31 +30,39 @@
     <div class="sf-footer__col">
       <h4>{% trans "CATEGORÍAS" %}</h4>
       <ul>
-        <li>FALCON PROTEIN</li>
-        <li>FALCON PERFORMANCE</li>
-        <li>FITMINGO</li>
-        <li>CREATINA</li>
-        <li>SUPLEMENTOS WELLNESS</li>
+        {% for cat in footer_categories %}
+          <li>
+            <a href="{{ cat.get_absolute_url }}">{{ cat.name|tr }}</a>
+          </li>
+        {% endfor %}
       </ul>
     </div>
     <div class="sf-footer__col">
       <h4>{% trans "CENTRO DE AYUDA" %}</h4>
       <ul>
-        <li>FALCON PROTEIN</li>
-        <li>FALCON PERFORMANCE</li>
-        <li>FITMINGO</li>
-        <li>CREATINA</li>
-        <li>SUPLEMENTOS WELLNESS</li>
+        <li>
+          <a href="{% url 'support:ticket_create' %}">{% trans "Contactar a soporte" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'orders:order_history' %}">{% trans "Mis pedidos" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'shop:form_mayorista' %}">{% trans "Mayoristas" %}</a>
+        </li>
       </ul>
     </div>
     <div class="sf-footer__col">
-      <h4>NEWSLETTER</h4>
+      <h4>{% trans "EMPRESA" %}</h4>
       <ul>
-        <li>FALCON PROTEIN</li>
-        <li>FALCON PERFORMANCE</li>
-        <li>FITMINGO</li>
-        <li>CREATINA</li>
-        <li>SUPLEMENTOS WELLNESS</li>
+        <li>
+          <a href="{% url 'shop:home' %}">{% trans "Inicio" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'shop:product_list' %}">{% trans "Productos" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'blog:post_list' %}">{% trans "Recetario" %}</a>
+        </li>
       </ul>
     </div>
   </div>
