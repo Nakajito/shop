@@ -14,6 +14,7 @@ from accounts.forms import (
     UserProfileForm,
 )
 from accounts.models import CustomUser
+from accounts.utils import is_google_oauth_configured
 from myshop.utils import safe_next_url
 
 
@@ -60,7 +61,11 @@ def register(request):
     else:
         form = CustomUserCreationForm()
 
-    context = {"form": form, "page_title": _("Create New Account")}
+    context = {
+        "form": form,
+        "page_title": _("Create New Account"),
+        "google_oauth_enabled": is_google_oauth_configured(),
+    }
     return render(request, "accounts/register.html", context)
 
 
@@ -99,7 +104,11 @@ def user_login(request):
     else:
         form = CustomUserLoginForm()
 
-    context = {"form": form, "page_title": _("Log in")}
+    context = {
+        "form": form,
+        "page_title": _("Log in"),
+        "google_oauth_enabled": is_google_oauth_configured(),
+    }
     return render(request, "accounts/login.html", context)
 
 

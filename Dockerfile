@@ -30,6 +30,7 @@ EXPOSE 8000
 
 # El comando maestro que arrancará todo
 CMD python myshop/manage.py migrate --noinput && \
+    python myshop/manage.py check && \
     python myshop/manage.py collectstatic --noinput && \
     python myshop/manage.py compilemessages && \
     gunicorn --pythonpath myshop myshop.wsgi:application \
