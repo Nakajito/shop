@@ -16,233 +16,234 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
-"1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: accounts/adapter.py:21 accounts/adapter.py:22 accounts/forms.py:179
 msgid "The account doesn't exist."
-msgstr ""
+msgstr "La cuenta no existe."
 
 #: accounts/admin.py:19
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
 #: accounts/admin.py:76 accounts/admin.py:84
 msgid "Extra Information"
-msgstr ""
+msgstr "Información adicional"
 
 #: accounts/admin.py:130
 msgid "Profile Info"
-msgstr ""
+msgstr "Información del perfil"
 
 #: accounts/admin.py:132
 msgid "Status & Verification"
-msgstr ""
+msgstr "Estado y verificación"
 
 #: accounts/admin.py:136 orders/admin.py:150 orders/admin.py:246
 #: orders/admin.py:347
 msgid "Timestamps"
-msgstr ""
+msgstr "Marcas de tiempo"
 
 #: accounts/apps.py:23
 msgid "Account Management"
-msgstr ""
+msgstr "Gestión de cuentas"
 
 #: accounts/forms.py:20
 msgid "Email address"
-msgstr ""
+msgstr "Dirección de correo electrónico"
 
 #: accounts/forms.py:27 accounts/templates/accounts/profile.html:69
 #: orders/forms.py:29 orders/templates/orders/order/create.html:58
 msgid "First Name"
-msgstr ""
+msgstr "Nombre"
 
 #: accounts/forms.py:34 accounts/templates/accounts/profile.html:73
 #: orders/forms.py:30 orders/templates/orders/order/create.html:67
 msgid "Last Name"
-msgstr ""
+msgstr "Apellido"
 
 #: accounts/forms.py:43 accounts/templates/accounts/profile.html:85
 #: orders/forms.py:107 orders/templates/orders/addresses/form.html:56
 msgid "Phone Number"
-msgstr ""
+msgstr "Número de teléfono"
 
 #: accounts/forms.py:50 accounts/templates/accounts/profile.html:89
 msgid "Account Type"
-msgstr ""
+msgstr "Tipo de cuenta"
 
 #: accounts/forms.py:56
 msgid "I accept the terms and conditions"
-msgstr ""
+msgstr "Acepto los términos y condiciones"
 
 #: accounts/forms.py:76
 msgid "Only letters, numbers, and @/./+/-/_"
-msgstr ""
+msgstr "Solo letras, números y @/./+/-/_"
 
 #: accounts/forms.py:82
 msgid "This email address is already registered."
-msgstr ""
+msgstr "Esta dirección de correo electrónico ya está registrada."
 
 #: accounts/forms.py:137
 msgid "Email or username"
-msgstr ""
+msgstr "Correo electrónico o nombre de usuario"
 
 #: accounts/forms.py:141
 msgid "Email or Username"
-msgstr ""
+msgstr "Correo electrónico o nombre de usuario"
 
 #: accounts/forms.py:146 accounts/forms.py:148
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: accounts/forms.py:154
 msgid "Remember me"
-msgstr ""
+msgstr "Recordarme"
 
 #: accounts/forms.py:193
 msgid "Invalid email/username or password."
-msgstr ""
+msgstr "Correo electrónico, nombre de usuario o contraseña incorrectos."
 
 #: accounts/forms.py:217
 msgid "Tell us about yourself (optional)"
-msgstr ""
+msgstr "Cuéntanos algo sobre ti (opcional)"
 
 #: accounts/forms.py:227 accounts/templates/accounts/profile.html:103
 msgid "Biography"
-msgstr ""
+msgstr "Biografía"
 
 #: accounts/forms.py:228
 msgid "Profile Picture"
-msgstr ""
+msgstr "Foto de perfil"
 
 #: accounts/forms.py:229
 msgid "Subscribe to newsletter"
-msgstr ""
+msgstr "Suscríbete al boletín informativo"
 
 #: accounts/forms.py:238 accounts/templates/accounts/profile.html:223
 msgid "Enter your password"
-msgstr ""
+msgstr "Introduce tu contraseña"
 
 #: accounts/forms.py:240
 msgid "Current Password"
-msgstr ""
+msgstr "Contraseña actual"
 
 #: accounts/forms.py:250
 msgid "Incorrect password."
-msgstr ""
+msgstr "Contraseña incorrecta."
 
 #: accounts/models.py:20
 msgid "Phone number must be exactly 10 digits (e.g., 5522445104)."
 msgstr ""
+"El número de teléfono debe tener exactamente 10 dígitos (por ejemplo, "
+"5522445104)."
 
 #: accounts/models.py:31
 msgid "Regular User"
-msgstr ""
+msgstr "Usuario habitual"
 
 #: accounts/models.py:32
 msgid "Wholesaler"
-msgstr ""
+msgstr "Mayorista"
 
 #: accounts/models.py:36 orders/models.py:81
 msgid "phone number"
-msgstr ""
+msgstr "número de teléfono"
 
 #: accounts/models.py:41
 msgid "Format: 5522445104"
-msgstr ""
+msgstr "Formato: 5522445104"
 
 #: accounts/models.py:49
 msgid "Designates whether the user is a regular customer or a wholesaler."
-msgstr ""
+msgstr "Indica si el usuario es un cliente habitual o un mayorista."
 
 #: accounts/models.py:55
 msgid "Stripe Customer ID"
-msgstr ""
+msgstr "ID de cliente de Stripe"
 
 #: accounts/models.py:60
 msgid "Unique identifier for the customer in Stripe."
-msgstr ""
+msgstr "Identificador único del cliente en Stripe."
 
 #: accounts/models.py:64
 msgid "default payment method"
-msgstr ""
+msgstr "método de pago predeterminado"
 
 #: accounts/models.py:68
 msgid "ID of the default payment method in Stripe."
-msgstr ""
+msgstr "ID del método de pago predeterminado en Stripe."
 
 #: accounts/models.py:75
 msgid "Favorite Products"
-msgstr ""
+msgstr "Productos favoritos"
 
 #: accounts/models.py:78 accounts/models.py:150 orders/models.py:182
 msgid "created at"
-msgstr ""
+msgstr "creado el"
 
 #: accounts/models.py:79 accounts/models.py:151 orders/models.py:183
 msgid "updated at"
-msgstr ""
+msgstr "actualizado el"
 
 #: accounts/models.py:82
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: accounts/models.py:83
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #: accounts/models.py:113 orders/models.py:53 orders/models.py:151
 #: payment/models.py:29 support/models.py:40
 msgid "user"
-msgstr ""
+msgstr "usuario"
 
 #: accounts/models.py:117
 msgid "biography"
-msgstr ""
+msgstr "biografía"
 
 #: accounts/models.py:120
 msgid "User biography or description."
-msgstr ""
+msgstr "Biografía o descripción del usuario."
 
 #: accounts/models.py:124
 msgid "profile picture"
-msgstr ""
+msgstr "foto de perfil"
 
 #: accounts/models.py:128
 msgid "User profile picture."
-msgstr ""
+msgstr "Foto de perfil del usuario."
 
 #: accounts/models.py:133
 msgid "phone verified"
-msgstr ""
+msgstr "número de teléfono verificado"
 
 #: accounts/models.py:135
 msgid "Indicates if the phone number has been verified via SMS."
-msgstr ""
+msgstr "Indica si el número de teléfono se ha verificado mediante SMS."
 
 #: accounts/models.py:139
 msgid "email verified"
-msgstr ""
+msgstr "Correo electrónico verificado"
 
 #: accounts/models.py:141
 msgid "Indicates if the email address has been verified."
-msgstr ""
+msgstr "Indica si la dirección de correo electrónico ha sido verificada."
 
 #: accounts/models.py:145
 msgid "newsletter subscribed"
-msgstr ""
+msgstr "suscrito al boletín informativo"
 
 #: accounts/models.py:147
 msgid "Indicates if the user has opted in to the newsletter."
-msgstr ""
+msgstr "Indica si el usuario se ha suscrito al boletín informativo."
 
 #: accounts/models.py:154
 msgid "User Profile"
-msgstr ""
+msgstr "Perfil de usuario"
 
 #: accounts/models.py:155
 msgid "User Profiles"
-msgstr ""
+msgstr "Perfiles de usuario"
 
 #: accounts/templates/accounts/login.html:18
 msgid "BIENVENIDO"
@@ -299,97 +300,100 @@ msgstr "Mi perfil"
 
 #: accounts/templates/accounts/profile.html:21
 msgid "Personal Information"
-msgstr ""
+msgstr "Datos personales"
 
 #: accounts/templates/accounts/profile.html:54
 msgid "Change Photo"
-msgstr ""
+msgstr "Cambiar foto"
 
 #: accounts/templates/accounts/profile.html:63
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: accounts/templates/accounts/profile.html:79 orders/forms.py:31
 msgid "Email Address"
-msgstr ""
+msgstr "Dirección de correo electrónico"
 
 #: accounts/templates/accounts/profile.html:105
 msgid "Maximum 500 characters"
-msgstr ""
+msgstr "Máximo 500 caracteres"
 
 #: accounts/templates/accounts/profile.html:111
 msgid "Subscribe to our newsletter to receive promotions and news."
-msgstr ""
+msgstr "Suscríbete a nuestro boletín para recibir ofertas y noticias."
 
 #: accounts/templates/accounts/profile.html:117
 msgid "Save Changes"
-msgstr ""
+msgstr "Guardar cambios"
 
 #: accounts/templates/accounts/profile.html:130
 msgid "Recent Purchases"
-msgstr ""
+msgstr "Compras recientes"
 
 #: accounts/templates/accounts/profile.html:132
 msgid "View History"
-msgstr ""
+msgstr "Ver historial"
 
 #: accounts/templates/accounts/profile.html:143
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritos"
 
 #: accounts/templates/accounts/profile.html:145
 msgid "View Favorites"
-msgstr ""
+msgstr "Ver favoritos"
 
 #: accounts/templates/accounts/profile.html:156
 msgid "Saved Addresses"
-msgstr ""
+msgstr "Direcciones guardadas"
 
 #: accounts/templates/accounts/profile.html:158
 msgid "Manage Addresses"
-msgstr ""
+msgstr "Gestionar direcciones"
 
 #: accounts/templates/accounts/profile.html:169 payment/models.py:68
 msgid "Payment Methods"
-msgstr ""
+msgstr "Formas de pago"
 
 #: accounts/templates/accounts/profile.html:172
 msgid "Manage Cards"
-msgstr ""
+msgstr "Gestionar tarjetas"
 
 #: accounts/templates/accounts/profile.html:183
 msgid "Danger Zone"
-msgstr ""
+msgstr "Zona de peligro"
 
 #: accounts/templates/accounts/profile.html:188
 msgid ""
 "Once you delete your account, there is no going back. Please be certain."
 msgstr ""
+"Una vez que elimines tu cuenta, no habrá vuelta atrás. Por favor, asegúrate "
+"de que es lo que quieres."
 
 #: accounts/templates/accounts/profile.html:192
 #: accounts/templates/accounts/profile.html:207
 #: accounts/templates/accounts/profile.html:231
 msgid "Delete Account"
-msgstr ""
+msgstr "Eliminar cuenta"
 
 #: accounts/templates/accounts/profile.html:214
 msgid "Are you sure you want to delete your account?"
-msgstr ""
+msgstr "¿Estás seguro de que quieres eliminar tu cuenta?"
 
 #: accounts/templates/accounts/profile.html:216
 msgid "This action cannot be undone. All your data will become inaccessible."
 msgstr ""
+"Esta acción no se puede deshacer. No podrás acceder a ninguno de tus datos."
 
 #: accounts/templates/accounts/profile.html:220
 msgid "Confirm your password"
-msgstr ""
+msgstr "Confirma tu contraseña"
 
 #: accounts/templates/accounts/profile.html:228
 #: blog/templates/blog/manage/post_confirm_delete.html:30
 #: blog/templates/blog/manage/post_form.html:317
 #: payment/templates/payment/payment_methods/add.html:104
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: accounts/templates/accounts/register.html:10
 msgid "CREA UNA CUENTA"
@@ -398,7 +402,7 @@ msgstr ""
 #: accounts/templates/accounts/register.html:18
 #: templates/form-mayorista.html:45
 msgid "Nombre:"
-msgstr ""
+msgstr "Número:"
 
 #: accounts/templates/accounts/register.html:30
 msgid "Confirmar contraseña:"
@@ -432,68 +436,68 @@ msgstr ""
 
 #: accounts/views.py:28
 msgid "You are already registered."
-msgstr ""
+msgstr "Ya estás registrado."
 
 #: accounts/views.py:50
 #, python-brace-format
 msgid "Welcome {name}! Your account has been successfully created."
-msgstr ""
+msgstr "¡Bienvenido, {name}! Tu cuenta se ha creado correctamente."
 
 #: accounts/views.py:58
 #, python-brace-format
 msgid "Error creating account: {error}"
-msgstr ""
+msgstr "Error al crear la cuenta: {error}"
 
 #: accounts/views.py:63
 msgid "Create New Account"
-msgstr ""
+msgstr "Crear una nueva cuenta"
 
 #: accounts/views.py:75
 msgid "You are already logged in."
-msgstr ""
+msgstr "Ya has iniciado sesión."
 
 #: accounts/views.py:93
 #, python-brace-format
 msgid "Welcome back, {name}!"
-msgstr ""
+msgstr "¡Bienvenido de nuevo, {name}!"
 
 #: accounts/views.py:102
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: accounts/views.py:113
 msgid "Session closed successfully."
-msgstr ""
+msgstr "La sesión se ha cerrado correctamente."
 
 #: accounts/views.py:145
 msgid "Profile successfully updated."
-msgstr ""
+msgstr "El perfil se ha actualizado correctamente."
 
 #: accounts/views.py:150
 #, python-brace-format
 msgid "Error updating profile: {error}"
-msgstr ""
+msgstr "Error al actualizar el perfil: {error}"
 
 #: accounts/views.py:191
 msgid "Profile Details"
-msgstr ""
+msgstr "Detalles del perfil"
 
 #: accounts/views.py:209
 #, python-brace-format
 msgid "User type changed to {type}"
-msgstr ""
+msgstr "El tipo de usuario ha cambiado a {type}"
 
 #: accounts/views.py:214
 msgid "Invalid user type."
-msgstr ""
+msgstr "Tipo de usuario no válido."
 
 #: accounts/views.py:233
 msgid "Your account has been successfully deleted."
-msgstr ""
+msgstr "Tu cuenta se ha eliminado correctamente."
 
 #: accounts/views.py:236
 msgid "Incorrect password. Account was not deleted."
-msgstr ""
+msgstr "Contraseña incorrecta. La cuenta no se ha eliminado."
 
 #: blog/apps.py:8 blog/views.py:69
 msgid "Blog"
@@ -501,31 +505,31 @@ msgstr "Blog"
 
 #: blog/forms.py:19 blog/templates/blog/manage/post_form.html:335
 msgid "New category name"
-msgstr ""
+msgstr "Nuevo nombre de categoría"
 
 #: blog/forms.py:43 blog/templates/blog/manage/post_form.html:358
 msgid "New tag name"
-msgstr ""
+msgstr "Nuevo nombre de etiqueta"
 
 #: blog/forms.py:77
 msgid "Post title"
-msgstr ""
+msgstr "Título de la publicación"
 
 #: blog/forms.py:83
 msgid "Optional subtitle"
-msgstr ""
+msgstr "Subtítulo opcional"
 
 #: blog/forms.py:89
 msgid "auto-generated-from-title"
-msgstr ""
+msgstr "generado automáticamente a partir del título"
 
 #: blog/forms.py:109
 msgid "Select a category"
-msgstr ""
+msgstr "Selecciona una categoría"
 
 #: blog/forms.py:124
 msgid "Image caption"
-msgstr ""
+msgstr "Pie de foto"
 
 #: blog/forms.py:142
 msgid "https://youtube.com/watch?v=..."
@@ -533,11 +537,11 @@ msgstr ""
 
 #: blog/forms.py:149
 msgid "Video title"
-msgstr ""
+msgstr "Título del vídeo"
 
 #: blog/models.py:13 blog/models.py:36 shop/models.py:15 shop/models.py:50
 msgid "name"
-msgstr ""
+msgstr "nombre"
 
 #: blog/models.py:14 blog/models.py:37 blog/models.py:63
 msgid "slug"
@@ -545,29 +549,29 @@ msgstr ""
 
 #: blog/models.py:15 shop/models.py:55
 msgid "description"
-msgstr ""
+msgstr "descripción"
 
 #: blog/models.py:19
 msgid "blog category"
-msgstr ""
+msgstr "categoría del blog"
 
 #: blog/models.py:20
 msgid "blog categories"
-msgstr ""
+msgstr "categorías del blog"
 
 #: blog/models.py:41
 msgid "tag"
-msgstr ""
+msgstr "día"
 
 #: blog/models.py:42 blog/models.py:90
 msgid "tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #: blog/models.py:58 blog/templates/blog/manage/dashboard.html:86
 #: blog/templates/blog/manage/post_list.html:34
 #: blog/templates/blog/manage/post_list.html:79
 msgid "Draft"
-msgstr ""
+msgstr "Borrador"
 
 #: blog/models.py:59 blog/templates/blog/manage/dashboard.html:33
 #: blog/templates/blog/manage/dashboard.html:50
@@ -575,75 +579,75 @@ msgstr ""
 #: blog/templates/blog/manage/post_list.html:33
 #: blog/templates/blog/manage/post_list.html:77
 msgid "Published"
-msgstr ""
+msgstr "Publicado"
 
 #: blog/models.py:61 blog/models.py:206
 msgid "title"
-msgstr ""
+msgstr "Título"
 
 #: blog/models.py:62
 msgid "subtitle"
-msgstr ""
+msgstr "subtítulo"
 
 #: blog/models.py:64
 msgid "body"
-msgstr ""
+msgstr "cuerpo"
 
 #: blog/models.py:66
 msgid "cover image"
-msgstr ""
+msgstr "imagen de portada"
 
 #: blog/models.py:76
 msgid "author"
-msgstr ""
+msgstr "autor"
 
 #: blog/models.py:84 shop/models.py:26 shop/models.py:48
 msgid "category"
-msgstr ""
+msgstr "categoría"
 
 #: blog/models.py:96
 msgid "related posts"
-msgstr ""
+msgstr "artículos relacionados"
 
 #: blog/models.py:100 orders/models.py:188 support/models.py:67
 msgid "status"
-msgstr ""
+msgstr "estado"
 
 #: blog/models.py:105
 msgid "created"
-msgstr ""
+msgstr "creado"
 
 #: blog/models.py:106
 msgid "updated"
-msgstr ""
+msgstr "actualizado"
 
 #: blog/models.py:112 blog/models.py:157 blog/models.py:187
 msgid "post"
-msgstr ""
+msgstr "publicación"
 
 #: blog/models.py:113
 msgid "posts"
-msgstr ""
+msgstr "publicaciones"
 
 #: blog/models.py:160 shop/models.py:18 shop/models.py:53 shop/models.py:102
 msgid "image"
-msgstr ""
+msgstr "imagen"
 
 #: blog/models.py:163
 msgid "caption"
-msgstr ""
+msgstr "Leyenda"
 
 #: blog/models.py:164 blog/models.py:207 shop/models.py:104
 msgid "order"
-msgstr ""
+msgstr "pedido"
 
 #: blog/models.py:168
 msgid "post image"
-msgstr ""
+msgstr "imagen de la publicación"
 
 #: blog/models.py:169
 msgid "post images"
-msgstr ""
+msgstr "imágenes de la publicación"
 
 #: blog/models.py:179
 msgid "YouTube"
@@ -655,67 +659,67 @@ msgstr ""
 
 #: blog/models.py:181
 msgid "Server Hosted"
-msgstr ""
+msgstr "Alojado en un servidor"
 
 #: blog/models.py:190
 msgid "video type"
-msgstr ""
+msgstr "tipo de vídeo"
 
 #: blog/models.py:195
 msgid "video URL"
-msgstr ""
+msgstr "URL del vídeo"
 
 #: blog/models.py:197
 msgid "YouTube or Vimeo URL"
-msgstr ""
+msgstr "URL de YouTube o Vimeo"
 
 #: blog/models.py:200
 msgid "video file"
-msgstr ""
+msgstr "archivo de vídeo"
 
 #: blog/models.py:204
 msgid "Upload video file for server-hosted videos"
-msgstr ""
+msgstr "Subir un archivo de vídeo para los vídeos alojados en el servidor"
 
 #: blog/models.py:211
 msgid "post video"
-msgstr ""
+msgstr "vídeo de la publicación"
 
 #: blog/models.py:212
 msgid "post videos"
-msgstr ""
+msgstr "vídeos de la publicación"
 
 #: blog/templates/blog/manage/dashboard.html:15 blog/views.py:111
 msgid "Blog Dashboard"
-msgstr ""
+msgstr "Panel de control del blog"
 
 #: blog/templates/blog/manage/dashboard.html:18
 #: blog/templates/blog/manage/post_list.html:21
 msgid "New Post"
-msgstr ""
+msgstr "Nueva entrada"
 
 #: blog/templates/blog/manage/dashboard.html:27
 msgid "Total Posts"
-msgstr ""
+msgstr "Total de publicaciones"
 
 #: blog/templates/blog/manage/dashboard.html:39
 #: blog/templates/blog/manage/dashboard.html:53
 msgid "Drafts"
-msgstr ""
+msgstr "Borradores"
 
 #: blog/templates/blog/manage/dashboard.html:47
 msgid "All Posts"
-msgstr ""
+msgstr "Todas las entradas"
 
 #: blog/templates/blog/manage/dashboard.html:60
 msgid "Recent Posts"
-msgstr ""
+msgstr "Publicaciones recientes"
 
 #: blog/templates/blog/manage/dashboard.html:66
 #: blog/templates/blog/manage/post_form.html:87
 #: blog/templates/blog/manage/post_list.html:56
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: blog/templates/blog/manage/dashboard.html:67
 #: blog/templates/blog/manage/post_form.html:308
@@ -727,101 +731,104 @@ msgstr ""
 #: orders/templates/orders/order/order_history.html:95 payment/admin.py:69
 #: support/admin.py:57
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: blog/templates/blog/manage/dashboard.html:68
 #: blog/templates/blog/manage/post_form.html:326
 #: blog/templates/blog/manage/post_list.html:58
 msgid "Category"
-msgstr ""
+msgstr "Categoría"
 
 #: blog/templates/blog/manage/dashboard.html:69
 #: blog/templates/blog/manage/post_list.html:60
 #: orders/templates/admin/orders/order/detail.html:68
 msgid "Created"
-msgstr ""
+msgstr "Creado"
 
 #: blog/templates/blog/manage/dashboard.html:70
 #: blog/templates/blog/manage/post_list.html:61
 #: orders/templates/orders/order/order_history.html:98
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: blog/templates/blog/manage/dashboard.html:92
 #: blog/templates/blog/manage/post_list.html:85
 #: orders/templates/orders/addresses/list.html:70
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: blog/templates/blog/manage/dashboard.html:96
 #: blog/templates/blog/manage/post_list.html:89 orders/admin.py:194
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: blog/templates/blog/manage/dashboard.html:105
 msgid "No posts yet. Create your first post!"
-msgstr ""
+msgstr "Aún no hay publicaciones. ¡Crea tu primera publicación!"
 
 #: blog/templates/blog/manage/post_confirm_delete.html:12
 #: blog/templates/blog/manage/post_form.html:16
 msgid "Back to Posts"
-msgstr ""
+msgstr "Volver a las entradas"
 
 #: blog/templates/blog/manage/post_confirm_delete.html:18
 msgid "Delete Post"
-msgstr ""
+msgstr "Eliminar publicación"
 
 #: blog/templates/blog/manage/post_confirm_delete.html:20
 #, python-format
 msgid ""
 "\n"
-"                            Are you sure you want to delete the post "
-"\"<strong>%(title)s</strong>\"?\n"
+"                            Are you sure you want to delete the post \"<strong>%(title)s</strong>\"?\n"
 "                            This action cannot be undone.\n"
 "                        "
 msgstr ""
+"\n"
+"                            ¿Estás seguro de que quieres eliminar la publicación «<strong>%(title)s</strong>»?\n"
+"                            Esta acción no se puede deshacer.\n"
+"                        "
 
 #: blog/templates/blog/manage/post_confirm_delete.html:33
 #: blog/templates/blog/manage/post_list.html:93
 #: orders/templates/orders/addresses/list.html:75
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: blog/templates/blog/manage/post_form.html:25
 #: blog/templates/blog/manage/post_form.html:70
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: blog/templates/blog/manage/post_form.html:34
 msgid "Please correct the errors below"
-msgstr ""
+msgstr "Por favor, corrige los errores que aparecen a continuación"
 
 #: blog/templates/blog/manage/post_form.html:47
 msgid "Gallery"
-msgstr ""
+msgstr "Galería"
 
 #: blog/templates/blog/manage/post_form.html:51
 #: blog/templates/blog/manage/post_form.html:158
 #: blog/templates/blog/manage/post_form.html:189
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 #: blog/templates/blog/manage/post_form.html:59
 #: blog/templates/blog/manage/post_form.html:214
 msgid "Videos"
-msgstr ""
+msgstr "Vídeos"
 
 #: blog/templates/blog/manage/post_form.html:63
 msgid "Video"
-msgstr ""
+msgstr "Vídeo"
 
 #: blog/templates/blog/manage/post_form.html:83
 msgid "Post Details"
-msgstr ""
+msgstr "Detalles de la publicación"
 
 #: blog/templates/blog/manage/post_form.html:94
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítulo"
 
 #: blog/templates/blog/manage/post_form.html:101
 msgid "Slug"
@@ -829,32 +836,32 @@ msgstr ""
 
 #: blog/templates/blog/manage/post_form.html:106
 msgid "Auto-generated from title if left empty."
-msgstr ""
+msgstr "Se genera automáticamente a partir del título si se deja en blanco."
 
 #: blog/templates/blog/manage/post_form.html:114
 msgid "Content"
-msgstr ""
+msgstr "Contenido"
 
 #: blog/templates/blog/manage/post_form.html:127
 msgid "Cover Image"
-msgstr ""
+msgstr "Imagen de portada"
 
 #: blog/templates/blog/manage/post_form.html:132
 msgid "Current cover"
-msgstr ""
+msgstr "Portada actual"
 
 #: blog/templates/blog/manage/post_form.html:147
 msgid "Gallery Images"
-msgstr ""
+msgstr "Imágenes de la galería"
 
 #: blog/templates/blog/manage/post_form.html:149
 msgid "Add Image"
-msgstr ""
+msgstr "Añadir imagen"
 
 #: blog/templates/blog/manage/post_form.html:162
 #: blog/templates/blog/manage/post_form.html:193
 msgid "Caption"
-msgstr ""
+msgstr "Leyenda"
 
 #: blog/templates/blog/manage/post_form.html:166
 #: blog/templates/blog/manage/post_form.html:197
@@ -869,99 +876,99 @@ msgstr ""
 #: orders/templates/orders/order/order_detail.html:6
 #: orders/templates/orders/order/order_history.html:93
 msgid "Order"
-msgstr ""
+msgstr "Pedido"
 
 #: blog/templates/blog/manage/post_form.html:170
 #: blog/templates/blog/manage/post_form.html:201
 #: blog/templates/blog/manage/post_form.html:237
 #: blog/templates/blog/manage/post_form.html:278
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: blog/templates/blog/manage/post_form.html:216
 msgid "Add Video"
-msgstr ""
+msgstr "Añadir vídeo"
 
 #: blog/templates/blog/manage/post_form.html:225
 #: blog/templates/blog/manage/post_form.html:266
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: blog/templates/blog/manage/post_form.html:229
 #: blog/templates/blog/manage/post_form.html:270
 msgid "URL"
-msgstr ""
+msgstr "Dirección web"
 
 #: blog/templates/blog/manage/post_form.html:233
 #: blog/templates/blog/manage/post_form.html:274
 msgid "Or File"
-msgstr ""
+msgstr "O bien, en el archivo"
 
 #: blog/templates/blog/manage/post_form.html:245
 #: blog/templates/blog/manage/post_form.html:286
 msgid "Video Title"
-msgstr ""
+msgstr "Título del vídeo"
 
 #: blog/templates/blog/manage/post_form.html:304
 msgid "Publish"
-msgstr ""
+msgstr "Publicar"
 
 #: blog/templates/blog/manage/post_form.html:314
 msgid "Update Post"
-msgstr ""
+msgstr "Actualizar entrada"
 
 #: blog/templates/blog/manage/post_form.html:314 blog/views.py:186
 msgid "Create Post"
-msgstr ""
+msgstr "Crear entrada"
 
 #: blog/templates/blog/manage/post_form.html:347
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #: blog/templates/blog/manage/post_form.html:370
 msgid "Related Posts"
-msgstr ""
+msgstr "Artículos relacionados"
 
 #: blog/templates/blog/manage/post_form.html:378
 msgid "No published posts available."
-msgstr ""
+msgstr "No hay entradas publicadas disponibles."
 
 #: blog/templates/blog/manage/post_list.html:15 blog/views.py:138
 msgid "Manage Posts"
-msgstr ""
+msgstr "Gestionar publicaciones"
 
 #: blog/templates/blog/manage/post_list.html:17
 msgid "Back to Dashboard"
-msgstr ""
+msgstr "Volver al panel de control"
 
 #: blog/templates/blog/manage/post_list.html:32
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: blog/templates/blog/manage/post_list.html:38
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: blog/templates/blog/manage/post_list.html:39
 msgid "Search by title or content..."
-msgstr ""
+msgstr "Buscar por título o contenido..."
 
 #: blog/templates/blog/manage/post_list.html:43
 #: orders/templates/orders/order/order_history.html:77
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 #: blog/templates/blog/manage/post_list.html:57
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: blog/templates/blog/manage/post_list.html:102
 msgid "No posts found."
-msgstr ""
+msgstr "No se han encontrado entradas."
 
 #: blog/templates/blog/manage/post_list.html:113
 msgid "Pagination"
-msgstr ""
+msgstr "Paginación"
 
 #: blog/templates/blog/post_detail.html:29
 #: shop/templates/includes/navbar.html:165
@@ -972,7 +979,8 @@ msgstr ""
 msgid "ALGUNAS RECETAS"
 msgstr ""
 
-#: blog/templates/blog/post_list.html:17 shop/templates/includes/navbar.html:28
+#: blog/templates/blog/post_list.html:17
+#: shop/templates/includes/navbar.html:28
 #: shop/templates/shop/synkfood.html:138
 msgid "RECETARIO"
 msgstr ""
@@ -983,7 +991,7 @@ msgstr ""
 
 #: blog/templates/blog/post_list.html:22
 msgid "Tag"
-msgstr ""
+msgstr "Día"
 
 #: blog/templates/blog/post_list.html:24
 msgid "Resultados para"
@@ -1011,441 +1019,443 @@ msgstr ""
 
 #: blog/views.py:168
 msgid "Post created successfully."
-msgstr ""
+msgstr "La publicación se ha creado correctamente."
 
 #: blog/views.py:173
 msgid "An error occurred while creating the post."
-msgstr ""
+msgstr "Se ha producido un error al crear la entrada."
 
 #: blog/views.py:212
 msgid "Post updated successfully."
-msgstr ""
+msgstr "La publicación se ha actualizado correctamente."
 
 #: blog/views.py:217
 msgid "An error occurred while updating the post."
-msgstr ""
+msgstr "Se ha producido un error al actualizar la entrada."
 
 #: blog/views.py:231
 #, python-format
 msgid "Edit Post: %(title)s"
-msgstr ""
+msgstr "Editar publicación: %(title)s"
 
 #: blog/views.py:246
 #, python-format
 msgid "Post '%(title)s' deleted successfully."
-msgstr ""
+msgstr "La entrada «%(title)s» se ha eliminado correctamente."
 
 #: blog/views.py:252
 #, python-format
 msgid "Delete Post: %(title)s"
-msgstr ""
+msgstr "Eliminar entrada: %(title)s"
 
 #: blog/views.py:268 blog/views.py:289
 msgid "Name is required."
-msgstr ""
+msgstr "Es obligatorio introducir el nombre."
 
 #: cart/forms.py:21 orders/templates/admin/orders/order/detail.html:128
 #: orders/templates/orders/order/create.html:151
 #: orders/templates/orders/order/pdf.html:124
 msgid "Quantity"
-msgstr ""
+msgstr "Cantidad"
 
 #: coupons/admin.py:31
 msgid "Search by coupon code (e.g., SUMMER20)"
-msgstr ""
+msgstr "Buscar por código de descuento (p. ej., SUMMER20)"
 
 #: coupons/admin.py:38
 msgid "Validity Period"
-msgstr ""
+msgstr "Plazo de validez"
 
 #: coupons/admin.py:42
 msgid "Set the start and end dates for the coupon's validity."
-msgstr ""
+msgstr "Establece las fechas de inicio y fin de la validez del cupón."
 
 #: coupons/forms.py:14 coupons/models.py:35
 msgid "Coupon"
-msgstr ""
+msgstr "Cupón"
 
 #: coupons/forms.py:18
 msgid "Enter promo code"
-msgstr ""
+msgstr "Introduce el código promocional"
 
 #: coupons/forms.py:19
 msgid "Coupon Code"
-msgstr ""
+msgstr "Código de descuento"
 
 #: coupons/models.py:17
 msgid "code"
-msgstr ""
+msgstr "código"
 
 #: coupons/models.py:20
 msgid "The code users enter to apply the discount (e.g. SUMMER20)."
 msgstr ""
+"El código que introducen los usuarios para aplicar el descuento (por "
+"ejemplo, SUMMER20)."
 
 #: coupons/models.py:23
 msgid "valid from"
-msgstr ""
+msgstr "válido a partir del"
 
 #: coupons/models.py:24
 msgid "valid to"
-msgstr ""
+msgstr "válido hasta el"
 
 #: coupons/models.py:27
 msgid "discount"
-msgstr ""
+msgstr "descuento"
 
 #: coupons/models.py:29
 msgid "Percentage value (0 to 100)"
-msgstr ""
+msgstr "Valor porcentual (de 0 a 100)"
 
 #: coupons/models.py:32 payment/models.py:59
 msgid "active"
-msgstr ""
+msgstr "activo"
 
 #: coupons/models.py:36
 msgid "Coupons"
-msgstr ""
+msgstr "Cupones"
 
 #: coupons/models.py:53
 msgid "The end date cannot be before the start date."
-msgstr ""
+msgstr "La fecha de finalización no puede ser anterior a la fecha de inicio."
 
 #: coupons/views.py:41
 msgid "Coupon applied successfully."
-msgstr ""
+msgstr "El cupón se ha aplicado correctamente."
 
 #: coupons/views.py:46
 msgid "This coupon is invalid, expired, or inactive."
-msgstr ""
+msgstr "Este cupón no es válido, ha caducado o está inactivo."
 
 #: orders/admin.py:15
 msgid "Export selected orders to CSV"
-msgstr ""
+msgstr "Exportar los pedidos seleccionados a un archivo CSV"
 
 #: orders/admin.py:131
 msgid "Customer Information"
-msgstr ""
+msgstr "Información sobre el cliente"
 
 #: orders/admin.py:134
 msgid "Read-only customer snapshot at purchase time."
-msgstr ""
+msgstr "Instantánea del cliente de solo lectura en el momento de la compra."
 
 #: orders/admin.py:137
 msgid "Shipping & Billing"
-msgstr ""
+msgstr "Envíos y facturación"
 
 #: orders/admin.py:139 payment/templates/payment/payment_methods/add.html:63
 msgid "Payment Details"
-msgstr ""
+msgstr "Datos de pago"
 
 #: orders/admin.py:143 orders/templates/orders/order/order_detail.html:24
 msgid "Order Details"
-msgstr ""
+msgstr "Detalles del pedido"
 
 #: orders/admin.py:147 orders/admin.py:343
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #: orders/admin.py:189 orders/templates/admin/orders/order/detail.html:88
 msgid "Stripe Payment"
-msgstr ""
+msgstr "Pago mediante Stripe"
 
 #: orders/admin.py:196 orders/templates/admin/orders/order/detail.html:33
 msgid "Detail"
-msgstr ""
+msgstr "Detalle"
 
 #: orders/admin.py:201 orders/templates/orders/order/pdf.html:6
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #: orders/admin.py:203
 msgid "PDF"
-msgstr ""
+msgstr "Formato de documento portátil"
 
 #: orders/admin.py:230
 msgid "User & Recipient"
-msgstr ""
+msgstr "Usuario y destinatario"
 
 #: orders/admin.py:232 orders/templates/orders/addresses/form.html:68
 msgid "Address Details"
-msgstr ""
+msgstr "Datos de la dirección"
 
 #: orders/admin.py:244
 msgid "Settings"
-msgstr ""
+msgstr "Configuración"
 
 #: orders/admin.py:304
 msgid "Order Information"
-msgstr ""
+msgstr "Información sobre el pedido"
 
 #: orders/admin.py:314
 msgid "Read-only information from the associated order."
-msgstr ""
+msgstr "Información de solo lectura procedente del pedido asociado."
 
 #: orders/admin.py:318
 msgid "Tracking Details"
-msgstr ""
+msgstr "Datos de seguimiento"
 
 #: orders/admin.py:330 orders/templates/orders/order/create.html:12
 #: orders/templates/orders/order/order_tracking_info.html:22
 msgid "Shipping Details"
-msgstr ""
+msgstr "Detalles del envío"
 
 #: orders/admin.py:357 orders/templates/admin/orders/order/detail.html:72
 msgid "Customer"
-msgstr ""
+msgstr "Cliente"
 
 #: orders/admin.py:364 orders/templates/orders/order/create.html:76
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: orders/admin.py:371
 msgid "Order Status"
-msgstr ""
+msgstr "Estado del pedido"
 
 #: orders/admin.py:378
 msgid "Order Total"
-msgstr ""
+msgstr "Total del pedido"
 
 #: orders/admin.py:385 orders/templates/admin/orders/order/detail.html:61
 #: orders/templates/orders/order/cancel_order.html:49
 #: orders/templates/orders/order/order_history.html:110
 #: orders/templates/orders/order/order_tracking.html:88
 msgid "Paid"
-msgstr ""
+msgstr "Remunerado"
 
 #: orders/forms.py:32 orders/templates/orders/order/order_detail.html:110
 msgid "Shipping Address"
-msgstr ""
+msgstr "Dirección de envío"
 
 #: orders/forms.py:33 orders/forms.py:105
 #: orders/templates/orders/addresses/form.html:114
 #: orders/templates/orders/order/create.html:97
 msgid "Postal Code"
-msgstr ""
+msgstr "Código postal"
 
 #: orders/forms.py:34 orders/forms.py:81 orders/forms.py:103
 #: orders/templates/orders/addresses/form.html:92
 #: orders/templates/orders/order/create.html:90
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 #: orders/forms.py:65
 msgid "Recipient's full name"
-msgstr ""
+msgstr "Nombre y apellidos del destinatario"
 
 #: orders/forms.py:71
 msgid "Street address, company name, c/o"
-msgstr ""
+msgstr "Dirección postal, nombre de la empresa, a la atención de"
 
 #: orders/forms.py:77
 msgid "Apartment, suite, unit, building, floor, etc."
-msgstr ""
+msgstr "Apartamento, suite, vivienda, edificio, planta, etc."
 
 #: orders/forms.py:86
 msgid "ZIP / Postal Code"
-msgstr ""
+msgstr "Código postal / ZIP"
 
 #: orders/forms.py:92
 msgid "Phone number (for delivery updates)"
-msgstr ""
+msgstr "Número de teléfono (para recibir información sobre el envío)"
 
 #: orders/forms.py:100 orders/templates/orders/addresses/form.html:46
 msgid "Recipient's Name"
-msgstr ""
+msgstr "Nombre del destinatario"
 
 #: orders/forms.py:101
 msgid "Address Line 1"
-msgstr ""
+msgstr "Línea 1 de la dirección"
 
 #: orders/forms.py:102
 msgid "Address Line 2 (Optional)"
-msgstr ""
+msgstr "Segunda línea de dirección (opcional)"
 
 #: orders/forms.py:104
 msgid "State / Province / Region"
-msgstr ""
+msgstr "Estado / Provincia / Región"
 
 #: orders/forms.py:106 orders/templates/orders/addresses/form.html:124
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: orders/forms.py:108 orders/templates/orders/addresses/form.html:136
 msgid "Address Type"
-msgstr ""
+msgstr "Tipo de dirección"
 
 #: orders/forms.py:109 orders/templates/orders/addresses/form.html:144
 msgid "Set as default address"
-msgstr ""
+msgstr "Establecer como dirección predeterminada"
 
 #: orders/models.py:15 orders/templates/orders/order/order_history.html:44
 #: orders/templates/orders/order/order_history.html:114
 #: orders/templates/orders/order/order_tracking.html:90
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: orders/models.py:16 orders/models.py:300
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmado"
 
 #: orders/models.py:17
 msgid "Preparing"
-msgstr ""
+msgstr "Preparación"
 
 #: orders/models.py:18 orders/models.py:301
 msgid "Shipped"
-msgstr ""
+msgstr "Enviado"
 
 #: orders/models.py:19 orders/models.py:302
 #: orders/templates/orders/order/order_history.html:36
 msgid "Delivered"
-msgstr ""
+msgstr "Entregado"
 
 #: orders/models.py:20 orders/templates/orders/order/order_history.html:52
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #: orders/models.py:30 orders/templates/admin/orders/order/detail.html:29
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: orders/models.py:31
 msgid "Office"
-msgstr ""
+msgstr "Oficina"
 
 #: orders/models.py:32 orders/models.py:411 payment/models.py:23
 #: support/models.py:21
 msgid "Other"
-msgstr ""
+msgstr "Otros"
 
 #: orders/models.py:37
 msgid "Mexico"
-msgstr ""
+msgstr "México"
 
 #: orders/models.py:38
 msgid "United States"
-msgstr ""
+msgstr "Estados Unidos"
 
 #: orders/models.py:39
 msgid "Spain"
-msgstr ""
+msgstr "España"
 
 #: orders/models.py:57
 msgid "address line 1"
-msgstr ""
+msgstr "línea 1 de la dirección"
 
 #: orders/models.py:59
 msgid "Street, number, and apartment"
-msgstr ""
+msgstr "Calle, número y piso"
 
 #: orders/models.py:63
 msgid "address line 2"
-msgstr ""
+msgstr "línea 2 de la dirección"
 
 #: orders/models.py:67
 msgid "Additional information (floor, reference, etc.)"
-msgstr ""
+msgstr "Información adicional (planta, referencia, etc.)"
 
 #: orders/models.py:70 orders/models.py:161
 msgid "city"
-msgstr ""
+msgstr "ciudad"
 
 #: orders/models.py:72
 msgid "state"
-msgstr ""
+msgstr "estado"
 
 #: orders/models.py:74 orders/models.py:160
 msgid "postal code"
-msgstr ""
+msgstr "código postal"
 
 #: orders/models.py:77
 msgid "country"
-msgstr ""
+msgstr "país"
 
 #: orders/models.py:83
 msgid "Contact telephone number for shipping"
-msgstr ""
+msgstr "Número de teléfono de contacto para el envío"
 
 #: orders/models.py:87
 msgid "recipient name"
-msgstr ""
+msgstr "nombre del destinatario"
 
 #: orders/models.py:89
 msgid "Name of the person receiving the package"
-msgstr ""
+msgstr "Nombre de la persona que recibe el paquete"
 
 #: orders/models.py:93
 msgid "default address"
-msgstr ""
+msgstr "dirección por defecto"
 
 #: orders/models.py:98
 msgid "address type"
-msgstr ""
+msgstr "tipo de dirección"
 
 #: orders/models.py:108 orders/templates/admin/orders/order/detail.html:80
 #: orders/templates/orders/order/create.html:83
 msgid "Address"
-msgstr ""
+msgstr "Dirección"
 
 #: orders/models.py:109
 msgid "Addresses"
-msgstr ""
+msgstr "Direcciones"
 
 #: orders/models.py:156
 msgid "first name"
-msgstr ""
+msgstr "nombre"
 
 #: orders/models.py:157
 msgid "last name"
-msgstr ""
+msgstr "apellido"
 
 #: orders/models.py:158
 msgid "email"
-msgstr ""
+msgstr "correo electrónico"
 
 #: orders/models.py:159
 msgid "address"
-msgstr ""
+msgstr "dirección"
 
 #: orders/models.py:170
 msgid "shipping address reference"
-msgstr ""
+msgstr "Referencia de la dirección de envío"
 
 #: orders/models.py:179
 msgid "billing address reference"
-msgstr ""
+msgstr "Referencia de la dirección de facturación"
 
 #: orders/models.py:185
 msgid "paid"
-msgstr ""
+msgstr "pagado"
 
 #: orders/models.py:195
 msgid "estimated delivery"
-msgstr ""
+msgstr "fecha estimada de entrega"
 
 #: orders/models.py:198
 msgid "internal notes"
-msgstr ""
+msgstr "notas internas"
 
 #: orders/models.py:199
 msgid "customer notes"
-msgstr ""
+msgstr "notas del cliente"
 
 #: orders/models.py:202
 msgid "Stripe Payment ID"
-msgstr ""
+msgstr "ID de pago de Stripe"
 
 #: orders/models.py:210
 msgid "payment method"
-msgstr ""
+msgstr "forma de pago"
 
 #: orders/models.py:220
 msgid "coupon"
-msgstr ""
+msgstr "cupón"
 
 #: orders/models.py:224
 msgid "discount percentage"
-msgstr ""
+msgstr "porcentaje de descuento"
 
 #: orders/models.py:233 orders/templates/admin/orders/order/detail.html:31
 msgid "Orders"
@@ -1453,31 +1463,31 @@ msgstr "Pedidos"
 
 #: orders/models.py:394
 msgid "Status Update"
-msgstr ""
+msgstr "Actualización de estado"
 
 #: orders/models.py:395
 msgid "Status Updates"
-msgstr ""
+msgstr "Actualizaciones de estado"
 
 #: orders/models.py:437
 msgid "weight (kg)"
-msgstr ""
+msgstr "peso (kg)"
 
 #: orders/models.py:446 orders/templates/orders/order/order_tracking.html:69
 msgid "Order Tracking"
-msgstr ""
+msgstr "Seguimiento de pedidos"
 
 #: orders/models.py:447
 msgid "Order Trackings"
-msgstr ""
+msgstr "Seguimiento de pedidos"
 
 #: orders/services.py:40 orders/views/order.py:283
 msgid "This order can no longer be cancelled."
-msgstr ""
+msgstr "Este pedido ya no se puede cancelar."
 
 #: orders/tasks.py:27
 msgid "Order Confirmation - Order nr. {}"
-msgstr ""
+msgstr "Confirmación de pedido - N.º de pedido: {}"
 
 #: orders/tasks.py:29
 #, python-brace-format
@@ -1486,34 +1496,37 @@ msgid ""
 "\n"
 "You have successfully placed an order. Your order ID is {id}."
 msgstr ""
+"Estimado {name},\n"
+"\n"
+"Has realizado tu pedido correctamente. El número de referencia de tu pedido es {id}."
 
 #: orders/tasks.py:69
 msgid "Your order has been confirmed."
-msgstr ""
+msgstr "Tu pedido ha sido confirmado."
 
 #: orders/tasks.py:70
 msgid "We are preparing your order."
-msgstr ""
+msgstr "Estamos preparando tu pedido."
 
 #: orders/tasks.py:71
 msgid "Your order has been shipped."
-msgstr ""
+msgstr "Tu pedido ya se ha enviado."
 
 #: orders/tasks.py:72
 msgid "Your order has been delivered."
-msgstr ""
+msgstr "Tu pedido ya se ha entregado."
 
 #: orders/tasks.py:73
 msgid "Your order has been cancelled."
-msgstr ""
+msgstr "Tu pedido ha sido cancelado."
 
 #: orders/tasks.py:77
 msgid "Update on order #{}"
-msgstr ""
+msgstr "Información actualizada sobre el pedido n.º {}"
 
 #: orders/tasks.py:102
 msgid "You can track your shipment at: {}"
-msgstr ""
+msgstr "Puedes realizar el seguimiento de tu envío en: {}"
 
 #: orders/tasks.py:107
 #, python-brace-format
@@ -1530,19 +1543,30 @@ msgid ""
 "Best regards,\n"
 "The One Synk Team"
 msgstr ""
+"Hola, {name},\n"
+"\n"
+"{subject}\n"
+"\n"
+"N.º de pedido: {id}\n"
+"Nuevo estado: {status}\n"
+"\n"
+"{tracking}\n"
+"\n"
+"Un saludo,\n"
+"El equipo de One Synk"
 
 #: orders/tasks.py:165
 msgid "Your order #{} has been shipped - Tracking available"
-msgstr ""
+msgstr "Tu pedido n.º {} ya se ha enviado. Puedes seguir su envío."
 
 #: orders/tasks.py:185
 msgid "Tracking link: {}"
-msgstr ""
+msgstr "Enlace de seguimiento: {}"
 
 #: orders/tasks.py:190
 #: orders/templates/orders/order/order_tracking_info.html:105
 msgid "To be determined"
-msgstr ""
+msgstr "Por determinar"
 
 #: orders/tasks.py:194
 #, python-brace-format
@@ -1562,31 +1586,45 @@ msgid ""
 "Best regards,\n"
 "The One Synk Team"
 msgstr ""
+"Hola, {name},\n"
+"\n"
+"Tu pedido n.º {id} ya se ha enviado.\n"
+"\n"
+"Datos del envío:\n"
+"Número de seguimiento: {track_num}\n"
+"Transportista: {carrier}\n"
+"\n"
+"{link}\n"
+"\n"
+"Fecha estimada de entrega: {date}\n"
+"\n"
+"Un saludo,\n"
+"El equipo de One Synk"
 
 #: orders/templates/admin/orders/order/detail.html:44
 msgid "Download PDF Invoice"
-msgstr ""
+msgstr "Descargar factura en PDF"
 
 #: orders/templates/admin/orders/order/detail.html:48
 msgid "Print Order"
-msgstr ""
+msgstr "Imprimir pedido"
 
 #: orders/templates/admin/orders/order/detail.html:58
 #: orders/templates/orders/order/cancel_order.html:47
 msgid "Payment Status"
-msgstr ""
+msgstr "Estado del pago"
 
 #: orders/templates/admin/orders/order/detail.html:63
 msgid "Pending Payment"
-msgstr ""
+msgstr "Pago pendiente"
 
 #: orders/templates/admin/orders/order/detail.html:76
 msgid "E-mail"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: orders/templates/admin/orders/order/detail.html:101
 msgid "Shipping Information"
-msgstr ""
+msgstr "Información sobre envíos"
 
 #: orders/templates/admin/orders/order/detail.html:104
 #: orders/templates/orders/emails/order_tracking.html:47
@@ -1595,7 +1633,7 @@ msgstr ""
 #: orders/templates/orders/order/order_tracking.html:186
 #: orders/templates/orders/order/order_tracking_info.html:40
 msgid "Carrier"
-msgstr ""
+msgstr "Transportista"
 
 #: orders/templates/admin/orders/order/detail.html:108
 #: orders/templates/orders/emails/order_tracking.html:43
@@ -1603,24 +1641,24 @@ msgstr ""
 #: orders/templates/orders/order/order_tracking.html:177
 #: orders/templates/orders/order/order_tracking_info.html:28
 msgid "Tracking Number"
-msgstr ""
+msgstr "Número de seguimiento"
 
 #: orders/templates/admin/orders/order/detail.html:122
 msgid "Items Bought"
-msgstr ""
+msgstr "Artículos comprados"
 
 #: orders/templates/admin/orders/order/detail.html:126
 #: orders/templates/orders/order/order_detail.html:45
 #: payment/templates/payment/process.html:43
 msgid "Product"
-msgstr ""
+msgstr "Producto"
 
 #: orders/templates/admin/orders/order/detail.html:127
 #: orders/templates/orders/order/order_detail.html:46
 #: orders/templates/orders/order/pdf.html:123
 #: payment/templates/payment/process.html:44
 msgid "Price"
-msgstr ""
+msgstr "Precio"
 
 #: orders/templates/admin/orders/order/detail.html:129
 #: orders/templates/admin/orders/order/detail.html:158
@@ -1654,164 +1692,169 @@ msgid ""
 "                            Coupon \"%(code)s\" (%(discount)s%% off)\n"
 "                        "
 msgstr ""
+"\n"
+"                            Cupón «%(code)s» (%(discount)s%% de descuento)\n"
+" "
 
 #: orders/templates/orders/addresses/confirm_delete.html:5
 #: orders/templates/orders/addresses/confirm_delete.html:14
 msgid "Delete Address"
-msgstr ""
+msgstr "Eliminar dirección"
 
 #: orders/templates/orders/addresses/confirm_delete.html:23
 msgid "Warning"
-msgstr ""
+msgstr "Advertencia"
 
 #: orders/templates/orders/addresses/confirm_delete.html:24
 msgid "This action is permanent and cannot be undone."
-msgstr ""
+msgstr "Esta acción es definitiva y no se puede deshacer."
 
 #: orders/templates/orders/addresses/confirm_delete.html:30
 msgid "Are you sure you want to delete the following address?"
-msgstr ""
+msgstr "¿Estás seguro de que quieres eliminar la siguiente dirección?"
 
 #: orders/templates/orders/addresses/confirm_delete.html:52
 #: payment/templates/payment/payment_methods/confirm_delete.html:53
 msgid "Note:"
-msgstr ""
+msgstr "Nota:"
 
 #: orders/templates/orders/addresses/confirm_delete.html:53
 msgid ""
 "This is your default address. Please ensure you set a new default after "
 "deletion."
 msgstr ""
+"Esta es tu dirección predeterminada. Asegúrate de establecer una nueva "
+"dirección predeterminada tras eliminarla."
 
 #: orders/templates/orders/addresses/confirm_delete.html:61
 #: payment/templates/payment/payment_methods/confirm_delete.html:23
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Confirmar eliminación"
 
 #: orders/templates/orders/addresses/confirm_delete.html:64
 msgid "Nevermind, go back"
-msgstr ""
+msgstr "No pasa nada, vuelve atrás"
 
 #: orders/templates/orders/addresses/form.html:15
 #: orders/templates/orders/addresses/list.html:18
 msgid "Add New Address"
-msgstr ""
+msgstr "Añadir una nueva dirección"
 
 #: orders/templates/orders/addresses/form.html:17
 msgid "Edit Address"
-msgstr ""
+msgstr "Editar dirección"
 
 #: orders/templates/orders/addresses/form.html:39
 msgid "Delivery Information"
-msgstr ""
+msgstr "Información sobre envíos"
 
 #: orders/templates/orders/addresses/form.html:73
 msgid "Street, Number, and Suite/Apt"
-msgstr ""
+msgstr "Calle, número y local/apartamento"
 
 #: orders/templates/orders/addresses/form.html:81
 msgid "Additional Info (Optional)"
-msgstr ""
+msgstr "Información adicional (opcional)"
 
 #: orders/templates/orders/addresses/form.html:82
 msgid "e.g., Floor, landmarks, gate code"
-msgstr ""
+msgstr "p. ej., planta, puntos de referencia, código de la puerta"
 
 #: orders/templates/orders/addresses/form.html:102
 msgid "State / Province"
-msgstr ""
+msgstr "Estado / Provincia"
 
 #: orders/templates/orders/addresses/form.html:160
 msgid "Save Address"
-msgstr ""
+msgstr "Guardar dirección"
 
 #: orders/templates/orders/addresses/form.html:162
 msgid "Update Address"
-msgstr ""
+msgstr "Actualizar dirección"
 
 #: orders/templates/orders/addresses/form.html:166
 msgid "Cancel and Return"
-msgstr ""
+msgstr "Cancelación y devolución"
 
 #: orders/templates/orders/addresses/list.html:5
 msgid "My Addresses"
-msgstr ""
+msgstr "Mis direcciones"
 
 #: orders/templates/orders/addresses/list.html:16
 msgid "Shipping Addresses"
-msgstr ""
+msgstr "Direcciones de envío"
 
 #: orders/templates/orders/addresses/list.html:38
 msgid "Default Address"
-msgstr ""
+msgstr "Dirección predeterminada"
 
 #: orders/templates/orders/addresses/list.html:83
 #: payment/templates/payment/payment_methods/list.html:86
 msgid "Set as Default"
-msgstr ""
+msgstr "Establecer como predeterminado"
 
 #: orders/templates/orders/addresses/list.html:100
 msgid "No Addresses Saved Yet"
-msgstr ""
+msgstr "Aún no hay direcciones guardadas"
 
 #: orders/templates/orders/addresses/list.html:101
 msgid "Save your shipping addresses to speed up the checkout process."
-msgstr ""
+msgstr "Guarda tus direcciones de envío para agilizar el proceso de pago."
 
 #: orders/templates/orders/addresses/list.html:103
 msgid "Add your first address"
-msgstr ""
+msgstr "Añade tu primera dirección"
 
 #: orders/templates/orders/emails/order_status_update.html:26
 #: orders/templates/orders/order/created.html:6
 msgid "Order Confirmed"
-msgstr ""
+msgstr "Pedido confirmado"
 
 #: orders/templates/orders/emails/order_status_update.html:27
 msgid "Order Being Prepared"
-msgstr ""
+msgstr "Se está preparando el pedido"
 
 #: orders/templates/orders/emails/order_status_update.html:28
 msgid "Order Shipped"
-msgstr ""
+msgstr "Pedido enviado"
 
 #: orders/templates/orders/emails/order_status_update.html:29
 msgid "Order Delivered"
-msgstr ""
+msgstr "Pedido entregado"
 
 #: orders/templates/orders/emails/order_status_update.html:30
 msgid "Order Cancelled"
-msgstr ""
+msgstr "Pedido cancelado"
 
 #: orders/templates/orders/emails/order_status_update.html:31
 msgid "Order Update"
-msgstr ""
+msgstr "Actualización del pedido"
 
 #: orders/templates/orders/emails/order_status_update.html:35
 #: orders/templates/orders/emails/order_status_update.txt:5
 #, python-format
 msgid "Hello %(name)s,"
-msgstr ""
+msgstr "Hola, %(name)s,"
 
 #: orders/templates/orders/emails/order_status_update.html:45
 #: orders/templates/orders/emails/order_status_update.txt:7
 msgid "Great news! Your order has been confirmed and is being processed."
-msgstr ""
+msgstr "¡Una gran noticia! Tu pedido ha sido confirmado y se está tramitando."
 
 #: orders/templates/orders/emails/order_status_update.html:47
 #: orders/templates/orders/emails/order_status_update.txt:8
 msgid "We are currently preparing your order for shipment."
-msgstr ""
+msgstr "En estos momentos estamos preparando tu pedido para su envío."
 
 #: orders/templates/orders/emails/order_status_update.html:49
 #: orders/templates/orders/emails/order_status_update.txt:9
 msgid "Your order is on its way!"
-msgstr ""
+msgstr "¡Tu pedido ya está en camino!"
 
 #: orders/templates/orders/emails/order_status_update.html:51
 #: orders/templates/orders/emails/order_status_update.txt:10
 msgid "Your order has been delivered. We hope you enjoy your purchase!"
-msgstr ""
+msgstr "Tu pedido ya se ha entregado. ¡Esperamos que disfrutes de tu compra!"
 
 #: orders/templates/orders/emails/order_status_update.html:53
 #: orders/templates/orders/emails/order_status_update.txt:11
@@ -1819,18 +1862,20 @@ msgid ""
 "Your order has been cancelled. If you have any questions, please contact "
 "support."
 msgstr ""
+"Tu pedido ha sido cancelado. Si tienes alguna duda, ponte en contacto con el"
+" servicio de atención al cliente."
 
 #: orders/templates/orders/emails/order_status_update.html:65
 #: orders/templates/orders/order/cancel_order.html:35
 msgid "Order ID"
-msgstr ""
+msgstr "N.º de pedido"
 
 #: orders/templates/orders/emails/order_status_update.html:85
 #: orders/templates/orders/emails/order_status_update.txt:20
 #: orders/templates/orders/order/cancel_order.html:33
 #: payment/templates/payment/process.html:36
 msgid "Order Summary"
-msgstr ""
+msgstr "Resumen del pedido"
 
 #: orders/templates/orders/emails/order_status_update.html:104
 #: orders/templates/orders/emails/order_status_update.txt:22
@@ -1838,22 +1883,23 @@ msgstr ""
 #: orders/templates/orders/order/pdf.html:148
 #: payment/templates/payment/process.html:102
 msgid "Discount"
-msgstr ""
+msgstr "Descuento"
 
 #: orders/templates/orders/emails/order_status_update.html:129
 msgid "Track My Order"
-msgstr ""
+msgstr "Seguimiento de mi pedido"
 
 #: orders/templates/orders/emails/order_status_update.html:139
 #: orders/templates/orders/emails/order_status_update.txt:28
 #: orders/templates/orders/emails/order_tracking.html:109
 #: orders/templates/orders/emails/order_tracking.txt:22
 msgid "Thank you for shopping with One Synk."
-msgstr ""
+msgstr "Gracias por comprar en One Synk."
 
 #: orders/templates/orders/emails/order_status_update.html:140
 msgid "If you have questions, contact us at support@onesynk.com"
 msgstr ""
+"Si tienes alguna duda, ponte en contacto con nosotros en support@onesynk.com"
 
 #: orders/templates/orders/emails/order_status_update.txt:2
 #: orders/templates/orders/emails/order_tracking.txt:2
@@ -1862,17 +1908,17 @@ msgstr ""
 
 #: orders/templates/orders/emails/order_status_update.txt:25
 msgid "Track your order"
-msgstr ""
+msgstr "Sigue tu pedido"
 
 #: orders/templates/orders/emails/order_status_update.txt:29
 #: orders/templates/orders/emails/order_tracking.html:110
 #: orders/templates/orders/emails/order_tracking.txt:23
 msgid "Questions? Contact us at support@onesynk.com"
-msgstr ""
+msgstr "¿Tienes alguna pregunta? Escríbenos a support@onesynk.com"
 
 #: orders/templates/orders/emails/order_tracking.html:25
 msgid "Your Order Has Been Shipped!"
-msgstr ""
+msgstr "¡Tu pedido ya se ha enviado!"
 
 #: orders/templates/orders/emails/order_tracking.html:27
 #, python-format
@@ -1881,140 +1927,146 @@ msgid ""
 "                  Hello %(name)s, your order #%(id)s is on its way.\n"
 "                "
 msgstr ""
+"\n"
+"                  Hola, %(name)s, tu pedido n.º %(id)s está en camino.\n"
+" "
 
 #: orders/templates/orders/emails/order_tracking.html:40
 #: orders/templates/orders/emails/order_tracking.txt:8
 msgid "Shipment Details"
-msgstr ""
+msgstr "Detalles del envío"
 
 #: orders/templates/orders/emails/order_tracking.html:52
 #: orders/templates/orders/emails/order_tracking.txt:12
 #: orders/templates/orders/order/order_tracking_info.html:101
 msgid "Estimated Delivery"
-msgstr ""
+msgstr "Plazo de entrega estimado"
 
 #: orders/templates/orders/emails/order_tracking.html:58
 #: orders/templates/orders/emails/order_tracking.txt:13
 msgid "Last Location"
-msgstr ""
+msgstr "Última ubicación"
 
 #: orders/templates/orders/emails/order_tracking.html:75
 msgid "Track My Package"
-msgstr ""
+msgstr "Seguimiento de mi paquete"
 
 #: orders/templates/orders/emails/order_tracking.txt:5
 #, python-format
 msgid "Hello %(name)s, your order #%(id)s is on its way."
-msgstr ""
+msgstr "Hola, %(name)s, tu pedido n.º %(id)s ya está en camino."
 
 #: orders/templates/orders/emails/order_tracking.txt:15
 msgid "Track your package"
-msgstr ""
+msgstr "Sigue el envío de tu paquete"
 
 #: orders/templates/orders/order/cancel_order.html:5
 #: orders/templates/orders/order/cancel_order.html:14
 #: orders/templates/orders/order/order_detail.html:201
 msgid "Cancel Order"
-msgstr ""
+msgstr "Cancelar pedido"
 
 #: orders/templates/orders/order/cancel_order.html:23
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 #: orders/templates/orders/order/cancel_order.html:24
 msgid "This action will stop the processing of your order immediately."
-msgstr ""
+msgstr "Esta acción detendrá inmediatamente la tramitación de tu pedido."
 
 #: orders/templates/orders/order/cancel_order.html:29
 msgid "Are you sure you want to cancel this order?"
-msgstr ""
+msgstr "¿Estás seguro de que quieres cancelar este pedido?"
 
 #: orders/templates/orders/order/cancel_order.html:39
 #: orders/templates/orders/order/order_history.html:94
 #: orders/templates/orders/order/pdf.html:105
 msgid "Date"
-msgstr ""
+msgstr "Datos"
 
 #: orders/templates/orders/order/cancel_order.html:51
 msgid "Unpaid"
-msgstr ""
+msgstr "Pendiente de pago"
 
 #: orders/templates/orders/order/cancel_order.html:62
 msgid "Refund Information"
-msgstr ""
+msgstr "Información sobre reembolsos"
 
 #: orders/templates/orders/order/cancel_order.html:63
 msgid "A full refund of"
-msgstr ""
+msgstr "Un reembolso íntegro de"
 
 #: orders/templates/orders/order/cancel_order.html:63
 msgid ""
 "will be initiated. Please allow 5-10 business days for the funds to reflect "
 "in your account."
 msgstr ""
+"Se iniciará el proceso. Por favor, espere entre 5 y 10 días laborables a que"
+" los fondos aparezcan en su cuenta."
 
 #: orders/templates/orders/order/cancel_order.html:74
 msgid "Reason for Cancellation (Optional)"
-msgstr ""
+msgstr "Motivo de la cancelación (opcional)"
 
 #: orders/templates/orders/order/cancel_order.html:81
 msgid "Please tell us why you are cancelling..."
-msgstr ""
+msgstr "Por favor, indícanos el motivo de la cancelación..."
 
 #: orders/templates/orders/order/cancel_order.html:83
 msgid "Your feedback helps us improve our service."
-msgstr ""
+msgstr "Tus comentarios nos ayudan a mejorar nuestro servicio."
 
 #: orders/templates/orders/order/cancel_order.html:88
 msgid "Confirm Cancellation"
-msgstr ""
+msgstr "Confirmar cancelación"
 
 #: orders/templates/orders/order/cancel_order.html:91
 msgid "No, keep my order"
-msgstr ""
+msgstr "No, mantén mi pedido"
 
 #: orders/templates/orders/order/create.html:6
 msgid "Checkout"
-msgstr ""
+msgstr "Finalizar la compra"
 
 #: orders/templates/orders/order/create.html:17
 msgid "Choose a saved address"
-msgstr ""
+msgstr "Elige una dirección guardada"
 
 #: orders/templates/orders/order/create.html:49
 msgid "Use a different address"
-msgstr ""
+msgstr "Utiliza una dirección diferente"
 
 #: orders/templates/orders/order/create.html:105
 #: orders/templates/orders/order/order_history.html:96
 #: orders/templates/orders/order/order_tracking.html:86
 msgid "Payment"
-msgstr ""
+msgstr "Pago"
 
 #: orders/templates/orders/order/create.html:110
 msgid "Saved Payment Method"
-msgstr ""
+msgstr "Forma de pago guardada"
 
 #: orders/templates/orders/order/create.html:120
 msgid "Add new card during next step"
-msgstr ""
+msgstr "Añade una nueva tarjeta en el siguiente paso"
 
 #: orders/templates/orders/order/create.html:126
 msgid ""
 "You will be redirected to a secure Stripe page to complete your payment."
 msgstr ""
+"Se te redirigirá a una página segura de Stripe para completar el pago."
 
 #: orders/templates/orders/order/create.html:131
 msgid "Continue to Payment"
-msgstr ""
+msgstr "Continuar con el pago"
 
 #: orders/templates/orders/order/create.html:141
 msgid "Your Order"
-msgstr ""
+msgstr "Tu pedido"
 
 #: orders/templates/orders/order/create.html:159
 msgid "Promo Code"
-msgstr ""
+msgstr "Código promocional"
 
 #: orders/templates/orders/order/create.html:166
 msgid "Total (MXN)"
@@ -2022,564 +2074,581 @@ msgstr ""
 
 #: orders/templates/orders/order/create.html:173
 msgid "Edit cart"
-msgstr ""
+msgstr "Modificar la cesta"
 
 #: orders/templates/orders/order/created.html:17
 msgid "Thank You for Your Purchase!"
-msgstr ""
+msgstr "¡Gracias por tu compra!"
 
 #: orders/templates/orders/order/created.html:19
 msgid ""
 "Your order has been successfully placed. We've sent a confirmation email to"
 msgstr ""
+"Tu pedido se ha realizado correctamente. Te hemos enviado un correo "
+"electrónico de confirmación a"
 
 #: orders/templates/orders/order/created.html:25
 msgid "Order Number"
-msgstr ""
+msgstr "Número de pedido"
 
 #: orders/templates/orders/order/created.html:33
 #: orders/templates/orders/order/order_history.html:172
 #: payment/templates/payment/completed.html:52
 msgid "Continue Shopping"
-msgstr ""
+msgstr "Seguir comprando"
 
 #: orders/templates/orders/order/created.html:38
 msgid "View Order Details"
-msgstr ""
+msgstr "Ver detalles del pedido"
 
 #: orders/templates/orders/order/created.html:49
 msgid "Email Confirmation"
-msgstr ""
+msgstr "Confirmación por correo electrónico"
 
 #: orders/templates/orders/order/created.html:50
 msgid "Check your inbox for the receipt."
-msgstr ""
+msgstr "Comprueba si has recibido el recibo en tu bandeja de entrada."
 
 #: orders/templates/orders/order/created.html:58
 msgid "Fast Shipping"
-msgstr ""
+msgstr "Envío rápido"
 
 #: orders/templates/orders/order/created.html:59
 msgid "We'll notify you once it's on the way."
-msgstr ""
+msgstr "Te avisaremos en cuanto lo hayamos enviado."
 
 #: orders/templates/orders/order/created.html:67
 msgid "Need Help?"
-msgstr ""
+msgstr "¿Necesitas ayuda?"
 
 #: orders/templates/orders/order/created.html:68
 msgid "Contact our 24/7 support team."
 msgstr ""
+"Ponte en contacto con nuestro equipo de asistencia, disponible las 24 horas "
+"del día, los 7 días de la semana."
 
 #: orders/templates/orders/order/order_detail.html:12
 msgid "Back to History"
-msgstr ""
+msgstr "Volver a la historia"
 
 #: orders/templates/orders/order/order_detail.html:15
 msgid "Order Reference:"
-msgstr ""
+msgstr "Referencia del pedido:"
 
 #: orders/templates/orders/order/order_detail.html:30
 #: orders/templates/orders/order/order_status_history.html:29
 msgid "Order Date"
-msgstr ""
+msgstr "Fecha del pedido"
 
 #: orders/templates/orders/order/order_detail.html:34
 #: orders/templates/orders/order/order_status_history.html:33
 #: orders/templates/orders/order/order_tracking.html:78
 #: orders/templates/orders/order/order_tracking_info.html:75
 msgid "Current Status"
-msgstr ""
+msgstr "Situación actual"
 
 #: orders/templates/orders/order/order_detail.html:39
 msgid "Purchased Items"
-msgstr ""
+msgstr "Artículos comprados"
 
 #: orders/templates/orders/order/order_detail.html:47
 #: payment/templates/payment/process.html:45
 msgid "Qty"
-msgstr ""
+msgstr "Cantidad"
 
 #: orders/templates/orders/order/order_detail.html:71
 msgid "Buy again"
-msgstr ""
+msgstr "Comprar de nuevo"
 
 #: orders/templates/orders/order/order_detail.html:128
 msgid "Logistics Tracking"
-msgstr ""
+msgstr "Seguimiento logístico"
 
 #: orders/templates/orders/order/order_detail.html:136
 msgid "Tracking ID"
-msgstr ""
+msgstr "Número de seguimiento"
 
 #: orders/templates/orders/order/order_detail.html:141
 msgid "Track Live"
-msgstr ""
+msgstr "Seguimiento en directo"
 
 #: orders/templates/orders/order/order_detail.html:151
 msgid "Tracking info will be available once shipped."
 msgstr ""
+"La información de seguimiento estará disponible una vez que se haya enviado "
+"el paquete."
 
 #: orders/templates/orders/order/order_detail.html:163
 msgid "Action Center"
-msgstr ""
+msgstr "Centro de acciones"
 
 #: orders/templates/orders/order/order_detail.html:168
 msgid "Track Progress"
-msgstr ""
+msgstr "Seguir el progreso"
 
 #: orders/templates/orders/order/order_detail.html:172
 msgid "Status Timeline"
-msgstr ""
+msgstr "Cronología de estados"
 
 #: orders/templates/orders/order/order_detail.html:176
 msgid "Download Invoice"
-msgstr ""
+msgstr "Descargar factura"
 
 #: orders/templates/orders/order/order_detail.html:185
 #: orders/templates/orders/order/order_tracking.html:212
 msgid "Reorder Items"
-msgstr ""
+msgstr "Volver a pedir artículos"
 
 #: orders/templates/orders/order/order_detail.html:194
 msgid "Buy This Order"
-msgstr ""
+msgstr "Comprar este pedido"
 
 #: orders/templates/orders/order/order_detail.html:206
 msgid "Report an Issue"
-msgstr ""
+msgstr "Informar de un problema"
 
 #: orders/templates/orders/order/order_detail.html:212 payment/models.py:67
 msgid "Payment Method"
-msgstr ""
+msgstr "Forma de pago"
 
 #: orders/templates/orders/order/order_detail.html:217
 msgid "Transaction Paid"
-msgstr ""
+msgstr "Transacción pagada"
 
 #: orders/templates/orders/order/order_detail.html:223
 msgid "Payment Pending"
-msgstr ""
+msgstr "Pago pendiente"
 
 #: orders/templates/orders/order/order_detail.html:224
 msgid "Complete via Stripe"
-msgstr ""
+msgstr "Realizar el pago a través de Stripe"
 
 #: orders/templates/orders/order/order_history.html:8
 msgid "My Orders"
-msgstr ""
+msgstr "Mis pedidos"
 
 #: orders/templates/orders/order/order_history.html:19
 msgid "Purchase History"
-msgstr ""
+msgstr "Historial de compras"
 
 #: orders/templates/orders/order/order_history.html:20
 msgid "Orders Found"
-msgstr ""
+msgstr "Pedidos encontrados"
 
 #: orders/templates/orders/order/order_history.html:28
 msgid "Total Spent"
-msgstr ""
+msgstr "Importe total gastado"
 
 #: orders/templates/orders/order/order_history.html:65
 msgid "Order ID or email..."
-msgstr ""
+msgstr "N.º de pedido o correo electrónico..."
 
 #: orders/templates/orders/order/order_history.html:70
 msgid "All Statuses"
-msgstr ""
+msgstr "Todos los estados"
 
 #: orders/templates/orders/order/order_history.html:80
 msgid "Clear Filters"
-msgstr ""
+msgstr "Borrar filtros"
 
 #: orders/templates/orders/order/order_history.html:122
 #: orders/templates/orders/order/order_tracking.html:133
 #: shop/templates/shop/product/favorites.html:53
 msgid "View Details"
-msgstr ""
+msgstr "Ver detalles"
 
 #: orders/templates/orders/order/order_history.html:126
 msgid "Live Tracking"
-msgstr ""
+msgstr "Seguimiento en directo"
 
 #: orders/templates/orders/order/order_history.html:170
 msgid "No matching orders found."
-msgstr ""
+msgstr "No se han encontrado pedidos que coincidan."
 
 #: orders/templates/orders/order/order_history.html:171
 msgid "Try adjusting your filters or search terms."
-msgstr ""
+msgstr "Prueba a modificar los filtros o los términos de búsqueda."
 
 #: orders/templates/orders/order/order_status_history.html:11
 #: orders/templates/orders/order/order_tracking_info.html:11
 msgid "Back to Tracking"
-msgstr ""
+msgstr "Volver al seguimiento"
 
 #: orders/templates/orders/order/order_status_history.html:22
 #: support/admin.py:43
 msgid "General Information"
-msgstr ""
+msgstr "Información general"
 
 #: orders/templates/orders/order/order_status_history.html:25
 msgid "Order Reference"
-msgstr ""
+msgstr "Referencia del pedido"
 
 #: orders/templates/orders/order/order_status_history.html:41
 msgid "Audit Log"
-msgstr ""
+msgstr "Registro de auditoría"
 
 #: orders/templates/orders/order/order_status_history.html:48
 msgid "Date & Time"
-msgstr ""
+msgstr "Fecha y hora"
 
 #: orders/templates/orders/order/order_status_history.html:49
 msgid "Previous Status"
-msgstr ""
+msgstr "Estado anterior"
 
 #: orders/templates/orders/order/order_status_history.html:50
 msgid "New Status"
-msgstr ""
+msgstr "Nuevo estado"
 
 #: orders/templates/orders/order/order_status_history.html:51
 msgid "Reason"
-msgstr ""
+msgstr "Motivo"
 
 #: orders/templates/orders/order/order_status_history.html:52
 msgid "Updated By"
-msgstr ""
+msgstr "Actualizado por"
 
 #: orders/templates/orders/order/order_status_history.html:90
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: orders/templates/orders/order/order_status_history.html:103
 msgid "No status changes have been recorded for this order yet."
-msgstr ""
+msgstr "Aún no se ha registrado ningún cambio de estado en este pedido."
 
 #: orders/templates/orders/order/order_tracking.html:63
 msgid "Back to Order History"
-msgstr ""
+msgstr "Volver al historial de pedidos"
 
 #: orders/templates/orders/order/order_tracking.html:74
 msgid "Purchase Date"
-msgstr ""
+msgstr "Fecha de compra"
 
 #: orders/templates/orders/order/order_tracking.html:82
 msgid "Total Amount"
-msgstr ""
+msgstr "Importe total"
 
 #: orders/templates/orders/order/order_tracking.html:100
 msgid "Delivery Progress"
-msgstr ""
+msgstr "Estado del envío"
 
 #: orders/templates/orders/order/order_tracking.html:118
 msgid "Estimated Arrival"
-msgstr ""
+msgstr "Hora prevista de llegada"
 
 #: orders/templates/orders/order/order_tracking.html:131
 msgid "Activity Log"
-msgstr ""
+msgstr "Registro de actividades"
 
 #: orders/templates/orders/order/order_tracking.html:160
 msgid "No activity recorded yet."
-msgstr ""
+msgstr "Aún no se ha registrado ninguna actividad."
 
 #: orders/templates/orders/order/order_tracking.html:170
 msgid "Shipping Info"
-msgstr ""
+msgstr "Información sobre envíos"
 
 #: orders/templates/orders/order/order_tracking.html:172
 msgid "Manage"
-msgstr ""
+msgstr "Gestionar"
 
 #: orders/templates/orders/order/order_tracking.html:191
 msgid "Track Live Shipment"
-msgstr ""
+msgstr "Seguimiento en directo del envío"
 
 #: orders/templates/orders/order/order_tracking.html:199
 msgid "Quick Actions"
-msgstr ""
+msgstr "Acciones rápidas"
 
 #: orders/templates/orders/order/order_tracking.html:203
 msgid "View Full Order Summary"
-msgstr ""
+msgstr "Ver resumen completo del pedido"
 
 #: orders/templates/orders/order/order_tracking.html:206
 msgid "Download PDF Receipt"
-msgstr ""
+msgstr "Descargar el recibo en PDF"
 
 #: orders/templates/orders/order/order_tracking.html:217 support/models.py:18
 msgid "Report a Problem"
-msgstr ""
+msgstr "Informar de un problema"
 
 #: orders/templates/orders/order/order_tracking.html:229
 msgid "Tracking number copied to clipboard!"
-msgstr ""
+msgstr "¡El número de seguimiento se ha copiado en el portapapeles!"
 
 #: orders/templates/orders/order/order_tracking_info.html:33
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copiar al portapapeles"
 
 #: orders/templates/orders/order/order_tracking_info.html:49
 msgid "Shipment Date"
-msgstr ""
+msgstr "Fecha de envío"
 
 #: orders/templates/orders/order/order_tracking_info.html:54
 msgid "Last Update"
-msgstr ""
+msgstr "Última actualización"
 
 #: orders/templates/orders/order/order_tracking_info.html:59
 msgid "Awaiting carrier update..."
-msgstr ""
+msgstr "A la espera de una actualización del operador..."
 
 #: orders/templates/orders/order/order_tracking_info.html:69
 msgid "Track on"
-msgstr ""
+msgstr "Sigue adelante"
 
 #: orders/templates/orders/order/order_tracking_info.html:69
 msgid "Website"
-msgstr ""
+msgstr "Página web"
 
 #: orders/templates/orders/order/order_tracking_info.html:83
 msgid "Current Location"
-msgstr ""
+msgstr "Ubicación actual"
 
 #: orders/templates/orders/order/order_tracking_info.html:90
 msgid "Location information is not yet available for this shipment."
-msgstr ""
+msgstr "Aún no hay información disponible sobre la ubicación de este envío."
 
 #: orders/templates/orders/order/order_tracking_info.html:95
 msgid "Delivery Window"
-msgstr ""
+msgstr "Plazo de entrega"
 
 #: orders/templates/orders/order/order_tracking_info.html:110
 msgid "Actual Arrival"
-msgstr ""
+msgstr "Llegada real"
 
 #: orders/templates/orders/order/order_tracking_info.html:116
 msgid "In Transit"
-msgstr ""
+msgstr "En tránsito"
 
 #: orders/templates/orders/order/order_tracking_info.html:122
 msgid "Package Details"
-msgstr ""
+msgstr "Detalles del paquete"
 
 #: orders/templates/orders/order/order_tracking_info.html:128
 msgid "Weight"
-msgstr ""
+msgstr "Peso"
 
 #: orders/templates/orders/order/order_tracking_info.html:132
 msgid "Dimensions"
-msgstr ""
+msgstr "Dimensiones"
 
 #: orders/templates/orders/order/order_tracking_info.html:141
 msgid "Full Order Summary"
-msgstr ""
+msgstr "Resumen completo del pedido"
 
 #: orders/templates/orders/order/order_tracking_info.html:144
 msgid "Exit to History"
-msgstr ""
+msgstr "Salir a «Historia»"
 
 #: orders/templates/orders/order/order_tracking_info.html:153
 msgid "Tracking ID copied to clipboard!"
-msgstr ""
+msgstr "¡El ID de seguimiento se ha copiado en el portapapeles!"
 
 #: orders/templates/orders/order/pdf.html:104
 msgid "Invoice No."
-msgstr ""
+msgstr "N.º de factura"
 
 #: orders/templates/orders/order/pdf.html:111
 msgid "Bill To"
-msgstr ""
+msgstr "Factura a"
 
 #: orders/templates/orders/order/pdf.html:122
 msgid "Product Description"
-msgstr ""
+msgstr "Descripción del producto"
 
 #: orders/templates/orders/order/pdf.html:161
 msgid "Payment Status: Paid"
-msgstr ""
+msgstr "Estado del pago: Pagado"
 
 #: orders/templates/orders/order/pdf.html:163
 msgid "Payment Status: Pending"
-msgstr ""
+msgstr "Estado del pago: Pendiente"
 
 #: orders/templates/orders/order/pdf.html:168
 msgid ""
 "Thank you for choosing One Synk. If you have any questions, please contact "
 "support@onesynk.com"
 msgstr ""
+"Gracias por elegir One Synk. Si tienes alguna duda, ponte en contacto con "
+"support@onesynk.com"
 
 #: orders/views/address.py:33
 msgid "New address saved."
-msgstr ""
+msgstr "Se ha guardado la nueva dirección."
 
 #: orders/views/address.py:50
 msgid "Address updated successfully."
-msgstr ""
+msgstr "La dirección se ha actualizado correctamente."
 
 #: orders/views/address.py:64
 msgid "Address deleted."
-msgstr ""
+msgstr "Dirección eliminada."
 
 #: orders/views/address.py:77
 msgid "Address set as default."
-msgstr ""
+msgstr "Dirección establecida como predeterminada."
 
 #: orders/views/address.py:80
 msgid "Could not update default address."
-msgstr ""
+msgstr "No se ha podido actualizar la dirección predeterminada."
 
 #: orders/views/order.py:184
 msgid "Order Tracking #{}"
-msgstr ""
+msgstr "N.º de seguimiento del pedido: #{}"
 
 #: orders/views/order.py:200
 msgid "Shipping Information - Order #{}"
-msgstr ""
+msgstr "Información sobre el envío - Número de pedido: {}"
 
 #: orders/views/order.py:216
 msgid "Status History - Order #{}"
-msgstr ""
+msgstr "Historial de estados - Pedido n.º {}"
 
 #: orders/views/order.py:238 orders/views/order.py:260
 msgid "This order is not eligible for reordering."
-msgstr ""
+msgstr "Este pedido no se puede volver a realizar."
 
 #: orders/views/order.py:245
 msgid "Items successfully added to your cart."
-msgstr ""
+msgstr "Los artículos se han añadido correctamente a tu carrito."
 
 #: orders/views/order.py:249 orders/views/order.py:268
 msgid "None of the products from this order are currently available."
 msgstr ""
+"Ninguno de los productos de este pedido está disponible en estos momentos."
 
 #: orders/views/order.py:272
 msgid "Items added to cart — continue to payment."
-msgstr ""
+msgstr "Artículos añadidos al carrito: continuar con el pago."
 
 #: orders/views/order.py:287
 msgid "Cancelled by customer."
-msgstr ""
+msgstr "Cancelado por el cliente."
 
 #: orders/views/order.py:291
 msgid "Order cancelled and refund initiated."
-msgstr ""
+msgstr "Se ha cancelado el pedido y se ha iniciado el reembolso."
 
 #: orders/views/order.py:293
 msgid "Order cancelled successfully."
-msgstr ""
+msgstr "El pedido se ha cancelado correctamente."
 
 #: orders/views/order.py:299
 msgid "Refund failed. Please contact support to complete cancellation."
 msgstr ""
+"El reembolso no se ha podido realizar. Ponte en contacto con el servicio de "
+"atención al cliente para completar la cancelación."
 
 #: orders/views/pdf.py:80
 msgid "Error generating the receipt PDF."
-msgstr ""
+msgstr "Se ha producido un error al generar el PDF del recibo."
 
 #: payment/admin.py:47
 msgid "Ownership"
-msgstr ""
+msgstr "Titularidad"
 
 #: payment/admin.py:49
 msgid "Card Details"
-msgstr ""
+msgstr "Datos de la tarjeta"
 
 #: payment/admin.py:62
 msgid "Stripe Integration"
-msgstr ""
+msgstr "Integración con Stripe"
 
 #: payment/admin.py:66
 msgid "Stripe reference data (Read-only for integrity)."
 msgstr ""
+"Datos de referencia de Stripe (solo lectura para garantizar la integridad)."
 
 #: payment/admin.py:71 support/admin.py:49
 msgid "Audit Trail"
-msgstr ""
+msgstr "Registro de auditoría"
 
 #: payment/admin.py:76
 msgid "Expired?"
-msgstr ""
+msgstr "¿Ha caducado?"
 
 #: payment/forms.py:20
 msgid "Name as it appears on card"
-msgstr ""
+msgstr "Nombre tal y como figura en la tarjeta"
 
 #: payment/forms.py:24
 msgid "Cardholder Name"
-msgstr ""
+msgstr "Nombre del titular de la tarjeta"
 
 #: payment/forms.py:31 payment/templates/payment/payment_methods/add.html:88
 msgid "Set as default payment method"
-msgstr ""
+msgstr "Establecer como método de pago predeterminado"
 
 #: payment/forms.py:63
 msgid "Select a saved card"
-msgstr ""
+msgstr "Selecciona una tarjeta guardada"
 
 #: payment/forms.py:74
 msgid "Use a different card"
-msgstr ""
+msgstr "Utiliza otra tarjeta"
 
 #: payment/forms.py:84
 msgid "Please select a saved card or choose to use a new one."
-msgstr ""
+msgstr "Selecciona una tarjeta guardada o elige una nueva."
 
 #: payment/models.py:35
 msgid "Stripe ID for the payment method (pi_... or pm_...)."
-msgstr ""
+msgstr "ID de Stripe del método de pago (pi_... o pm_...)."
 
 #: payment/models.py:42
 msgid "card type"
-msgstr ""
+msgstr "tipo de tarjeta"
 
 #: payment/models.py:45
 msgid "last 4 digits"
-msgstr ""
+msgstr "los 4 últimos dígitos"
 
 #: payment/models.py:48
 msgid "cardholder name"
-msgstr ""
+msgstr "nombre del titular de la tarjeta"
 
 #: payment/models.py:51
 msgid "expiration month"
-msgstr ""
+msgstr "mes de vencimiento"
 
 #: payment/models.py:53
 msgid "expiration year"
-msgstr ""
+msgstr "año de vencimiento"
 
 #: payment/models.py:55
 msgid "default method"
-msgstr ""
+msgstr "método por defecto"
 
 #: payment/models.py:60
 msgid "Uncheck to manually disable this payment method."
 msgstr ""
+"Desmarca esta casilla para desactivar manualmente este método de pago."
 
 #: payment/stripe_handler.py:56
 msgid "Could not verify customer identity with payment provider."
 msgstr ""
+"No se ha podido verificar la identidad del cliente con el proveedor de "
+"pagos."
 
 #: payment/stripe_handler.py:109
 msgid "Failed to link payment method. Please try again."
-msgstr ""
+msgstr "No se ha podido vincular el método de pago. Inténtalo de nuevo."
 
 #: payment/stripe_handler.py:158
 msgid "Could not update default payment method."
-msgstr ""
+msgstr "No se ha podido actualizar el método de pago predeterminado."
 
 #: payment/tasks.py:30
 msgid "One Synk - Invoice nr. {}"
-msgstr ""
+msgstr "One Synk - Factura n.º {}"
 
 #: payment/tasks.py:32
 msgid ""
 "Thank you for your purchase! Please find attached the invoice for your "
 "recent order."
 msgstr ""
+"¡Gracias por tu compra! Te adjuntamos la factura correspondiente a tu último"
+" pedido."
 
 #: payment/tasks.py:50
 msgid "invoice_order_{}.pdf"
@@ -2587,117 +2656,128 @@ msgstr ""
 
 #: payment/templates/payment/canceled.html:6
 msgid "Payment Canceled"
-msgstr ""
+msgstr "Pago cancelado"
 
 #: payment/templates/payment/canceled.html:19
 msgid "Payment Not Processed"
-msgstr ""
+msgstr "Pago no procesado"
 
 #: payment/templates/payment/canceled.html:21
 msgid ""
 "We encountered a problem while processing your transaction, or the session "
 "was cancelled."
 msgstr ""
+"Se ha producido un problema al procesar tu transacción o se ha cancelado la "
+"sesión."
 
 #: payment/templates/payment/canceled.html:27
 msgid "Common reasons for this:"
-msgstr ""
+msgstr "Las razones más habituales para ello son:"
 
 #: payment/templates/payment/canceled.html:30
 msgid "The payment session was closed manually."
-msgstr ""
+msgstr "La sesión de pago se cerró manualmente."
 
 #: payment/templates/payment/canceled.html:31
 msgid "Insufficient funds or card limit reached."
-msgstr ""
+msgstr "Fondos insuficientes o se ha alcanzado el límite de la tarjeta."
 
 #: payment/templates/payment/canceled.html:32
 msgid "Incorrect security code (CVC) or expiration date."
-msgstr ""
+msgstr "Código de seguridad (CVC) o fecha de caducidad incorrectos."
 
 #: payment/templates/payment/canceled.html:33
 msgid "Your bank declined the transaction for security reasons."
-msgstr ""
+msgstr "Tu banco ha rechazado la transacción por motivos de seguridad."
 
 #: payment/templates/payment/canceled.html:41
 msgid "Try Again"
-msgstr ""
+msgstr "Inténtalo de nuevo"
 
 #: payment/templates/payment/canceled.html:46
 msgid "Return to Shop"
-msgstr ""
+msgstr "Volver a la tienda"
 
 #: payment/templates/payment/canceled.html:52
 msgid "Need help?"
-msgstr ""
+msgstr "¿Necesitas ayuda?"
 
 #: payment/templates/payment/canceled.html:53
 msgid "Contact our support team"
-msgstr ""
+msgstr "Ponte en contacto con nuestro equipo de atención al cliente"
 
 #: payment/templates/payment/completed.html:6 payment/views.py:56
 msgid "Payment Successful"
-msgstr ""
+msgstr "Pago realizado con éxito"
 
 #: payment/templates/payment/completed.html:19
 msgid "Payment Received!"
-msgstr ""
+msgstr "¡Pago recibido!"
 
 #: payment/templates/payment/completed.html:21
 msgid ""
-"Your transaction was processed successfully. Thank you for choosing One Synk."
+"Your transaction was processed successfully. Thank you for choosing One "
+"Synk."
 msgstr ""
+"Tu transacción se ha procesado correctamente. Gracias por elegir One Synk."
 
 #: payment/templates/payment/completed.html:27
 msgid "What's next?"
-msgstr ""
+msgstr "¿Y ahora qué?"
 
 #: payment/templates/payment/completed.html:32
-msgid "You will receive an email confirmation with your order details shortly."
+msgid ""
+"You will receive an email confirmation with your order details shortly."
 msgstr ""
+"En breve recibirás un correo electrónico de confirmación con los detalles de"
+" tu pedido."
 
 #: payment/templates/payment/completed.html:38
 msgid ""
 "A PDF invoice has been generated and sent to your registered email address."
 msgstr ""
+"Se ha generado una factura en formato PDF y se ha enviado a tu dirección de "
+"correo electrónico registrada."
 
 #: payment/templates/payment/completed.html:47
 msgid "View My Orders"
-msgstr ""
+msgstr "Ver mis pedidos"
 
 #: payment/templates/payment/completed.html:58
 msgid "Having trouble?"
-msgstr ""
+msgstr "¿Tienes algún problema?"
 
 #: payment/templates/payment/completed.html:59 support/models.py:19
 msgid "Contact Support"
-msgstr ""
+msgstr "Contactar con el servicio de asistencia"
 
 #: payment/templates/payment/payment_methods/add.html:47
 msgid "Secure Encryption:"
-msgstr ""
+msgstr "Cifrado seguro:"
 
 #: payment/templates/payment/payment_methods/add.html:47
 msgid ""
 "Your card data is sent directly to Stripe. We never store sensitive numbers "
 "on our servers."
 msgstr ""
+"Los datos de tu tarjeta se envían directamente a Stripe. Nunca almacenamos "
+"números confidenciales en nuestros servidores."
 
 #: payment/templates/payment/payment_methods/add.html:54
 msgid "Cardholder Information"
-msgstr ""
+msgstr "Datos del titular de la tarjeta"
 
 #: payment/templates/payment/payment_methods/add.html:56
 msgid "Name on Card"
-msgstr ""
+msgstr "Nombre que figura en la tarjeta"
 
 #: payment/templates/payment/payment_methods/add.html:66
 msgid "Card Number"
-msgstr ""
+msgstr "Número de tarjeta"
 
 #: payment/templates/payment/payment_methods/add.html:73
 msgid "Expiration"
-msgstr ""
+msgstr "Caducidad"
 
 #: payment/templates/payment/payment_methods/add.html:78
 msgid "CVC"
@@ -2706,93 +2786,96 @@ msgstr ""
 #: payment/templates/payment/payment_methods/add.html:101
 #: payment/templates/payment/payment_methods/add.html:166
 msgid "Add Card"
-msgstr ""
+msgstr "Añadir tarjeta"
 
 #: payment/templates/payment/payment_methods/add.html:153
 msgid "Verifying..."
-msgstr ""
+msgstr "Comprobando..."
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:14
 msgid "Remove Payment Method"
-msgstr ""
+msgstr "Eliminar método de pago"
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:24
 msgid "This card will be permanently removed from your One Synk account."
-msgstr ""
+msgstr "Esta tarjeta se eliminará definitivamente de tu cuenta de One Synk."
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:29
 msgid "You are about to delete:"
-msgstr ""
+msgstr "Estás a punto de eliminar:"
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:40
 msgid "Exp:"
-msgstr ""
+msgstr "Explicación:"
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:53
 msgid ""
 "This is your primary card. If deleted, another saved method will be set as "
 "default."
 msgstr ""
+"Esta es tu tarjeta principal. Si se elimina, se establecerá como "
+"predeterminada otra forma de pago guardada."
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:63
 msgid "Delete Permanently"
-msgstr ""
+msgstr "Eliminar definitivamente"
 
 #: payment/templates/payment/payment_methods/confirm_delete.html:66
 msgid "No, keep this card"
-msgstr ""
+msgstr "No, quédate con esta tarjeta"
 
 #: payment/templates/payment/payment_methods/list.html:5 payment/views.py:76
 msgid "My Payment Methods"
-msgstr ""
+msgstr "Mis formas de pago"
 
 #: payment/templates/payment/payment_methods/list.html:16
 msgid "My Wallet"
-msgstr ""
+msgstr "Mi cartera"
 
 #: payment/templates/payment/payment_methods/list.html:18 payment/views.py:117
 msgid "Add New Card"
-msgstr ""
+msgstr "Añadir una nueva tarjeta"
 
 #: payment/templates/payment/payment_methods/list.html:38
 msgid "Default Payment Method"
-msgstr ""
+msgstr "Método de pago predeterminado"
 
 #: payment/templates/payment/payment_methods/list.html:61
 msgid "Cardholder"
-msgstr ""
+msgstr "Titular de la tarjeta"
 
 #: payment/templates/payment/payment_methods/list.html:65
 msgid "Expires"
-msgstr ""
+msgstr "Caduca"
 
 #: payment/templates/payment/payment_methods/list.html:70
 msgid "Expired"
-msgstr ""
+msgstr "Caducado"
 
 #: payment/templates/payment/payment_methods/list.html:74
 msgid "Added"
-msgstr ""
+msgstr "Añadido"
 
 #: payment/templates/payment/payment_methods/list.html:93
 msgid "Remove Card"
-msgstr ""
+msgstr "Extraer la tarjeta"
 
 #: payment/templates/payment/payment_methods/list.html:108
 msgid "No Saved Cards"
-msgstr ""
+msgstr "No hay tarjetas guardadas"
 
 #: payment/templates/payment/payment_methods/list.html:109
 msgid "Securely save your payment methods for a faster checkout experience."
 msgstr ""
+"Guarda de forma segura tus métodos de pago para agilizar el proceso de pago."
 
 #: payment/templates/payment/payment_methods/list.html:111
 msgid "Add your first card"
-msgstr ""
+msgstr "Añade tu primera tarjeta"
 
 #: payment/templates/payment/process.html:6
 msgid "Confirm Payment"
-msgstr ""
+msgstr "Confirmar el pago"
 
 #: payment/templates/payment/process.html:15
 msgid "Cart"
@@ -2800,133 +2883,137 @@ msgstr "Carrito"
 
 #: payment/templates/payment/process.html:19
 msgid "Shipping"
-msgstr ""
+msgstr "Envíos"
 
 #: payment/templates/payment/process.html:23
 msgid "Review & Pay"
-msgstr ""
+msgstr "Revisar y pagar"
 
 #: payment/templates/payment/process.html:76
 msgid "Shipping To"
-msgstr ""
+msgstr "Envío a"
 
 #: payment/templates/payment/process.html:81
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #: payment/templates/payment/process.html:92
 msgid "Final Totals"
-msgstr ""
+msgstr "Totales finales"
 
 #: payment/templates/payment/process.html:116
 msgid "Pay with Stripe"
-msgstr ""
+msgstr "Pagar con Stripe"
 
 #: payment/templates/payment/process.html:123
 msgid ""
 "By clicking 'Pay now', you agree to our terms of service. You will be "
 "redirected to Stripe for secure processing."
 msgstr ""
+"Al hacer clic en «Pagar ahora», aceptas nuestras condiciones de servicio. Se"
+" te redirigirá a Stripe para que la transacción se procese de forma segura."
 
 #: payment/views.py:48
 msgid "Payment gateway is currently unavailable."
-msgstr ""
+msgstr "La pasarela de pago no está disponible en este momento."
 
 #: payment/views.py:62
 msgid "Payment Cancelled"
-msgstr ""
+msgstr "Pago cancelado"
 
 #: payment/views.py:96
 msgid "Card {} added successfully."
-msgstr ""
+msgstr "Tarjeta {} añadida correctamente."
 
 #: payment/views.py:108
 msgid "Please provide valid card details."
-msgstr ""
+msgstr "Introduce los datos de una tarjeta válida."
 
 #: payment/views.py:130
 msgid "Payment method removed."
-msgstr ""
+msgstr "Se ha eliminado la forma de pago."
 
 #: payment/views.py:133
 msgid "Could not delete card. Please contact support."
 msgstr ""
+"No se ha podido eliminar la tarjeta. Ponte en contacto con el servicio de "
+"asistencia."
 
 #: payment/views.py:145
 msgid "Default payment method updated."
-msgstr ""
+msgstr "Se ha actualizado la forma de pago predeterminada."
 
 #: payment/views.py:164
 msgid "Invalid amount"
-msgstr ""
+msgstr "Importe no válido"
 
 #: payment/views.py:197
 msgid "Missing PaymentIntent ID"
-msgstr ""
+msgstr "Falta el ID de la intención de pago"
 
 #: payment/views.py:202
 msgid "Payment successful"
-msgstr ""
+msgstr "Pago realizado correctamente"
 
 #: payment/webhooks.py:72
 msgid "Payment confirmed via Stripe Checkout."
-msgstr ""
+msgstr "Pago confirmado a través de Stripe Checkout."
 
 #: shop/admin.py:18 shop/admin.py:42 shop/admin.py:106
 msgid "Preview"
-msgstr ""
+msgstr "Vista previa"
 
 #: shop/admin.py:53
 msgid "Total Products"
-msgstr ""
+msgstr "Total de productos"
 
 #: shop/admin.py:92
 msgid "Basic Information"
-msgstr ""
+msgstr "Información básica"
 
 #: shop/admin.py:95
 msgid "Pricing & Availability"
-msgstr ""
+msgstr "Precios y disponibilidad"
 
 #: shop/admin.py:97 support/templates/support/ticket_list.html:115
 msgid "Media"
-msgstr ""
+msgstr "Medios de comunicación"
 
 #: shop/models.py:27
 msgid "categories"
-msgstr ""
+msgstr "categorías"
 
 #: shop/models.py:56
 msgid "price"
-msgstr ""
+msgstr "precio"
 
 #: shop/models.py:57
 msgid "available"
-msgstr ""
+msgstr "disponible"
 
 #: shop/models.py:65 shop/models.py:100
 msgid "product"
-msgstr ""
+msgstr "producto"
 
 #: shop/models.py:66
 msgid "products"
-msgstr ""
+msgstr "productos"
 
 #: shop/models.py:103
 msgid "alt text"
-msgstr ""
+msgstr "otro texto"
 
 #: shop/models.py:108
 msgid "product image"
-msgstr ""
+msgstr "imagen del producto"
 
 #: shop/models.py:109
 msgid "product images"
-msgstr ""
+msgstr "imágenes de productos"
 
 #: shop/models.py:130 shop/models.py:131
 msgid "translation cache"
-msgstr ""
+msgstr "caché de traducción"
 
 #: shop/templates/includes/footer.html:11 shop/templates/shop/home.html:42
 #: shop/templates/shop/home.html:263 shop/templates/shop/home.html:288
@@ -2966,7 +3053,7 @@ msgstr ""
 #: shop/templates/includes/lang_toggle.html:13
 #: shop/templates/includes/lang_toggle.html:14
 msgid "Change language"
-msgstr ""
+msgstr "Cambiar idioma"
 
 #: shop/templates/includes/navbar.html:22
 #: shop/templates/shop/product/detail.html:17
@@ -3122,6 +3209,19 @@ msgid ""
 "          <br>\n"
 "          <strong>calidad, innovación y tendencias globales</strong>"
 msgstr ""
+"<strong>One Synk</strong>\n"
+"          es una empresa\n"
+"          <br>\n"
+"          multimarcas especializada en la\n"
+"          <br>\n"
+"          \n"
+"          <strong>importación y comercialización</strong>\n"
+"          de\n"
+"          productos<br>\n"
+"          coreanos, enfocados en\n"
+"          <br>\n"
+"          \n"
+"          <strong>calidad, innovación y tendencias globales</strong>"
 
 #: shop/templates/shop/home.html:104
 msgid "NUESTRAS MARCAS"
@@ -3217,8 +3317,8 @@ msgstr ""
 
 #: shop/templates/shop/home.html:214
 msgid ""
-"Ser el puente cultural entre Corea y el mundo, conectando a las personas con "
-"experiencias de consumo auténticas e innovadoras."
+"Ser el puente cultural entre Corea y el mundo, conectando a las personas con"
+" experiencias de consumo auténticas e innovadoras."
 msgstr ""
 
 #: shop/templates/shop/home.html:219
@@ -3283,7 +3383,7 @@ msgstr ""
 
 #: shop/templates/shop/home.html:321 shop/templates/shop/synkfood.html:268
 msgid "NEWSLETTER"
-msgstr ""
+msgstr "BOLETÍN INFORMATIVO"
 
 #: shop/templates/shop/product/detail.html:91
 msgid "Cantidad"
@@ -3312,23 +3412,23 @@ msgstr ""
 #: shop/templates/shop/product/favorites.html:6
 #: shop/templates/shop/product/favorites.html:18 shop/views.py:162
 msgid "My Favorites"
-msgstr ""
+msgstr "Mis favoritos"
 
 #: shop/templates/shop/product/favorites.html:20
 msgid "Items"
-msgstr ""
+msgstr "Artículos"
 
 #: shop/templates/shop/product/favorites.html:36
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Eliminar de los favoritos"
 
 #: shop/templates/shop/product/favorites.html:62
 msgid "You haven't added any favorites yet."
-msgstr ""
+msgstr "Aún no has añadido ningún favorito."
 
 #: shop/templates/shop/product/favorites.html:64
 msgid "Browse Products"
-msgstr ""
+msgstr "Explorar productos"
 
 #: shop/templates/shop/product/list.html:17
 msgid "NUESTRA SELECCIÓN ESTÁ PENSADA<br>PARA SORPRENDERTE:"
@@ -3399,21 +3499,21 @@ msgstr ""
 
 #: shop/templates/shop/synkfood.html:86
 msgid ""
-"Synk Food nace con la idea de crear un punto único de conexión entre Corea y "
-"nuevos mercados, enfocado en productos alimenticios de calidad, innovación y "
-"tendencias globales."
+"Synk Food nace con la idea de crear un punto único de conexión entre Corea y"
+" nuevos mercados, enfocado en productos alimenticios de calidad, innovación "
+"y tendencias globales."
 msgstr ""
 
 #: shop/templates/shop/synkfood.html:87
 msgid ""
-"A través de nuestras marcas, transformamos tendencias coreanas en propuestas "
-"auténticas, accesibles y alineadas al mercado actual."
+"A través de nuestras marcas, transformamos tendencias coreanas en propuestas"
+" auténticas, accesibles y alineadas al mercado actual."
 msgstr ""
 
 #: shop/templates/shop/synkfood.html:88
 msgid ""
-"Nos especializamos en la importación y comercialización de snacks, bebidas y "
-"alimentos coreanos con los más altos estándares de calidad y sabor."
+"Nos especializamos en la importación y comercialización de snacks, bebidas y"
+" alimentos coreanos con los más altos estándares de calidad y sabor."
 msgstr ""
 
 #: shop/templates/shop/synkfood.html:130
@@ -3446,155 +3546,155 @@ msgstr ""
 
 #: shop/views.py:85
 msgid "All Products"
-msgstr ""
+msgstr "Todos los productos"
 
 #: support/admin.py:17
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: support/admin.py:18
 msgid "Ticket Conversation"
-msgstr ""
+msgstr "Conversación del ticket"
 
 #: support/admin.py:46
 msgid "Initial Details"
-msgstr ""
+msgstr "Datos iniciales"
 
 #: support/admin.py:47
 msgid "Management"
-msgstr ""
+msgstr "Dirección"
 
 #: support/admin.py:73
 msgid "Priority"
-msgstr ""
+msgstr "Prioridad"
 
 #: support/admin.py:95
 msgid "Internal Note"
-msgstr ""
+msgstr "Nota interna"
 
 #: support/forms.py:20
 msgid "Briefly describe the issue"
-msgstr ""
+msgstr "Describe brevemente el problema"
 
 #: support/forms.py:27
 msgid "Please provide as much detail as possible..."
-msgstr ""
+msgstr "Por favor, facilítanos toda la información posible..."
 
 #: support/forms.py:37
 msgid "Not related to a specific order"
-msgstr ""
+msgstr "No está relacionado con un pedido concreto"
 
 #: support/forms.py:58
 msgid "Type your reply here..."
-msgstr ""
+msgstr "Escribe tu respuesta aquí..."
 
 #: support/models.py:17
 msgid "Request Clarification"
-msgstr ""
+msgstr "Solicitar aclaración"
 
 #: support/models.py:20
 msgid "Request Refund"
-msgstr ""
+msgstr "Solicitar un reembolso"
 
 #: support/models.py:24
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 #: support/models.py:25
 msgid "In Progress"
-msgstr ""
+msgstr "En curso"
 
 #: support/models.py:26
 msgid "Waiting for Customer"
-msgstr ""
+msgstr "A la espera del cliente"
 
 #: support/models.py:27
 msgid "Resolved"
-msgstr ""
+msgstr "Resuelto"
 
 #: support/models.py:28
 msgid "Closed"
-msgstr ""
+msgstr "Cerrado"
 
 #: support/models.py:31
 msgid "Low"
-msgstr ""
+msgstr "Bajo"
 
 #: support/models.py:32
 msgid "Medium"
-msgstr ""
+msgstr "Medio"
 
 #: support/models.py:33
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #: support/models.py:34
 msgid "Urgent"
-msgstr ""
+msgstr "Urgente"
 
 #: support/models.py:49
 msgid "related order"
-msgstr ""
+msgstr "pedido relacionado"
 
 #: support/models.py:56
 msgid "issue type"
-msgstr ""
+msgstr "tipo de incidencia"
 
 #: support/models.py:59
 msgid "subject"
-msgstr ""
+msgstr "tema"
 
 #: support/models.py:61
 msgid "detailed description"
-msgstr ""
+msgstr "descripción detallada"
 
 #: support/models.py:74
 msgid "priority"
-msgstr ""
+msgstr "prioridad"
 
 #: support/models.py:83
 msgid "assigned staff"
-msgstr ""
+msgstr "personal asignado"
 
 #: support/models.py:89
 msgid "resolved at"
-msgstr ""
+msgstr "aprobado en"
 
 #: support/models.py:95
 msgid "Support Ticket"
-msgstr ""
+msgstr "Ticket de asistencia"
 
 #: support/models.py:96
 msgid "Support Tickets"
-msgstr ""
+msgstr "Tickets de asistencia técnica"
 
 #: support/models.py:133
 msgid "ticket"
-msgstr ""
+msgstr "ticket"
 
 #: support/models.py:141
 msgid "sender"
-msgstr ""
+msgstr "enviador"
 
 #: support/models.py:144
 msgid "message content"
-msgstr ""
+msgstr "contenido del mensaje"
 
 #: support/models.py:148
 msgid "internal note"
-msgstr ""
+msgstr "nota interna"
 
 #: support/models.py:149
 msgid "Staff only. Hidden from the customer."
-msgstr ""
+msgstr "Solo para el personal. Oculto al cliente."
 
 #: support/models.py:155
 msgid "Ticket Message"
-msgstr ""
+msgstr "Mensaje del ticket"
 
 #: support/models.py:156
 msgid "Ticket Messages"
-msgstr ""
+msgstr "Mensajes del ticket"
 
 #: support/templates/support/ticket_detail.html:12
 msgid "Volver"
@@ -3644,7 +3744,7 @@ msgstr ""
 
 #: support/templates/support/ticket_detail.html:121
 msgid "Interno"
-msgstr ""
+msgstr "Interior"
 
 #: support/templates/support/ticket_detail.html:136
 msgid "Agregar Respuesta"
@@ -3692,20 +3792,20 @@ msgstr ""
 
 #: support/templates/support/ticket_form.html:22
 msgid "Pedido Relacionado (Opcional)"
-msgstr ""
+msgstr "Pedido relacionado (opcional)"
 
 #: support/templates/support/ticket_form.html:32
 msgid "Pedido relacionado:"
-msgstr ""
+msgstr "Solicitud relacionada:"
 
 #: support/templates/support/ticket_form.html:39
 msgid "Tipo de Problema"
-msgstr ""
+msgstr "Tipo de problema"
 
 #: support/templates/support/ticket_form.html:50
 #: support/templates/support/ticket_list.html:136
 msgid "Asunto"
-msgstr ""
+msgstr "Vivienda"
 
 #: support/templates/support/ticket_form.html:61
 msgid "Descripción"
@@ -3765,7 +3865,7 @@ msgstr ""
 #: support/templates/support/ticket_list.html:44
 #: support/templates/support/ticket_list.html:97
 msgid "En Progreso"
-msgstr ""
+msgstr "En curso"
 
 #: support/templates/support/ticket_list.html:60
 msgid "Resueltos"
@@ -3806,7 +3906,7 @@ msgstr ""
 
 #: support/templates/support/ticket_list.html:116
 msgid "Alta"
-msgstr ""
+msgstr "Alto"
 
 #: support/templates/support/ticket_list.html:117
 msgid "Urgente"
@@ -3818,7 +3918,7 @@ msgstr ""
 
 #: support/templates/support/ticket_list.html:135
 msgid "ID"
-msgstr ""
+msgstr "Identidad"
 
 #: support/templates/support/ticket_list.html:137
 msgid "Tipo"
@@ -3854,84 +3954,88 @@ msgstr ""
 
 #: support/views.py:50
 msgid "My Support Tickets"
-msgstr ""
+msgstr "Mis solicitudes de asistencia"
 
 #: support/views.py:77
 #, python-format
 msgid "Support ticket created successfully. ID: #%(id)s"
-msgstr ""
+msgstr "Se ha creado correctamente el ticket de asistencia. ID: #%(id)s"
 
 #: support/views.py:84
 msgid "An error occurred while creating the ticket."
-msgstr ""
+msgstr "Se ha producido un error al crear el ticket."
 
 #: support/views.py:87
 msgid "Please correct the errors in the form."
-msgstr ""
+msgstr "Por favor, corrige los errores del formulario."
 
 #: support/views.py:95
 msgid "Create Support Ticket"
-msgstr ""
+msgstr "Crear un ticket de asistencia"
 
 #: support/views.py:115
 #, python-format
 msgid "Ticket #%(id)s"
-msgstr ""
+msgstr "Ticket n.º %(id)s"
 
 #: support/views.py:144
 msgid "Your reply has been sent."
-msgstr ""
+msgstr "Tu respuesta se ha enviado."
 
 #: support/views.py:147
 msgid "Error sending reply."
-msgstr ""
+msgstr "Error al enviar la respuesta."
 
 #: support/views.py:149
 msgid "Invalid message content."
-msgstr ""
+msgstr "Contenido del mensaje no válido."
 
 #: support/views.py:165
 msgid "Ticket closed successfully."
-msgstr ""
+msgstr "El ticket se ha cerrado correctamente."
 
 #: support/views.py:167
 msgid "This ticket is already closed."
-msgstr ""
+msgstr "Este ticket ya está cerrado."
 
 #: templates/404.html:5 templates/404.html:15
 msgid "Page Not Found"
-msgstr ""
+msgstr "Página no encontrada"
 
 #: templates/404.html:17
 msgid "The page you're looking for doesn't exist or has been moved."
-msgstr ""
+msgstr "La página que estás buscando no existe o se ha trasladado."
 
 #: templates/404.html:21 templates/500.html:21 templates/502.html:21
 msgid "Go to Shop"
-msgstr ""
+msgstr "Ir a la tienda"
 
 #: templates/404.html:24 templates/500.html:24 templates/502.html:24
 msgid "Go Back"
-msgstr ""
+msgstr "Volver atrás"
 
 #: templates/500.html:5 templates/500.html:15
 msgid "Server Error"
-msgstr ""
+msgstr "Error del servidor"
 
 #: templates/500.html:17
 msgid ""
 "Something went wrong on our end. We're working to fix it. Please try again "
 "later."
 msgstr ""
+"Ha surgido un problema por nuestra parte. Estamos trabajando para "
+"solucionarlo. Por favor, inténtalo de nuevo más tarde."
 
 #: templates/502.html:5 templates/502.html:15
 msgid "Bad Gateway"
-msgstr ""
+msgstr "Error de puerta de enlace"
 
 #: templates/502.html:17
 msgid ""
 "The server received an invalid response. Please try again in a few moments."
 msgstr ""
+"El servidor ha recibido una respuesta no válida. Inténtalo de nuevo dentro "
+"de unos momentos."
 
 #: templates/form-mayorista.html:19
 msgid "¿Tienes tienda,"
