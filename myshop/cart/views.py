@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from coupons.forms import CouponApplyForm
@@ -39,14 +40,14 @@ def cart_add(request, product_id):
                     "product_name": product.name,
                 }
             )
-        messages.success(request, "Product added to cart.")
+        messages.success(request, _("Producto agregado al carrito."))
     else:
         if is_ajax:
             return JsonResponse(
-                {"ok": False, "error": "Error adding product to cart."},
+                {"ok": False, "error": _("Error al agregar el producto al carrito.")},
                 status=400,
             )
-        messages.error(request, "Error adding product to cart.")
+        messages.error(request, _("Error al agregar el producto al carrito."))
 
     return redirect("cart:cart_detail")
 
@@ -59,7 +60,7 @@ def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
-    messages.success(request, "Product removed from cart.")
+    messages.success(request, _("Producto eliminado del carrito."))
     return redirect("cart:cart_detail")
 
 
