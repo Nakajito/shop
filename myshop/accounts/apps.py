@@ -36,3 +36,5 @@ class AccountsConfig(AppConfig):
             # Log a warning if signals cannot be imported, or pass if
             # no signals exist yet.
             pass
+
+        import accounts.checks  # noqa: F401 -- registers Django system checks

@@ -205,11 +205,14 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         },
         "VERIFIED_EMAIL": True,
-        # Settings-based app: takes priority over any DB-configured SocialApp
-        # (see accounts/management/commands/setup_google_oauth.py, which is
-        # only needed if you'd rather manage credentials via /admin/ instead
-        # of env vars). Empty strings are harmless when unset — allauth just
-        # won't be able to complete the OAuth handshake until they're set.
+        # Settings-based app. NOTE: allauth's list_apps() *merges* this with
+        # any DB-configured SocialApp for the same provider rather than one
+        # overriding the other — if a SocialApp row for "google" also exists
+        # in the DB (e.g. from accounts/management/commands/setup_google_oauth.py
+        # or /admin/), get_app() sees two apps and raises MultipleObjectsReturned,
+        # crashing the login page. Use env vars OR the DB app, never both.
+        # Empty strings are harmless when unset — allauth just won't be able
+        # to complete the OAuth handshake until they're set.
         "APP": {
             "client_id": GOOGLE_CLIENT_ID,
             "secret": GOOGLE_CLIENT_SECRET,

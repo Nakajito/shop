@@ -31,11 +31,13 @@
                             <a href="#" class="forgot">{% trans "¿Olvidaste tu contraseña?" %}</a>
                         </div>
                         <button type="submit" class="btn login-btn w-100">{% trans "Iniciar sesión" %}</button>
+                        {% if google_oauth_enabled %}
                         <a href="{% provider_login_url 'google' %}"
                            class="btn google-btn w-100 mt-3 d-flex align-items-center justify-content-center gap-2 text-decoration-none text-dark">
                             <i class="bi bi-google"></i>
                             {% trans "Continuar con Google" %}
                         </a>
+                        {% endif %}
                     </form>
                     <div class="register mt-4">
                         <span class="register-text">{% trans "¿Aún no te registras?" %}</span>
