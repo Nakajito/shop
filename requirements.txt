@@ -6,6 +6,7 @@ asgiref==3.11.1
     # via
     #   django
     #   django-allauth
+    #   django-axes
 billiard==4.2.4
     # via celery
 brotli==1.2.0
@@ -49,12 +50,15 @@ django==5.0.14
     #   dj-database-url
     #   django-allauth
     #   django-anymail
+    #   django-axes
     #   django-celery-results
     #   django-ckeditor-5
     #   django-widget-tweaks
 django-allauth==65.17.0
     # via myshop (myshop/pyproject.toml)
 django-anymail==15.1
+    # via myshop (myshop/pyproject.toml)
+django-axes==8.3.1
     # via myshop (myshop/pyproject.toml)
 django-celery-results==2.6.0
     # via myshop (myshop/pyproject.toml)
