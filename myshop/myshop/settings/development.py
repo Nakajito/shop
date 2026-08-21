@@ -1,6 +1,12 @@
+from decouple import config
+
 from .base import *  # noqa: F401, F403
 
 DEBUG = True
+
+# Dev-only fallback so a fresh checkout runs without a .env — never used in
+# production, which requires SECRET_KEY to be set (see production.py).
+SECRET_KEY = config("SECRET_KEY", default="django-insecure-dev-only-not-for-production")
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 

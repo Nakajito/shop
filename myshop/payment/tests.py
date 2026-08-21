@@ -297,6 +297,18 @@ class PaymentViewsTest(TestCase):
         response = self.client.get(reverse("payment:process"))
         self.assertEqual(response.status_code, 404)
 
+    def test_payment_process_blocks_other_users_order(self):
+        """A01/IDOR: a logged-in user must not reach someone else's order."""
+        other_user = CustomUser.objects.create_user(
+            username="otheruser", password="otherpass123"
+        )
+        self.client.force_login(other_user)
+        session = self.client.session
+        session["order_id"] = self.order.id  # belongs to self.user, not other_user
+        session.save()
+        response = self.client.get(reverse("payment:process"))
+        self.assertEqual(response.status_code, 404)
+
     @patch("payment.views.PaymentService.create_checkout_session")
     def test_payment_process_post_redirects_to_stripe(self, mock_create):
         mock_session = MagicMock()
@@ -356,6 +368,7 @@ class PaymentViewsTest(TestCase):
     def test_confirm_payment_succeeded(self, mock_retrieve):
         intent = MagicMock()
         intent.status = "succeeded"
+        intent.metadata = {"user_id": str(self.user.id)}
         mock_retrieve.return_value = intent
 
         self.client.force_login(self.user)
@@ -372,6 +385,7 @@ class PaymentViewsTest(TestCase):
     def test_confirm_payment_pending(self, mock_retrieve):
         intent = MagicMock()
         intent.status = "requires_action"
+        intent.metadata = {"user_id": str(self.user.id)}
         mock_retrieve.return_value = intent
 
         self.client.force_login(self.user)
@@ -384,6 +398,25 @@ class PaymentViewsTest(TestCase):
         body = json.loads(response.content)
         self.assertFalse(body["success"])
         self.assertTrue(body["requiresAction"])
+
+    @patch("payment.views.stripe.PaymentIntent.retrieve")
+    def test_confirm_payment_rejects_other_users_intent(self, mock_retrieve):
+        """A01/IDOR: a PaymentIntent stamped for another user must be refused."""
+        other_user = CustomUser.objects.create_user(
+            username="otherpvuser", password="otherpass123"
+        )
+        intent = MagicMock()
+        intent.status = "succeeded"
+        intent.metadata = {"user_id": str(other_user.id)}
+        mock_retrieve.return_value = intent
+
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("payment:confirm_payment"),
+            data=json.dumps({"paymentIntentId": "pi_z"}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
 
 
 class StripeCustomerHandlerTest(TestCase):

@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -16,6 +18,8 @@ from accounts.forms import (
 from accounts.models import CustomUser
 from accounts.utils import is_google_oauth_configured
 from myshop.utils import safe_next_url
+
+security_logger = logging.getLogger("security")
 
 
 @require_http_methods(["GET", "POST"])
@@ -81,7 +85,7 @@ def user_login(request):
         return redirect("shop:product_list")
 
     if request.method == "POST":
-        form = CustomUserLoginForm(request.POST)
+        form = CustomUserLoginForm(request.POST, request=request)
 
         if form.is_valid():
             user = form.get_user()
@@ -205,18 +209,33 @@ def profile_details(request):
 @require_http_methods(["POST"])
 def change_user_type(request):
     """
-    View to switch between normal user and wholesaler.
+    Self-service downgrade to a regular account.
+
+    Wholesaler accounts are not self-assignable: only staff can grant
+    ``UserTypes.WHOLESALER`` (via the Django admin), after review, to prevent
+    unvetted users from unlocking wholesaler-only pricing/catalog.
     """
     new_type = request.POST.get("user_type")
 
-    # Validate against the TextChoices values defined in the model
-    if new_type in CustomUser.UserTypes.values:
+    if new_type == CustomUser.UserTypes.REGULAR.value:
         request.user.user_type = new_type
         request.user.save()
         messages.success(
             request,
             _("User type changed to {type}").format(
                 type=request.user.get_user_type_display()
+            ),
+        )
+    elif new_type == CustomUser.UserTypes.WHOLESALER.value:
+        security_logger.warning(
+            f"User {request.user.id} ({request.user.username}) attempted to "
+            "self-assign the wholesaler user_type."
+        )
+        messages.error(
+            request,
+            _(
+                "Wholesaler accounts are granted by our team after review. "
+                "Please use the wholesaler contact form to request access."
             ),
         )
     else:
@@ -238,6 +257,7 @@ def deactivate_account(request):
         user = request.user
         user.is_active = False
         user.save(update_fields=["is_active"])
+        security_logger.info(f"User {user.id} ({user.username}) deactivated their account.")
         logout(request)
         messages.success(request, _("Your account has been successfully deleted."))
         return redirect("shop:product_list")

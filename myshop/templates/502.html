@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Bad Gateway" %} - One Synk{% endblock %}
+{% block title %}{% trans "Servicio no disponible" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
@@ -12,16 +12,16 @@
                 <div class="card-body">
                     <i class="bi bi-wifi-off text-warning" style="font-size: 4rem;"></i>
                     <h1 class="display-1 fw-bold text-muted mt-3">502</h1>
-                    <h2 class="h4 mb-3">{% trans "Bad Gateway" %}</h2>
+                    <h2 class="h4 mb-3">{% trans "Servicio no disponible" %}</h2>
                     <p class="text-muted mb-4">
-                        {% trans "The server received an invalid response. Please try again in a few moments." %}
+                        {% trans "El servidor no está respondiendo correctamente. Intenta de nuevo en unos momentos." %}
                     </p>
                     <div class="d-flex gap-2 justify-content-center">
                         <a href="{% url 'shop:product_list' %}" class="btn btn-primary rounded-pill px-4">
-                            <i class="bi bi-house me-2"></i>{% trans "Go to Shop" %}
+                            <i class="bi bi-house me-2"></i>{% trans "Ir a la tienda" %}
                         </a>
                         <button onclick="history.back()" class="btn btn-outline-secondary rounded-pill px-4">
-                            <i class="bi bi-arrow-left me-2"></i>{% trans "Go Back" %}
+                            <i class="bi bi-arrow-left me-2"></i>{% trans "Regresar" %}
                         </button>
                     </div>
                 </div>

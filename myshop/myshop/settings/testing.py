@@ -6,6 +6,13 @@ SECRET_KEY = "test-secret-key-not-for-production"  # noqa: S105
 
 ALLOWED_HOSTS = ["localhost", "testserver"]
 
+# django-axes requires a real request in authenticate() (see accounts/forms.py
+# CustomUserLoginForm); Django's test Client.login() helper calls
+# authenticate() without one, which would 500 every test that uses it. Axes'
+# own lockout behavior gets dedicated coverage via @override_settings in
+# accounts/tests.py, which re-enables it and drives the real login view.
+AXES_ENABLED = False
+
 # In-memory SQLite for fast tests
 DATABASES = {
     "default": {

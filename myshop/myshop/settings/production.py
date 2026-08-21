@@ -5,6 +5,9 @@ from .base import *  # noqa: F401, F403
 
 DEBUG = False
 
+# No default: fail closed rather than risk a predictable key reaching prod.
+SECRET_KEY = config("SECRET_KEY")
+
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
 )
@@ -36,7 +39,6 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -58,6 +60,7 @@ if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         traces_sample_rate=0.1,
+        send_default_pii=False,
     )
 
 CELERY_BROKER_URL = config("REDIS_CACHE_URL", default="redis://redis:6379/0")

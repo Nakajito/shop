@@ -7,12 +7,13 @@ from django.contrib.messages import constants as message_constants
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = config(
-    "SECRET_KEY",
-    default="django-insecure-change-me-in-production",
-)
-
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=Csv())
+
+SECURE_REFERRER_POLICY = "same-origin"
+
+# Overridable so production can obscure the admin path without a code change.
+# Trailing slash required — it's passed straight into a Django path().
+ADMIN_URL = config("ADMIN_URL", default="admin/")
 
 
 # Application definition
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "axes",
     # Local apps
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
@@ -53,6 +55,8 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Must stay last — django-axes docs require it after all other middleware.
+    "axes.middleware.AxesMiddleware",
 ]
 
 ROOT_URLCONF = "myshop.urls"
@@ -180,9 +184,19 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
+    # Must stay first — django-axes docs require it before all other backends
+    # so it can lock out brute-force attempts on both /accounts/login/ and
+    # the Django admin (A07).
+    "axes.backends.AxesBackend",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+# django-axes: lock out an IP/username pair after repeated failed logins.
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1  # hour
+AXES_LOCKOUT_PARAMETERS = ["username", "ip_address"]
+AXES_LOCKOUT_TEMPLATE = "429.html"
 
 # Allauth settings
 ACCOUNT_LOGIN_METHODS = {"email"}
@@ -277,6 +291,16 @@ LOGGING = {
             "propagate": False,
         },
         "celery": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "security": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "axes": {
             "handlers": ["console", "file"],
             "level": "INFO",
             "propagate": False,

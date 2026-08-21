@@ -70,6 +70,7 @@ class PaymentService:
             currency=currency,
             customer=stripe_customer["id"],
             automatic_payment_methods={"enabled": True},
+            metadata={"user_id": str(user.id)},
         )
 
         return intent

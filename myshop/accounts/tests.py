@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from accounts.models import CustomUser, UserProfile
@@ -74,6 +74,25 @@ class RegisterViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(CustomUser.objects.filter(username="newuser").exists())
 
+    def test_register_ignores_user_type_escalation(self):
+        """Registration must never let a request set user_type (A01)."""
+        response = self.client.post(
+            reverse("accounts:register"),
+            {
+                "username": "sneakywholesaler",
+                "email": "sneaky@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "password1": "StrongP@ss123",
+                "password2": "StrongP@ss123",
+                "user_type": "wholesaler",
+                "terms_accepted": True,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        user = CustomUser.objects.get(username="sneakywholesaler")
+        self.assertEqual(user.user_type, "regular_user")
+
     def test_register_redirects_authenticated(self):
         user = CustomUser.objects.create_user(username="existing", password="pass123")
         self.client.force_login(user)
@@ -134,6 +153,36 @@ class LoginViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class AxesLockoutTest(TestCase):
+    """A07: repeated failed logins through the real login view must lock out
+    further attempts (django-axes). Disabled globally in testing settings
+    because Client.login() can't provide the request AxesBackend requires —
+    re-enabled here to exercise it via real POSTs to accounts:login."""
+
+    def setUp(self):
+        self.client = Client()
+        self.user = CustomUser.objects.create_user(
+            username="lockoutuser", password="correctpass123"
+        )
+
+    @override_settings(AXES_ENABLED=True, AXES_FAILURE_LIMIT=3, AXES_COOLOFF_TIME=1)
+    def test_locks_out_after_repeated_failures(self):
+        for _ in range(3):
+            self.client.post(
+                reverse("accounts:login"),
+                {"email_or_username": "lockoutuser", "password": "wrongpass"},
+            )
+
+        # 4th attempt, even with the correct password, must be blocked.
+        response = self.client.post(
+            reverse("accounts:login"),
+            {"email_or_username": "lockoutuser", "password": "correctpass123"},
+        )
+        self.assertEqual(response.status_code, 429)  # axes' lockout response
+        self.assertTemplateUsed(response, "429.html")
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+
 class LogoutViewTest(TestCase):
     def setUp(self):
         self.client = Client()
@@ -173,7 +222,8 @@ class ChangeUserTypeViewTest(TestCase):
             username="testuser", password="testpass123", user_type="regular_user"
         )
 
-    def test_change_to_wholesaler(self):
+    def test_change_to_wholesaler_is_rejected(self):
+        """Self-service escalation to wholesaler must be refused (A01)."""
         self.client.force_login(self.user)
         response = self.client.post(
             reverse("accounts:change_user_type"),
@@ -181,7 +231,20 @@ class ChangeUserTypeViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.user_type, "wholesaler")
+        self.assertEqual(self.user.user_type, "regular_user")
+
+    def test_change_to_regular_is_allowed(self):
+        """A wholesaler may still self-downgrade to a regular account."""
+        self.user.user_type = "wholesaler"
+        self.user.save()
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("accounts:change_user_type"),
+            {"user_type": "regular_user"},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.user_type, "regular_user")
 
     def test_change_invalid_type(self):
         self.client.force_login(self.user)

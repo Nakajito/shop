@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Server Error" %} - One Synk{% endblock %}
+{% block title %}{% trans "Error del servidor" %} - One Synk{% endblock %}
 
 {% block content %}
 <div class="container my-5">
@@ -12,16 +12,16 @@
                 <div class="card-body">
                     <i class="bi bi-x-octagon text-danger" style="font-size: 4rem;"></i>
                     <h1 class="display-1 fw-bold text-muted mt-3">500</h1>
-                    <h2 class="h4 mb-3">{% trans "Server Error" %}</h2>
+                    <h2 class="h4 mb-3">{% trans "Error del servidor" %}</h2>
                     <p class="text-muted mb-4">
-                        {% trans "Something went wrong on our end. We're working to fix it. Please try again later." %}
+                        {% trans "Algo salió mal de nuestro lado. Estamos trabajando para solucionarlo. Intenta de nuevo más tarde." %}
                     </p>
                     <div class="d-flex gap-2 justify-content-center">
                         <a href="{% url 'shop:product_list' %}" class="btn btn-primary rounded-pill px-4">
-                            <i class="bi bi-house me-2"></i>{% trans "Go to Shop" %}
+                            <i class="bi bi-house me-2"></i>{% trans "Ir a la tienda" %}
                         </a>
                         <button onclick="history.back()" class="btn btn-outline-secondary rounded-pill px-4">
-                            <i class="bi bi-arrow-left me-2"></i>{% trans "Go Back" %}
+                            <i class="bi bi-arrow-left me-2"></i>{% trans "Regresar" %}
                         </button>
                     </div>
                 </div>
