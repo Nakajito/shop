@@ -26,6 +26,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiamos el resto de tu código
 COPY . /app/
 
+# Corremos como usuario sin privilegios (A02 — el contenedor corría como root).
+# NOTA DE DESPLIEGUE: el volumen de media que Coolify monta en /app/media fue
+# escrito previamente por procesos root; si ya existe, su propietario debe
+# alinearse con appuser (`chown -R 1000:1000 <volumen>` en el host, o
+# reconciliar el UID) ANTES de desplegar esta imagen, o las subidas de media
+# fallarán por permisos. Verificar contra el volumen real antes de mergear.
+RUN useradd --uid 1000 --create-home --shell /usr/sbin/nologin appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 8000
 
 # El comando maestro que arrancará todo

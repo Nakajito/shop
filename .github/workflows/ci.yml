@@ -15,10 +15,10 @@ jobs:
         working-directory: myshop
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@caf0cab7a618c569241d31dcd442f54681755d39 # v3.2.4
         with:
           version: latest
 
@@ -38,6 +38,13 @@ jobs:
       - name: Ruff lint
         run: uv run ruff check
 
+      # Informational only for now: the baseline already carries known Django
+      # CVEs that only 5.2/6.0 fix (out of range for our pinned django<5.1 —
+      # see SECURITY.md). Flip to blocking once that upgrade lands.
+      - name: Dependency vulnerability audit (pip-audit)
+        continue-on-error: true
+        run: uv run --with pip-audit pip-audit
+
       - name: Django check
         env:
           DJANGO_SETTINGS_MODULE: myshop.settings.testing
@@ -49,6 +56,23 @@ jobs:
           EMAIL_HOST_PASSWORD: dummy
           DEFAULT_FROM_EMAIL: test@example.com
         run: uv run python manage.py check
+
+      - name: Django deploy check (production settings)
+        env:
+          DJANGO_SETTINGS_MODULE: myshop.settings.production
+          SECRET_KEY: ci-dummy-secret-key-for-deploy-check-only
+          ALLOWED_HOSTS: example.com
+          CSRF_TRUSTED_ORIGINS: https://example.com
+          DATABASE_URL: postgres://user:pass@localhost:5432/dummy
+          RESEND_API_KEY: re_dummy
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+          STRIPE_SECRET_KEY: sk_test_dummy
+          STRIPE_API_VERSION: "2024-04-10"
+          STRIPE_WEBHOOK_SECRET: whsec_dummy
+          EMAIL_HOST_USER: test@example.com
+          EMAIL_HOST_PASSWORD: dummy
+          DEFAULT_FROM_EMAIL: test@example.com
+        run: uv run python manage.py check --deploy
 
       - name: Run tests with coverage
         env:
@@ -67,7 +91,7 @@ jobs:
 
       - name: Upload coverage artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: coverage-xml
           path: myshop/coverage.xml

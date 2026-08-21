@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -21,6 +21,7 @@ from payment.stripe_handler import StripeCustomerHandler, StripePaymentMethodHan
 
 # Initialize logger
 logger = logging.getLogger(__name__)
+security_logger = logging.getLogger("security")
 
 # Configure Stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -33,6 +34,15 @@ def payment_process(request):
     """
     order_id = request.session.get("order_id")
     order = get_object_or_404(Order, id=order_id)
+
+    # Guest checkout leaves order.user unset; only block a logged-in user
+    # from reaching an order that belongs to someone else (A01/IDOR).
+    if request.user.is_authenticated and order.user_id != request.user.id:
+        security_logger.warning(
+            f"User {request.user.id} attempted to reach order {order.id} "
+            "they don't own via payment_process."
+        )
+        raise Http404
 
     if request.method == "POST":
         success_url = request.build_absolute_uri(reverse("payment:completed"))
@@ -101,9 +111,12 @@ def payment_method_add(request):
                     return redirect(
                         safe_next_url(request, "payment:payment_method_list")
                     )
-            except Exception as e:
-                logger.error(f"Error vaulting card for User {request.user.id}: {e}")
-                messages.error(request, str(e))
+            except Exception:
+                logger.exception(f"Error vaulting card for User {request.user.id}")
+                messages.error(
+                    request,
+                    _("We couldn't save this card. Please try again or contact support."),
+                )
         else:
             messages.error(request, _("Please provide valid card details."))
 
@@ -143,8 +156,12 @@ def payment_method_set_default(request, payment_method_id):
     try:
         StripePaymentMethodHandler.set_default_payment_method(method)
         messages.success(request, _("Default payment method updated."))
-    except Exception as e:
-        messages.error(request, str(e))
+    except Exception:
+        logger.exception(f"Error setting default PM {payment_method_id}")
+        messages.error(
+            request,
+            _("We couldn't update your default card. Please try again or contact support."),
+        )
 
     return redirect("payment:payment_method_list")
 
@@ -171,6 +188,7 @@ def create_payment_intent(request):
             currency="mxn",
             customer=stripe_customer["id"],
             automatic_payment_methods={"enabled": True},
+            metadata={"user_id": str(request.user.id)},
         )
 
         return JsonResponse(
@@ -180,9 +198,11 @@ def create_payment_intent(request):
             }
         )
 
-    except (json.JSONDecodeError, stripe.error.StripeError) as e:
-        logger.error(f"Payment Intent API Error: {e}")
-        return JsonResponse({"error": str(e)}, status=400)
+    except (json.JSONDecodeError, stripe.error.StripeError):
+        logger.exception("Payment Intent API Error")
+        return JsonResponse(
+            {"error": _("Payment gateway is currently unavailable.")}, status=400
+        )
 
 
 @require_POST
@@ -198,6 +218,15 @@ def confirm_payment(request):
 
         intent = stripe.PaymentIntent.retrieve(intent_id)
 
+        # The intent must have been created for this user (A01/IDOR) — see
+        # the "user_id" metadata stamped in create_payment_intent above.
+        if intent.metadata.get("user_id") != str(request.user.id):
+            security_logger.warning(
+                f"User {request.user.id} attempted to confirm PaymentIntent "
+                f"{intent_id} they don't own."
+            )
+            return JsonResponse({"error": _("Payment intent not found.")}, status=403)
+
         if intent.status == "succeeded":
             return JsonResponse({"success": True, "message": _("Payment successful")})
 
@@ -209,5 +238,9 @@ def confirm_payment(request):
             }
         )
 
-    except stripe.error.StripeError as e:
-        return JsonResponse({"error": str(e)}, status=400)
+    except stripe.error.StripeError:
+        logger.exception("Payment Intent confirmation error")
+        return JsonResponse(
+            {"error": _("We couldn't verify this payment. Please contact support.")},
+            status=400,
+        )

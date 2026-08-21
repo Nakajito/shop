@@ -1,0 +1,4 @@
+# Default owner for the whole repo. Required for GitHub's "Require review
+# from Code Owners" branch protection rule — see SECURITY.md for why that
+# matters here (Coolify auto-deploys main on every push).
+* @Nakajito

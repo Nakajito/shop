@@ -135,6 +135,9 @@ otherwise new admin-entered content silently stays Spanish in the English locale
 
 ## Project docs
 
+- `SECURITY.md` — OWASP Top 10 (2025) checklist mapped to this codebase, plus known/accepted
+  risks (Django EOL/CVEs, MFA scope, CSP rollout status). Walk new features against it before
+  writing code, not after a review flags it.
 - `AGENTS.md` — accumulated project-specific lessons (media in Coolify, i18n, error pages, AJAX
   details) plus the user's working preferences. Read it before deploy/media/i18n work.
 - `BASELINE.md` / `REFACTORING_PLAN.md` — the completed 2026-05 refactor. BASELINE records four

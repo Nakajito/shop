@@ -49,7 +49,7 @@ handler404 = "myshop.views.page_not_found"
 handler500 = "myshop.views.server_error"
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     # Stripe webhook must stay outside i18n_patterns — Stripe POSTs to a fixed URL
     path(

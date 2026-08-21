@@ -43,13 +43,6 @@ class CustomUserCreationForm(UserCreationForm):
         label=_("Phone Number"),
     )
 
-    user_type = forms.ChoiceField(
-        choices=CustomUser.USER_TYPE_CHOICES,
-        required=True,
-        widget=forms.RadioSelect(attrs={"class": "form-check-input"}),
-        label=_("Account Type"),
-    )
-
     terms_accepted = forms.BooleanField(
         required=True,
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
@@ -64,7 +57,6 @@ class CustomUserCreationForm(UserCreationForm):
             "first_name",
             "last_name",
             "phone",
-            "user_type",
         )
 
     def __init__(self, *args, **kwargs):
@@ -94,7 +86,9 @@ class CustomUserCreationForm(UserCreationForm):
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.phone = self.cleaned_data.get("phone", "")
-        user.user_type = self.cleaned_data["user_type"]
+        # user_type is intentionally not form-controlled (A01): every public
+        # registration gets the model default (UserTypes.REGULAR). Wholesaler
+        # accounts are granted by staff via the Django admin after review.
 
         if commit:
             user.save()
@@ -128,6 +122,12 @@ class CustomUserLoginForm(forms.Form):
     """
     Authentication form allowing login via Username OR Email.
     """
+
+    def __init__(self, *args, request=None, **kwargs):
+        # django-axes needs the request forwarded into authenticate() to
+        # track failed attempts by IP; without it every login 500s.
+        self.request = request
+        super().__init__(*args, **kwargs)
 
     email_or_username = forms.CharField(
         max_length=255,
@@ -182,7 +182,7 @@ class CustomUserLoginForm(forms.Form):
             # 3. Authenticate (checks password)
             if user_obj is not None:
                 self.user = authenticate(
-                    username=user_obj.username, password=password
+                    self.request, username=user_obj.username, password=password
                 )
             else:
                 self.user = None

@@ -25,7 +25,7 @@ cffi==2.0.0
     #   weasyprint
 charset-normalizer==3.4.7
     # via requests
-click==8.4.1
+click==8.4.2
     # via
     #   celery
     #   click-didyoumean
@@ -37,7 +37,7 @@ click-plugins==1.1.1.2
     # via celery
 click-repl==0.3.0
     # via celery
-cryptography==48.0.0
+cryptography==50.0.0
     # via myshop (myshop/pyproject.toml)
 cssselect2==0.9.0
     # via weasyprint
@@ -90,7 +90,7 @@ packaging==26.2
     # via
     #   gunicorn
     #   kombu
-pillow==12.2.0
+pillow==12.3.0
     # via
     #   myshop (myshop/pyproject.toml)
     #   django-ckeditor-5
@@ -131,7 +131,7 @@ sentry-sdk==2.60.0
     # via myshop (myshop/pyproject.toml)
 six==1.17.0
     # via python-dateutil
-sqlparse==0.5.5
+sqlparse==0.6.0
     # via django
 stripe==15.1.0
     # via myshop (myshop/pyproject.toml)
@@ -141,7 +141,7 @@ tinycss2==1.5.1
     #   weasyprint
 tinyhtml5==2.1.0
     # via weasyprint
-tornado==6.5.5
+tornado==6.5.8
     # via flower
 typing-extensions==4.15.0
     # via stripe
@@ -161,7 +161,7 @@ vine==5.1.0
     #   kombu
 wcwidth==0.7.0
     # via prompt-toolkit
-weasyprint==68.1
+weasyprint==69.0
     # via myshop (myshop/pyproject.toml)
 webencodings==0.5.1
     # via
