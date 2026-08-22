@@ -26,7 +26,16 @@ that touches auth, payments, user data, or admin capabilities.
    closed in `myshop/settings/production.py` (no insecure defaults); security
    headers (HSTS, `X_FRAME_OPTIONS`, `SECURE_REFERRER_POLICY`) set there and
    in `base.py`; `manage.py check --deploy` runs in CI (`.github/workflows/ci.yml`)
-   so a regression here fails the build, not a production incident.
+   so a regression here fails the build, not a production incident. The
+   container drops root before running the app (`Dockerfile`, `appuser`
+   uid 1000), but `/app/media` is a Coolify-managed volume mounted at
+   container start — outside the image, so the build-time `chown` never
+   reaches it. `entrypoint.sh` starts as root specifically to reconcile that
+   volume's ownership on every boot before dropping to `appuser` via `gosu`,
+   so a volume that predates this non-root setup (or gets recreated by
+   Coolify) doesn't silently break every media upload again — it did once,
+   caught via a user report of profile pictures not saving, root-caused to
+   `MEDIA_ROOT` still owned by `uid 0`.
 3. **A03 Software Supply Chain Failures** — CodeQL (`.github/workflows/codeql.yml`),
    Dependabot (`.github/dependabot.yml`), GitHub Actions pinned by commit SHA,
    `pip-audit` in CI (currently informational — see "Known risks" below),
