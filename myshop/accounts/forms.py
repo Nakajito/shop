@@ -98,13 +98,22 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     """
     Form for editing user account details (excluding password).
+
+    ``user_type`` is deliberately excluded: it's not self-editable (A01 —
+    see ``accounts/views.py:change_user_type`` and SECURITY.md), and
+    ``accounts/templates/accounts/profile.html`` only ever shows it as a
+    disabled, read-only field, never as an actual form input. Since the
+    model field has no ``blank=True``, a ModelForm including it made it
+    *required* — every profile edit (photo, bio, phone, anything) silently
+    failed validation with no field rendered to show the error, because
+    the browser never submitted a ``user_type`` value at all.
     """
 
     password = None
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "first_name", "last_name", "phone", "user_type")
+        fields = ("username", "email", "first_name", "last_name", "phone")
 
         widgets = {
             "username": forms.TextInput(attrs={"class": "form-control"}),
@@ -112,9 +121,6 @@ class CustomUserChangeForm(UserChangeForm):
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "phone": forms.TextInput(attrs={"class": "form-control"}),
-            "user_type": forms.Select(
-                attrs={"class": "form-select"}
-            ),  # 'form-select' for Bootstrap dropdowns
         }
 
 

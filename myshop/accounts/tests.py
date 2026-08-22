@@ -1,7 +1,11 @@
+import io
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django_otp.oath import totp
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from PIL import Image
 
 from accounts.models import CustomUser, UserProfile
 
@@ -215,6 +219,53 @@ class ProfileViewTest(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse("accounts:profile"))
         self.assertEqual(response.status_code, 200)
+
+    def test_profile_post_updates_without_submitting_user_type(self):
+        """Regression: CustomUserChangeForm used to include ``user_type``
+        as a required field the template never rendered as an input, so
+        every profile edit silently failed validation and never saved —
+        see accounts/forms.py:CustomUserChangeForm."""
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("accounts:profile"),
+            {
+                "username": self.user.username,
+                "email": self.user.email,
+                "first_name": "Updated",
+                "last_name": "Name",
+                "phone": "",
+                "bio": "Nueva biografia",
+                "newsletter_subscribed": "",
+            },
+        )
+        self.assertRedirects(response, reverse("accounts:profile"))
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.first_name, "Updated")
+        self.assertEqual(self.user.profile.bio, "Nueva biografia")
+
+    def test_profile_post_uploads_picture(self):
+        self.client.force_login(self.user)
+        buffer = io.BytesIO()
+        Image.new("RGB", (20, 20), color=(10, 100, 200)).save(buffer, format="PNG")
+        buffer.seek(0)
+        upload = SimpleUploadedFile("avatar.png", buffer.read(), content_type="image/png")
+
+        response = self.client.post(
+            reverse("accounts:profile"),
+            {
+                "username": self.user.username,
+                "email": self.user.email,
+                "first_name": self.user.first_name,
+                "last_name": self.user.last_name,
+                "phone": "",
+                "bio": "",
+                "newsletter_subscribed": "",
+                "profile_picture": upload,
+            },
+        )
+        self.assertRedirects(response, reverse("accounts:profile"))
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.profile.profile_picture)
 
 
 class ChangeUserTypeViewTest(TestCase):
