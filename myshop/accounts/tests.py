@@ -1,5 +1,7 @@
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from django_otp.oath import totp
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from accounts.models import CustomUser, UserProfile
 
@@ -255,6 +257,123 @@ class ChangeUserTypeViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
         self.assertEqual(self.user.user_type, "regular_user")
+
+
+class MfaSetupViewTest(TestCase):
+    """A07: staff-only TOTP enrollment."""
+
+    def setUp(self):
+        self.client = Client()
+        self.staff_user = CustomUser.objects.create_user(
+            username="staffuser", password="staffpass123", is_staff=True
+        )
+        self.regular_user = CustomUser.objects.create_user(
+            username="regularuser", password="regularpass123"
+        )
+
+    def test_requires_login(self):
+        response = self.client.get(reverse("accounts:mfa_setup"))
+        self.assertEqual(response.status_code, 302)
+
+    def test_non_staff_gets_404(self):
+        self.client.force_login(self.regular_user)
+        response = self.client.get(reverse("accounts:mfa_setup"))
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_creates_pending_device_and_shows_qr(self):
+        self.client.force_login(self.staff_user)
+        response = self.client.get(reverse("accounts:mfa_setup"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "data:image/png;base64,")
+        device = TOTPDevice.objects.get(user=self.staff_user, confirmed=False)
+        self.assertContains(response, device.key)
+
+    def test_repeated_get_reuses_same_pending_device(self):
+        self.client.force_login(self.staff_user)
+        self.client.get(reverse("accounts:mfa_setup"))
+        first_device = TOTPDevice.objects.get(user=self.staff_user, confirmed=False)
+        self.client.get(reverse("accounts:mfa_setup"))
+        self.assertEqual(
+            TOTPDevice.objects.filter(user=self.staff_user, confirmed=False).count(), 1
+        )
+        second_device = TOTPDevice.objects.get(user=self.staff_user, confirmed=False)
+        self.assertEqual(first_device.pk, second_device.pk)
+
+    def test_valid_token_confirms_device(self):
+        self.client.force_login(self.staff_user)
+        self.client.get(reverse("accounts:mfa_setup"))
+        device = TOTPDevice.objects.get(user=self.staff_user, confirmed=False)
+        valid_token = totp(device.bin_key)
+
+        response = self.client.post(
+            reverse("accounts:mfa_setup"), {"token": str(valid_token).zfill(6)}
+        )
+        self.assertRedirects(response, reverse("accounts:profile"))
+        device.refresh_from_db()
+        self.assertTrue(device.confirmed)
+
+    def test_invalid_token_does_not_confirm(self):
+        self.client.force_login(self.staff_user)
+        self.client.get(reverse("accounts:mfa_setup"))
+        device = TOTPDevice.objects.get(user=self.staff_user, confirmed=False)
+
+        response = self.client.post(reverse("accounts:mfa_setup"), {"token": "000000"})
+        self.assertEqual(response.status_code, 200)
+        device.refresh_from_db()
+        self.assertFalse(device.confirmed)
+
+    def test_already_enabled_state(self):
+        TOTPDevice.objects.create(user=self.staff_user, confirmed=True, name="default")
+        self.client.force_login(self.staff_user)
+        response = self.client.get(reverse("accounts:mfa_setup"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["already_enabled"])
+
+
+class MfaDisableViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.staff_user = CustomUser.objects.create_user(
+            username="staffuser2", password="staffpass123", is_staff=True
+        )
+        TOTPDevice.objects.create(user=self.staff_user, confirmed=True, name="default")
+
+    def test_non_staff_gets_404(self):
+        regular_user = CustomUser.objects.create_user(
+            username="regularuser2", password="regularpass123"
+        )
+        self.client.force_login(regular_user)
+        response = self.client.post(
+            reverse("accounts:mfa_disable"), {"password": "regularpass123"}
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_correct_password_disables(self):
+        self.client.force_login(self.staff_user)
+        response = self.client.post(
+            reverse("accounts:mfa_disable"),
+            {"password": "staffpass123"},
+            follow=False,
+        )
+        self.assertRedirects(
+            response, reverse("accounts:mfa_setup"), fetch_redirect_response=False
+        )
+        # Confirmed device must be gone; not asserting on unconfirmed ones —
+        # mfa_setup's own GET (e.g. if the redirect were followed) creates a
+        # fresh pending device by design, which is correct and unrelated here.
+        self.assertFalse(
+            TOTPDevice.objects.filter(user=self.staff_user, confirmed=True).exists()
+        )
+
+    def test_wrong_password_keeps_device(self):
+        self.client.force_login(self.staff_user)
+        response = self.client.post(
+            reverse("accounts:mfa_disable"), {"password": "wrongpassword"}
+        )
+        self.assertRedirects(response, reverse("accounts:mfa_setup"))
+        self.assertTrue(
+            TOTPDevice.objects.filter(user=self.staff_user, confirmed=True).exists()
+        )
 
 
 class SocialAdapterTest(TestCase):

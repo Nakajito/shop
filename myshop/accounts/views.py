@@ -1,12 +1,18 @@
+import base64
+import io
 import logging
 
+import qrcode
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
+from django_otp import user_has_device
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from accounts.forms import (
     CustomUserChangeForm,
@@ -264,6 +270,77 @@ def deactivate_account(request):
 
     messages.error(request, _("Incorrect password. Account was not deleted."))
     return redirect("accounts:profile")
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["GET", "POST"])
+def mfa_setup(request):
+    """
+    Staff-only TOTP enrollment (A07 — see SECURITY.md).
+
+    Not staff-gated behind /admin/: enrollment must work while
+    MFA_ENFORCE_STAFF is still off, so staff can set up a device before
+    enforcement is turned on (django-otp's OTPAdminSite has no bypass for
+    staff with zero devices — enrolling first avoids locking anyone out).
+    """
+    if not request.user.is_staff:
+        raise Http404
+
+    user = request.user
+    context = {}
+
+    if user_has_device(user, confirmed=True):
+        context["already_enabled"] = True
+        return render(request, "accounts/mfa_setup.html", context)
+
+    device = TOTPDevice.objects.filter(user=user, confirmed=False).first()
+
+    if request.method == "POST":
+        token = request.POST.get("token", "")
+        if device is not None and device.verify_token(token):
+            device.confirmed = True
+            device.save(update_fields=["confirmed"])
+            security_logger.info(f"User {user.id} ({user.username}) enabled TOTP MFA.")
+            messages.success(request, _("La autenticación en dos pasos ya está activada."))
+            return redirect("accounts:profile")
+        messages.error(request, _("Código inválido. Intenta de nuevo."))
+
+    if device is None:
+        device = TOTPDevice.objects.create(user=user, confirmed=False, name="default")
+
+    qr_image = qrcode.make(device.config_url)
+    buffer = io.BytesIO()
+    qr_image.save(buffer, format="PNG")
+    context["qr_data_uri"] = "data:image/png;base64," + base64.b64encode(
+        buffer.getvalue()
+    ).decode("ascii")
+    context["secret"] = device.key
+    return render(request, "accounts/mfa_setup.html", context)
+
+
+@login_required(login_url="accounts:login")
+@require_http_methods(["POST"])
+def mfa_disable(request):
+    """Removes the user's confirmed TOTP device. Requires password confirmation
+    (same pattern as deactivate_account) since this lowers account security."""
+    if not request.user.is_staff:
+        raise Http404
+
+    form = DeactivateAccountForm(request.user, request.POST)
+
+    if form.is_valid():
+        TOTPDevice.objects.filter(user=request.user).delete()
+        security_logger.info(
+            f"User {request.user.id} ({request.user.username}) disabled TOTP MFA."
+        )
+        messages.success(request, _("Se desactivó la autenticación en dos pasos."))
+    else:
+        messages.error(
+            request,
+            _("Contraseña incorrecta. No se desactivó la autenticación en dos pasos."),
+        )
+
+    return redirect("accounts:mfa_setup")
 
 
 @require_http_methods(["GET"])

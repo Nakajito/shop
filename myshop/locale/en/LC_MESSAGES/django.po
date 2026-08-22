@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 16:59-0600\n"
+"POT-Creation-Date: 2026-08-21 18:47-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "Profile Picture"
 msgid "Subscribe to newsletter"
 msgstr "Subscribe to the newsletter"
 
-#: .\accounts\forms.py:238 .\accounts\templates\accounts\profile.html:223
+#: .\accounts\forms.py:238 .\accounts\templates\accounts\profile.html:238
 msgid "Enter your password"
 msgstr "Enter your password"
 
@@ -290,7 +290,70 @@ msgstr "SHOP FASTER, SAVE YOUR FAVORITES"
 msgid "Y ACCEDE A BENEFICIOS EXCLUSIVOS"
 msgstr "AND GET ACCESS TO EXCLUSIVE BENEFITS"
 
-#: .\accounts\templates\accounts\profile.html:9 .\accounts\views.py:192
+#: .\accounts\templates\accounts\mfa_setup.html:4
+#: .\accounts\templates\accounts\mfa_setup.html:22
+#: .\accounts\templates\accounts\profile.html:184
+msgid "Autenticación en dos pasos"
+msgstr "Two-Step Authentication"
+
+#: .\accounts\templates\accounts\mfa_setup.html:29
+msgid "La autenticación en dos pasos está activada en tu cuenta."
+msgstr "Two-step verification is enabled on your account."
+
+#: .\accounts\templates\accounts\mfa_setup.html:33
+#: .\accounts\templates\accounts\mfa_setup.html:82
+msgid "Desactivar autenticación en dos pasos"
+msgstr "Turn off two-step verification"
+
+#: .\accounts\templates\accounts\mfa_setup.html:37
+msgid ""
+"Escanea este código QR con una app de autenticación (Google Authenticator, "
+"Authy, 1Password, etc.) y luego ingresa el código de 6 dígitos que te "
+"muestre para terminar de activar la autenticación en dos pasos."
+msgstr ""
+"Scan this QR code using an authentication app (Google Authenticator, Authy, "
+"1Password, etc.), and then enter the 6-digit code it displays to complete "
+"the two-step verification process."
+
+#: .\accounts\templates\accounts\mfa_setup.html:41
+msgid "Código QR"
+msgstr "QR Code"
+
+#: .\accounts\templates\accounts\mfa_setup.html:45
+msgid "¿No puedes escanear el código? Ingresa esta clave manualmente:"
+msgstr "Can't scan the code? Enter this code manually:"
+
+#: .\accounts\templates\accounts\mfa_setup.html:52
+msgid "Código de 6 dígitos"
+msgstr "6-digit code"
+
+#: .\accounts\templates\accounts\mfa_setup.html:64
+msgid "Verificar y activar"
+msgstr "Verify and activate"
+
+#: .\accounts\templates\accounts\mfa_setup.html:90
+msgid "Esto quita la protección adicional de tu cuenta."
+msgstr "This removes the additional protection from your account."
+
+#: .\accounts\templates\accounts\mfa_setup.html:94
+msgid "Confirma tu contraseña"
+msgstr "Confirm your password"
+
+#: .\accounts\templates\accounts\mfa_setup.html:97
+msgid "Ingresa tu contraseña"
+msgstr "Enter your password"
+
+#: .\accounts\templates\accounts\mfa_setup.html:102
+#: .\support\templates\support\ticket_detail.html:186
+#: .\support\templates\support\ticket_form.html:88
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: .\accounts\templates\accounts\mfa_setup.html:105
+msgid "Desactivar"
+msgstr "Disable"
+
+#: .\accounts\templates\accounts\profile.html:9 .\accounts\views.py:198
 msgid "My Profile"
 msgstr "My Profile"
 
@@ -358,34 +421,42 @@ msgstr "Payment Methods"
 msgid "Manage Cards"
 msgstr "Manage Cards"
 
-#: .\accounts\templates\accounts\profile.html:183
+#: .\accounts\templates\accounts\profile.html:185
+msgid "Protección adicional para cuentas de staff y administración."
+msgstr "Additional protection for staff and administrative accounts."
+
+#: .\accounts\templates\accounts\profile.html:188
+msgid "Gestionar"
+msgstr "Manage"
+
+#: .\accounts\templates\accounts\profile.html:198
 msgid "Danger Zone"
 msgstr "Danger Zone"
 
-#: .\accounts\templates\accounts\profile.html:188
+#: .\accounts\templates\accounts\profile.html:203
 msgid ""
 "Once you delete your account, there is no going back. Please be certain."
 msgstr "Once you delete your account, there's no going back. Please be sure."
 
-#: .\accounts\templates\accounts\profile.html:192
 #: .\accounts\templates\accounts\profile.html:207
-#: .\accounts\templates\accounts\profile.html:231
+#: .\accounts\templates\accounts\profile.html:222
+#: .\accounts\templates\accounts\profile.html:246
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: .\accounts\templates\accounts\profile.html:214
+#: .\accounts\templates\accounts\profile.html:229
 msgid "Are you sure you want to delete your account?"
 msgstr "Are you sure you want to delete your account?"
 
-#: .\accounts\templates\accounts\profile.html:216
+#: .\accounts\templates\accounts\profile.html:231
 msgid "This action cannot be undone. All your data will become inaccessible."
 msgstr "This action cannot be undone. All your data will become inaccessible."
 
-#: .\accounts\templates\accounts\profile.html:220
+#: .\accounts\templates\accounts\profile.html:235
 msgid "Confirm your password"
 msgstr "Confirm your password"
 
-#: .\accounts\templates\accounts\profile.html:228
+#: .\accounts\templates\accounts\profile.html:243
 #: .\blog\templates\blog\manage\post_confirm_delete.html:30
 #: .\blog\templates\blog\manage\post_form.html:317
 #: .\payment\templates\payment\payment_methods\add.html:104
@@ -431,60 +502,60 @@ msgstr "Do you already have an account?"
 msgid "Accede aquí"
 msgstr "Click here"
 
-#: .\accounts\views.py:33
+#: .\accounts\views.py:39
 msgid "You are already registered."
 msgstr "You are already registered."
 
-#: .\accounts\views.py:55
+#: .\accounts\views.py:61
 #, python-brace-format
 msgid "Welcome {name}! Your account has been successfully created."
 msgstr "Welcome, {name}! Your account has been successfully created."
 
-#: .\accounts\views.py:63
+#: .\accounts\views.py:69
 #, python-brace-format
 msgid "Error creating account: {error}"
 msgstr "Error creating account: {error}"
 
-#: .\accounts\views.py:70
+#: .\accounts\views.py:76
 msgid "Create New Account"
 msgstr "Create a New Account"
 
-#: .\accounts\views.py:84
+#: .\accounts\views.py:90
 msgid "You are already logged in."
 msgstr "You are already logged in."
 
-#: .\accounts\views.py:102
+#: .\accounts\views.py:108
 #, python-brace-format
 msgid "Welcome back, {name}!"
 msgstr "Welcome back, {name}!"
 
-#: .\accounts\views.py:113
+#: .\accounts\views.py:119
 msgid "Log in"
 msgstr "Log in"
 
-#: .\accounts\views.py:126
+#: .\accounts\views.py:132
 msgid "Session closed successfully."
 msgstr "The session closed successfully."
 
-#: .\accounts\views.py:158
+#: .\accounts\views.py:164
 msgid "Profile successfully updated."
 msgstr "Profile successfully updated."
 
-#: .\accounts\views.py:163
+#: .\accounts\views.py:169
 #, python-brace-format
 msgid "Error updating profile: {error}"
 msgstr "Error updating profile: {error}"
 
-#: .\accounts\views.py:204
+#: .\accounts\views.py:210
 msgid "Profile Details"
 msgstr "Profile Details"
 
-#: .\accounts\views.py:225
+#: .\accounts\views.py:231
 #, python-brace-format
 msgid "User type changed to {type}"
 msgstr "User type changed to {type}"
 
-#: .\accounts\views.py:237
+#: .\accounts\views.py:243
 msgid ""
 "Wholesaler accounts are granted by our team after review. Please use the "
 "wholesaler contact form to request access."
@@ -492,17 +563,33 @@ msgstr ""
 "Wholesaler accounts are granted by our team following a review. Please use "
 "the wholesaler contact form to request access."
 
-#: .\accounts\views.py:242
+#: .\accounts\views.py:248
 msgid "Invalid user type."
 msgstr "Invalid user type."
 
-#: .\accounts\views.py:262
+#: .\accounts\views.py:268
 msgid "Your account has been successfully deleted."
 msgstr "Your account has been successfully deleted."
 
-#: .\accounts\views.py:265
+#: .\accounts\views.py:271
 msgid "Incorrect password. Account was not deleted."
 msgstr "Incorrect password. The account was not deleted."
+
+#: .\accounts\views.py:304
+msgid "La autenticación en dos pasos ya está activada."
+msgstr "Two-step verification is already enabled."
+
+#: .\accounts\views.py:306
+msgid "Código inválido. Intenta de nuevo."
+msgstr "Invalid code. Please try again."
+
+#: .\accounts\views.py:336
+msgid "Se desactivó la autenticación en dos pasos."
+msgstr "Two-step authentication has been disabled."
+
+#: .\accounts\views.py:340
+msgid "Contraseña incorrecta. No se desactivó la autenticación en dos pasos."
+msgstr "Incorrect password. Two-step verification has not been disabled."
 
 #: .\blog\apps.py:8 .\blog\views.py:69
 msgid "Blog"
@@ -3834,13 +3921,6 @@ msgid ""
 msgstr ""
 "Once it's closed, you won't be able to add any more responses. You can "
 "always create a new ticket if you need to continue."
-
-#: .\support\templates\support\ticket_detail.html:186
-#: .\support\templates\support\ticket_form.html:88
-#, fuzzy
-#| msgid "Cancel"
-msgid "Cancelar"
-msgstr "Cancel"
 
 #: .\support\templates\support\ticket_form.html:5
 #: .\support\templates\support\ticket_form.html:13

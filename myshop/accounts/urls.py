@@ -33,4 +33,7 @@ urlpatterns = [
     path("profile/details/", views.profile_details, name="profile_details"),
     path("profile/change-user-type/", views.change_user_type, name="change_user_type"),
     path("profile/deactivate/", views.deactivate_account, name="deactivate_account"),
+    # --- Two-Factor Authentication (staff only, A07) ---
+    path("mfa/setup/", views.mfa_setup, name="mfa_setup"),
+    path("mfa/disable/", views.mfa_disable, name="mfa_disable"),
 ]

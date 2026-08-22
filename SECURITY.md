@@ -39,8 +39,11 @@ that touches auth, payments, user data, or admin capabilities.
    before writing code, not after a review flags it.
 7. **A07 Authentication Failures** — `django-axes` locks out repeated failed
    logins on both `/accounts/login/` and the Django admin (`AXES_FAILURE_LIMIT`
-   in `myshop/settings/base.py`). MFA is staff/admin-only for now — see
-   "Known risks".
+   in `myshop/settings/base.py`). TOTP-based MFA for staff/admin
+   (`django-otp`): self-service enrollment at `accounts:mfa_setup`
+   (`accounts/views.py`), `/admin/` itself gated behind a verified device via
+   `django_otp.admin.OTPAdminSite` once `MFA_ENFORCE_STAFF=True` — see
+   "Known risks" for why that flag defaults to off and stays staff-only.
 8. **A08 Software or Data Integrity Failures** — Stripe webhook verifies the
    signature before processing (`payment/webhooks.py`). Merge-to-`main`
    requires review per CODEOWNERS since Coolify deploys straight from `main`.
@@ -70,6 +73,22 @@ that touches auth, payments, user data, or admin capabilities.
 - **MFA covers staff/admin only**, not regular customers (Phase 3 of the
   OWASP hardening work, `security/owasp2025-mfa-staff`). Extending it to
   customers is a separate UX project.
+  **`MFA_ENFORCE_STAFF` defaults to `False`** (settings/base.py): staff can
+  self-enroll a device at `/accounts/mfa/setup/` at any time regardless of
+  this flag, but `/admin/` itself only requires a verified device once the
+  flag is flipped to `True`. This is deliberate, not a gap: django-otp's
+  `OTPAdminSite` has **no bypass** for a staff account with zero enrolled
+  devices — its admin login form always requires an OTP token once active,
+  so flipping the flag before every staff/superuser account has enrolled
+  would lock them out of `/admin/` with no self-service recovery path
+  (verified locally: an unenrolled staff account hitting the gated admin
+  login gets a clean "please enter your OTP token" validation error it can
+  never satisfy, not a crash — but also no way through). Sequence: (1) staff
+  enrolls via the setup page, (2) confirm enrollment works, (3) only then
+  set `MFA_ENFORCE_STAFF=True` in the environment and redeploy. Recovery if
+  a device is lost: the MFA gate only covers `/admin/`, not the regular site
+  login — the affected account can log in normally at `/accounts/login/` and
+  disable MFA at `/accounts/mfa/disable/` (password-confirmed) to re-enroll.
 - **CSP is deployed in Report-Only mode, not enforced yet** (Phase 2,
   `security/owasp2025-csp-rollout`). `script-src` uses a per-request nonce;
   every inline `<script>` block carries `nonce="{{ request.csp_nonce }}"`,

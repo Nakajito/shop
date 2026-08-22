@@ -54,6 +54,7 @@ django==5.0.14
     #   django-celery-results
     #   django-ckeditor-5
     #   django-csp
+    #   django-otp
     #   django-widget-tweaks
 django-allauth==65.17.0
     # via myshop (myshop/pyproject.toml)
@@ -66,6 +67,8 @@ django-celery-results==2.6.0
 django-ckeditor-5==0.2.20
     # via myshop (myshop/pyproject.toml)
 django-csp==4.0
+    # via myshop (myshop/pyproject.toml)
+django-otp==1.7.0
     # via myshop (myshop/pyproject.toml)
 django-widget-tweaks==1.5.1
     # via myshop (myshop/pyproject.toml)
@@ -125,6 +128,8 @@ python-decouple==3.8
     # via myshop (myshop/pyproject.toml)
 pytz==2026.2
     # via flower
+qrcode==8.2
+    # via myshop (myshop/pyproject.toml)
 redis==7.4.0
     # via myshop (myshop/pyproject.toml)
 requests==2.34.2
