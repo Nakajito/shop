@@ -72,8 +72,7 @@
                 <img src="{{ image.image.url }}"
                      alt="{{ image.caption|default:post.title|tr }}"
                      class="rd-product-img"
-                     data-caption="{{ image.caption }}"
-                     onclick="openLightbox(this)">
+                     data-caption="{{ image.caption }}">
             {% endfor %}
         </div>
         {% endif %}
@@ -155,11 +154,11 @@
 <!-- ═══════════════════════════════════════════════
      LIGHTBOX
 ═══════════════════════════════════════════════ -->
-<div class="rd-lightbox" id="rdLightbox" onclick="closeLightbox()">
-    <button class="rd-lightbox__close" onclick="closeLightbox()">
+<div class="rd-lightbox" id="rdLightbox">
+    <button class="rd-lightbox__close">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <img id="rdLightboxImg" src="" alt="" onclick="event.stopPropagation()">
+    <img id="rdLightboxImg" src="" alt="">
     <p id="rdLightboxCaption" class="rd-lightbox__caption"></p>
 </div>
 
@@ -179,5 +178,17 @@ function closeLightbox() {
     document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// Delegated: any .rd-product-img click opens the lightbox (replaces inline
+// onclick="" — CSP script-src nonces don't cover event-handler attributes).
+document.addEventListener('click', function (e) {
+    var img = e.target.closest('.rd-product-img');
+    if (img) openLightbox(img);
+});
+document.getElementById('rdLightbox').addEventListener('click', closeLightbox);
+document.querySelector('.rd-lightbox__close').addEventListener('click', closeLightbox);
+document.getElementById('rdLightboxImg').addEventListener('click', function (e) {
+    e.stopPropagation();
+});
 </script>
 {% endblock %}

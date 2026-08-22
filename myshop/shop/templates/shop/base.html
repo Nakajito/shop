@@ -20,15 +20,17 @@
           rel="stylesheet">
     <link rel="stylesheet"
           href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
-    <!-- Non-blocking font load: apply once fetched instead of holding up first paint -->
-    <link rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
-          onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
-            rel="stylesheet">
-    </noscript>
+    <!-- Was a preload+onload="" swap trick for non-blocking font load; the
+         onload="" attribute is what made it race-free (attached synchronously
+         at parse time, before the fetch can complete). CSP script-src forbids
+         inline event-handler attributes, and moving the swap into a separate
+         <script> reintroduces exactly that race for cached responses (the
+         load event can fire before the script runs) — confirmed via a stuck
+         'preloaded but not used' console warning with rel never switching to
+         stylesheet. A plain synchronous link is the correct fix, not a
+         nonce'd script trying to out-race the cache. -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
     <link href="{% static 'css/synkfood.css' %}" rel="stylesheet">
     <link href="{% static 'css/account.css' %}" rel="stylesheet">
@@ -72,6 +74,19 @@
 
     window.addEventListener('pageshow', function (event) {
         if (event.persisted) { window.location.reload(); }
+    });
+
+    // Delegated handlers replacing inline onclick="" attributes (CSP script-src
+    // nonces don't cover event-handler attributes, only <script> tags).
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('.js-go-back')) {
+            history.back();
+            return;
+        }
+        var removeTarget = event.target.closest('.js-remove-parent');
+        if (removeTarget) {
+            removeTarget.parentElement.remove();
+        }
     });
     </script>
     {% block extra_js %}{% endblock %}

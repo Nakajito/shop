@@ -17,7 +17,7 @@
   {% if request.session.reordered_from %}
   <div class="ct-alert">
     Productos del pedido #{{ request.session.reordered_from }} agregados al carrito.
-    <button onclick="this.parentElement.remove()" class="ct-alert__close">✕</button>
+    <button class="ct-alert__close js-remove-parent">✕</button>
   </div>
   {% endif %}
 

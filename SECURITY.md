@@ -71,22 +71,30 @@ that touches auth, payments, user data, or admin capabilities.
   OWASP hardening work, `security/owasp2025-mfa-staff`). Extending it to
   customers is a separate UX project.
 - **CSP is deployed in Report-Only mode, not enforced yet** (Phase 2,
-  `security/owasp2025-csp-rollout`). `script-src` uses a per-request nonce
-  (all 11 inline `<script>` blocks found in the template audit carry
-  `nonce="{{ request.csp_nonce }}"`); the known remaining gaps that will show
-  up as violation reports until fixed are the ~10 inline `onclick=`/`onload=`
-  attributes across `cart/`, `blog/`, `orders/`, and the branded error pages
-  (nonces don't cover event-handler attributes — needs a refactor to
-  `addEventListener`). `style-src` deliberately keeps `'unsafe-inline'`
-  (~40 `style=""` attributes across ~17 templates; low risk, high
-  refactor cost — a conscious trade-off, not an oversight). Bootstrap 5 and
-  Bootstrap Icons are vendored locally under `static/vendor/` (no longer
-  loaded from `cdn.jsdelivr.net`) specifically so the policy doesn't need a
-  CDN exception. Violation reports land in the `security` logger via
-  `myshop.views.csp_report` (`POST /csp-report/`). Plan: monitor real traffic
-  for a period, refactor the onclick handlers, then flip
+  `security/owasp2025-csp-rollout`). `script-src` uses a per-request nonce;
+  every inline `<script>` block carries `nonce="{{ request.csp_nonce }}"`,
+  and every inline `onclick=`/`onload=` attribute site-wide has been
+  refactored to delegated `addEventListener` handlers (see `js-go-back`,
+  `js-remove-parent`, `js-copy-tracking` in `shop/templates/shop/base.html`
+  and the per-page `extra_js` blocks) — so `script-src` carries **no**
+  `'unsafe-inline'`. One casualty: the font `<link rel="preload">`+`onload=""`
+  swap trick (non-blocking font load) can't be done CSP-safely without the
+  inline attribute — moving the swap into a nonce'd `<script>` reintroduces
+  the exact race it was designed to avoid (confirmed locally: the `load`
+  event can fire, for a cached response, before that script runs, leaving
+  the stylesheet permanently stuck at `rel="preload"`). Simplified to a
+  plain synchronous `<link rel="stylesheet">` instead — correct over clever.
+  `style-src` deliberately keeps `'unsafe-inline'` (~40 `style=""` attributes
+  across ~17 templates; low risk, high refactor cost — a conscious
+  trade-off, not an oversight). Bootstrap 5 and Bootstrap Icons are vendored
+  locally under `static/vendor/` (no longer loaded from `cdn.jsdelivr.net`)
+  specifically so the policy doesn't need a CDN exception. Violation reports
+  land in the `security` logger via `myshop.views.csp_report`
+  (`POST /csp-report/`). What's left before flipping
   `CONTENT_SECURITY_POLICY_REPORT_ONLY` to `CONTENT_SECURITY_POLICY` to
-  actually enforce.
+  actually enforce: a monitoring period against real production traffic
+  (local smoke-testing can't cover every code path — every product, every
+  order state, every blog post with a video embed, etc.).
 - **`wholesaler` is currently just a flag** — no differentiated pricing or
   catalog logic reads it yet. Self-escalation to it is blocked (A01 above),
   but if/when pricing logic is built on top of it, re-review this doc.

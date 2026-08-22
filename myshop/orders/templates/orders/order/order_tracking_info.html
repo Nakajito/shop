@@ -28,8 +28,8 @@
                     <label class="form-label small fw-bold text-muted text-uppercase">{% trans "Tracking Number" %}</label>
                     <div class="input-group">
                         <input type="text" id="trackingID" class="form-control bg-light border-secondary-subtle fw-mono" value="{{ tracking.tracking_number }}" readonly>
-                        <button class="btn btn-outline-primary" type="button" 
-                                onclick="copyToClipboard('{{ tracking.tracking_number }}')" 
+                        <button class="btn btn-outline-primary js-copy-tracking" type="button"
+                                data-tracking-number="{{ tracking.tracking_number }}"
                                 title="{% trans 'Copy to clipboard' %}">
                             <i class="bi bi-clipboard"></i>
                         </button>
@@ -165,5 +165,9 @@
             toast.show();
         });
     }
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.js-copy-tracking');
+        if (btn) copyToClipboard(btn.dataset.trackingNumber);
+    });
 </script>
 {% endblock %}
