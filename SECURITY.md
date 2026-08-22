@@ -30,8 +30,13 @@ that touches auth, payments, user data, or admin capabilities.
    text it renders is always staff-authored CKEditor5 content (blog/product
    fields), never end-user input — same trust boundary as Django's built-in
    `|safe`. Don't reuse `tr_safe` for anything a non-staff user can write.
-6. **A06 Insecure Design** — this document. Walk new features against this
-   list before writing code, not after a review flags it.
+6. **A06 Insecure Design** — this document, plus a Content-Security-Policy in
+   Report-Only mode (`myshop/settings/base.py` `CONTENT_SECURITY_POLICY_REPORT_ONLY`,
+   `CSPMiddleware`) targeting the strict end-state (nonce-based `script-src`,
+   no blanket `'unsafe-inline'` for scripts) so the violation reports collected
+   during rollout — logged via `myshop.views.csp_report` — show exactly what's
+   left before it's safe to enforce. Walk new features against this list
+   before writing code, not after a review flags it.
 7. **A07 Authentication Failures** — `django-axes` locks out repeated failed
    logins on both `/accounts/login/` and the Django admin (`AXES_FAILURE_LIMIT`
    in `myshop/settings/base.py`). MFA is staff/admin-only for now — see
@@ -65,9 +70,23 @@ that touches auth, payments, user data, or admin capabilities.
 - **MFA covers staff/admin only**, not regular customers (Phase 3 of the
   OWASP hardening work, `security/owasp2025-mfa-staff`). Extending it to
   customers is a separate UX project.
-- **CSP is not enforced yet** (Phase 2, `security/owasp2025-csp-rollout`):
-  Stripe.js, Google OAuth, and CKEditor5 all need an inline-script/style
-  audit first; that branch starts in report-only mode before enforcing.
+- **CSP is deployed in Report-Only mode, not enforced yet** (Phase 2,
+  `security/owasp2025-csp-rollout`). `script-src` uses a per-request nonce
+  (all 11 inline `<script>` blocks found in the template audit carry
+  `nonce="{{ request.csp_nonce }}"`); the known remaining gaps that will show
+  up as violation reports until fixed are the ~10 inline `onclick=`/`onload=`
+  attributes across `cart/`, `blog/`, `orders/`, and the branded error pages
+  (nonces don't cover event-handler attributes — needs a refactor to
+  `addEventListener`). `style-src` deliberately keeps `'unsafe-inline'`
+  (~40 `style=""` attributes across ~17 templates; low risk, high
+  refactor cost — a conscious trade-off, not an oversight). Bootstrap 5 and
+  Bootstrap Icons are vendored locally under `static/vendor/` (no longer
+  loaded from `cdn.jsdelivr.net`) specifically so the policy doesn't need a
+  CDN exception. Violation reports land in the `security` logger via
+  `myshop.views.csp_report` (`POST /csp-report/`). Plan: monitor real traffic
+  for a period, refactor the onclick handlers, then flip
+  `CONTENT_SECURITY_POLICY_REPORT_ONLY` to `CONTENT_SECURITY_POLICY` to
+  actually enforce.
 - **`wholesaler` is currently just a flag** — no differentiated pricing or
   catalog logic reads it yet. Self-escalation to it is blocked (A01 above),
   but if/when pricing logic is built on top of it, re-review this doc.

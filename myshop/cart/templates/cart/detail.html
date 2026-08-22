@@ -176,7 +176,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.ct-qty-form').forEach(function (form) {
     var input   = form.querySelector('input[name="quantity"]');

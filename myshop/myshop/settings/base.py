@@ -1,6 +1,7 @@
 from pathlib import Path
 from urllib.parse import quote
 
+from csp.constants import NONCE, NONE, SELF, UNSAFE_INLINE
 from decouple import Csv, config
 from django.contrib.messages import constants as message_constants
 
@@ -14,6 +15,38 @@ SECURE_REFERRER_POLICY = "same-origin"
 # Overridable so production can obscure the admin path without a code change.
 # Trailing slash required — it's passed straight into a Django path().
 ADMIN_URL = config("ADMIN_URL", default="admin/")
+
+# Content-Security-Policy — Report-Only for now (Phase 2 of the OWASP 2025
+# hardening work, see SECURITY.md). This is the TARGET policy, not a
+# deliberately loose starting point: script-src uses a per-request nonce
+# (added to each inline <script> in templates) instead of 'unsafe-inline',
+# so the violation reports collected during the monitoring period show
+# exactly what still needs fixing (the onclick=/onload= attributes that
+# nonces can't cover) before this can switch to enforcing.
+CONTENT_SECURITY_POLICY_REPORT_ONLY = {
+    "DIRECTIVES": {
+        "default-src": [SELF],
+        "script-src": [SELF, NONCE],
+        # Inline style="" attributes are low-risk (no code execution) and
+        # spread across ~17 templates — 'unsafe-inline' here is a deliberate
+        # trade-off, not an oversight. See SECURITY.md.
+        "style-src": [SELF, UNSAFE_INLINE, "https://fonts.googleapis.com"],
+        "font-src": [SELF, "https://fonts.gstatic.com"],
+        "img-src": [SELF, "https://images.unsplash.com"],
+        "connect-src": [SELF],
+        # Stripe Elements (card vaulting) and blog recipe video embeds.
+        "frame-src": [
+            "https://js.stripe.com",
+            "https://www.youtube.com",
+            "https://player.vimeo.com",
+        ],
+        "object-src": [NONE],
+        "base-uri": [SELF],
+        "form-action": [SELF],
+        "frame-ancestors": [NONE],
+        "report-uri": ["/csp-report/"],
+    },
+}
 
 
 # Application definition
@@ -34,6 +67,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "axes",
+    "csp",
     # Local apps
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
@@ -47,6 +81,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "csp.middleware.CSPMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",

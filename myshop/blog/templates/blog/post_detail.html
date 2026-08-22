@@ -167,7 +167,7 @@
 
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
 function openLightbox(el) {
     document.getElementById('rdLightboxImg').src = el.src;
     document.getElementById('rdLightboxCaption').textContent = el.dataset.caption || '';

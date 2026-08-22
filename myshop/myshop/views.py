@@ -1,7 +1,12 @@
+import json
+import logging
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
+
+security_logger = logging.getLogger("security")
 
 
 def page_not_found(request: HttpRequest, exception=None) -> HttpResponse:
@@ -47,6 +52,24 @@ def maintenance(request: HttpRequest) -> HttpResponse:
     mode through a load-balancer health check.
     """
     return render(request, "502.html", status=503)
+
+
+@csrf_exempt
+@require_POST
+def csp_report(request: HttpRequest) -> HttpResponse:
+    """Receives browser CSP violation reports (report-uri directive).
+
+    Unauthenticated by nature — browsers POST here automatically, no CSRF
+    token available. Never raises: a malformed report body is itself
+    untrusted input and must not turn into a 500 (A10).
+    """
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except (ValueError, UnicodeDecodeError):
+        payload = {"raw": request.body[:1000].decode("utf-8", errors="replace")}
+
+    security_logger.warning("CSP violation report: %s", payload)
+    return HttpResponse(status=204)
 
 
 @require_GET

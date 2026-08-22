@@ -202,7 +202,7 @@
 
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
   // ── Cantidad ──────────────────────────────────────────────
   const qtyDisplay = document.querySelector('.qty-display');
   const qtyInput   = document.querySelector('input[name="quantity"]');

@@ -388,7 +388,7 @@
 {% block extra_js %}
 {{ form.media.js }}
 <script src="{% static 'blog/js/blog.js' %}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // AJAX category/tag creation - URLs from Django
     window.BLOG_AJAX_URLS = {
         createCategory: "{% url 'blog:ajax_create_category' %}",
