@@ -88,18 +88,24 @@
                   id="sfUserBtn"
                   aria-label="{% trans 'Mi cuenta' %}"
                   aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="22"
-                 height="22"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="1.8"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
+            {% if user.profile.profile_picture %}
+              <img src="{{ user.profile.profile_picture.url }}"
+                   alt="{{ user.username }}"
+                   class="sf-nav__avatar-img">
+            {% else %}
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   width="22"
+                   height="22"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.8"
+                   stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            {% endif %}
           </button>
           <div class="sf-nav__dropdown" id="sfDropdown" role="menu">
             <a href="{% url 'accounts:profile' %}" role="menuitem">
