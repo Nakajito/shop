@@ -95,6 +95,10 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # Must come before LocaleMiddleware — see AdminAccessMiddleware's
+    # docstring for why (LocaleMiddleware's 404-to-language-redirect
+    # behavior would otherwise swallow the 404 this raises).
+    "myshop.middleware.AdminAccessMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

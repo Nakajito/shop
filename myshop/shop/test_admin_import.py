@@ -45,15 +45,17 @@ class ProductImportAdminViewTests(TestCase):
         self.regular_user = User.objects.create_user(username="regular", password="regularpass123")
         self.import_url = reverse("admin:shop_product_import")
 
-    def test_anonymous_is_redirected_to_login(self):
+    def test_anonymous_gets_404(self):
+        """AdminAccessMiddleware hides the whole /admin/ prefix — see
+        myshop/middleware.py — so anonymous visitors never even see the
+        admin login form, let alone this view."""
         response = self.client.get(self.import_url)
-        self.assertEqual(response.status_code, 302)
-        self.assertIn("/admin/login/", response.url)
+        self.assertEqual(response.status_code, 404)
 
-    def test_non_staff_is_redirected(self):
+    def test_non_staff_gets_404(self):
         self.client.force_login(self.regular_user)
         response = self.client.get(self.import_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 404)
 
     def test_staff_can_load_the_form(self):
         self.client.force_login(self.staff_user)

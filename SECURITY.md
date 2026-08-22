@@ -11,7 +11,17 @@ that touches auth, payments, user data, or admin capabilities.
    (`orders/views/_helpers.py:get_user_order`) and payment views
    (`payment/views.py`); `user_type` is not self-assignable to `wholesaler`
    (`accounts/forms.py`, `accounts/views.py:change_user_type`) — only staff
-   can grant it, via the Django admin.
+   can grant it, via the Django admin. The entire `ADMIN_URL` prefix
+   (including the login form itself) 404s for anyone who isn't already an
+   authenticated, active staff user (`myshop/middleware.py:AdminAccessMiddleware`)
+   — an anonymous visitor can't tell the admin exists there at all, let
+   alone see a login screen to attack. Staff authenticate via the normal
+   site login (`accounts:login`) first; once that session is staff, `/admin/`
+   (or whatever `ADMIN_URL` is set to) works normally. See that file's
+   docstring for a subtle ordering requirement: this middleware must run
+   *before* `LocaleMiddleware`, or Django's i18n-redirect-on-404 logic
+   quietly turns the 404 into a redirect toward a matching (and unrelated)
+   catch-all route instead.
 2. **A02 Security Misconfiguration** — `SECRET_KEY`/`ALLOWED_HOSTS`/etc. fail
    closed in `myshop/settings/production.py` (no insecure defaults); security
    headers (HSTS, `X_FRAME_OPTIONS`, `SECURE_REFERRER_POLICY`) set there and
