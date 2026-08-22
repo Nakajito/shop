@@ -78,7 +78,7 @@
     .remove-favorite-btn:hover { transform: scale(1.15); }
 </style>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     function getCookie(name) {
         var value = '; ' + document.cookie;

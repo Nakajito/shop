@@ -35,6 +35,7 @@ dependencies = [
     "xlrd>=2.0.2",
     "django-otp>=1.7.0",
     "qrcode>=8.2",
+    "django-csp>=4.0",
 ]
 
 [dependency-groups]

@@ -45,9 +45,15 @@
                 </a>
             </li>
             <li>
-                <a href="#" onclick="window.print();">{% trans "Print Order" %}</a>
+                <a href="#" id="printOrderLink">{% trans "Print Order" %}</a>
             </li>
         </ul>
+        <script nonce="{{ request.csp_nonce }}">
+        document.getElementById('printOrderLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.print();
+        });
+        </script>
 
         <table>
             <tr>

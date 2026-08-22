@@ -17,7 +17,7 @@
   {% if request.session.reordered_from %}
   <div class="ct-alert">
     Productos del pedido #{{ request.session.reordered_from }} agregados al carrito.
-    <button onclick="this.parentElement.remove()" class="ct-alert__close">✕</button>
+    <button class="ct-alert__close js-remove-parent">✕</button>
   </div>
   {% endif %}
 
@@ -176,7 +176,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.ct-qty-form').forEach(function (form) {
     var input   = form.querySelector('input[name="quantity"]');

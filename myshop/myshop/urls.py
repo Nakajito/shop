@@ -16,6 +16,7 @@ Mounted apps:
     - 502/          explicit Bad Gateway (maintenance / proxy fallback)
     - maintenance/  maintenance-mode page (503)
     - healthz/      container liveness/readiness probe (200)
+    - csp-report/   CSP violation report sink (report-uri directive)
 
 Static & media:
     Media files served by Django via static() helper in all environments.
@@ -71,6 +72,9 @@ urlpatterns = [
     path("maintenance/", myshop_views.maintenance, name="maintenance"),
     # Container liveness/readiness probe (outside i18n — no redirect games)
     path("healthz/", myshop_views.healthz, name="healthz"),
+    # CSP violation reports (report-uri directive, settings/base.py) — fixed
+    # path so it works regardless of active language.
+    path("csp-report/", myshop_views.csp_report, name="csp_report"),
 ]
 
 urlpatterns += i18n_patterns(

@@ -30,8 +30,13 @@ that touches auth, payments, user data, or admin capabilities.
    text it renders is always staff-authored CKEditor5 content (blog/product
    fields), never end-user input — same trust boundary as Django's built-in
    `|safe`. Don't reuse `tr_safe` for anything a non-staff user can write.
-6. **A06 Insecure Design** — this document. Walk new features against this
-   list before writing code, not after a review flags it.
+6. **A06 Insecure Design** — this document, plus a Content-Security-Policy in
+   Report-Only mode (`myshop/settings/base.py` `CONTENT_SECURITY_POLICY_REPORT_ONLY`,
+   `CSPMiddleware`) targeting the strict end-state (nonce-based `script-src`,
+   no blanket `'unsafe-inline'` for scripts) so the violation reports collected
+   during rollout — logged via `myshop.views.csp_report` — show exactly what's
+   left before it's safe to enforce. Walk new features against this list
+   before writing code, not after a review flags it.
 7. **A07 Authentication Failures** — `django-axes` locks out repeated failed
    logins on both `/accounts/login/` and the Django admin (`AXES_FAILURE_LIMIT`
    in `myshop/settings/base.py`). TOTP-based MFA for staff/admin
@@ -80,10 +85,35 @@ that touches auth, payments, user data, or admin capabilities.
   login gets a clean "please enter your OTP token" validation error it can
   never satisfy, not a crash — but also no way through). Sequence: (1) staff
   enrolls via the setup page, (2) confirm enrollment works, (3) only then
-  set `MFA_ENFORCE_STAFF=True` in the environment and redeploy.
-- **CSP is not enforced yet** (Phase 2, `security/owasp2025-csp-rollout`):
-  Stripe.js, Google OAuth, and CKEditor5 all need an inline-script/style
-  audit first; that branch starts in report-only mode before enforcing.
+  set `MFA_ENFORCE_STAFF=True` in the environment and redeploy. Recovery if
+  a device is lost: the MFA gate only covers `/admin/`, not the regular site
+  login — the affected account can log in normally at `/accounts/login/` and
+  disable MFA at `/accounts/mfa/disable/` (password-confirmed) to re-enroll.
+- **CSP is deployed in Report-Only mode, not enforced yet** (Phase 2,
+  `security/owasp2025-csp-rollout`). `script-src` uses a per-request nonce;
+  every inline `<script>` block carries `nonce="{{ request.csp_nonce }}"`,
+  and every inline `onclick=`/`onload=` attribute site-wide has been
+  refactored to delegated `addEventListener` handlers (see `js-go-back`,
+  `js-remove-parent`, `js-copy-tracking` in `shop/templates/shop/base.html`
+  and the per-page `extra_js` blocks) — so `script-src` carries **no**
+  `'unsafe-inline'`. One casualty: the font `<link rel="preload">`+`onload=""`
+  swap trick (non-blocking font load) can't be done CSP-safely without the
+  inline attribute — moving the swap into a nonce'd `<script>` reintroduces
+  the exact race it was designed to avoid (confirmed locally: the `load`
+  event can fire, for a cached response, before that script runs, leaving
+  the stylesheet permanently stuck at `rel="preload"`). Simplified to a
+  plain synchronous `<link rel="stylesheet">` instead — correct over clever.
+  `style-src` deliberately keeps `'unsafe-inline'` (~40 `style=""` attributes
+  across ~17 templates; low risk, high refactor cost — a conscious
+  trade-off, not an oversight). Bootstrap 5 and Bootstrap Icons are vendored
+  locally under `static/vendor/` (no longer loaded from `cdn.jsdelivr.net`)
+  specifically so the policy doesn't need a CDN exception. Violation reports
+  land in the `security` logger via `myshop.views.csp_report`
+  (`POST /csp-report/`). What's left before flipping
+  `CONTENT_SECURITY_POLICY_REPORT_ONLY` to `CONTENT_SECURITY_POLICY` to
+  actually enforce: a monitoring period against real production traffic
+  (local smoke-testing can't cover every code path — every product, every
+  order state, every blog post with a video embed, etc.).
 - **`wholesaler` is currently just a flag** — no differentiated pricing or
   catalog logic reads it yet. Self-escalation to it is blocked (A01 above),
   but if/when pricing logic is built on top of it, re-review this doc.

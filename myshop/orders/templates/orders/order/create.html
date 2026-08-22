@@ -186,7 +186,7 @@
         transition: top 0.3s ease;
     }
     </style>
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
         document.addEventListener('DOMContentLoaded', function () {
             const addressRadios = document.querySelectorAll('input[name="selected_address"]');
             const addressField = document.getElementById('id_address');

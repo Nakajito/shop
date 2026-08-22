@@ -53,6 +53,7 @@ django==5.0.14
     #   django-axes
     #   django-celery-results
     #   django-ckeditor-5
+    #   django-csp
     #   django-otp
     #   django-widget-tweaks
 django-allauth==65.17.0
@@ -64,6 +65,8 @@ django-axes==8.3.1
 django-celery-results==2.6.0
     # via myshop (myshop/pyproject.toml)
 django-ckeditor-5==0.2.20
+    # via myshop (myshop/pyproject.toml)
+django-csp==4.0
     # via myshop (myshop/pyproject.toml)
 django-otp==1.7.0
     # via myshop (myshop/pyproject.toml)
@@ -95,6 +98,7 @@ openpyxl==3.1.5
     # via myshop (myshop/pyproject.toml)
 packaging==26.2
     # via
+    #   django-csp
     #   gunicorn
     #   kombu
 pillow==12.3.0
