@@ -1,0 +1,113 @@
+{% extends 'shop/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Autenticación en dos pasos" %} - One Synk{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-shield-lock me-2"></i>{% trans "Autenticación en dos pasos" %}</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    {% if already_enabled %}
+                        <p class="mb-4">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            {% trans "La autenticación en dos pasos está activada en tu cuenta." %}
+                        </p>
+                        <button type="button" class="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#mfaDisableModal">
+                            {% trans "Desactivar autenticación en dos pasos" %}
+                        </button>
+                    {% else %}
+                        <p class="text-muted mb-4">
+                            {% trans "Escanea este código QR con una app de autenticación (Google Authenticator, Authy, 1Password, etc.) y luego ingresa el código de 6 dígitos que te muestre para terminar de activar la autenticación en dos pasos." %}
+                        </p>
+
+                        <div class="text-center mb-4">
+                            <img src="{{ qr_data_uri }}" alt="{% trans 'Código QR' %}" class="img-fluid" style="max-width: 220px;">
+                        </div>
+
+                        <p class="text-muted small mb-4">
+                            {% trans "¿No puedes escanear el código? Ingresa esta clave manualmente:" %}
+                            <code>{{ secret }}</code>
+                        </p>
+
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_token" class="form-label fw-bold">{% trans "Código de 6 dígitos" %}</label>
+                                <input type="text"
+                                       name="token"
+                                       id="id_token"
+                                       class="form-control"
+                                       inputmode="numeric"
+                                       autocomplete="one-time-code"
+                                       maxlength="6"
+                                       required
+                                       autofocus>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                {% trans "Verificar y activar" %}
+                            </button>
+                        </form>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if already_enabled %}
+<!-- Disable MFA Confirmation Modal -->
+<div class="modal fade" id="mfaDisableModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title text-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>{% trans "Desactivar autenticación en dos pasos" %}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'accounts:mfa_disable' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">
+                        {% trans "Esto quita la protección adicional de tu cuenta." %}
+                    </p>
+                    <div class="mb-3">
+                        <label for="id_mfa_disable_password" class="form-label fw-bold">
+                            {% trans "Confirma tu contraseña" %}
+                        </label>
+                        <input type="password" name="password" id="id_mfa_disable_password"
+                               class="form-control" placeholder="{% trans 'Ingresa tu contraseña' %}" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        {% trans "Cancelar" %}
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        {% trans "Desactivar" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

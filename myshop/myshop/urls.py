@@ -48,6 +48,14 @@ handler403 = "myshop.views.permission_denied"
 handler404 = "myshop.views.page_not_found"
 handler500 = "myshop.views.server_error"
 
+# MFA gate for /admin/ (A07, see SECURITY.md and MFA_ENFORCE_STAFF in
+# settings/base.py). django-otp's OTPAdminSite has no bypass for staff with
+# zero enrolled devices, so this only activates once the flag is flipped on.
+if settings.MFA_ENFORCE_STAFF:
+    from django_otp.admin import OTPAdminSite
+
+    admin.site.__class__ = OTPAdminSite
+
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),

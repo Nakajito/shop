@@ -15,6 +15,16 @@ SECURE_REFERRER_POLICY = "same-origin"
 # Trailing slash required — it's passed straight into a Django path().
 ADMIN_URL = config("ADMIN_URL", default="admin/")
 
+# MFA for staff/admin (A07, Phase 3 of the OWASP 2025 hardening work — see
+# SECURITY.md). Staff can self-enroll a TOTP device at any time via
+# accounts:mfa_setup regardless of this flag. The flag only controls whether
+# reaching /admin/ actually REQUIRES a verified device — default False so
+# existing staff get a chance to enroll before enforcement locks anyone out
+# (django-otp's OTPAdminSite has no bypass for staff with zero devices).
+# Flip to True only after every staff/superuser account has enrolled.
+MFA_ENFORCE_STAFF = config("MFA_ENFORCE_STAFF", default=False, cast=bool)
+OTP_TOTP_ISSUER = "Synk Food"
+
 
 # Application definition
 
@@ -34,6 +44,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "axes",
+    "django_otp",
+    "django_otp.plugins.otp_totp",
     # Local apps
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
@@ -52,6 +64,8 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    # Must come after AuthenticationMiddleware — relies on request.user.
+    "django_otp.middleware.OTPMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
