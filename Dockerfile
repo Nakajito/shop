@@ -5,7 +5,8 @@ FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Instalamos las librerías gráficas de WeasyPrint en el Ubuntu interno
+# Instalamos las librerías gráficas de WeasyPrint en el Ubuntu interno.
+# gosu: para bajar privilegios limpiamente desde el entrypoint (ver abajo).
 RUN apt-get update && apt-get install -y \
     libpango-1.0-0 \
     libpangoft2-1.0-0 \
@@ -14,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     shared-mime-info \
     libgdk-pixbuf-2.0-0 \
     gettext \
+    gosu \
     && rm -rf /var/lib/apt/lists/*
 
 # Establecemos la carpeta de trabajo
@@ -26,19 +28,25 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiamos el resto de tu código
 COPY . /app/
 
-# Corremos como usuario sin privilegios (A02 — el contenedor corría como root).
-# NOTA DE DESPLIEGUE: el volumen de media que Coolify monta en /app/media fue
-# escrito previamente por procesos root; si ya existe, su propietario debe
-# alinearse con appuser (`chown -R 1000:1000 <volumen>` en el host, o
-# reconciliar el UID) ANTES de desplegar esta imagen, o las subidas de media
-# fallarán por permisos. Verificar contra el volumen real antes de mergear.
+# Corre como usuario sin privilegios en runtime (A02 — el contenedor corría
+# como root). El proceso arranca como root (sin USER aquí) porque
+# entrypoint.sh necesita permisos de root para corregir el dueño del volumen
+# de media montado por Coolify en /app/media ANTES de bajar a appuser — ver
+# el comentario en entrypoint.sh para el porqué (ese volumen no es parte de
+# esta imagen, así que el chown de abajo nunca lo toca).
 RUN useradd --uid 1000 --create-home --shell /usr/sbin/nologin appuser \
     && chown -R appuser:appuser /app
-USER appuser
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 8000
 
-# El comando maestro que arrancará todo
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Shell-form CMD: Docker wraps it as `/bin/sh -c "<this>"` and appends that
+# to the exec-form ENTRYPOINT above, so entrypoint.sh receives it as "$@"
+# and hands it to gosu unchanged (corre como appuser).
 CMD python myshop/manage.py migrate --noinput && \
     python myshop/manage.py check && \
     python myshop/manage.py collectstatic --noinput && \
