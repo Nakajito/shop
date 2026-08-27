@@ -1,5 +1,6 @@
 .PHONY: help install sync migrate makemigrations run test test-fast coverage lint format \
-        celery flower stripe-webhook seed superuser docker-build deps-lock check check-deploy
+        celery flower stripe-webhook seed superuser docker-build deps-lock check check-deploy \
+        translations
 
 PROJECT_DIR := myshop
 TEST_ENV := DJANGO_SETTINGS_MODULE=myshop.settings.testing
@@ -45,6 +46,9 @@ check: ## Django system check
 
 check-deploy: ## Django deploy check against production settings
 	cd $(PROJECT_DIR) && DJANGO_SETTINGS_MODULE=myshop.settings.production uv run python manage.py check --deploy
+
+translations: ## Extract + DeepL-translate + compile message catalogs (run after adding {% trans %})
+	sh scripts/update-translations.sh
 
 celery: ## Start Celery worker
 	cd $(PROJECT_DIR) && uv run celery -A myshop worker -l info

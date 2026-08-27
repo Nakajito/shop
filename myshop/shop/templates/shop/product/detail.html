@@ -10,6 +10,12 @@
 
 {% block title %}{{ product.name|tr }} - Synk Food{% endblock %}
 
+{% block head_meta %}
+  {% with sections=product.description|tr_safe|split_description %}
+    {% include "includes/meta_social.html" with meta_type="product" meta_title=product.name|tr meta_description=sections.description|striptags|truncatechars:200 meta_image=product.image %}
+  {% endwith %}
+{% endblock %}
+
 {% block content %}
 <div class="pd-wrap">
 

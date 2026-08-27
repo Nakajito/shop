@@ -6,6 +6,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% trans "Mayoristas" %} - Synk Food</title>
+        <link rel="canonical" href="{{ request.build_absolute_uri }}">
+        {% trans "Synk Food para negocios — Venta mayorista" as mayorista_meta_title %}
+        {% trans "¿Tienes tienda, restaurante o negocio? Lleva snacks, bebidas y dulces coreanos de alta rotación y buen margen con Synk Food." as mayorista_meta_description %}
+        {% include "includes/meta_social.html" with meta_title=mayorista_meta_title meta_description=mayorista_meta_description %}
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/synkfood.css' %}">
         <link rel="stylesheet" href="{% static 'css/form-mayorista.css' %}">

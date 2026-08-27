@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 18:47-0600\n"
+"POT-Creation-Date: 2026-08-27 02:30-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\accounts\adapter.py:21 .\accounts\adapter.py:22 .\accounts\forms.py:179
+#: .\accounts\adapter.py:21 .\accounts\adapter.py:22 .\accounts\forms.py:185
 msgid "The account doesn't exist."
 msgstr "The account does not exist."
 
@@ -78,51 +78,51 @@ msgstr "Only letters, numbers, and @/./+/-/_"
 msgid "This email address is already registered."
 msgstr "This email address is already registered."
 
-#: .\accounts\forms.py:137
+#: .\accounts\forms.py:143
 msgid "Email or username"
 msgstr "Email or username"
 
-#: .\accounts\forms.py:141
+#: .\accounts\forms.py:147
 msgid "Email or Username"
 msgstr "Email or Username"
 
-#: .\accounts\forms.py:146 .\accounts\forms.py:148
+#: .\accounts\forms.py:152 .\accounts\forms.py:154
 msgid "Password"
 msgstr "Password"
 
-#: .\accounts\forms.py:154
+#: .\accounts\forms.py:160
 msgid "Remember me"
 msgstr "Remember me"
 
-#: .\accounts\forms.py:193
+#: .\accounts\forms.py:199
 msgid "Invalid email/username or password."
 msgstr "Invalid email address, username, or password."
 
-#: .\accounts\forms.py:217
+#: .\accounts\forms.py:223
 msgid "Tell us about yourself (optional)"
 msgstr "Tell us about yourself (optional)"
 
-#: .\accounts\forms.py:227 .\accounts\templates\accounts\profile.html:103
+#: .\accounts\forms.py:233 .\accounts\templates\accounts\profile.html:103
 msgid "Biography"
 msgstr "Biography"
 
-#: .\accounts\forms.py:228
+#: .\accounts\forms.py:234
 msgid "Profile Picture"
 msgstr "Profile Picture"
 
-#: .\accounts\forms.py:229
+#: .\accounts\forms.py:235
 msgid "Subscribe to newsletter"
 msgstr "Subscribe to the newsletter"
 
-#: .\accounts\forms.py:238 .\accounts\templates\accounts\profile.html:238
+#: .\accounts\forms.py:244 .\accounts\templates\accounts\profile.html:238
 msgid "Enter your password"
 msgstr "Enter your password"
 
-#: .\accounts\forms.py:240
+#: .\accounts\forms.py:246
 msgid "Current Password"
 msgstr "Current Password"
 
-#: .\accounts\forms.py:250
+#: .\accounts\forms.py:256
 msgid "Incorrect password."
 msgstr "Incorrect password."
 
@@ -249,7 +249,7 @@ msgstr "TO YOUR SYNKFOOD SPACE"
 
 #: .\accounts\templates\accounts\login.html:23
 #: .\accounts\templates\accounts\register.html:22
-#: .\templates\form-mayorista.html:53
+#: .\templates\form-mayorista.html:57
 msgid "Correo electrónico:"
 msgstr "Email:"
 
@@ -263,8 +263,8 @@ msgid "¿Olvidaste tu contraseña?"
 msgstr "Did you forget your password?"
 
 #: .\accounts\templates\accounts\login.html:33
-#: .\shop\templates\includes\navbar.html:174
-#: .\shop\templates\includes\navbar.html:407
+#: .\shop\templates\includes\navbar.html:180
+#: .\shop\templates\includes\navbar.html:413
 msgid "Iniciar sesión"
 msgstr "Log in"
 
@@ -468,7 +468,7 @@ msgid "CREA UNA CUENTA"
 msgstr "CREATE AN ACCOUNT"
 
 #: .\accounts\templates\accounts\register.html:18
-#: .\templates\form-mayorista.html:45
+#: .\templates\form-mayorista.html:49
 msgid "Nombre:"
 msgstr "Name:"
 
@@ -819,7 +819,7 @@ msgstr "Title"
 #: .\blog\templates\blog\manage\post_form.html:308
 #: .\blog\templates\blog\manage\post_list.html:30
 #: .\blog\templates\blog\manage\post_list.html:59
-#: .\orders\templates\admin\orders\order\detail.html:54
+#: .\orders\templates\admin\orders\order\detail.html:60
 #: .\orders\templates\orders\emails\order_status_update.html:69
 #: .\orders\templates\orders\emails\order_status_update.txt:16
 #: .\orders\templates\orders\order\order_history.html:95 .\payment\admin.py:69
@@ -835,7 +835,7 @@ msgstr "Category"
 
 #: .\blog\templates\blog\manage\dashboard.html:69
 #: .\blog\templates\blog\manage\post_list.html:60
-#: .\orders\templates\admin\orders\order\detail.html:68
+#: .\orders\templates\admin\orders\order\detail.html:74
 msgid "Created"
 msgstr "Created"
 
@@ -1064,14 +1064,14 @@ msgstr "No posts found."
 msgid "Pagination"
 msgstr "Pagination"
 
-#: .\blog\templates\blog\post_detail.html:29
+#: .\blog\templates\blog\post_detail.html:36
 #: .\shop\templates\includes\footer.html:64
-#: .\shop\templates\includes\navbar.html:318
-#: .\shop\templates\shop\synkfood.html:364
+#: .\shop\templates\includes\navbar.html:324
+#: .\shop\templates\shop\synkfood.html:359
 msgid "Recetario"
 msgstr "Recipes"
 
-#: .\blog\templates\blog\post_detail.html:131
+#: .\blog\templates\blog\post_detail.html:137
 msgid "ALGUNAS RECETAS"
 msgstr "SOME RECIPES"
 
@@ -1147,7 +1147,7 @@ msgstr "Delete Post: %(title)s"
 msgid "Name is required."
 msgstr "Name is required."
 
-#: .\cart\forms.py:21 .\orders\templates\admin\orders\order\detail.html:128
+#: .\cart\forms.py:21 .\orders\templates\admin\orders\order\detail.html:134
 #: .\orders\templates\orders\order\create.html:151
 #: .\orders\templates\orders\order\pdf.html:124
 msgid "Quantity"
@@ -1264,7 +1264,7 @@ msgstr "Order Details"
 msgid "Notes"
 msgstr "Notes"
 
-#: .\orders\admin.py:189 .\orders\templates\admin\orders\order\detail.html:88
+#: .\orders\admin.py:189 .\orders\templates\admin\orders\order\detail.html:94
 msgid "Stripe Payment"
 msgstr "Stripe Payment"
 
@@ -1309,7 +1309,7 @@ msgstr "Tracking Details"
 msgid "Shipping Details"
 msgstr "Shipping Details"
 
-#: .\orders\admin.py:357 .\orders\templates\admin\orders\order\detail.html:72
+#: .\orders\admin.py:357 .\orders\templates\admin\orders\order\detail.html:78
 msgid "Customer"
 msgstr "Customer"
 
@@ -1325,7 +1325,7 @@ msgstr "Order Status"
 msgid "Order Total"
 msgstr "Order Total"
 
-#: .\orders\admin.py:385 .\orders\templates\admin\orders\order\detail.html:61
+#: .\orders\admin.py:385 .\orders\templates\admin\orders\order\detail.html:67
 #: .\orders\templates\orders\order\cancel_order.html:49
 #: .\orders\templates\orders\order\order_history.html:110
 #: .\orders\templates\orders\order\order_tracking.html:88
@@ -1502,7 +1502,7 @@ msgstr "default address"
 msgid "address type"
 msgstr "address type"
 
-#: .\orders\models.py:108 .\orders\templates\admin\orders\order\detail.html:80
+#: .\orders\models.py:108 .\orders\templates\admin\orders\order\detail.html:86
 #: .\orders\templates\orders\order\create.html:83
 msgid "Address"
 msgstr "Address"
@@ -1593,7 +1593,7 @@ msgid "Order Trackings"
 msgstr "Order Tracking"
 
 #: .\orders\models.py:455
-#: .\orders\templates\admin\orders\order\detail.html:108
+#: .\orders\templates\admin\orders\order\detail.html:114
 #: .\orders\templates\orders\emails\order_tracking.html:43
 #: .\orders\templates\orders\emails\order_tracking.txt:10
 #: .\orders\templates\orders\order\order_tracking.html:177
@@ -1602,7 +1602,7 @@ msgid "Tracking Number"
 msgstr "Tracking Number"
 
 #: .\orders\models.py:456
-#: .\orders\templates\admin\orders\order\detail.html:104
+#: .\orders\templates\admin\orders\order\detail.html:110
 #: .\orders\templates\orders\emails\order_tracking.html:47
 #: .\orders\templates\orders\emails\order_tracking.txt:11
 #: .\orders\templates\orders\order\order_detail.html:132
@@ -1748,42 +1748,42 @@ msgstr "Download PDF Invoice"
 msgid "Print Order"
 msgstr "Print Order"
 
-#: .\orders\templates\admin\orders\order\detail.html:58
+#: .\orders\templates\admin\orders\order\detail.html:64
 #: .\orders\templates\orders\order\cancel_order.html:47
 msgid "Payment Status"
 msgstr "Payment Status"
 
-#: .\orders\templates\admin\orders\order\detail.html:63
+#: .\orders\templates\admin\orders\order\detail.html:69
 msgid "Pending Payment"
 msgstr "Pending Payment"
 
-#: .\orders\templates\admin\orders\order\detail.html:76
+#: .\orders\templates\admin\orders\order\detail.html:82
 msgid "E-mail"
 msgstr "Email"
 
-#: .\orders\templates\admin\orders\order\detail.html:101
+#: .\orders\templates\admin\orders\order\detail.html:107
 msgid "Shipping Information"
 msgstr "Shipping Information"
 
-#: .\orders\templates\admin\orders\order\detail.html:122
+#: .\orders\templates\admin\orders\order\detail.html:128
 msgid "Items Bought"
 msgstr "Items Purchased"
 
-#: .\orders\templates\admin\orders\order\detail.html:126
+#: .\orders\templates\admin\orders\order\detail.html:132
 #: .\orders\templates\orders\order\order_detail.html:45
 #: .\payment\templates\payment\process.html:43
 msgid "Product"
 msgstr "Product"
 
-#: .\orders\templates\admin\orders\order\detail.html:127
+#: .\orders\templates\admin\orders\order\detail.html:133
 #: .\orders\templates\orders\order\order_detail.html:46
 #: .\orders\templates\orders\order\pdf.html:123
 #: .\payment\templates\payment\process.html:44
 msgid "Price"
 msgstr "Price"
 
-#: .\orders\templates\admin\orders\order\detail.html:129
-#: .\orders\templates\admin\orders\order\detail.html:158
+#: .\orders\templates\admin\orders\order\detail.html:135
+#: .\orders\templates\admin\orders\order\detail.html:164
 #: .\orders\templates\orders\emails\order_status_update.html:73
 #: .\orders\templates\orders\emails\order_status_update.html:113
 #: .\orders\templates\orders\emails\order_status_update.txt:17
@@ -1799,7 +1799,7 @@ msgstr "Price"
 msgid "Total"
 msgstr "Total"
 
-#: .\orders\templates\admin\orders\order\detail.html:144
+#: .\orders\templates\admin\orders\order\detail.html:150
 #: .\orders\templates\orders\order\order_detail.html:48
 #: .\orders\templates\orders\order\order_detail.html:88
 #: .\orders\templates\orders\order\pdf.html:142
@@ -1807,7 +1807,7 @@ msgstr "Total"
 msgid "Subtotal"
 msgstr "Subtotal"
 
-#: .\orders\templates\admin\orders\order\detail.html:149
+#: .\orders\templates\admin\orders\order\detail.html:155
 #, python-format
 msgid ""
 "\n"
@@ -3294,63 +3294,63 @@ msgid "Volver al listado de productos"
 msgstr "Back to the product list"
 
 #: .\shop\templates\includes\footer.html:13
-#: .\shop\templates\shop\synkfood.html:313
+#: .\shop\templates\shop\synkfood.html:308
 msgid "SÍGUENOS EN REDES:"
 msgstr "FOLLOW US ON SOCIAL MEDIA:"
 
 #: .\shop\templates\includes\footer.html:31
-#: .\shop\templates\shop\synkfood.html:331
+#: .\shop\templates\shop\synkfood.html:326
 msgid "CATEGORÍAS"
 msgstr "CATEGORIES"
 
 #: .\shop\templates\includes\footer.html:41
-#: .\shop\templates\shop\synkfood.html:341
+#: .\shop\templates\shop\synkfood.html:336
 msgid "CENTRO DE AYUDA"
 msgstr "HELP CENTER"
 
 #: .\shop\templates\includes\footer.html:44
-#: .\shop\templates\shop\synkfood.html:344
+#: .\shop\templates\shop\synkfood.html:339
 #, fuzzy
 #| msgid "Contact Support"
 msgid "Contactar a soporte"
 msgstr "Contact Support"
 
 #: .\shop\templates\includes\footer.html:47
-#: .\shop\templates\includes\navbar.html:134
-#: .\shop\templates\shop\synkfood.html:347
+#: .\shop\templates\includes\navbar.html:140
+#: .\shop\templates\shop\synkfood.html:342
 msgid "Mis pedidos"
 msgstr "My Orders"
 
 #: .\shop\templates\includes\footer.html:50
-#: .\shop\templates\includes\navbar.html:334
-#: .\shop\templates\shop\synkfood.html:350 .\templates\form-mayorista.html:8
+#: .\shop\templates\includes\navbar.html:340
+#: .\shop\templates\shop\synkfood.html:345 .\templates\form-mayorista.html:8
 msgid "Mayoristas"
 msgstr "Wholesale"
 
 #: .\shop\templates\includes\footer.html:55
-#: .\shop\templates\shop\synkfood.html:355
+#: .\shop\templates\shop\synkfood.html:350
 msgid "EMPRESA"
 msgstr "COMPANY"
 
 #: .\shop\templates\includes\footer.html:58
-#: .\shop\templates\shop\synkfood.html:358
+#: .\shop\templates\shop\synkfood.html:353
 msgid "Inicio"
 msgstr "Home"
 
 #: .\shop\templates\includes\footer.html:61
-#: .\shop\templates\includes\navbar.html:302
+#: .\shop\templates\includes\navbar.html:308
 #: .\shop\templates\shop\product\list.html:9
-#: .\shop\templates\shop\synkfood.html:361
+#: .\shop\templates\shop\synkfood.html:356
 msgid "Productos"
 msgstr "Products"
 
 #: .\shop\templates\includes\footer.html:71
-#: .\shop\templates\shop\synkfood.html:371
+#: .\shop\templates\shop\synkfood.html:366
 msgid "AVISO DE PRIVACIDAD"
 msgstr "PRIVACY NOTICE"
 
 #: .\shop\templates\includes\footer.html:72
-#: .\shop\templates\shop\synkfood.html:372
+#: .\shop\templates\shop\synkfood.html:367
 msgid "TÉRMINOS Y CONDICIONES"
 msgstr "TERMS AND CONDITIONS"
 
@@ -3359,9 +3359,21 @@ msgstr "TERMS AND CONDITIONS"
 msgid "Change language"
 msgstr "Change language"
 
+#: .\shop\templates\includes\meta_social.html:21
+msgid "Synk Food — Productos coreanos auténticos"
+msgstr "Synk Food — Authentic Korean Products"
+
+#: .\shop\templates\includes\meta_social.html:22
+msgid ""
+"Synk Food — importación y venta de snacks, bebidas y alimentos coreanos. "
+"Descubre productos auténticos de Corea con la mejor calidad y sabor."
+msgstr ""
+"Synk Food — importing and selling Korean snacks, drinks and food. Discover "
+"authentic products from Korea with the best quality and flavour."
+
 #: .\shop\templates\includes\navbar.html:20
-#: .\shop\templates\shop\product\detail.html:18
-#: .\shop\templates\shop\synkfood.html:150
+#: .\shop\templates\shop\product\detail.html:24
+#: .\shop\templates\shop\synkfood.html:145
 msgid "PRODUCTOS"
 msgstr "PRODUCTS"
 
@@ -3370,7 +3382,7 @@ msgid "MAYORISTAS"
 msgstr "WHOLESALERS"
 
 #: .\shop\templates\includes\navbar.html:44
-#: .\shop\templates\includes\navbar.html:368
+#: .\shop\templates\includes\navbar.html:374
 #, fuzzy
 #| msgid "Mis Favoritos"
 msgid "Mis favoritos"
@@ -3386,67 +3398,67 @@ msgstr "Carrier"
 msgid "Mi cuenta"
 msgstr "My account"
 
-#: .\shop\templates\includes\navbar.html:118
-#: .\shop\templates\includes\navbar.html:354
+#: .\shop\templates\includes\navbar.html:124
+#: .\shop\templates\includes\navbar.html:360
 msgid "Mi perfil"
 msgstr "My Profile"
 
-#: .\shop\templates\includes\navbar.html:148
+#: .\shop\templates\includes\navbar.html:154
 msgid "Métodos de pago"
 msgstr "Payment Methods"
 
-#: .\shop\templates\includes\navbar.html:166
+#: .\shop\templates\includes\navbar.html:172
 msgid "Cerrar sesión"
 msgstr "Log Out"
 
-#: .\shop\templates\includes\navbar.html:192
-#: .\shop\templates\includes\navbar.html:225
+#: .\shop\templates\includes\navbar.html:198
+#: .\shop\templates\includes\navbar.html:231
 #: .\support\templates\support\ticket_list.html:105
 msgid "Buscar"
 msgstr "Search"
 
-#: .\shop\templates\includes\navbar.html:208
-#: .\shop\templates\includes\navbar.html:260
+#: .\shop\templates\includes\navbar.html:214
+#: .\shop\templates\includes\navbar.html:266
 msgid "Menú"
 msgstr "Menu"
 
-#: .\shop\templates\includes\navbar.html:222
+#: .\shop\templates\includes\navbar.html:228
 #, fuzzy
 #| msgid "Buscar recetas..."
 msgid "Buscar productos..."
 msgstr "Search for recipes..."
 
-#: .\shop\templates\includes\navbar.html:241
+#: .\shop\templates\includes\navbar.html:247
 #, fuzzy
 #| msgid "Cerrar sesión"
 msgid "Cerrar"
 msgstr "Log Out"
 
-#: .\shop\templates\includes\navbar.html:270
+#: .\shop\templates\includes\navbar.html:276
 #, fuzzy
 #| msgid "Cerrar sesión"
 msgid "Cerrar menú"
 msgstr "Log Out"
 
-#: .\shop\templates\includes\navbar.html:286
+#: .\shop\templates\includes\navbar.html:292
 msgid "EXPLORAR"
 msgstr "EXPLORE"
 
-#: .\shop\templates\includes\navbar.html:339
+#: .\shop\templates\includes\navbar.html:345
 msgid "ACCESO"
 msgstr "ACCESS"
 
-#: .\shop\templates\includes\navbar.html:389
+#: .\shop\templates\includes\navbar.html:395
 #, fuzzy
 #| msgid "Carrito"
 msgid "Mi carrito"
 msgstr "Cart"
 
-#: .\shop\templates\includes\navbar.html:422
+#: .\shop\templates\includes\navbar.html:428
 msgid "Registrarse"
 msgstr "Sign Up"
 
-#: .\shop\templates\includes\navbar.html:428
+#: .\shop\templates\includes\navbar.html:434
 msgid "Snacks coreanos de alta calidad"
 msgstr "High-quality Korean snacks"
 
@@ -3485,59 +3497,47 @@ msgstr "Support"
 msgid "Cerrar Sesión"
 msgstr "Log Out"
 
-#: .\shop\templates\shop\base.html:13 .\shop\templates\shop\synkfood.html:11
-#, fuzzy
-#| msgid ""
-#| "Nos especializamos en la importación y comercialización de snacks, bebidas y"
-#| " alimentos coreanos con los más altos estándares de calidad y sabor."
-msgid ""
-"Synk Food — importación y venta de snacks, bebidas y alimentos coreanos. "
-"Descubre productos auténticos de Corea con la mejor calidad y sabor."
-msgstr ""
-"We specialize in importing and selling Korean snacks, beverages, and food "
-"products that meet the highest standards of quality and taste."
-
-#: .\shop\templates\shop\product\detail.html:48
-#: .\shop\templates\shop\synkfood.html:38
+#: .\shop\templates\shop\product\detail.html:54
+#: .\shop\templates\shop\synkfood.html:33
 #: .\support\templates\support\ticket_list.html:206
 msgid "Anterior"
 msgstr "Previous"
 
-#: .\shop\templates\shop\product\detail.html:54
-#: .\shop\templates\shop\synkfood.html:100
+#: .\shop\templates\shop\product\detail.html:60
+#: .\shop\templates\shop\synkfood.html:95
 #: .\support\templates\support\ticket_list.html:224
 msgid "Siguiente"
 msgstr "Next"
 
-#: .\shop\templates\shop\product\detail.html:87
+#: .\shop\templates\shop\product\detail.html:93
 msgid "Ingredientes"
 msgstr "Ingredients"
 
-#: .\shop\templates\shop\product\detail.html:93
+#: .\shop\templates\shop\product\detail.html:99
 msgid "Declaración nutrimental"
 msgstr "Nutrition Facts"
 
-#: .\shop\templates\shop\product\detail.html:119
+#: .\shop\templates\shop\product\detail.html:125
 msgid "Cantidad"
 msgstr "Quantity"
 
-#: .\shop\templates\shop\product\detail.html:137
+#: .\shop\templates\shop\product\detail.html:143
 msgid "Agregar al Carrito"
 msgstr "Add to Cart"
 
-#: .\shop\templates\shop\product\detail.html:153
+#: .\shop\templates\shop\product\detail.html:159
 msgid "Compartir"
 msgstr "Share"
 
-#: .\shop\templates\shop\product\detail.html:176
+#: .\shop\templates\shop\product\detail.html:182
 msgid "Pago Seguro"
 msgstr "Secure Payment"
 
-#: .\shop\templates\shop\product\detail.html:177
+#: .\shop\templates\shop\product\detail.html:183
 msgid "Procesamos pagos con encriptación Stripe"
 msgstr "We process payments using Stripe encryption"
 
-#: .\shop\templates\shop\product\detail.html:187
+#: .\shop\templates\shop\product\detail.html:193
 msgid "TAMBIÉN TE PUEDE GUSTAR"
 msgstr "YOU MIGHT ALSO LIKE"
 
@@ -3604,29 +3604,29 @@ msgstr "There are no products in this category yet."
 msgid "No hay productos disponibles."
 msgstr "There are no products available."
 
-#: .\shop\templates\shop\synkfood.html:48
-#: .\shop\templates\shop\synkfood.html:69
-#: .\shop\templates\shop\synkfood.html:85
+#: .\shop\templates\shop\synkfood.html:43
+#: .\shop\templates\shop\synkfood.html:64
+#: .\shop\templates\shop\synkfood.html:80
 msgid "¿LISTO PARA<br>PROBAR?"
 msgstr "READY TO<br>TRY IT?"
 
-#: .\shop\templates\shop\synkfood.html:51
-#: .\shop\templates\shop\synkfood.html:72
-#: .\shop\templates\shop\synkfood.html:88
+#: .\shop\templates\shop\synkfood.html:46
+#: .\shop\templates\shop\synkfood.html:67
+#: .\shop\templates\shop\synkfood.html:83
 msgid "COMPRAR"
 msgstr "BUY"
 
-#: .\shop\templates\shop\synkfood.html:109
-#: .\shop\templates\shop\synkfood.html:113
-#: .\shop\templates\shop\synkfood.html:116
+#: .\shop\templates\shop\synkfood.html:104
+#: .\shop\templates\shop\synkfood.html:108
+#: .\shop\templates\shop\synkfood.html:111
 msgid "Diapositiva"
 msgstr "Slide"
 
-#: .\shop\templates\shop\synkfood.html:123
+#: .\shop\templates\shop\synkfood.html:118
 msgid "SOBRE<br>NOSOTROS"
 msgstr "ABOUT<br>US"
 
-#: .\shop\templates\shop\synkfood.html:126
+#: .\shop\templates\shop\synkfood.html:121
 msgid ""
 "Synk Food nace con la idea de crear un punto único de conexión entre Corea y"
 " nuevos mercados, enfocado en productos alimenticios de calidad, innovación "
@@ -3636,7 +3636,7 @@ msgstr ""
 "Korea and new markets, focusing on high-quality food products, innovation, "
 "and global trends."
 
-#: .\shop\templates\shop\synkfood.html:129
+#: .\shop\templates\shop\synkfood.html:124
 msgid ""
 "A través de nuestras marcas, transformamos tendencias coreanas en propuestas"
 " auténticas, accesibles y alineadas al mercado actual."
@@ -3644,7 +3644,7 @@ msgstr ""
 "Through our brands, we transform Korean trends into authentic, accessible "
 "offerings that are in line with today's market."
 
-#: .\shop\templates\shop\synkfood.html:132
+#: .\shop\templates\shop\synkfood.html:127
 msgid ""
 "Nos especializamos en la importación y comercialización de snacks, bebidas y"
 " alimentos coreanos con los más altos estándares de calidad y sabor."
@@ -3652,31 +3652,31 @@ msgstr ""
 "We specialize in importing and selling Korean snacks, beverages, and food "
 "products that meet the highest standards of quality and taste."
 
-#: .\shop\templates\shop\synkfood.html:197
+#: .\shop\templates\shop\synkfood.html:192
 msgid "VER TODOS LOS PRODUCTOS"
 msgstr "VIEW ALL PRODUCTS"
 
-#: .\shop\templates\shop\synkfood.html:207
+#: .\shop\templates\shop\synkfood.html:202
 #, fuzzy
 #| msgid "Recetario"
 msgid "Recetas"
 msgstr "Recipes"
 
-#: .\shop\templates\shop\synkfood.html:209
+#: .\shop\templates\shop\synkfood.html:204
 #, fuzzy
 #| msgid "product"
 msgid "Reproducir"
 msgstr "product"
 
-#: .\shop\templates\shop\synkfood.html:228
+#: .\shop\templates\shop\synkfood.html:223
 msgid "RECETAS"
 msgstr "RECIPES"
 
-#: .\shop\templates\shop\synkfood.html:242
+#: .\shop\templates\shop\synkfood.html:237
 msgid "VER MÁS"
 msgstr "SEE MORE"
 
-#: .\shop\templates\shop\synkfood.html:300
+#: .\shop\templates\shop\synkfood.html:295
 msgid "CONTACTO"
 msgstr "CONTACT"
 
@@ -4237,59 +4237,71 @@ msgid ""
 msgstr ""
 "The server is not responding properly. Please try again in a few moments."
 
-#: .\templates\form-mayorista.html:19
+#: .\templates\form-mayorista.html:10
+msgid "Synk Food para negocios — Venta mayorista"
+msgstr "Synk Food for Businesses — Wholesale Sales"
+
+#: .\templates\form-mayorista.html:11
+msgid ""
+"¿Tienes tienda, restaurante o negocio? Lleva snacks, bebidas y dulces "
+"coreanos de alta rotación y buen margen con Synk Food."
+msgstr ""
+"Do you own a store, restaurant, or business? Stock up on fast-moving, high-"
+"margin Korean snacks, drinks and sweets with Synk Food."
+
+#: .\templates\form-mayorista.html:23
 msgid "¿Tienes tienda,"
 msgstr "Do you have a store,"
 
-#: .\templates\form-mayorista.html:21
+#: .\templates\form-mayorista.html:25
 msgid "restaurante o negocio?"
 msgstr "Restaurant or business?"
 
-#: .\templates\form-mayorista.html:24
+#: .\templates\form-mayorista.html:28
 msgid "Lleva productos de alta rotación, buen margen"
 msgstr "Sells high-turnover products with good profit margins"
 
-#: .\templates\form-mayorista.html:26
+#: .\templates\form-mayorista.html:30
 msgid "y excelente calidad."
 msgstr "and excellent quality."
 
-#: .\templates\form-mayorista.html:28
+#: .\templates\form-mayorista.html:32
 msgid "Sé distribuidor Soho y sorprende a tus clientes."
 msgstr "Become a Soho reseller and impress your customers."
 
-#: .\templates\form-mayorista.html:31
+#: .\templates\form-mayorista.html:35
 msgid "Llena el formulario para una propuesta personalizada"
 msgstr "Fill out the form to receive a personalized proposal"
 
-#: .\templates\form-mayorista.html:33
+#: .\templates\form-mayorista.html:37
 msgid "te daremos asesoría, precios especiales y apoyo visual para"
 msgstr "We'll provide you with advice, special prices, and visual support for"
 
-#: .\templates\form-mayorista.html:35
+#: .\templates\form-mayorista.html:39
 msgid "tu punto de venta."
 msgstr "your point of sale."
 
-#: .\templates\form-mayorista.html:49
+#: .\templates\form-mayorista.html:53
 msgid "Apellidos:"
 msgstr "Last name:"
 
-#: .\templates\form-mayorista.html:57
+#: .\templates\form-mayorista.html:61
 msgid "Teléfono:"
 msgstr "Phone:"
 
-#: .\templates\form-mayorista.html:61
+#: .\templates\form-mayorista.html:65
 msgid "Estado:"
 msgstr "Status:"
 
-#: .\templates\form-mayorista.html:65
+#: .\templates\form-mayorista.html:69
 msgid "Ciudad:"
 msgstr "City:"
 
-#: .\templates\form-mayorista.html:69
+#: .\templates\form-mayorista.html:73
 msgid "Comentarios:"
 msgstr "Comments:"
 
-#: .\templates\form-mayorista.html:74
+#: .\templates\form-mayorista.html:78
 msgid "Enviar"
 msgstr "Send"
 
