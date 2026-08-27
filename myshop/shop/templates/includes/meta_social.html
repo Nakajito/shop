@@ -1,0 +1,49 @@
+{% load i18n static %}
+{% comment %}
+  Open Graph + Twitter Card tags for social-media sharing previews.
+
+  Rendered inside <head> from shop/base.html (block "head_meta"). Standalone
+  templates that don't extend base.html include it directly.
+
+  Optional params (via {% include "includes/meta_social.html" with ... %}):
+    meta_title        Page title, plain string. Falls back to the site name.
+    meta_description  ~200-char summary, plain string. Falls back to the tagline.
+    meta_image        An ImageField / FieldFile (e.g. product.image) — pass the
+                      field itself, not a string. Falls back to the static
+                      share image.
+    meta_image_alt    Alt text for the preview image.
+    meta_type         og:type: "website" (default), "article" or "product".
+
+  Crawlers need absolute URLs; request.get_host() is safe here because it is
+  validated against ALLOWED_HOSTS.
+{% endcomment %}
+{% get_current_language as CURRENT_LANGUAGE %}
+{% trans "Synk Food — Productos coreanos auténticos" as SITE_NAME_TAGLINE %}
+{% trans "Synk Food — importación y venta de snacks, bebidas y alimentos coreanos. Descubre productos auténticos de Corea con la mejor calidad y sabor." as SITE_TAGLINE %}
+{% firstof meta_title SITE_NAME_TAGLINE as OG_TITLE %}
+{% firstof meta_description SITE_TAGLINE as OG_DESCRIPTION %}
+{% firstof meta_image_alt OG_TITLE as OG_IMAGE_ALT %}
+<meta name="description" content="{{ OG_DESCRIPTION }}">
+
+<meta property="og:site_name" content="Synk Food">
+<meta property="og:type" content="{% firstof meta_type 'website' %}">
+<meta property="og:locale" content="{{ CURRENT_LANGUAGE }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:title" content="{{ OG_TITLE }}">
+<meta property="og:description" content="{{ OG_DESCRIPTION }}">
+<meta property="og:image:alt" content="{{ OG_IMAGE_ALT }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ OG_TITLE }}">
+<meta name="twitter:description" content="{{ OG_DESCRIPTION }}">
+<meta name="twitter:image:alt" content="{{ OG_IMAGE_ALT }}">
+
+{% if meta_image %}
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ meta_image.url }}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ meta_image.url }}">
+{% else %}
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/onesynk/sopa2.png' %}">
+  <meta property="og:image:width" content="2496">
+  <meta property="og:image:height" content="1664">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/onesynk/sopa2.png' %}">
+{% endif %}

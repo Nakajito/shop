@@ -7,8 +7,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SYNK FOOD — Productos Coreanos</title>
-    <meta name="description"
-          content="{% trans 'Synk Food — importación y venta de snacks, bebidas y alimentos coreanos. Descubre productos auténticos de Corea con la mejor calidad y sabor.' %}" />
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+    {% include "includes/meta_social.html" %}
     <link rel="icon"
           type="image/svg+xml"
           href="{% static 'img/onesynk/logo-sinfood-favicon.svg' %}">

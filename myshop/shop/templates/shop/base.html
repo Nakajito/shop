@@ -9,8 +9,10 @@
     <title>
       {% block title %}Synk Food{% endblock %}
     </title>
-    <meta name="description"
-          content="{% block meta_description %}{% trans 'Synk Food — importación y venta de snacks, bebidas y alimentos coreanos. Descubre productos auténticos de Corea con la mejor calidad y sabor.' %}{% endblock %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    {% block head_meta %}
+      {% include "includes/meta_social.html" %}
+    {% endblock %}
     <link rel="icon"
           type="image/svg+xml"
           href="{% static 'img/onesynk/logo-sinfood-favicon.svg' %}">

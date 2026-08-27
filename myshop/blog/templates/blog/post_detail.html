@@ -5,6 +5,13 @@
 
 {% block title %}{{ post.title|tr }} - Synk Food{% endblock %}
 
+{% block head_meta %}
+  {% with body_excerpt=post.body|tr_safe|striptags|truncatewords:35 %}
+    {% firstof post.subtitle|tr body_excerpt as post_meta_description %}
+    {% include "includes/meta_social.html" with meta_type="article" meta_title=post.title|tr meta_description=post_meta_description meta_image=post.cover_image %}
+  {% endwith %}
+{% endblock %}
+
 {% block extra_css %}
 <link href="{% static 'blog/css/detalle.css' %}" rel="stylesheet">
 {% endblock %}

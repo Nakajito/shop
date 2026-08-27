@@ -3,7 +3,16 @@
 
 import os
 import re
+import sys
 import time
+
+# The progress output uses ✓/✗/… — force UTF-8 so it doesn't crash when
+# stdout is a pipe or a legacy-codepage console (Git Bash on Windows).
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
 
 # Django setup — must happen before any Django imports
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myshop.settings.development")

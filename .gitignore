@@ -327,6 +327,10 @@ pyrightconfig.json
 pyvenv.cfg
 pip-selfcheck.json
 
+# ...but keep the repo's own top-level scripts/ dir (the venv rule above is
+# meant for .venv/Scripts, not our tooling).
+!/scripts/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
